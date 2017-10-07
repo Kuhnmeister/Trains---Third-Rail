@@ -1,12 +1,31 @@
 public class Block{
-    private int BlockNum;
-    public Block(int newBlockNum){
-            BlockNum=newBlockNum;
+    private String line;
+    private char section;
+    private int blockNum;
+    private int length;
+    private float grade;
+    private int speedLimit;
+    private boolean isUnderground;
+    private String infraStructure;
+    private boolean isUnderground;
+    private boolean hasSwitch;
+    private int switchPosition;
+
+    public Block(int newBlockNum, int newLength, int newSomething){
+            blockNum=newBlockNum;
+            length=newLength;
+            something=newSomething;
     }
 
 
 
     public int GetBlockNum(){
-        return BlockNum;
+        return blockNum;
+    }
+    public int GetLength(){
+        return length;
+    }
+    public int GetSomething(){
+        return something;
     }
 }
