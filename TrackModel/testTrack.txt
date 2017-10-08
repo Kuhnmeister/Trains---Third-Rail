@@ -1,3 +1,3 @@
-1,50,4
-2,32,2
-3,45,3
+Green,A,1,50,.5,35,Underground
+Green,A,2,50,.25,35,Underground
+Green,A,3,50,0,35,Station;First Avenue
