@@ -1,3 +1,8 @@
 Green,A,1,50,.5,35,Underground
 Green,A,2,50,.25,35,Underground
 Green,A,3,50,0,35,Station;First Avenue
+Red,A,4,24,.5,40,None
+Red,A,5,35,0,40,None
+Red,A,6,35,0,40,None
+Red,A,7,35,0,40,None
+Red,B,8,35,0,50,Underground

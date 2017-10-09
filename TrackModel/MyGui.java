@@ -9,6 +9,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.*;
 import javafx.geometry.*;
 import javafx.scene.control.*;
+import java.util.ArrayList;
 
 
 public class MyGui extends Application {
@@ -31,7 +32,7 @@ public class MyGui extends Application {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        Scene scene = new Scene(grid, 600, 400);
+        Scene scene = new Scene(grid);
         primaryStage.setScene(scene);
         Text scenetitle = new Text("Load New Track");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -53,17 +54,7 @@ public class MyGui extends Application {
         });
         grid.add(updateTrackButton, 2,3,1,1);
 
-        Button showTrackButton = new Button("Show Track");
-        showTrackButton.setOnAction(new EventHandler<ActionEvent>() {
 
-            @Override
-            public void handle(ActionEvent e) {
-                if(theModel != null) {
-                    theModel.PrintTrack();
-                }
-            }
-        });
-        grid.add(showTrackButton, 3, 3,1,1);
         //Force Majeure
         Text forceMajeureTitle = new Text("Force Majeure Input");
         forceMajeureTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -93,6 +84,51 @@ public class MyGui extends Application {
         grid.add(sectionSelectionLabel, 0, 7,1,1);
         TextField sectionTextField = new TextField();
         grid.add(sectionTextField, 1, 7,1,1);
+        Button showTrackButton = new Button("Show Track");
+        showTrackButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+                if(theModel != null) {
+                    ArrayList<String> sectionString = theModel.DisplaySection(lineSelectionTextField.getCharacters().toString(),sectionTextField.getCharacters().toString());
+                    for(int i=0;i<sectionString.size();i++) {
+
+                        String[] blockData = sectionString.get(i).split(",");
+                        for(int j=0;j<blockData.length;j++) {
+                            Label lineSelectionLabel = new Label(blockData[j]);
+                            grid.add(lineSelectionLabel, j, 10+i, 1, 1);
+                        }
+                    }
+
+                }
+            }
+        });
+        grid.add(showTrackButton, 0, 8,1,1);
+        //Section display Labels
+        Label lineDisplayLabel = new Label("Line");
+        grid.add(lineDisplayLabel, 0, 9,1,1);
+        Label sectionDisplayLabel = new Label("Section");
+        grid.add(sectionDisplayLabel, 1, 9,1,1);
+        Label blockDisplayLabel = new Label("Block");
+        grid.add(blockDisplayLabel, 2, 9,1,1);
+        Label occupiedDisplayLabel = new Label("Occupied?");
+        grid.add(occupiedDisplayLabel, 3, 9,1,1);
+        Label lightColorDisplayLabel = new Label("Light Color");
+        grid.add(lightColorDisplayLabel, 4, 9,1,1);
+        Label gradeDisplayLabel = new Label("Grade");
+        grid.add(gradeDisplayLabel, 5, 9,1,1);
+        Label speedLimitDisplayLabel = new Label("Speed Limit");
+        grid.add(speedLimitDisplayLabel, 6, 9,1,1);
+        Label undergroundDisplayLabel = new Label("Underground?");
+        grid.add(undergroundDisplayLabel, 7, 9,1,1);
+        Label stationDisplayLabel = new Label("Station?");
+        grid.add(stationDisplayLabel, 8, 9,1,1);
+        Label stationNameDisplayLabel = new Label("Station Name");
+        grid.add(stationNameDisplayLabel, 9, 9,1,1);
+        Label switchDisplayLabel = new Label("Switch?");
+        grid.add(switchDisplayLabel, 10, 9,1,1);
+        Label railwayCrossingDisplayLabel = new Label("Railway Crossing?");
+        grid.add(railwayCrossingDisplayLabel, 11, 9,1,1);
 
         primaryStage.show();
     };

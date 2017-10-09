@@ -1,6 +1,6 @@
 public class Block{
     private String line;
-    private char section;
+    private String section;
     private int blockNum;
     private int length;
     private float grade;
@@ -12,9 +12,11 @@ public class Block{
     private boolean hasSwitch;
     private int switchPosition;
     private boolean hasRailwayCrossing;
+    private boolean isOccupied=false;
+    private String lightColor="Green";
 
 
-    public Block(String newLine,char newSection, int newBlockNum, int newLength, float newGrade, int newSpeedLimit,String newInfrastructure){
+    public Block(String newLine,String newSection, int newBlockNum, int newLength, float newGrade, int newSpeedLimit,String newInfrastructure){
         line = newLine;
         section=newSection;
         blockNum=newBlockNum;
@@ -58,7 +60,7 @@ public class Block{
         return line;
     }
 
-    public char GetSection(){
+    public String GetSection(){
         return section;
     }
 
@@ -87,5 +89,8 @@ public class Block{
     }
     public boolean GetHasRailwayCrossing(){
         return hasRailwayCrossing;
+    }
+    public String PrintBlock(){
+        return(line+","+section+","+blockNum+","+isOccupied+","+lightColor+","+grade+","+speedLimit+","+isUnderground+ ","+isStation+","+stationName+","+hasSwitch+","+hasRailwayCrossing);
     }
 }
