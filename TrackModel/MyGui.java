@@ -10,18 +10,17 @@ import javafx.scene.text.*;
 import javafx.geometry.*;
 import javafx.scene.control.*;
 import java.util.ArrayList;
+import javafx.scene.Node;
 
 
 public class MyGui extends Application {
     private TrackModel theModel;
+    private ArrayList<Node> sectionDisplayLabels;
     public static void main(String[] args) {
 
         launch(args);
     }
-    public void SetTrackModel(TrackModel newModel){
-        theModel=newModel;
-        System.out.println("Um, ok this might work");
-    }
+
     @Override
     public void start(Stage primaryStage) {
         theModel=new TrackModel();
@@ -89,13 +88,22 @@ public class MyGui extends Application {
 
             @Override
             public void handle(ActionEvent e) {
+
                 if(theModel != null) {
+                    if(sectionDisplayLabels != null){
+
+                        grid.getChildren().removeAll(sectionDisplayLabels);
+                    }else{
+                        System.out.println("This was null, this should only occur on the first section display");
+                    }
+                    sectionDisplayLabels = new ArrayList<Node>();
                     ArrayList<String> sectionString = theModel.DisplaySection(lineSelectionTextField.getCharacters().toString(),sectionTextField.getCharacters().toString());
                     for(int i=0;i<sectionString.size();i++) {
 
                         String[] blockData = sectionString.get(i).split(",");
                         for(int j=0;j<blockData.length;j++) {
                             Label lineSelectionLabel = new Label(blockData[j]);
+                            sectionDisplayLabels.add(lineSelectionLabel);
                             grid.add(lineSelectionLabel, j, 10+i, 1, 1);
                         }
                     }
