@@ -10,18 +10,23 @@ public class Block{
     private String stationName;
     private boolean isStation;
     private boolean hasSwitch;
-    private int switchPosition;
+    private boolean switchPosition;
     private boolean hasRailwayCrossing;
     private boolean isOccupied=false;
     private String lightColor="Green";
+    private boolean isBidirectional;
+    private Block nextBlockDirection0;
+    private Block nextBlockDirection1;
+    private Block nextBlockSwitch;
 
 
-    public Block(String newLine,String newSection, int newBlockNum, int newLength, float newGrade, int newSpeedLimit,String newInfrastructure){
+    public Block(String newLine,String newSection, int newBlockNum, int newLength, float newGrade, int newSpeedLimit, boolean newIsBidirectional,String newInfrastructure){
         line = newLine;
         section=newSection;
         blockNum=newBlockNum;
         length=newLength;
         grade=newGrade;
+        isBidirectional=newIsBidirectional;
         speedLimit=newSpeedLimit;
         if(newInfrastructure.contains("Underground")){
             isUnderground=true;
@@ -47,7 +52,18 @@ public class Block{
             hasSwitch=false;
         }
     }
+    public Block GetNextBlock(int trainDirection){
 
+        if(switchPosition){
+            return nextBlockSwitch;
+        }else{
+            if(trainDirection==0){
+                return nextBlockDirection0;
+            }else{
+                return nextBlockDirection1;
+            }
+        }
+    }
     public int GetBlockNum(){
         return blockNum;
     }
@@ -84,13 +100,19 @@ public class Block{
     public boolean GetHasSwitch(){
         return hasSwitch;
     }
-    public int GetSwitchPosition(){
+    public boolean GetSwitchPosition(){
         return switchPosition;
     }
     public boolean GetHasRailwayCrossing(){
         return hasRailwayCrossing;
     }
     public String PrintBlock(){
-        return(line+","+section+","+blockNum+","+isOccupied+","+lightColor+","+grade+","+speedLimit+","+isUnderground+ ","+isStation+","+stationName+","+hasSwitch+","+hasRailwayCrossing);
+        return(line+","+section+","+blockNum+","+isOccupied+","+lightColor+","+ grade+","+speedLimit+","+isUnderground+ ","+isStation+","+stationName+","+hasSwitch+","+hasRailwayCrossing);
+    }
+    public boolean GetIsBidirectional(){
+        return isBidirectional;
+    }
+    public void SetIsOccupied(boolean newIsOccupied){
+        isOccupied=newIsOccupied;
     }
 }

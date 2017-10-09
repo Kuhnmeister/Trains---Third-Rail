@@ -33,17 +33,17 @@ public class TrackModel {
                 if(track.containsKey(blockString[0])){
                     //checks if the section is currently in the hashmap, if so it adds the block, if not it creates the section
                     if(track.get(blockString[0]).containsKey(blockString[1])){
-                        Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Integer.parseInt(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),blockString[6]);
+                        Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Integer.parseInt(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),Boolean.parseBoolean(blockString[6]),blockString[7]);
                         track.get(blockString[0]).get(blockString[1]).add(newBlock);
                     }else{
                         track.get(blockString[0]).put(blockString[1],new ArrayList<Block>());
-                        Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Integer.parseInt(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),blockString[6]);
+                        Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Integer.parseInt(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),Boolean.parseBoolean(blockString[6]),blockString[7]);
                         track.get(blockString[0]).get(blockString[1]).add(newBlock);
                     }
                 }else{
                     track.put(blockString[0],new HashMap<String,ArrayList<Block>>());
                     track.get(blockString[0]).put(blockString[1],new ArrayList<Block>());
-                    Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Integer.parseInt(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),blockString[6]);
+                    Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Integer.parseInt(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),Boolean.parseBoolean(blockString[6]),blockString[7]);
                     track.get(blockString[0]).get(blockString[1]).add(newBlock);
                 }
                 //Block newBlock = new Block(blockString[0],blockString[1].charAt(0),Integer.parseInt(blockString[2]),Integer.parseInt(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),blockString[6]);
@@ -65,6 +65,10 @@ public class TrackModel {
         }
 
         return sectionData;
+    }
+    //Updating Data Sent to Wayside
+    public void WaysideSendNewData(){
+
     }
 }
 //String newLine,char newSection, int newBlockNum, int newLength, float newGrade, int newSpeedLimit,String newInfrastructure
