@@ -1,19 +1,24 @@
 import java.io.*;
 import java.util.ArrayList;
+
 public class TrackModel {
     private ArrayList<Block> track = new ArrayList<Block>();
-    public static void main(String args[]){
-        TrackModel thisTrack = new TrackModel();
-        thisTrack.Initialize();
+   // public static void main(String args[]){
+       // TrackModel thisTrack = new TrackModel();
+       // thisTrack.Initialize();
+   // }
+    //private void Initialize(){
+    //    MyGui thisGui = new MyGui(this);
+     //   thisGui.SetTrackModel(this);
+     //   String[] guiArgs=null;
+   //     thisGui.main(guiArgs);
 
-    }
-    private void Initialize(){
-        LoadNewTrack();
-        Block newBlock = track.get(2);
-        System.out.println("Underground: "+newBlock.GetIsUnderground()+"Grade: "+newBlock.GetGrade() + "Station: "+newBlock.GetStationName());
-    }
-    private void LoadNewTrack(){
-        File f = new File("testTrack.txt");
+
+    //    Block newBlock = track.get(2);
+    //    System.out.println("Underground: "+newBlock.GetIsUnderground()+"Grade: "+newBlock.GetGrade() + "Station: "+newBlock.GetStationName());
+   // }
+    public void LoadNewTrack(String fileName){
+        File f = new File(fileName);
         FileReader fRead;
         BufferedReader bufRead;
         try {
@@ -29,6 +34,9 @@ public class TrackModel {
             System.err.println("Caught IOException: " + e.getMessage());
         }
 
+    }
+    public void PrintTrack(){
+        System.out.println("Block Num: "+track.get(0).GetBlockNum());
     }
 }
 //String newLine,char newSection, int newBlockNum, int newLength, float newGrade, int newSpeedLimit,String newInfrastructure
