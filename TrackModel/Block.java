@@ -18,14 +18,20 @@ public class Block{
     private Block nextBlockDirection0;
     private Block nextBlockDirection1;
     private Block nextBlockSwitch;
+    private int nextBlockDirection0Num;
+    private int nextBlockDirection1Num;
+    private int nextBlockSwitchNum;
 
 
-    public Block(String newLine,String newSection, int newBlockNum, int newLength, float newGrade, int newSpeedLimit, boolean newIsBidirectional,String newInfrastructure){
+    public Block(String newLine,String newSection, int newBlockNum, int newLength, float newGrade, int newSpeedLimit, boolean newIsBidirectional,int newNextBlock0,int newNextBlock1,int newSwitchBlock,String newInfrastructure){
         line = newLine;
         section=newSection;
         blockNum=newBlockNum;
         length=newLength;
         grade=newGrade;
+        nextBlockDirection0Num=newNextBlock0;
+        nextBlockDirection1Num=newNextBlock1;
+        nextBlockSwitchNum=newSwitchBlock;
         isBidirectional=newIsBidirectional;
         speedLimit=newSpeedLimit;
         if(newInfrastructure.contains("Underground")){
@@ -114,5 +120,24 @@ public class Block{
     }
     public void SetIsOccupied(boolean newIsOccupied){
         isOccupied=newIsOccupied;
+    }
+    public int GetDirection0Num(){
+        return nextBlockDirection0Num;
+    }
+    public int GetDirection1Num(){
+        return nextBlockDirection1Num;
+    }
+    public int GetSwitchNum(){
+        return nextBlockSwitchNum;
+    }
+    public void SetDirection0Block(Block new0Block){
+        nextBlockDirection0=new0Block;
+    }
+    public void SetDirection1Block(Block new1Block){
+        nextBlockDirection1=new1Block;
+    }
+    public void SetSwitchBlock(Block newSwitchBlock)
+    {
+        nextBlockSwitch=newSwitchBlock;
     }
 }

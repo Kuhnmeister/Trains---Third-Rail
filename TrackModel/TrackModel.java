@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class TrackModel {
     //private ArrayList<Block> track = new ArrayList<Block>();
@@ -29,26 +30,74 @@ public class TrackModel {
             String newLine;
             while((newLine = bufRead.readLine())!= null){
                 String[] blockString = newLine.split(",");
+                int nextBlock0Num;
+                int nextBlock1Num;
+                int nextSwitchBlockNum;
+                if(blockString[7].equals("None")){
+                    nextBlock0Num=-1;
+                }else{
+                    nextBlock0Num = Integer.parseInt(blockString[7]);
+                }
+                if(blockString[8].equals("None")){
+                    nextBlock1Num=-1;
+                }else{
+                    nextBlock1Num = Integer.parseInt(blockString[8]);
+                }
+                if(blockString[9].equals("None")){
+                    nextSwitchBlockNum=-1;
+                }else{
+                    nextSwitchBlockNum = Integer.parseInt(blockString[9]);
+                }
                 //outside if checks if the line is currently in the hashmap, if so moves on the check section, if not it creates the line
                 if(track.containsKey(blockString[0])){
                     //checks if the section is currently in the hashmap, if so it adds the block, if not it creates the section
+
                     if(track.get(blockString[0]).containsKey(blockString[1])){
-                        Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Integer.parseInt(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),Boolean.parseBoolean(blockString[6]),blockString[7]);
+                        Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Integer.parseInt(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),Boolean.parseBoolean(blockString[6]),nextBlock0Num,nextBlock1Num,nextSwitchBlockNum,blockString[10]);
                         track.get(blockString[0]).get(blockString[1]).add(newBlock);
                     }else{
                         track.get(blockString[0]).put(blockString[1],new ArrayList<Block>());
-                        Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Integer.parseInt(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),Boolean.parseBoolean(blockString[6]),blockString[7]);
+                        Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Integer.parseInt(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),Boolean.parseBoolean(blockString[6]),nextBlock0Num,nextBlock1Num,nextSwitchBlockNum,blockString[10]);
                         track.get(blockString[0]).get(blockString[1]).add(newBlock);
                     }
                 }else{
                     track.put(blockString[0],new HashMap<String,ArrayList<Block>>());
                     track.get(blockString[0]).put(blockString[1],new ArrayList<Block>());
-                    Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Integer.parseInt(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),Boolean.parseBoolean(blockString[6]),blockString[7]);
+                    Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Integer.parseInt(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),Boolean.parseBoolean(blockString[6]),nextBlock0Num,nextBlock1Num,nextSwitchBlockNum,blockString[10]);
                     track.get(blockString[0]).get(blockString[1]).add(newBlock);
                 }
-                //Block newBlock = new Block(blockString[0],blockString[1].charAt(0),Integer.parseInt(blockString[2]),Integer.parseInt(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),blockString[6]);
-                //track.add(newBlock);
+
             }
+            //Now that the whole track is loaded, we want to give each block a reference to the next block in the sequence
+            for(int i = 0;i<track.size();i++){
+                for(int j =0;j<track.get(i).size();j++){
+                    for(int k=0;k<track.get(i).get(j).size();k++){
+                        boolean found0 = false;
+                        boolean found1 = false;
+                        boolean foundSwitch=false;
+                        int nextBlock0 = track.get(i).get(j).get(k).GetDirection0Num();
+                        if(nextBlock0==-1){
+                            found0=true;
+                        }
+                        int nextBlock1 = track.get(i).get(j).get(k).GetDirection0Num();
+                        if(nextBlock1==-1){
+                            found1=true;
+                        }
+                        int nextBlockSwitch = track.get(i).get(j).get(k).GetDirection0Num();
+                        if(nextBlockSwitch==-1){
+                            foundSwitch=true;
+                        }
+                        for(int l=0;l<track.get(i).size();l++){
+                            for(m=0;m<track.get(i).get(l).size();m++){
+                                if(nextBlock0 == track.get(i).get(l).get(m).GetBlockNum()){
+                                    track.get(i).get(j).get(k).SetDirection0Block
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
         }catch(IOException e){
             System.err.println("Caught IOException: " + e.getMessage());
         }
