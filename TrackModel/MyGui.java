@@ -15,6 +15,7 @@ import javafx.scene.Node;
 
 public class MyGui extends Application {
     private TrackModel theModel;
+    private ArrayList<Train> allActiveTrains= new ArrayList<Train>();
     private ArrayList<Node> sectionDisplayLabels;
     public static void main(String[] args) {
 
@@ -137,7 +138,21 @@ public class MyGui extends Application {
         grid.add(switchDisplayLabel, 10, 9,1,1);
         Label railwayCrossingDisplayLabel = new Label("Railway Crossing?");
         grid.add(railwayCrossingDisplayLabel, 11, 9,1,1);
+        //Demo Mode Create Train
+        Button makeTrainButton = new Button("Demo Train");
+        makeTrainButton.setOnAction(new EventHandler<ActionEvent>() {
 
+            @Override
+            public void handle(ActionEvent e) {
+
+                if(theModel != null) {
+                    //constructor = int newTrainNum,int newDirection,Block newCurrentBlock,TrackModel newModel
+                    Train newTrain = new Train(allActiveTrains.size(),0,theModel.GetStartingBlock(),theModel);
+                    allActiveTrains.add(newTrain);
+                }
+            }
+        });
+        grid.add(makeTrainButton, 10, 0,1,1);
         primaryStage.show();
     };
 }

@@ -4,22 +4,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class TrackModel {
-    //private ArrayList<Block> track = new ArrayList<Block>();
     HashMap<String,HashMap<String,ArrayList<Block>>> track = new HashMap<String,HashMap<String,ArrayList<Block>>>();
-   // public static void main(String args[]){
-       // TrackModel thisTrack = new TrackModel();
-       // thisTrack.Initialize();
-   // }
-    //private void Initialize(){
-    //    MyGui thisGui = new MyGui(this);
-     //   thisGui.SetTrackModel(this);
-     //   String[] guiArgs=null;
-   //     thisGui.main(guiArgs);
-
-
-    //    Block newBlock = track.get(2);
-    //    System.out.println("Underground: "+newBlock.GetIsUnderground()+"Grade: "+newBlock.GetGrade() + "Station: "+newBlock.GetStationName());
-   // }
+    private Block startingBlock;
     public void LoadNewTrack(String fileName){
         track = new HashMap<String,HashMap<String,ArrayList<Block>>>();
         File f = new File(fileName);
@@ -66,10 +52,13 @@ public class TrackModel {
                     track.get(blockString[0]).put(blockString[1],new ArrayList<Block>());
                     Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Integer.parseInt(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),Boolean.parseBoolean(blockString[6]),nextBlock0Num,nextBlock1Num,nextSwitchBlockNum,blockString[10]);
                     track.get(blockString[0]).get(blockString[1]).add(newBlock);
+                    if(startingBlock==null){
+                        startingBlock=newBlock;
+                    }
                 }
 
             }
-            //Now that the whole track is loaded, we want to give each block a reference to the next block in the sequence
+            //Now that the whole track is loaded, we want to give each block a reference to the blocks around them
 
             //Map.Entry<String, Integer> entry : items.entrySet;
             for(HashMap.Entry<String,HashMap<String,ArrayList<Block>>> line:track.entrySet()){
@@ -132,9 +121,7 @@ public class TrackModel {
         }
 
     }
-    //public void PrintTrack(){
-        //System.out.println("Block Num: "+track.get(0).GetBlockNum());
-    //}
+
     public ArrayList<String> DisplaySection(String Line, String Section){
         ArrayList<String> sectionData = new ArrayList<String>();
         int sectionSize=track.get(Line).get(Section).size();
@@ -146,7 +133,10 @@ public class TrackModel {
     }
     //Updating Data Sent to Wayside
     public void WaysideSendNewData(){
-
+        System.out.println("Moving to new Block");
+    }
+    public Block GetStartingBlock(){
+        return startingBlock;
     }
 }
 //String newLine,char newSection, int newBlockNum, int newLength, float newGrade, int newSpeedLimit,String newInfrastructure
