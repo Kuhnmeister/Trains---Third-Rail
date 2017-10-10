@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 public class TrackModel {
     //private ArrayList<Block> track = new ArrayList<Block>();
-    private HashMap<String,HashMap<String,ArrayList<Block>>> track = new HashMap<String,HashMap<String,ArrayList<Block>>>();
+    HashMap<String,HashMap<String,ArrayList<Block>>> track = new HashMap<String,HashMap<String,ArrayList<Block>>>();
    // public static void main(String args[]){
        // TrackModel thisTrack = new TrackModel();
        // thisTrack.Initialize();
@@ -21,6 +21,7 @@ public class TrackModel {
     //    System.out.println("Underground: "+newBlock.GetIsUnderground()+"Grade: "+newBlock.GetGrade() + "Station: "+newBlock.GetStationName());
    // }
     public void LoadNewTrack(String fileName){
+        track = new HashMap<String,HashMap<String,ArrayList<Block>>>();
         File f = new File(fileName);
         FileReader fRead;
         BufferedReader bufRead;
@@ -69,29 +70,57 @@ public class TrackModel {
 
             }
             //Now that the whole track is loaded, we want to give each block a reference to the next block in the sequence
-            for(int i = 0;i<track.size();i++){
-                for(int j =0;j<track.get(i).size();j++){
-                    for(int k=0;k<track.get(i).get(j).size();k++){
+
+            //Map.Entry<String, Integer> entry : items.entrySet;
+            for(HashMap.Entry<String,HashMap<String,ArrayList<Block>>> line:track.entrySet()){
+                for(HashMap.Entry<String,ArrayList<Block>> section: line.getValue().entrySet()){
+                    for(int i=0;i<section.getValue().size();i++){
                         boolean found0 = false;
                         boolean found1 = false;
                         boolean foundSwitch=false;
-                        int nextBlock0 = track.get(i).get(j).get(k).GetDirection0Num();
+                        int nextBlock0 =   section.getValue().get(i).GetDirection0Num();
                         if(nextBlock0==-1){
                             found0=true;
                         }
-                        int nextBlock1 = track.get(i).get(j).get(k).GetDirection0Num();
+                        int nextBlock1 = section.getValue().get(i).GetDirection1Num();
                         if(nextBlock1==-1){
                             found1=true;
                         }
-                        int nextBlockSwitch = track.get(i).get(j).get(k).GetDirection0Num();
+                        int nextBlockSwitch = section.getValue().get(i).GetSwitchNum();
                         if(nextBlockSwitch==-1){
                             foundSwitch=true;
                         }
-                        for(int l=0;l<track.get(i).size();l++){
-                            for(m=0;m<track.get(i).get(l).size();m++){
-                                if(nextBlock0 == track.get(i).get(l).get(m).GetBlockNum()){
-                                    track.get(i).get(j).get(k).SetDirection0Block
+                        for(HashMap.Entry<String,HashMap<String,ArrayList<Block>>> innerLine:track.entrySet()){
+                            for(HashMap.Entry<String,ArrayList<Block>> innerSection: innerLine.getValue().entrySet()){
+                                for(int j=0;j<innerSection.getValue().size();j++){
+                                    if(!found0) {
+                                        if (nextBlock0 == innerSection.getValue().get(j).GetBlockNum()) {
+                                            section.getValue().get(i).SetDirection0Block(innerSection.getValue().get(j));
+                                            found0=true;
+                                        }
+                                    }
+                                    if(!found1) {
+                                        if (nextBlock1 == innerSection.getValue().get(j).GetBlockNum()) {
+                                            section.getValue().get(i).SetDirection1Block(innerSection.getValue().get(j));
+                                            found1=true;
+                                        }
+                                    }
+                                    if(!foundSwitch) {
+                                        if (nextBlockSwitch == innerSection.getValue().get(j).GetBlockNum()) {
+                                            section.getValue().get(i).SetSwitchBlock(innerSection.getValue().get(j));
+                                            foundSwitch=true;
+                                        }
+                                    }
+                                    if(found0 && found1 && foundSwitch){
+                                        break;
+                                    }
                                 }
+                                if(found0 && found1 && foundSwitch){
+                                    break;
+                                }
+                            }
+                            if(found0 && found1 && foundSwitch){
+                                break;
                             }
                         }
                     }
