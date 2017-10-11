@@ -29,7 +29,9 @@ public class MyGui extends Application {
     }
     public void SetOutputToWayside(ArrayList<Block> newOutput){
         outputToWayside=newOutput;
-        if(outputToWayside.size()>=1){
+        if(outputToWayside.size()==0){
+            outputToWaysideDisplay="";
+        }else{
             outputToWaysideDisplay=Integer.toString(outputToWayside.get(0).GetBlockNum());
         }
         for(int i=1;i<outputToWayside.size();i++){
@@ -57,7 +59,6 @@ public class MyGui extends Application {
         //handles updating our reference to occupied blocks
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(1), e -> {
-                    System.out.println("KeyFrame Ran");
                     SetOutputToWayside(theModel.getNewWaysideOutput());
                 })
         );
@@ -129,8 +130,6 @@ public class MyGui extends Application {
                     if(sectionDisplayLabels != null){
 
                         grid.getChildren().removeAll(sectionDisplayLabels);
-                    }else{
-                        System.out.println("This was null, this should only occur on the first section display");
                     }
                     sectionDisplayLabels = new ArrayList<Node>();
                     ArrayList<String> sectionString = theModel.DisplaySection(lineSelectionTextField.getCharacters().toString(),sectionTextField.getCharacters().toString());
@@ -177,10 +176,22 @@ public class MyGui extends Application {
         Text demoModeTitle = new Text("Demo Mode: Create Train");
         demoModeTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(demoModeTitle, 10, 0, 2, 1);
+        //Demo Mode select train line
         Label trainLineLabel = new Label("Train Line: ");
         grid.add(trainLineLabel, 10, 1,1,1);
         TextField trainLineTextField = new TextField();
         grid.add(trainLineTextField, 11,1,1,1);
+        //Demo Mode select Starting Block
+        Label trainStartLabel = new Label("Starting Block Num: ");
+        grid.add(trainStartLabel, 10, 2,1,1);
+        TextField trainStartTextField = new TextField();
+        grid.add(trainStartTextField, 11,2,1,1);
+        //Demo Mode select Starting Block
+        Label trainEndLabel = new Label("Ending Block Num: ");
+        grid.add(trainEndLabel, 10, 3,1,1);
+        TextField trainEndTextField = new TextField();
+        grid.add(trainEndTextField, 11,3,1,1);
+        //Demo Mode Make Train Button
         Button makeTrainButton = new Button("Make Train");
         makeTrainButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -191,13 +202,13 @@ public class MyGui extends Application {
                 if(theModel != null) {
                     //constructor = int newTrainNum,int newDirection,Block newCurrentBlock,TrackModel newModel
                     if(theModel.GetStartingBlock(trainLineTextField.getCharacters().toString())!= null) {
-                        Train newTrain = new Train(allActiveTrains.size(), 0, theModel.GetStartingBlock(trainLineTextField.getCharacters().toString()), theModel);
+                        Train newTrain = new Train(allActiveTrains.size(), 0, theModel.GetBlock(Integer.parseInt(trainStartTextField.getCharacters().toString())),theModel.GetBlock(Integer.parseInt(trainEndTextField.getCharacters().toString())), theModel);
                         allActiveTrains.add(newTrain);
                     }
                 }
             }
         });
-        grid.add(makeTrainButton, 11, 3,1,1);
+        grid.add(makeTrainButton, 10, 4,1,1);
 
 
         primaryStage.show();

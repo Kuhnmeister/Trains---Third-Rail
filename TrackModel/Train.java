@@ -1,6 +1,7 @@
 import java.util.Timer;
 import java.util.TimerTask;
 public class Train{
+    private Block endingBlock;
     private Block currentBlock;
     private Block nextBlock;
     private int direction;
@@ -9,15 +10,17 @@ public class Train{
     private float positionOnBlock;
     private TrackModel theModel;
     private int updateTimeMS = 1000;
+    private Timer updatePositionTimer;
 
-    public Train(int newTrainNum,int newDirection,Block newCurrentBlock,TrackModel newModel) {
+    public Train(int newTrainNum,int newDirection,Block newCurrentBlock,Block newEndingBlock,TrackModel newModel) {
         trainNum = newTrainNum;
         direction = newDirection;
         currentBlock = newCurrentBlock;
+        endingBlock=newEndingBlock;
         theModel = newModel;
         theModel.AddOccupied(currentBlock);
         nextBlock = currentBlock.GetNextBlock(direction);
-        Timer updatePositionTimer=new Timer();
+        updatePositionTimer=new Timer();
         updatePositionTimer.schedule(new TrainUpdateTimer(updateTimeMS,this),0,updateTimeMS);
     }
 
@@ -27,10 +30,14 @@ public class Train{
     private void MoveNextBlock(){
         theModel.RemoveOccupied(currentBlock);
         currentBlock.SetIsOccupied(false);
-        currentBlock=nextBlock;
-        theModel.AddOccupied(currentBlock);
-        currentBlock.SetIsOccupied(true);
-        nextBlock=nextBlock.GetNextBlock(direction);
+        if(currentBlock != endingBlock) {
+            currentBlock = nextBlock;
+            theModel.AddOccupied(currentBlock);
+            currentBlock.SetIsOccupied(true);
+            nextBlock = nextBlock.GetNextBlock(direction);
+        }else{
+            updatePositionTimer.cancel();
+        }
 
     }
     public void SetVelocity(float newVelocity){
