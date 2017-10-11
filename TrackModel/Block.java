@@ -21,6 +21,7 @@ public class Block{
     private int nextBlockDirection0Num;
     private int nextBlockDirection1Num;
     private int nextBlockSwitchNum;
+    private boolean hasHeater=false;
 
 
     public Block(String newLine,String newSection, int newBlockNum, int newLength, float newGrade, int newSpeedLimit, boolean newIsBidirectional,int newNextBlock0,int newNextBlock1,int newSwitchBlock,String newInfrastructure){
@@ -109,6 +110,11 @@ public class Block{
     public boolean GetSwitchPosition(){
         return switchPosition;
     }
+    public void FlipSwitch(boolean flip){
+        if(GetHasSwitch() && flip){
+            switchPosition=!switchPosition;
+        }
+    }
     public boolean GetHasRailwayCrossing(){
         return hasRailwayCrossing;
     }
@@ -117,6 +123,11 @@ public class Block{
     }
     public boolean GetIsBidirectional(){
         return isBidirectional;
+    }
+    public boolean GetHasHeater(){return hasHeater;}
+    public void SetHasHeater(boolean newHasHeater){
+        hasHeater=newHasHeater;
+        System.out.println("Yo, why don't this work. Block: "+blockNum);
     }
     public void SetIsOccupied(boolean newIsOccupied){
         isOccupied=newIsOccupied;
@@ -129,6 +140,11 @@ public class Block{
     }
     public int GetSwitchNum(){
         return nextBlockSwitchNum;
+    }
+    public void SetLightColor(String newColor){
+        if(newColor.equals("Green")||newColor.equals("Red")) {
+            lightColor = newColor;
+        }
     }
     public void SetDirection0Block(Block new0Block){
         nextBlockDirection0=new0Block;

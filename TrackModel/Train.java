@@ -11,6 +11,9 @@ public class Train{
     private TrackModel theModel;
     private int updateTimeMS = 1000;
     private Timer updatePositionTimer;
+    private boolean trainActive=true;
+    private int authority=0;
+    private boolean moveAtMaxSpeed=false;
 
     public Train(int newTrainNum,int newDirection,Block newCurrentBlock,Block newEndingBlock,TrackModel newModel) {
         trainNum = newTrainNum;
@@ -37,21 +40,43 @@ public class Train{
             nextBlock = nextBlock.GetNextBlock(direction);
         }else{
             updatePositionTimer.cancel();
+            trainActive=false;
         }
 
+    }
+    public boolean GetActive(){
+        return trainActive;
     }
     public void SetVelocity(float newVelocity){
         currentVelocity=newVelocity;
     }
+    public int GetTrainNum(){
+        return trainNum;
+    }
+    public int GetDirection(){
+        return direction;
+    }
     public void UpdatePosition(int timeSinceLastUpdateMS){
-        positionOnBlock=positionOnBlock+currentVelocity*(float)(timeSinceLastUpdateMS/1000);
-        if(positionOnBlock>currentBlock.GetLength()){
-            positionOnBlock=positionOnBlock-currentBlock.GetLength();
-            MoveNextBlock();
+        if(moveAtMaxSpeed) {
+            positionOnBlock = positionOnBlock + currentVelocity * (float) (timeSinceLastUpdateMS / 1000);
+            if (positionOnBlock > currentBlock.GetLength()) {
+                positionOnBlock = positionOnBlock - currentBlock.GetLength();
+                MoveNextBlock();
+            }
+
         }
     }
     public float GetUpdateTime(){
         return updateTimeMS;
+    }
+    public void SetMoveAtMaxSpeed(boolean newMoving){
+        moveAtMaxSpeed=newMoving;
+    }
+    public void SetAuthority(int newAuthority){
+        authority=newAuthority;
+    }
+    public int GetAuthority(){
+        return authority;
     }
 }
 class TrainUpdateTimer extends TimerTask{

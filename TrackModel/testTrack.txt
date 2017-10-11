@@ -1,8 +1,8 @@
 Green,A,1,50,.5,35,Yes,2,3,None,Underground
-Green,A,2,50,.25,35,Yes,3,1,None,Underground
+Green,A,2,50,.25,25,Yes,3,1,None,Underground
 Green,A,3,50,0,35,Yes,1,2,None,Station;First Avenue
 Red,A,4,24,.5,40,No,5,None,None,None
 Red,A,5,35,0,40,No,6,None,7,Switch
-Red,A,6,35,0,40,No,8,None,None,None
+Red,A,6,35,0,50,No,8,None,None,Station;Second Street
 Red,A,7,35,0,40,No,8,None,None,None
 Red,B,8,35,0,50,No,4,None,None,Underground

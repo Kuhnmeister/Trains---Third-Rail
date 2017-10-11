@@ -16,6 +16,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import javafx.util.Duration;
+import java.util.Iterator;
 
 public class MyGui extends Application {
     private TrackModel theModel;
@@ -24,6 +25,8 @@ public class MyGui extends Application {
     private ArrayList<Block> outputToWayside;
     private String outputToWaysideDisplay="";
     private SimpleStringProperty observableOutputToWayside = new SimpleStringProperty();
+    private String outputToTrainsDisplay="";
+    private SimpleStringProperty observableOutputToTrains = new SimpleStringProperty();
     public static void main(String[] args) {
         launch(args);
     }
@@ -40,6 +43,27 @@ public class MyGui extends Application {
         System.out.println("Wayside Output Updated: "+outputToWaysideDisplay);
         observableOutputToWayside.set(outputToWaysideDisplay);
 
+    }
+    public void SetOutputToTrains(){
+        //removes Trains that are now done from the list
+        for (Iterator<Train> iterator = allActiveTrains.iterator(); iterator.hasNext();) {
+            Train train = iterator.next();
+            if (!train.GetActive()) {
+                iterator.remove();
+            }
+        }
+        if(allActiveTrains.size()==0){
+            outputToTrainsDisplay="";
+        }else{
+            outputToTrainsDisplay="";
+            for(int i=0;i<allActiveTrains.size();i++){
+                outputToTrainsDisplay=outputToTrainsDisplay+"Train "+allActiveTrains.get(i).GetTrainNum()+"\nSpeed Limit: "+allActiveTrains.get(i).GetCurrentBlock().GetSpeedLimit()+" Grade: "+allActiveTrains.get(i).GetCurrentBlock().GetGrade()+" Underground: "+allActiveTrains.get(i).GetCurrentBlock().GetIsUnderground();
+                outputToTrainsDisplay=outputToTrainsDisplay+"\nStation Next: "+allActiveTrains.get(i).GetCurrentBlock().GetNextBlock(+allActiveTrains.get(i).GetDirection()).GetIsStation();
+                outputToTrainsDisplay=outputToTrainsDisplay+" Has Heater: "+allActiveTrains.get(i).GetCurrentBlock().GetHasHeater();
+                outputToTrainsDisplay=outputToTrainsDisplay+"\n";
+            }
+        }
+        observableOutputToTrains.set(outputToTrainsDisplay);
     }
 
     @Override
@@ -60,6 +84,7 @@ public class MyGui extends Application {
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(1), e -> {
                     SetOutputToWayside(theModel.getNewWaysideOutput());
+                    SetOutputToTrains();
                 })
         );
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -100,7 +125,7 @@ public class MyGui extends Application {
         grid.add(powerFailButton,0,4,1,1);
         Button removeAllButton = new Button("Remove All");
         grid.add(removeAllButton,1,4,1,1);
-        //Outputs
+        //Wayside Outputs
         Text outputToWaysideTitle = new Text("Output to Wayside");
         outputToWaysideTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(outputToWaysideTitle, 4, 0, 2, 1);
@@ -109,6 +134,13 @@ public class MyGui extends Application {
         Label occupiedBlocksLabel = new Label("");
         occupiedBlocksLabel.textProperty().bind(observableOutputToWayside);
         grid.add(occupiedBlocksLabel,4,2,2,1);
+        //Train Outputs
+        Text outputToTrainsTitle = new Text("Output to Trains");
+        outputToTrainsTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        grid.add(outputToTrainsTitle, 4, 3, 2, 1);
+        Label trainOutputsLabel = new Label("");
+        trainOutputsLabel.textProperty().bind(observableOutputToTrains);
+        grid.add(trainOutputsLabel,4,4,4,5);
         //Line & Section Display Selection
         Text lineSectionSelectionTitle = new Text("Line & Section Display");
         lineSectionSelectionTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -172,6 +204,10 @@ public class MyGui extends Application {
         grid.add(switchDisplayLabel, 10, 9,1,1);
         Label railwayCrossingDisplayLabel = new Label("Railway Crossing?");
         grid.add(railwayCrossingDisplayLabel, 11, 9,1,1);
+        //Demo Mode Inputs
+        Text inputTitle = new Text("Wayside Inputs");
+        inputTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        grid.add(inputTitle, 6, 0, 2, 1);
         //Demo Mode Create Train
         Text demoModeTitle = new Text("Demo Mode: Create Train");
         demoModeTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));

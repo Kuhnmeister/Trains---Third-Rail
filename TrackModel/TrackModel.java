@@ -92,18 +92,27 @@ public class TrackModel {
                                     if(!found0) {
                                         if (nextBlock0 == innerSection.getValue().get(j).GetBlockNum()) {
                                             section.getValue().get(i).SetDirection0Block(innerSection.getValue().get(j));
+                                            if(innerSection.getValue().get(j).GetIsStation()){
+                                                section.getValue().get(i).SetHasHeater(true);
+                                            }
                                             found0=true;
                                         }
                                     }
                                     if(!found1) {
                                         if (nextBlock1 == innerSection.getValue().get(j).GetBlockNum()) {
                                             section.getValue().get(i).SetDirection1Block(innerSection.getValue().get(j));
+                                            if(innerSection.getValue().get(j).GetIsStation()){
+                                                section.getValue().get(i).SetHasHeater(true);
+                                            }
                                             found1=true;
                                         }
                                     }
                                     if(!foundSwitch) {
                                         if (nextBlockSwitch == innerSection.getValue().get(j).GetBlockNum()) {
                                             section.getValue().get(i).SetSwitchBlock(innerSection.getValue().get(j));
+                                            if(innerSection.getValue().get(j).GetIsStation()){
+                                                section.getValue().get(i).SetHasHeater(true);
+                                            }
                                             foundSwitch=true;
                                         }
                                     }
@@ -163,6 +172,12 @@ public class TrackModel {
             }
         }
         return null;
+    }
+    public void WaysideInput(int updateBlock,String newLightColor,boolean flipSwitch){
+            Block editingBlock = GetBlock(updateBlock);
+            editingBlock.SetLightColor(newLightColor);
+            editingBlock.FlipSwitch(flipSwitch);
+
     }
 }
 //String newLine,char newSection, int newBlockNum, int newLength, float newGrade, int newSpeedLimit,String newInfrastructure
