@@ -3,6 +3,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
@@ -207,7 +208,37 @@ public class MyGui extends Application {
         //Demo Mode Inputs
         Text inputTitle = new Text("Wayside Inputs");
         inputTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        grid.add(inputTitle, 6, 0, 2, 1);
+        grid.add(inputTitle, 7, 0, 2, 1);
+        Label blockChangingLabel = new Label("Block to Edit: ");
+        grid.add(blockChangingLabel,7,1,1,1);
+        TextField blockChangingTextField = new TextField();
+        grid.add(blockChangingTextField, 8,1,1,1);
+        Label lightColorInputLabel = new Label("Light Color:");
+        grid.add(lightColorInputLabel,7,2,1,1);
+        TextField lightColorInputTextField = new TextField();
+        grid.add(lightColorInputTextField, 8,2,1,1);
+        Label authorityInputLabel = new Label("Authority: ");
+        grid.add(authorityInputLabel,7,3,1,1);
+        TextField authorityInputTextField = new TextField();
+        grid.add(authorityInputTextField, 8,3,1,1);
+        Label speedLimitInputLabel = new Label("Train Speed: ");
+        grid.add(speedLimitInputLabel,7,4,1,1);
+        TextField speedLimitInputTextField = new TextField();
+        grid.add(speedLimitInputTextField, 8,4,1,1);
+        Label flipSwitchLabel = new Label("Flip Switch: ");
+        grid.add(flipSwitchLabel,7,5,1,1);
+        CheckBox flipSwitchCheckBox = new CheckBox();
+        grid.add(flipSwitchCheckBox,8,5,1,1);
+
+        Button waysideInputButton = new Button("Confirm Input");
+        waysideInputButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+
+            }
+        });
+        grid.add(waysideInputButton, 7, 6,2,1);
         //Demo Mode Create Train
         Text demoModeTitle = new Text("Demo Mode: Create Train");
         demoModeTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
