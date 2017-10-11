@@ -69,10 +69,8 @@ public class Train{
     public float GetUpdateTime(){
         return updateTimeMS;
     }
-    public void SetMoveAtMaxSpeed(boolean newMoving){
+    public void WaysideInput(int newAuthority,boolean newMoving){
         moveAtMaxSpeed=newMoving;
-    }
-    public void SetAuthority(int newAuthority){
         authority=newAuthority;
     }
     public int GetAuthority(){

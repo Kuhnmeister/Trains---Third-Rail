@@ -21,6 +21,7 @@ import java.util.Iterator;
 
 public class MyGui extends Application {
     private TrackModel theModel;
+    private int trainNum=0;
     private ArrayList<Train> allActiveTrains= new ArrayList<Train>();
     private ArrayList<Node> sectionDisplayLabels;
     private ArrayList<Block> outputToWayside;
@@ -217,28 +218,45 @@ public class MyGui extends Application {
         grid.add(lightColorInputLabel,7,2,1,1);
         TextField lightColorInputTextField = new TextField();
         grid.add(lightColorInputTextField, 8,2,1,1);
-        Label authorityInputLabel = new Label("Authority: ");
-        grid.add(authorityInputLabel,7,3,1,1);
-        TextField authorityInputTextField = new TextField();
-        grid.add(authorityInputTextField, 8,3,1,1);
-        Label speedLimitInputLabel = new Label("Train Speed: ");
-        grid.add(speedLimitInputLabel,7,4,1,1);
-        TextField speedLimitInputTextField = new TextField();
-        grid.add(speedLimitInputTextField, 8,4,1,1);
         Label flipSwitchLabel = new Label("Flip Switch: ");
-        grid.add(flipSwitchLabel,7,5,1,1);
+        grid.add(flipSwitchLabel,7,3,1,1);
         CheckBox flipSwitchCheckBox = new CheckBox();
-        grid.add(flipSwitchCheckBox,8,5,1,1);
-
+        flipSwitchCheckBox.setIndeterminate(false);
+        grid.add(flipSwitchCheckBox,8,3,1,1);
         Button waysideInputButton = new Button("Confirm Input");
         waysideInputButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent e) {
-
+                theModel.WaysideInput(Integer.parseInt(blockChangingTextField.getCharacters().toString()),lightColorInputTextField.getCharacters().toString(),flipSwitchCheckBox.isSelected());
             }
         });
-        grid.add(waysideInputButton, 7, 6,2,1);
+        grid.add(waysideInputButton, 7, 4,2,1);
+        //Wayside Input to pass to trains
+        Label waysideTrainInputLabel = new Label("Train to Edit:");
+        grid.add(waysideTrainInputLabel,7,5,1,1);
+        TextField waysideTrainInputTextField = new TextField();
+        grid.add(waysideTrainInputTextField, 8,5,1,1);
+        Label authorityInputLabel = new Label("Authority: ");
+        grid.add(authorityInputLabel,7,6,1,1);
+        TextField authorityInputTextField = new TextField();
+        grid.add(authorityInputTextField, 8,6,1,1);
+        Label speedLimitInputLabel = new Label("Train Speed: ");
+        grid.add(speedLimitInputLabel,7,7,1,1);
+        TextField speedLimitInputTextField = new TextField();
+        grid.add(speedLimitInputTextField, 8,7,1,1);
+
+
+        Button waysideTrainInputButton = new Button("Confirm Input");
+        waysideTrainInputButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+                Train editingTrain= GetTrain(Integer.parseInt(waysideTrainInputTextField.getCharacters().toString()));
+                editingTrain.WaysideInput(Integer.parseInt(authorityInputTextField.getCharacters().toString()),(0!=Integer.parseInt(speedLimitInputTextField.getCharacters().toString())));
+            }
+        });
+        grid.add(waysideTrainInputButton, 7, 8,2,1);
         //Demo Mode Create Train
         Text demoModeTitle = new Text("Demo Mode: Create Train");
         demoModeTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -260,6 +278,7 @@ public class MyGui extends Application {
         grid.add(trainEndTextField, 11,3,1,1);
         //Demo Mode Make Train Button
         Button makeTrainButton = new Button("Make Train");
+
         makeTrainButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -269,8 +288,9 @@ public class MyGui extends Application {
                 if(theModel != null) {
                     //constructor = int newTrainNum,int newDirection,Block newCurrentBlock,TrackModel newModel
                     if(theModel.GetStartingBlock(trainLineTextField.getCharacters().toString())!= null) {
-                        Train newTrain = new Train(allActiveTrains.size(), 0, theModel.GetBlock(Integer.parseInt(trainStartTextField.getCharacters().toString())),theModel.GetBlock(Integer.parseInt(trainEndTextField.getCharacters().toString())), theModel);
+                        Train newTrain = new Train(trainNum, 0, theModel.GetBlock(Integer.parseInt(trainStartTextField.getCharacters().toString())),theModel.GetBlock(Integer.parseInt(trainEndTextField.getCharacters().toString())), theModel);
                         allActiveTrains.add(newTrain);
+                        trainNum++;
                     }
                 }
             }
@@ -280,4 +300,13 @@ public class MyGui extends Application {
 
         primaryStage.show();
     };
+    private Train GetTrain(int lookingNum){
+        for (Iterator<Train> iterator = allActiveTrains.iterator(); iterator.hasNext();) {
+            Train train = iterator.next();
+            if (train.GetTrainNum()==lookingNum) {
+                return train;
+            }
+        }
+        return null;
+    }
 }

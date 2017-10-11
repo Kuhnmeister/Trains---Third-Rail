@@ -127,7 +127,6 @@ public class Block{
     public boolean GetHasHeater(){return hasHeater;}
     public void SetHasHeater(boolean newHasHeater){
         hasHeater=newHasHeater;
-        System.out.println("Yo, why don't this work. Block: "+blockNum);
     }
     public void SetIsOccupied(boolean newIsOccupied){
         isOccupied=newIsOccupied;
