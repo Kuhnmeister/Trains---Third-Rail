@@ -15,6 +15,7 @@ public class Train{
         direction = newDirection;
         currentBlock = newCurrentBlock;
         theModel = newModel;
+        theModel.AddOccupied(currentBlock);
         nextBlock = currentBlock.GetNextBlock(direction);
         Timer updatePositionTimer=new Timer();
         updatePositionTimer.schedule(new TrainUpdateTimer(updateTimeMS,this),0,updateTimeMS);
@@ -24,8 +25,10 @@ public class Train{
         return currentBlock;
     }
     private void MoveNextBlock(){
+        theModel.RemoveOccupied(currentBlock);
         currentBlock.SetIsOccupied(false);
         currentBlock=nextBlock;
+        theModel.AddOccupied(currentBlock);
         currentBlock.SetIsOccupied(true);
         nextBlock=nextBlock.GetNextBlock(direction);
 
@@ -38,7 +41,6 @@ public class Train{
         if(positionOnBlock>currentBlock.GetLength()){
             positionOnBlock=positionOnBlock-currentBlock.GetLength();
             MoveNextBlock();
-            theModel.WaysideSendNewData();
         }
     }
     public float GetUpdateTime(){

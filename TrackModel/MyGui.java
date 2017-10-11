@@ -11,20 +11,39 @@ import javafx.geometry.*;
 import javafx.scene.control.*;
 import java.util.ArrayList;
 import javafx.scene.Node;
-
+import javafx.beans.property.StringProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
+import javafx.util.Duration;
 
 public class MyGui extends Application {
     private TrackModel theModel;
     private ArrayList<Train> allActiveTrains= new ArrayList<Train>();
     private ArrayList<Node> sectionDisplayLabels;
+    private ArrayList<Block> outputToWayside;
+    private String outputToWaysideDisplay="";
+    private SimpleStringProperty observableOutputToWayside = new SimpleStringProperty();
     public static void main(String[] args) {
-
         launch(args);
+    }
+    public void SetOutputToWayside(ArrayList<Block> newOutput){
+        outputToWayside=newOutput;
+        if(outputToWayside.size()>=1){
+            outputToWaysideDisplay=Integer.toString(outputToWayside.get(0).GetBlockNum());
+        }
+        for(int i=1;i<outputToWayside.size();i++){
+           outputToWaysideDisplay=outputToWaysideDisplay+","+outputToWayside.get(i).GetBlockNum();
+        }
+        System.out.println("Wayside Output Updated: "+outputToWaysideDisplay);
+        observableOutputToWayside.set(outputToWaysideDisplay);
+
     }
 
     @Override
     public void start(Stage primaryStage) {
-        theModel=new TrackModel();
+        observableOutputToWayside.setValue(outputToWaysideDisplay);
+        theModel=new TrackModel(this);
         primaryStage.setTitle("Track Model");
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -35,6 +54,15 @@ public class MyGui extends Application {
         Scene scene = new Scene(grid);
         primaryStage.setScene(scene);
         Text scenetitle = new Text("Load New Track");
+        //handles updating our reference to occupied blocks
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(1), e -> {
+                    System.out.println("KeyFrame Ran");
+                    SetOutputToWayside(theModel.getNewWaysideOutput());
+                })
+        );
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        //Some Titles
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 2, 0, 2, 1);
         Label newFileLabel = new Label("Track Filename:");
@@ -72,6 +100,14 @@ public class MyGui extends Application {
         Button removeAllButton = new Button("Remove All");
         grid.add(removeAllButton,1,4,1,1);
         //Outputs
+        Text outputToWaysideTitle = new Text("Output to Wayside");
+        outputToWaysideTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        grid.add(outputToWaysideTitle, 4, 0, 2, 1);
+        Label occupiedBlocksSectionLabel = new Label("OccupiedBlocks:");
+        grid.add(occupiedBlocksSectionLabel, 4, 1,1,1);
+        Label occupiedBlocksLabel = new Label("");
+        occupiedBlocksLabel.textProperty().bind(observableOutputToWayside);
+        grid.add(occupiedBlocksLabel,4,2,2,1);
         //Line & Section Display Selection
         Text lineSectionSelectionTitle = new Text("Line & Section Display");
         lineSectionSelectionTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -89,7 +125,6 @@ public class MyGui extends Application {
 
             @Override
             public void handle(ActionEvent e) {
-
                 if(theModel != null) {
                     if(sectionDisplayLabels != null){
 
@@ -139,20 +174,32 @@ public class MyGui extends Application {
         Label railwayCrossingDisplayLabel = new Label("Railway Crossing?");
         grid.add(railwayCrossingDisplayLabel, 11, 9,1,1);
         //Demo Mode Create Train
-        Button makeTrainButton = new Button("Demo Train");
+        Text demoModeTitle = new Text("Demo Mode: Create Train");
+        demoModeTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        grid.add(demoModeTitle, 10, 0, 2, 1);
+        Label trainLineLabel = new Label("Train Line: ");
+        grid.add(trainLineLabel, 10, 1,1,1);
+        TextField trainLineTextField = new TextField();
+        grid.add(trainLineTextField, 11,1,1,1);
+        Button makeTrainButton = new Button("Make Train");
         makeTrainButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent e) {
-
+                timeline.stop();
+                timeline.play();
                 if(theModel != null) {
                     //constructor = int newTrainNum,int newDirection,Block newCurrentBlock,TrackModel newModel
-                    Train newTrain = new Train(allActiveTrains.size(),0,theModel.GetStartingBlock(),theModel);
-                    allActiveTrains.add(newTrain);
+                    if(theModel.GetStartingBlock(trainLineTextField.getCharacters().toString())!= null) {
+                        Train newTrain = new Train(allActiveTrains.size(), 0, theModel.GetStartingBlock(trainLineTextField.getCharacters().toString()), theModel);
+                        allActiveTrains.add(newTrain);
+                    }
                 }
             }
         });
-        grid.add(makeTrainButton, 10, 0,1,1);
+        grid.add(makeTrainButton, 11, 3,1,1);
+
+
         primaryStage.show();
     };
 }

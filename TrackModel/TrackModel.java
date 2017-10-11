@@ -5,9 +5,16 @@ import java.util.Iterator;
 
 public class TrackModel {
     HashMap<String,HashMap<String,ArrayList<Block>>> track = new HashMap<String,HashMap<String,ArrayList<Block>>>();
-    private Block startingBlock;
+    private HashMap<String,Block> startingBlocks;
+    private MyGui theGui;
+    private ArrayList<Block> occupiedBlocks;
+    public TrackModel(MyGui newGui){
+        theGui=newGui;
+    }
     public void LoadNewTrack(String fileName){
+        occupiedBlocks=new ArrayList<Block>();
         track = new HashMap<String,HashMap<String,ArrayList<Block>>>();
+        startingBlocks = new HashMap<String,Block>();
         File f = new File(fileName);
         FileReader fRead;
         BufferedReader bufRead;
@@ -52,8 +59,8 @@ public class TrackModel {
                     track.get(blockString[0]).put(blockString[1],new ArrayList<Block>());
                     Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Integer.parseInt(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),Boolean.parseBoolean(blockString[6]),nextBlock0Num,nextBlock1Num,nextSwitchBlockNum,blockString[10]);
                     track.get(blockString[0]).get(blockString[1]).add(newBlock);
-                    if(startingBlock==null){
-                        startingBlock=newBlock;
+                    if(startingBlocks.get(blockString[0]) == null){
+                        startingBlocks.put(blockString[0],newBlock);
                     }
                 }
 
@@ -121,7 +128,14 @@ public class TrackModel {
         }
 
     }
-
+    public void AddOccupied(Block newBlock){
+        occupiedBlocks.add(newBlock);
+        System.out.println("Added Block: "+newBlock.GetBlockNum());
+    }
+    public void RemoveOccupied(Block newBlock){
+        occupiedBlocks.remove(newBlock);
+        System.out.println("Removed Block: "+newBlock.GetBlockNum());
+    }
     public ArrayList<String> DisplaySection(String Line, String Section){
         ArrayList<String> sectionData = new ArrayList<String>();
         int sectionSize=track.get(Line).get(Section).size();
@@ -132,11 +146,23 @@ public class TrackModel {
         return sectionData;
     }
     //Updating Data Sent to Wayside
-    public void WaysideSendNewData(){
-        System.out.println("Moving to new Block");
+    public ArrayList<Block> getNewWaysideOutput(){
+        return occupiedBlocks;
     }
-    public Block GetStartingBlock(){
-        return startingBlock;
+    public Block GetStartingBlock(String trainLine){
+        return startingBlocks.get(trainLine);
+    }
+    public Block GetBlock(int requestedBlockNum){
+        for(HashMap.Entry<String,HashMap<String,ArrayList<Block>>> line:track.entrySet()) {
+            for (HashMap.Entry<String, ArrayList<Block>> section : line.getValue().entrySet()) {
+                for (int i = 0; i < section.getValue().size(); i++) {
+                    if(section.getValue().get(i).GetBlockNum()==requestedBlockNum){
+                        return section.getValue().get(i);
+                    }
+                }
+            }
+        }
+        return null;
     }
 }
 //String newLine,char newSection, int newBlockNum, int newLength, float newGrade, int newSpeedLimit,String newInfrastructure
