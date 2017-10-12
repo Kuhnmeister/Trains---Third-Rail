@@ -119,7 +119,7 @@ public class Block{
         return hasRailwayCrossing;
     }
     public String PrintBlock(){
-        return(line+","+section+","+blockNum+","+isOccupied+","+lightColor+","+ grade+","+speedLimit+","+isUnderground+ ","+isStation+","+stationName+","+hasSwitch+","+hasRailwayCrossing);
+        return(blockNum+","+isOccupied+","+lightColor+","+ grade+","+speedLimit+","+isUnderground+ ","+isStation+","+stationName+","+hasSwitch+","+switchPosition+","+hasRailwayCrossing);
     }
     public boolean GetIsBidirectional(){
         return isBidirectional;

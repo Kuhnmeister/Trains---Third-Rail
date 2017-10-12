@@ -28,6 +28,7 @@ public class MyGui extends Application {
     private String outputToWaysideDisplay="";
     private SimpleStringProperty observableOutputToWayside = new SimpleStringProperty();
     private String outputToTrainsDisplay="";
+    private int displayingTrain;
     private SimpleStringProperty observableOutputToTrains = new SimpleStringProperty();
     public static void main(String[] args) {
         launch(args);
@@ -58,11 +59,15 @@ public class MyGui extends Application {
             outputToTrainsDisplay="";
         }else{
             outputToTrainsDisplay="";
-            for(int i=0;i<allActiveTrains.size();i++){
-                outputToTrainsDisplay=outputToTrainsDisplay+"Train "+allActiveTrains.get(i).GetTrainNum()+"\nSpeed Limit: "+allActiveTrains.get(i).GetCurrentBlock().GetSpeedLimit()+" Grade: "+allActiveTrains.get(i).GetCurrentBlock().GetGrade()+" Underground: "+allActiveTrains.get(i).GetCurrentBlock().GetIsUnderground();
-                outputToTrainsDisplay=outputToTrainsDisplay+"\nStation Next: "+allActiveTrains.get(i).GetCurrentBlock().GetNextBlock(+allActiveTrains.get(i).GetDirection()).GetIsStation();
-                outputToTrainsDisplay=outputToTrainsDisplay+" Has Heater: "+allActiveTrains.get(i).GetCurrentBlock().GetHasHeater();
-                outputToTrainsDisplay=outputToTrainsDisplay+"\n";
+            if(displayingTrain != -1) {
+                for (int i = 0; i < allActiveTrains.size(); i++) {
+                    if (allActiveTrains.get(i).GetTrainNum() == displayingTrain) {
+                        outputToTrainsDisplay = outputToTrainsDisplay + "Train " + allActiveTrains.get(i).GetTrainNum() + "\nSpeed Limit: " + allActiveTrains.get(i).GetCurrentBlock().GetSpeedLimit() + " Grade: " + allActiveTrains.get(i).GetCurrentBlock().GetGrade();
+                        outputToTrainsDisplay=outputToTrainsDisplay+"\nAuthority: "+allActiveTrains.get(i).GetAuthority()+"Underground: " + allActiveTrains.get(i).GetCurrentBlock().GetIsUnderground();
+                        outputToTrainsDisplay = outputToTrainsDisplay + "\nStation Next Block: " + allActiveTrains.get(i).GetCurrentBlock().GetNextBlock(+allActiveTrains.get(i).GetDirection()).GetIsStation()+ " Has Heater: " + allActiveTrains.get(i).GetCurrentBlock().GetHasHeater();
+                        outputToTrainsDisplay = outputToTrainsDisplay + "\n";
+                    }
+                }
             }
         }
         observableOutputToTrains.set(outputToTrainsDisplay);
@@ -94,9 +99,9 @@ public class MyGui extends Application {
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 2, 0, 2, 1);
         Label newFileLabel = new Label("Track Filename:");
-        grid.add(newFileLabel, 2, 2,1,1);
+        grid.add(newFileLabel, 2, 1,1,1);
         TextField trackFileTextField = new TextField();
-        grid.add(trackFileTextField, 3, 2,1,1);
+        grid.add(trackFileTextField, 3, 1,1,1);
         Button updateTrackButton = new Button("Update Track");
         updateTrackButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -108,7 +113,7 @@ public class MyGui extends Application {
                 }
             }
         });
-        grid.add(updateTrackButton, 2,3,1,1);
+        grid.add(updateTrackButton, 2,2,2,1);
 
 
         //Force Majeure
@@ -116,23 +121,23 @@ public class MyGui extends Application {
         forceMajeureTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(forceMajeureTitle, 0, 0, 2, 1);
         Label blockAffectedLabel = new Label("Block Affected:");
-        grid.add(blockAffectedLabel, 0, 2,1,1);
+        grid.add(blockAffectedLabel, 0, 1,1,1);
         TextField blockAffectedTextField = new TextField();
-        grid.add(blockAffectedTextField, 1, 2,1,1);
+        grid.add(blockAffectedTextField, 1, 1,1,1);
         Button brokenRailButton = new Button("Broken Rail");
-        grid.add(brokenRailButton,0,3,1,1);
+        grid.add(brokenRailButton,0,2,1,1);
         Button trackCircuitFailButton = new Button("Track Circuit Failure");
-        grid.add(trackCircuitFailButton,1,3,1,1);
+        grid.add(trackCircuitFailButton,1,2,1,1);
         Button powerFailButton = new Button("Power Failure");
-        grid.add(powerFailButton,0,4,1,1);
+        grid.add(powerFailButton,0,3,1,1);
         Button removeAllButton = new Button("Remove All");
-        grid.add(removeAllButton,1,4,1,1);
+        grid.add(removeAllButton,1,3,1,1);
         //Wayside Outputs
         Text outputToWaysideTitle = new Text("Output to Wayside");
         outputToWaysideTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(outputToWaysideTitle, 4, 0, 2, 1);
         Label occupiedBlocksSectionLabel = new Label("OccupiedBlocks:");
-        grid.add(occupiedBlocksSectionLabel, 4, 1,1,1);
+        grid.add(occupiedBlocksSectionLabel, 4, 1,2,1);
         Label occupiedBlocksLabel = new Label("");
         occupiedBlocksLabel.textProperty().bind(observableOutputToWayside);
         grid.add(occupiedBlocksLabel,4,2,2,1);
@@ -140,9 +145,21 @@ public class MyGui extends Application {
         Text outputToTrainsTitle = new Text("Output to Trains");
         outputToTrainsTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(outputToTrainsTitle, 4, 3, 2, 1);
+        Label trainToDisplayLabel = new Label("Train: ");
+        grid.add(trainToDisplayLabel,4,4,1,1);
+        TextField trainToDisplayTextField = new TextField();
+        grid.add(trainToDisplayTextField,5,4,1,1);
+        Button trainToDisplayButton= new Button("Display Output to Train");
+        trainToDisplayButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                displayingTrain = Integer.parseInt(trainToDisplayTextField.getCharacters().toString());
+            }
+        });
+        grid.add(trainToDisplayButton,4,5,2,1);
         Label trainOutputsLabel = new Label("");
         trainOutputsLabel.textProperty().bind(observableOutputToTrains);
-        grid.add(trainOutputsLabel,4,4,4,5);
+        grid.add(trainOutputsLabel,4,6,3,3);
         //Line & Section Display Selection
         Text lineSectionSelectionTitle = new Text("Line & Section Display");
         lineSectionSelectionTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -182,30 +199,29 @@ public class MyGui extends Application {
         });
         grid.add(showTrackButton, 0, 8,1,1);
         //Section display Labels
-        Label lineDisplayLabel = new Label("Line");
-        grid.add(lineDisplayLabel, 0, 9,1,1);
-        Label sectionDisplayLabel = new Label("Section");
-        grid.add(sectionDisplayLabel, 1, 9,1,1);
         Label blockDisplayLabel = new Label("Block");
-        grid.add(blockDisplayLabel, 2, 9,1,1);
+        grid.add(blockDisplayLabel, 0, 9,1,1);
         Label occupiedDisplayLabel = new Label("Occupied?");
-        grid.add(occupiedDisplayLabel, 3, 9,1,1);
+        grid.add(occupiedDisplayLabel, 1, 9,1,1);
         Label lightColorDisplayLabel = new Label("Light Color");
-        grid.add(lightColorDisplayLabel, 4, 9,1,1);
+        grid.add(lightColorDisplayLabel, 2, 9,1,1);
         Label gradeDisplayLabel = new Label("Grade");
-        grid.add(gradeDisplayLabel, 5, 9,1,1);
+        grid.add(gradeDisplayLabel, 3, 9,1,1);
         Label speedLimitDisplayLabel = new Label("Speed Limit");
-        grid.add(speedLimitDisplayLabel, 6, 9,1,1);
+        grid.add(speedLimitDisplayLabel, 4, 9,1,1);
         Label undergroundDisplayLabel = new Label("Underground?");
-        grid.add(undergroundDisplayLabel, 7, 9,1,1);
+        grid.add(undergroundDisplayLabel, 5, 9,1,1);
         Label stationDisplayLabel = new Label("Station?");
-        grid.add(stationDisplayLabel, 8, 9,1,1);
+        grid.add(stationDisplayLabel, 6, 9,1,1);
         Label stationNameDisplayLabel = new Label("Station Name");
-        grid.add(stationNameDisplayLabel, 9, 9,1,1);
-        Label switchDisplayLabel = new Label("Switch?");
-        grid.add(switchDisplayLabel, 10, 9,1,1);
+        grid.add(stationNameDisplayLabel, 7, 9,1,1);
+        Label switchDisplayLabel = new Label("Switch");
+        grid.add(switchDisplayLabel, 8, 9,1,1);
+        Label switchActiveDisplayLabel = new Label("Switched?");
+        grid.add(switchActiveDisplayLabel, 9, 9,1,1);
         Label railwayCrossingDisplayLabel = new Label("Railway Crossing?");
-        grid.add(railwayCrossingDisplayLabel, 11, 9,1,1);
+        grid.add(railwayCrossingDisplayLabel, 10, 9,1,1);
+
         //Demo Mode Inputs
         Text inputTitle = new Text("Wayside Inputs");
         inputTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -260,22 +276,22 @@ public class MyGui extends Application {
         //Demo Mode Create Train
         Text demoModeTitle = new Text("Demo Mode: Create Train");
         demoModeTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        grid.add(demoModeTitle, 10, 0, 2, 1);
+        grid.add(demoModeTitle, 9, 0, 2, 1);
         //Demo Mode select train line
         Label trainLineLabel = new Label("Train Line: ");
-        grid.add(trainLineLabel, 10, 1,1,1);
+        grid.add(trainLineLabel, 9, 1,1,1);
         TextField trainLineTextField = new TextField();
-        grid.add(trainLineTextField, 11,1,1,1);
+        grid.add(trainLineTextField, 10,1,1,1);
         //Demo Mode select Starting Block
         Label trainStartLabel = new Label("Starting Block Num: ");
-        grid.add(trainStartLabel, 10, 2,1,1);
+        grid.add(trainStartLabel, 9, 2,1,1);
         TextField trainStartTextField = new TextField();
-        grid.add(trainStartTextField, 11,2,1,1);
+        grid.add(trainStartTextField, 10,2,1,1);
         //Demo Mode select Starting Block
         Label trainEndLabel = new Label("Ending Block Num: ");
-        grid.add(trainEndLabel, 10, 3,1,1);
+        grid.add(trainEndLabel, 9, 3,1,1);
         TextField trainEndTextField = new TextField();
-        grid.add(trainEndTextField, 11,3,1,1);
+        grid.add(trainEndTextField, 10,3,1,1);
         //Demo Mode Make Train Button
         Button makeTrainButton = new Button("Make Train");
 
@@ -286,10 +302,10 @@ public class MyGui extends Application {
                 timeline.stop();
                 timeline.play();
                 if(theModel != null) {
-                    //constructor = int newTrainNum,int newDirection,Block newCurrentBlock,TrackModel newModel
                     if(theModel.GetStartingBlock(trainLineTextField.getCharacters().toString())!= null) {
                         Train newTrain = new Train(trainNum, 0, theModel.GetBlock(Integer.parseInt(trainStartTextField.getCharacters().toString())),theModel.GetBlock(Integer.parseInt(trainEndTextField.getCharacters().toString())), theModel);
                         allActiveTrains.add(newTrain);
+                        System.out.println(trainNum);
                         trainNum++;
                     }
                 }
