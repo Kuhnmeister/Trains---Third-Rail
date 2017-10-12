@@ -1,5 +1,7 @@
 package Controller;
 
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -20,13 +22,14 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class WaysideController extends Application{
 
 	//labels for the fields that will be displayed
 	private Label controllerLabel, blockLabel, authorityLabel, switchStateLabel, lightLabel, stationLabel, sectionLabel,
-	PLCProgramLabel, curBlock, occupyLabel;
+	PLCProgramLabel, curBlock, occupyLabel, CTCLabel, inCTCLabel, mphLabel, CTCOutLabel;
 	
 	//keep track of the current block, for updating reasons
 	private int currentBlock = 1;
@@ -53,6 +56,15 @@ public class WaysideController extends Application{
 		lightLabel = new Label("Light State:	Green");
 		occupyLabel = new Label("Occupancy: Empty");
 		
+		//TODO add a field for speed from the CTC
+		//TODO make a list of occupied blocks
+		CTCLabel = new Label("output to the CTC: ");
+		inCTCLabel = new Label("Suggested Speed: ");
+		TextField CTCin = new TextField();
+		CTCin.setPromptText("Enter input from the CTC");
+		mphLabel= new Label("mph");
+		CTCOutLabel = new Label();
+		
 		//call method to get a test track
 		BlockInfo[] track = CreateFive();
 		block = track[0];
@@ -70,6 +82,8 @@ public class WaysideController extends Application{
 		TextField blockInput = new TextField("1");
 		TextField PLCInput = new TextField();
 		PLCInput.setPromptText("Enter a PLC Program");
+		//FileChooser fileChooser = new FileChooser();
+		//FileNameExtensionFilter PLCFile = new FileNameExtensionFilter("JAVA", "java");
 		
 		//create a check box button for occupancy
 		CheckBox occBox = new CheckBox("Occupied");
@@ -81,11 +95,13 @@ public class WaysideController extends Application{
 	        		block.occupy = true;
 	        		lightLabel.setText("Light State:	Red");
 	        		block.light = true;
+	        		CTCOutLabel.setText(currentBlock +" Occupied");
 	        	}else {
 	        		occupyLabel.setText("Occupancy: Empty");
 	        		block.occupy = false;
 	        		lightLabel.setText("Light State:	Green");
 	        		block.light = false;
+	        		CTCOutLabel.setText(currentBlock +" Empty");
 	        	}
 	        }
 	    });
@@ -175,7 +191,7 @@ public class WaysideController extends Application{
 		grid.setPadding(new Insets(10,10,10,10));
 		grid.setVgap(8);
 		grid.setHgap(10);
-		grid.add(hbBtn, 0, 3); //TODO move this button down to the bottom of the grid
+		grid.add(hbBtn, 0, 3);
 		grid.add(PLCBtn, 1, 3);
 		
 		//use the labels from before to set up the grid info
@@ -193,14 +209,18 @@ public class WaysideController extends Application{
 		GridPane.setConstraints(swiBox, 3, 7);
 		GridPane.setConstraints(lightLabel, 0, 8);
 		GridPane.setConstraints(stationLabel, 0, 9);
-		
+		GridPane.setConstraints(inCTCLabel, 0, 10);
+		GridPane.setConstraints(CTCin, 1, 10);
+		GridPane.setConstraints(mphLabel, 2, 10);
+		GridPane.setConstraints(CTCLabel, 0, 11);
+		GridPane.setConstraints(CTCOutLabel, 1, 11);
 		
 		
 		//set choicebox for selecting the block in that section
 		grid.getChildren().addAll(controllerLabel, cb, blockLabel, blockInput, authorityLabel, PLCProgramLabel, PLCInput, curBlock, switchStateLabel, 
-		lightLabel, stationLabel, occupyLabel, occBox, swiBox);
+		lightLabel, stationLabel, occupyLabel, occBox, swiBox, inCTCLabel, CTCin, mphLabel, CTCLabel, CTCOutLabel);
 		//prepare the scene
-		Scene scene = new Scene(grid, 600, 800);
+		Scene scene = new Scene(grid, 800, 600);
 		primaryStage.setScene(scene);
 		//display the window
 		primaryStage.show();
