@@ -19,6 +19,7 @@ public class Train{
         trainNum = newTrainNum;
         direction = newDirection;
         currentBlock = newCurrentBlock;
+        currentBlock.SetIsOccupied(true);
         endingBlock=newEndingBlock;
         theModel = newModel;
         theModel.AddOccupied(currentBlock);
