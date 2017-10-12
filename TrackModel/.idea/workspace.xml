@@ -52,11 +52,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Train.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Train.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Train.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="21" column="41" lean-forward="false" selection-start-line="21" selection-start-column="41" selection-end-line="21" selection-end-column="41" />
+            <state relative-caret-position="184">
+              <caret line="21" column="8" lean-forward="false" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="8" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1644#1645#0" expanded="true" />
@@ -74,16 +74,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Block.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Block.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Block.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="250">
-              <caret line="121" column="161" lean-forward="false" selection-start-line="121" selection-start-column="161" selection-end-line="121" selection-end-column="161" />
+            <state relative-caret-position="397">
+              <caret line="132" column="82" lean-forward="false" selection-start-line="132" selection-start-column="82" selection-end-line="132" selection-end-column="82" />
               <folding>
                 <element signature="e#3730#3731#0" expanded="true" />
                 <element signature="e#3768#3769#0" expanded="true" />
-                <element signature="e#4309#4310#0" expanded="true" />
-                <element signature="e#4354#4355#0" expanded="true" />
+                <element signature="e#4395#4396#0" expanded="true" />
+                <element signature="e#4440#4441#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -114,9 +114,9 @@
       <list>
         <option value="$PROJECT_DIR$/Gui.java" />
         <option value="$PROJECT_DIR$/TrackModel.java" />
-        <option value="$PROJECT_DIR$/Block.java" />
         <option value="$PROJECT_DIR$/MyGui.java" />
         <option value="$PROJECT_DIR$/Train.java" />
+        <option value="$PROJECT_DIR$/Block.java" />
       </list>
     </option>
   </component>
@@ -502,8 +502,8 @@
           <folding>
             <element signature="e#3730#3731#0" expanded="true" />
             <element signature="e#3768#3769#0" expanded="true" />
-            <element signature="e#4309#4310#0" expanded="true" />
-            <element signature="e#4354#4355#0" expanded="true" />
+            <element signature="e#4395#4396#0" expanded="true" />
+            <element signature="e#4440#4441#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -583,8 +583,8 @@
           <folding>
             <element signature="e#3730#3731#0" expanded="true" />
             <element signature="e#3768#3769#0" expanded="true" />
-            <element signature="e#4309#4310#0" expanded="true" />
-            <element signature="e#4354#4355#0" expanded="true" />
+            <element signature="e#4395#4396#0" expanded="true" />
+            <element signature="e#4440#4441#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -612,8 +612,8 @@
           <folding>
             <element signature="e#3730#3731#0" expanded="true" />
             <element signature="e#3768#3769#0" expanded="true" />
-            <element signature="e#4309#4310#0" expanded="true" />
-            <element signature="e#4354#4355#0" expanded="true" />
+            <element signature="e#4395#4396#0" expanded="true" />
+            <element signature="e#4440#4441#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -653,8 +653,8 @@
           <folding>
             <element signature="e#3730#3731#0" expanded="true" />
             <element signature="e#3768#3769#0" expanded="true" />
-            <element signature="e#4309#4310#0" expanded="true" />
-            <element signature="e#4354#4355#0" expanded="true" />
+            <element signature="e#4395#4396#0" expanded="true" />
+            <element signature="e#4440#4441#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -682,8 +682,8 @@
           <folding>
             <element signature="e#3730#3731#0" expanded="true" />
             <element signature="e#3768#3769#0" expanded="true" />
-            <element signature="e#4309#4310#0" expanded="true" />
-            <element signature="e#4354#4355#0" expanded="true" />
+            <element signature="e#4395#4396#0" expanded="true" />
+            <element signature="e#4440#4441#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -711,19 +711,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Block.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="121" column="161" lean-forward="false" selection-start-line="121" selection-start-column="161" selection-end-line="121" selection-end-column="161" />
-          <folding>
-            <element signature="e#3730#3731#0" expanded="true" />
-            <element signature="e#3768#3769#0" expanded="true" />
-            <element signature="e#4309#4310#0" expanded="true" />
-            <element signature="e#4354#4355#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/MyGui.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="295">
@@ -738,8 +725,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Train.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="21" column="41" lean-forward="false" selection-start-line="21" selection-start-column="41" selection-end-line="21" selection-end-column="41" />
+        <state relative-caret-position="184">
+          <caret line="21" column="8" lean-forward="false" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1644#1645#0" expanded="true" />
@@ -752,6 +739,19 @@
             <element signature="e#2360#2361#0" expanded="true" />
             <element signature="e#2529#2530#0" expanded="true" />
             <element signature="e#2561#2562#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Block.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="397">
+          <caret line="132" column="82" lean-forward="false" selection-start-line="132" selection-start-column="82" selection-end-line="132" selection-end-column="82" />
+          <folding>
+            <element signature="e#3730#3731#0" expanded="true" />
+            <element signature="e#3768#3769#0" expanded="true" />
+            <element signature="e#4395#4396#0" expanded="true" />
+            <element signature="e#4440#4441#0" expanded="true" />
           </folding>
         </state>
       </provider>

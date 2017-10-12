@@ -19,10 +19,10 @@ public class Train{
         trainNum = newTrainNum;
         direction = newDirection;
         currentBlock = newCurrentBlock;
-        currentBlock.SetIsOccupied(true);
         endingBlock=newEndingBlock;
         theModel = newModel;
         theModel.AddOccupied(currentBlock);
+        currentBlock.SetIsOccupied(true);
         nextBlock = currentBlock.GetNextBlock(direction);
         updatePositionTimer=new Timer();
         updatePositionTimer.schedule(new TrainUpdateTimer(updateTimeMS,this),0,updateTimeMS);

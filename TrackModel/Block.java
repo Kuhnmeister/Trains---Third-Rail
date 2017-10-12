@@ -128,8 +128,9 @@ public class Block{
     public void SetHasHeater(boolean newHasHeater){
         hasHeater=newHasHeater;
     }
-    public void SetIsOccupied(boolean newIsOccupied){
+    public void SetIsOccupied(boolean newIsOccupied) {
         isOccupied=newIsOccupied;
+        System.out.println("Block Num: "+ blockNum+" is now occipied: "+isOccupied);
     }
     public int GetDirection0Num(){
         return nextBlockDirection0Num;
