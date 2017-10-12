@@ -29,7 +29,9 @@ public class WaysideController extends Application{
 	PLCProgramLabel, curBlock, occupyLabel;
 	
 	//keep track of the current block, for updating reasons
-	private BlockInfo block;
+	private int currentBlock = 1;
+	private int currentAuth = 0;
+	private BlockInfo block = null;
 	private String selectedBlock, PLC, selectedLine; 
 	
 	public static void main(String[] args) {
@@ -41,18 +43,19 @@ public class WaysideController extends Application{
 		primaryStage.setTitle("Wayside Controller GUI");
 		//set up the labels
 		controllerLabel = new Label("Wayside Controller: ");
-		blockLabel = new Label("Block: ");
+		blockLabel = new Label("Block:	");
 		authorityLabel = new Label("Authority: ");
 		switchStateLabel = new Label("Switch State: Low");
 		sectionLabel = new Label("Section: ");
-		stationLabel = new Label("Station: ");
+		stationLabel = new Label("Station:	none");
 		PLCProgramLabel = new Label("PLC Program: ");
-		curBlock = new Label("Please enter a block");
-		lightLabel = new Label("Light State: ");
+		curBlock = new Label("Block 1 on the Green Line ");
+		lightLabel = new Label("Light State:	Green");
 		occupyLabel = new Label("Occupancy: Empty");
 		
 		//call method to get a test track
 		BlockInfo[] track = CreateFive();
+		block = track[0];
 		
 		//create a choice box for selecting the controller
 		ChoiceBox<String> cb = new ChoiceBox<>();
@@ -64,8 +67,7 @@ public class WaysideController extends Application{
 		cb.setTooltip(new Tooltip("Select a Line"));
 
 		//create a textfeild for the Block & PLC Program
-		TextField blockInput = new TextField();
-		blockInput.setPromptText("Enter a Block Number: ");
+		TextField blockInput = new TextField("1");
 		TextField PLCInput = new TextField();
 		PLCInput.setPromptText("Enter a PLC Program");
 		
@@ -76,8 +78,14 @@ public class WaysideController extends Application{
 	              //when the occupy box is checked set block to occupied and inform that block's object
 	        	if(new_val) {
 	        		occupyLabel.setText("Occupancy: Occupied");
+	        		block.occupy = true;
+	        		lightLabel.setText("Light State:	Red");
+	        		block.light = true;
 	        	}else {
 	        		occupyLabel.setText("Occupancy: Empty");
+	        		block.occupy = false;
+	        		lightLabel.setText("Light State:	Green");
+	        		block.light = false;
 	        	}
 	        }
 	    });
@@ -85,16 +93,20 @@ public class WaysideController extends Application{
 		//checkbox for switch state
 		CheckBox swiBox = new CheckBox("High");
 		swiBox.setTooltip(new Tooltip("Switch is in the high position when checked"));
-		swiBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
-	        public void changed(ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) {
-	              //when the switch box is checked set switch to high and inform that block's object
-	        	if(new_val) {
-	        		switchStateLabel.setText("Switch State: High");
-	        	}else {
-	        		switchStateLabel.setText("Switch State: Low");
-	        	}
-	        }
-	    });
+		if(block.switchState != null) {
+			swiBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+				public void changed(ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) {
+					//when the switch box is checked set switch to high and inform that block's object
+					if(new_val) {
+						switchStateLabel.setText("Switch State: High");
+					}else {
+						switchStateLabel.setText("Switch State: Low");
+					}
+				}
+			});
+		}
+			
+		
 		
 		//create a button to submit all entered fields
 		Button btn = new Button("Submit Block");
@@ -111,10 +123,30 @@ public class WaysideController extends Application{
 		    		 curBlock.setText("Block " + selectedBlock + " on the " + selectedLine + " Line");
 		    		 //TODO make the blocks update all fields when submitted
 		    		 
+		    		 //write the updates to the track object before clearing the block
+		    		 track[currentBlock - 1] = block;
+		    		 
+		    		 //update text fields with existing data
+		    		 currentBlock = Integer.parseInt(blockInput.getText());
+		    		 if(currentBlock < 5 && currentBlock > 0) {
+		    			 block = track[currentBlock - 1];
+		    		 }
+		    		 //now set the values for the block when block is submitted
+		    		occBox.setSelected(block.occupy);
+		    		if(block.switchState != null) {
+		    			swiBox.setSelected(block.switchState);
+		    		}
+		    		
+		    		//get and display Auth for the new block
+		    		currentAuth = GetAuthority(track, currentBlock);
+		    		authorityLabel.setText("Authority:    " + currentAuth + " Blocks ");
+		    		 
 		    	 }
 		    	//first calculate occupancy, light, and authority
 		    }
 		});
+		
+		
 		//button for PLC
 		Button Pbtn = new Button("Submit PLC");
 		HBox PLCBtn = new HBox(10);
@@ -174,15 +206,33 @@ public class WaysideController extends Application{
 		primaryStage.show();
 	}
 	
+	//create an Authority calculator
+	public int GetAuthority(BlockInfo[] track, int blockNow) {
+		int Auth = 0;
+		
+		//get number of free blocks ahead of the train
+		for(int i = 0; i < track.length - blockNow; i++) {
+			//if there is no train on the next block Authority is increased
+			if(!(track[blockNow + i].occupy)) {
+				Auth++;
+			}else {
+				break; //leave the for loop and return the calculated Authority
+			}
+		}
+		
+		return Auth;
+	}
+	
+	
 	//create a method to initialize the first few blocks to show functionality
 	public BlockInfo[] CreateFive() {
-		BlockInfo[] testTrack = new BlockInfo[4]; //create an array of the 5 peices of track for the test
+		BlockInfo[] testTrack = new BlockInfo[5]; //create an array of the 5 peices of track for the test
 		//load the track info for each track starting at green 1 through green 5
 		testTrack[0] = new BlockInfo(false, false, null, "Green");
-		testTrack[1] = new BlockInfo(false, false, null, "Green");
+		testTrack[1] = new BlockInfo(false, false, false, "Green");
 		testTrack[2] = new BlockInfo(false, false, null, "Green");
 		testTrack[3] = new BlockInfo(false, false, null, "Green");
-		
+		testTrack[4] = new BlockInfo(false, false, false, "Green");
 		return testTrack;
 	}
 
