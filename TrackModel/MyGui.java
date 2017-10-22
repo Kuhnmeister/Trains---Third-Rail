@@ -18,14 +18,25 @@ import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import javafx.util.Duration;
 import java.util.Iterator;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ComboBox;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.stage.FileChooser.*;
+import javafx.stage.FileChooser;
+import java.io.File;
+
 
 public class MyGui extends Application {
     private TrackModel theModel;
     private int trainNum=0;
     private ArrayList<Train> allActiveTrains= new ArrayList<Train>();
+    private ArrayList<Integer> activeTrainNumbers = new ArrayList<Integer>();
+    private ObservableList<Integer> activeTrainNumbersList = FXCollections.observableList(activeTrainNumbers);
     private ArrayList<Node> sectionDisplayLabels;
     private ArrayList<Block> outputToWayside;
     private String outputToWaysideDisplay="";
+    private File selectedFile;
     private SimpleStringProperty observableOutputToWayside = new SimpleStringProperty();
     private String outputToTrainsDisplay="";
     private int displayingTrain;
@@ -52,6 +63,7 @@ public class MyGui extends Application {
         for (Iterator<Train> iterator = allActiveTrains.iterator(); iterator.hasNext();) {
             Train train = iterator.next();
             if (!train.GetActive()) {
+                activeTrainNumbersList.remove(train.GetTrainNum());
                 iterator.remove();
             }
         }
@@ -75,6 +87,9 @@ public class MyGui extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
+
+
         observableOutputToWayside.setValue(outputToWaysideDisplay);
         theModel=new TrackModel(this);
         primaryStage.setTitle("Track Model");
@@ -98,22 +113,24 @@ public class MyGui extends Application {
         //Some Titles
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 2, 0, 2, 1);
-        Label newFileLabel = new Label("Track Filename:");
-        grid.add(newFileLabel, 2, 1,1,1);
-        TextField trackFileTextField = new TextField();
-        grid.add(trackFileTextField, 3, 1,1,1);
+
         Button updateTrackButton = new Button("Update Track");
         updateTrackButton.setOnAction(new EventHandler<ActionEvent>() {
 
 
             @Override
             public void handle(ActionEvent e) {
-                if(theModel != null) {
-                    theModel.LoadNewTrack(trackFileTextField.getCharacters().toString());
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Select Track File");
+                fileChooser.getExtensionFilters().addAll(
+                        new ExtensionFilter("All Files", "*.*"));
+                selectedFile = fileChooser.showOpenDialog(new Stage());
+                if(theModel != null && selectedFile !=null) {
+                    theModel.LoadNewTrack(selectedFile.getAbsolutePath());
                 }
             }
         });
-        grid.add(updateTrackButton, 2,2,2,1);
+        grid.add(updateTrackButton, 2,1,2,1);
 
 
         //Force Majeure
@@ -147,19 +164,9 @@ public class MyGui extends Application {
         grid.add(outputToTrainsTitle, 4, 3, 2, 1);
         Label trainToDisplayLabel = new Label("Train: ");
         grid.add(trainToDisplayLabel,4,4,1,1);
-        TextField trainToDisplayTextField = new TextField();
-        grid.add(trainToDisplayTextField,5,4,1,1);
-        Button trainToDisplayButton= new Button("Display Output to Train");
-        trainToDisplayButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                displayingTrain = Integer.parseInt(trainToDisplayTextField.getCharacters().toString());
-            }
-        });
-        grid.add(trainToDisplayButton,4,5,2,1);
         Label trainOutputsLabel = new Label("");
         trainOutputsLabel.textProperty().bind(observableOutputToTrains);
-        grid.add(trainOutputsLabel,4,6,3,3);
+        grid.add(trainOutputsLabel,4,5,2,4);
         //Line & Section Display Selection
         Text lineSectionSelectionTitle = new Text("Line & Section Display");
         lineSectionSelectionTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -251,8 +258,17 @@ public class MyGui extends Application {
         //Wayside Input to pass to trains
         Label waysideTrainInputLabel = new Label("Train to Edit:");
         grid.add(waysideTrainInputLabel,7,5,1,1);
-        TextField waysideTrainInputTextField = new TextField();
-        grid.add(waysideTrainInputTextField, 8,5,1,1);
+        ComboBox<Integer> trainEditComboBox = new ComboBox<Integer>();
+        trainEditComboBox.setItems(activeTrainNumbersList);
+        grid.add(trainEditComboBox,8,5,1,1);
+        activeTrainNumbersList.addListener(new ListChangeListener<Integer>() {
+
+            @Override
+            public void onChanged(ListChangeListener.Change change) {
+                trainEditComboBox.setItems(activeTrainNumbersList);
+            }
+        });
+
         Label authorityInputLabel = new Label("Authority: ");
         grid.add(authorityInputLabel,7,6,1,1);
         TextField authorityInputTextField = new TextField();
@@ -268,7 +284,7 @@ public class MyGui extends Application {
 
             @Override
             public void handle(ActionEvent e) {
-                Train editingTrain= GetTrain(Integer.parseInt(waysideTrainInputTextField.getCharacters().toString()));
+                Train editingTrain= GetTrain(trainEditComboBox.getSelectionModel().getSelectedItem());
                 editingTrain.WaysideInput(Integer.parseInt(authorityInputTextField.getCharacters().toString()),(0!=Integer.parseInt(speedLimitInputTextField.getCharacters().toString())));
             }
         });
@@ -305,6 +321,7 @@ public class MyGui extends Application {
                     if(theModel.GetStartingBlock(trainLineTextField.getCharacters().toString())!= null) {
                         Train newTrain = new Train(trainNum, 0, theModel.GetBlock(Integer.parseInt(trainStartTextField.getCharacters().toString())),theModel.GetBlock(Integer.parseInt(trainEndTextField.getCharacters().toString())), theModel);
                         allActiveTrains.add(newTrain);
+                        activeTrainNumbersList.add(trainNum);
                         System.out.println(trainNum);
                         trainNum++;
                     }
@@ -312,8 +329,19 @@ public class MyGui extends Application {
             }
         });
         grid.add(makeTrainButton, 10, 4,1,1);
+        ComboBox<Integer> trainSelectComboBox = new ComboBox<Integer>();
+        trainSelectComboBox.setItems(activeTrainNumbersList);
+        grid.add(trainSelectComboBox,5,4,1,1);
+        activeTrainNumbersList.addListener(new ListChangeListener<Integer>() {
 
-
+            @Override
+            public void onChanged(ListChangeListener.Change change) {
+                trainSelectComboBox.setItems(activeTrainNumbersList);
+            }
+        });
+        trainSelectComboBox.setOnAction((event) -> {
+                    displayingTrain = trainSelectComboBox.getSelectionModel().getSelectedItem();
+                });
         primaryStage.show();
     };
     private Train GetTrain(int lookingNum){
