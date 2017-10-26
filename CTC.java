@@ -6,6 +6,7 @@ import java.io.*;
 import javax.imageio.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.util.Timer;
+import java.util.List;
 
 public class CTC{
 	
@@ -16,7 +17,7 @@ public class CTC{
 		
 		//panel variables
 		JPanel panelRight = new JPanel();
-		JPanel panelLeftTop = new JPanel();
+		JPanel panelLeft = new JPanel();
 		JPanel panelLeftBottom = new JPanel();
 		
 		//further panel breakdown
@@ -35,6 +36,8 @@ public class CTC{
 		
 		int[] autoManState = new int[1];
 		autoManState[0] = 0;
+		
+		int[] trainCount = new int[1];
 			
 		//clock creation		
 		Timer[] currentTimer = new Timer[1];
@@ -150,17 +153,27 @@ public class CTC{
 		JComboBox trainSelect = new JComboBox();
 		JComboBox trainChoice = new JComboBox();
 		
-		int[] num = new int[1];
-		num[0] = 0; 
+		trainCount[0] = 0;
+		int[] trainListed = new int[1];
+		trainListed[0] = 0;
 		ArrayList<Trains> trainList = new ArrayList<Trains>();
 		JButton dispatch = new JButton("Dispatch");
 		dispatch.addActionListener( new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				if(autoManState[0] == 0){
-					trainList.add(new Trains());
-					num[0] += 1;
-					trainSelect.addItem("Train " + Integer.toString(num[0]));
-					trainChoice.addItem("Train " + Integer.toString(num[0]));
+					if(trainListed[0] == trainCount[0]){
+						
+						trainList.add(new Trains());
+						trainCount[0] += 1;
+						trainListed[0]++;
+						trainSelect.addItem("Train " + Integer.toString(trainCount[0]));
+						trainChoice.addItem("Train " + Integer.toString(trainCount[0]));
+					}
+					else{
+						trainListed[0]++;
+						trainSelect.addItem("Train " + Integer.toString(trainListed[0]));
+						trainChoice.addItem("Train " + Integer.toString(trainListed[0]));
+					}
 				}
 			}
 		});
@@ -177,10 +190,9 @@ public class CTC{
 		//Constructing the window
 		content = window.getContentPane();
 		content.setLayout(new GridLayout(1,2));
-		panelRight.setLayout(new GridLayout(1, 1));
-		panelLeftTop.setLayout(new GridLayout(3, 1));
+		panelRight.setLayout(new GridLayout(1, 2));
 		panelLeftBottom.setLayout(new GridLayout(1, 1));
-		content.add(panelLeftTop, 0);
+		content.add(panelLeft, 0);
 		content.add(panelRight, 1);
 
 		//content.add(panelBottomRight, 1);
@@ -188,67 +200,120 @@ public class CTC{
 		//adding components
 		ImageIcon track = new ImageIcon("trackmodel.png");
 
-		panelLeftTop.add(panelBL1);
-		panelLeftTop.add(panelBL2);
-		panelLeftTop.add(panelBL3);
-		
+		content.add(panelRight,1);
+		content.add(panelLeft, 0);
+		panelLeft.setLayout(new GridLayout(3,0));
+		panelLeft.add(panelBL1);
+		panelLeft.add(panelBL2);
+		panelLeft.add(panelBL3);
+		panelBL1.setLayout(new GridLayout(5,2));
+		panelBL1.add(autoMan);
 		panelBL1.add(panelBL4);
+		panelBL1.add(dispatch);
 		panelBL1.add(panelBL5);
+		panelBL2.setLayout(new GridLayout(0, 4));
+		panelBL2.add(none);
 		panelBL1.add(panelBL6);
+		panelBL2.add(ten);
 		panelBL1.add(panelBL7);
-		panelBL1.add(panelBL8);
-		panelBL4.add(autoMan);
-		panelBL5.add(dispatch);
-		panelBL3.add(none);
-		panelBL3.add(ten);
-		panelBL3.add(hundred);
+		panelBL2.add(hundred);
 		
-		JLabel trainChoose = new JLabel("Train Selection");
-		panelBL6.add(trainChoose);
-		panelBL6.add(trainSelect);
-		
-		//schedule upload functionality
+		List<String> list = new ArrayList<String>();
+		String[] file = new String[1];
 		JButton fileOpen = new JButton("Schedule File");
 		fileOpen.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				JFrame fileWindow = new JFrame("Choose Schedule File");
-				Container fileContainer = fileWindow.getContentPane();
+				String fileLine;
 				JFileChooser schedule = new JFileChooser();
 				FileNameExtensionFilter text = new FileNameExtensionFilter("Text files", "txt");
 				schedule.setFileFilter(text);
-				fileContainer.setLayout(new GridLayout(1,1));
-				JPanel trainPanel = new JPanel();
-				fileContainer.add(trainPanel);
-				trainPanel.add(schedule);
-				fileWindow.setResizable(false);
-				fileWindow.setSize(500, 350);
-				fileWindow.setVisible(true);
+				int returnVal = schedule.showOpenDialog(schedule);
+				if(returnVal == JFileChooser.APPROVE_OPTION){
+					file[0] = schedule.getSelectedFile().getName();
+				}
+				try{
+					BufferedReader read = new BufferedReader(new FileReader(file[0]));
+				while((fileLine = read.readLine()) != null){
+					list.add(fileLine);
+					}
+				}
+				catch(Exception a){
+					System.err.format("Error trying to read your file");
+					a.printStackTrace();
+				}
+				String[] scheduling = list.toArray(new String[list.size()]);
+				String[] split;
+				List<String> singleTrainSchedule = new ArrayList<String>();
+				for(int i = 0; i < scheduling.length; i++){
+					split = (scheduling[i].split(" "));
+					if(trainList.size() == i){
+						trainList.add(new Trains());
+						trainCount[0]++;
+					}
+					for(int j = 0; j < split.length; j++){
+						if(Character.isDigit(split[j].charAt(0))){
+							String departure = split[j];
+							System.out.println(departure);
+							trainList.get(i).setDeparture(departure);
+						}
+						else{
+							trainList.get(i).createStop(split[j]);
+						}
+					}
+				}
 			}
 		});
+
+
+		
+		panelBL1.add(fileOpen);
+		panelBL1.add(panelBL8);
+		JLabel trainChoose = new JLabel("Train Selection");
+		panelBL1.add(trainChoose);
+		panelBL1.add(panelBL9);
+		panelBL1.add(panelBL10);
+		panelBL1.add(trainSelect);
+		panelBL3.setLayout(new GridLayout(5,0));
+		
+		//schedule upload functionality
+
 		
 		//schedule view functionality
+		int[] scheduleOpened = new int[100];
 		JButton scheduleView = new JButton("View Schedule");
+		JLabel[] trainViews = new JLabel[100];
+		JLabel[] scheduleTexts = new JLabel[100];
 		scheduleView.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				JFrame scheduleWindow = new JFrame("Train Schedule");
-				Container scheduleContainer = scheduleWindow.getContentPane();
-				JPanel schedulePanel = new JPanel();
-				scheduleContainer.add(schedulePanel);
-				schedulePanel.add(trainChoice);
-				trainChoice.addActionListener(new ActionListener(){
-					public void actionPerformed(ActionEvent e){
-						String specificTrain = (String)trainChoice.getSelectedItem();
-						JTextField trainview = new JTextField(specificTrain);
-					}
-				});
-				scheduleWindow.setSize(500,300);
-				scheduleWindow.setVisible(true);
+				int openData = trainSelect.getSelectedIndex();
+				String specificTrain = (String)trainSelect.getSelectedItem();
+				if(scheduleOpened[openData] == 1){
+					JLabel remove = trainViews[openData];
+					panelBL3.remove(remove);
+					trainViews[openData] = null;
+					panelBL3.remove(scheduleTexts[openData]);
+					scheduleTexts[openData] = null;
+					scheduleOpened[openData] =  10;
+					System.out.println(openData);
+				}
+				else if(openData <= list.size()){
+					
+					JLabel trainLabel = new JLabel(specificTrain);
+					trainViews[openData] = trainLabel;
+					String scheduleData = Arrays.toString(trainList.get(openData).getSchedule());
+					System.out.println(trainList.get(openData).getDeparture());
+					JLabel scheduleLabel = new JLabel(trainList.get(openData).getDeparture() +" " + scheduleData);
+					scheduleTexts[openData] = scheduleLabel;
+					scheduleOpened[openData] = 1;
+					panelBL3.add(trainViews[openData]);
+					panelBL3.add(scheduleTexts[openData]);
+					System.out.println(openData);
+				}
 			}
 		});
 		
 		//adding new components
-		panelBL7.add(fileOpen);
-		panelBL8.add(scheduleView);
+		panelBL1.add(scheduleView);
 		
 		//track interactivity functionality
 		JComboBox line = new JComboBox();
@@ -262,12 +327,12 @@ public class CTC{
 		});
 		
 		//adding final components and opening window
-		panelBL2.add(line);
-		panelBL3.add(clock);
+		panelBL1.add(line);
+		panelBL2.add(clock);
 		JLabel trackPic = new JLabel("", track, JLabel.CENTER);
 		panelRight.add(trackPic);
 		//window displaying
-		window.setSize( 1000,562 );
+		window.setSize( 1000,575 );
 		window.setVisible( true );
 	}
 	public static void createFrame( ArrayList<JFrame> trainWindow, int[] windowNum, ArrayList<Trains> trainList, int open){
