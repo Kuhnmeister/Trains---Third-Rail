@@ -8,11 +8,12 @@ public class Trains{
 	int trainAuthority;
 	String[] trainStops = new String[26];
 	int stopCount= 0;
+	String departTime;
 	
 	public Trains(){
 		numOfTrains++; 
 		trainName = "Train" + Integer.toString(numOfTrains);
-		trainSpeed = 50;
+		trainSpeed = 0;
 		trainAuthority = 3;
 	}
 	public Trains(double Speed){
@@ -24,7 +25,7 @@ public class Trains{
 	public Trains(int Authority){
 		numOfTrains++;
 		trainName = "Train" + Integer.toString(numOfTrains);
-		trainSpeed = 50;
+		trainSpeed = 0;
 		trainAuthority = Authority;
 	}
 	public Trains(double Speed, int Authority){
@@ -44,6 +45,12 @@ public class Trains{
 		String speed = Double.toString(trainSpeed);
 		return speed;
 	}
+	public void setDeparture(String depart){
+		departTime = depart;
+	}
+	public String getDeparture(){
+		return departTime;
+	}
 	public void setAuthority(int authority){
 		trainAuthority = authority;
 	}
@@ -53,5 +60,16 @@ public class Trains{
 	}
 	public void createStop(String newStop){
 		trainStops[stopCount] = newStop;
+		stopCount++;
+	}
+	public boolean hasSchedule(){
+		return (trainStops[0] == null);
+	}
+	public String[] getSchedule(){
+		String[] trainSchedule = new String[stopCount];
+		for(int i = 0; i < stopCount; i++){
+			trainSchedule[i] = trainStops[i];
+		}
+		return trainSchedule;
 	}
 }
