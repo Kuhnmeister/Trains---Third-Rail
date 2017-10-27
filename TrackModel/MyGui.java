@@ -142,12 +142,63 @@ public class MyGui extends Application {
         TextField blockAffectedTextField = new TextField();
         grid.add(blockAffectedTextField, 1, 1,1,1);
         Button brokenRailButton = new Button("Broken Rail");
+        brokenRailButton.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent e){
+                theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())).SetBrokenRail();
+                theModel.AddOccupied(theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())));
+                SetOutputToWayside(theModel.getNewWaysideOutput());
+            }
+        });
         grid.add(brokenRailButton,0,2,1,1);
         Button trackCircuitFailButton = new Button("Track Circuit Failure");
+        trackCircuitFailButton.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent e){
+                theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())).SetTrackCircuitFail();
+                theModel.AddOccupied(theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())));
+                SetOutputToWayside(theModel.getNewWaysideOutput());
+            }
+        });
         grid.add(trackCircuitFailButton,1,2,1,1);
         Button powerFailButton = new Button("Power Failure");
+        powerFailButton.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent e){
+                theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())).SetPowerFail();
+                theModel.RemoveOccupied(theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())));
+                SetOutputToWayside(theModel.getNewWaysideOutput());
+            }
+        });
         grid.add(powerFailButton,0,3,1,1);
         Button removeAllButton = new Button("Remove All");
+        removeAllButton.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent e){
+                int whichForce =0;
+                if( theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())).GetTrackCircuitFail()||theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())).GetBrokenRail()){
+                    whichForce=1;
+                }
+                if(theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())).GetPowerFail()){
+                    whichForce=-1;
+                }
+                theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())).RemoveAllForceMajeure();
+                if(whichForce==1){
+                    theModel.RemoveOccupied(theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())));
+
+                }else if(whichForce==-1){
+
+                }else{
+                    return;
+                }
+                if(theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())).GetIsOccupied()){
+                    theModel.AddOccupied(theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())));
+                }
+
+
+                SetOutputToWayside(theModel.getNewWaysideOutput());
+            }
+        });
         grid.add(removeAllButton,1,3,1,1);
         //Wayside Outputs
         Text outputToWaysideTitle = new Text("Output to Wayside");

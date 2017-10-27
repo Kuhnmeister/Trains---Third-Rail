@@ -22,7 +22,10 @@ public class Block{
     private int nextBlockDirection1Num;
     private int nextBlockSwitchNum;
     private boolean hasHeater=false;
-
+    private boolean trackCircuitFail=false;
+    private boolean powerFail=false;
+    private boolean brokenRail=false;
+    private boolean forceMajeureTrainPresence=false;
 
     public Block(String newLine,String newSection, int newBlockNum, int newLength, float newGrade, int newSpeedLimit, boolean newIsBidirectional,int newNextBlock0,int newNextBlock1,int newSwitchBlock,String newInfrastructure){
         line = newLine;
@@ -94,7 +97,9 @@ public class Block{
     public int GetSpeedLimit(){
         return speedLimit;
     }
-
+    public boolean GetIsOccupied(){
+        return isOccupied;
+    }
     public boolean GetIsUnderground(){
         return isUnderground;
     }
@@ -111,7 +116,7 @@ public class Block{
         return switchPosition;
     }
     public void FlipSwitch(boolean flip){
-        if(GetHasSwitch() && flip){
+        if(GetHasSwitch() && flip && !powerFail){
             switchPosition=!switchPosition;
         }
     }
@@ -129,8 +134,11 @@ public class Block{
         hasHeater=newHasHeater;
     }
     public void SetIsOccupied(boolean newIsOccupied) {
-        isOccupied=newIsOccupied;
-        System.out.println("Block Num: "+ blockNum+" is now occipied: "+isOccupied);
+        if(!powerFail && !trackCircuitFail && !brokenRail ) {
+            isOccupied = newIsOccupied;
+            System.out.println("Block Num: " + blockNum + " is now occipied: " + isOccupied);
+        }
+        forceMajeureTrainPresence=newIsOccupied;
     }
     public int GetDirection0Num(){
         return nextBlockDirection0Num;
@@ -142,7 +150,7 @@ public class Block{
         return nextBlockSwitchNum;
     }
     public void SetLightColor(String newColor){
-        if(newColor.equals("Green")||newColor.equals("Red")) {
+        if(!powerFail && (newColor.equals("Green")||newColor.equals("Red"))) {
             lightColor = newColor;
         }
     }
@@ -156,4 +164,39 @@ public class Block{
     {
         nextBlockSwitch=newSwitchBlock;
     }
+    public void SetPowerFail() {
+        lightColor=null;
+        isOccupied=false;
+
+        powerFail=true;
+    }
+    public void SetTrackCircuitFail(){
+        isOccupied=true;
+        trackCircuitFail=true;
+    }
+    public void SetBrokenRail(){
+        isOccupied=true;
+        brokenRail=true;
+    }
+    public boolean GetTrackCircuitFail(){
+
+        return trackCircuitFail;
+    }
+    public boolean GetPowerFail(){
+        return powerFail;
+    }
+    public boolean GetBrokenRail(){
+
+        return brokenRail;
+    }
+    public void RemoveAllForceMajeure(){
+        brokenRail=false;
+        trackCircuitFail=false;
+        powerFail=false;
+        isOccupied=forceMajeureTrainPresence;
+    }
+    public boolean GetForceMajeureTrainPresence(){
+        return forceMajeureTrainPresence;
+    }
+
 }

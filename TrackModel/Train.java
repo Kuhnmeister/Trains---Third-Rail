@@ -32,12 +32,17 @@ public class Train{
         return currentBlock;
     }
     private void MoveNextBlock(){
-        theModel.RemoveOccupied(currentBlock);
-        currentBlock.SetIsOccupied(false);
+        if(!currentBlock.GetPowerFail() && !currentBlock.GetTrackCircuitFail() && !currentBlock.GetBrokenRail()) {
+            theModel.RemoveOccupied(currentBlock);
+            currentBlock.SetIsOccupied(false);
+        }
         if(currentBlock != endingBlock) {
             currentBlock = nextBlock;
-            theModel.AddOccupied(currentBlock);
-            currentBlock.SetIsOccupied(true);
+            if(!currentBlock.GetPowerFail() && !currentBlock.GetTrackCircuitFail() && !currentBlock.GetBrokenRail()) {
+                theModel.AddOccupied(currentBlock);
+                currentBlock.SetIsOccupied(true);
+
+            }
             nextBlock = nextBlock.GetNextBlock(direction);
         }else{
             updatePositionTimer.cancel();

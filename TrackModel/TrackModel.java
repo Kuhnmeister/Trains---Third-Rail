@@ -138,8 +138,8 @@ public class TrackModel {
 
     }
     public void AddOccupied(Block newBlock){
-        occupiedBlocks.add(newBlock);
-        System.out.println("Added Block: "+newBlock.GetBlockNum());
+            occupiedBlocks.add(newBlock);
+            System.out.println("Added Block: " + newBlock.GetBlockNum());
     }
     public void RemoveOccupied(Block newBlock){
         occupiedBlocks.remove(newBlock);
