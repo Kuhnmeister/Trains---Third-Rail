@@ -10,6 +10,8 @@ public class Block{
     private String stationName;
     private boolean isStation;
     private boolean hasSwitch;
+    private boolean hasBeacon;
+    private Beacon thisBeacon;
     private boolean switchPosition;
     private boolean hasRailwayCrossing;
     private boolean isOccupied=false;
@@ -26,6 +28,7 @@ public class Block{
     private boolean powerFail=false;
     private boolean brokenRail=false;
     private boolean forceMajeureTrainPresence=false;
+    private Station thisStation;
 
     public Block(String newLine,String newSection, int newBlockNum, int newLength, float newGrade, int newSpeedLimit, boolean newIsBidirectional,int newNextBlock0,int newNextBlock1,int newSwitchBlock,String newInfrastructure){
         line = newLine;
@@ -43,10 +46,18 @@ public class Block{
         }else{
             isUnderground=false;
         }
+        if(newInfrastructure.contains("Beacon")){
+            hasBeacon=true;
+            thisBeacon=new Beacon();
+            System.out.println("There is a beacon at block "+blockNum);
+        }else{
+            hasBeacon=false;
+        }
         if(newInfrastructure.contains("Station")){
             isStation=true;
             String[] tempString=newInfrastructure.split(";");
             stationName=tempString[1];
+            thisStation = new Station(stationName);
         }else{
             isStation=false;
             stationName="No Station";
@@ -61,6 +72,10 @@ public class Block{
         }else{
             hasSwitch=false;
         }
+    }
+
+    public Station GetStation(){
+        return thisStation;
     }
     public Block GetNextBlock(int trainDirection){
 

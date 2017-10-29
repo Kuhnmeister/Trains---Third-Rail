@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Collection;
 
 public class TrackModel {
     HashMap<String,HashMap<String,ArrayList<Block>>> track = new HashMap<String,HashMap<String,ArrayList<Block>>>();
@@ -11,6 +12,9 @@ public class TrackModel {
     public TrackModel(MyGui newGui){
         theGui=newGui;
     }
+    public ArrayList<String> lineNames = new ArrayList<String>();
+    private ArrayList<Block> stations = new ArrayList<Block>();
+    private ArrayList<String> stationNames = new ArrayList<String>();
     public void LoadNewTrack(String fileName){
         occupiedBlocks=new ArrayList<Block>();
         track = new HashMap<String,HashMap<String,ArrayList<Block>>>();
@@ -62,6 +66,7 @@ public class TrackModel {
                     if(startingBlocks.get(blockString[0]) == null){
                         startingBlocks.put(blockString[0],newBlock);
                     }
+                    lineNames.add(blockString[0]);
                 }
 
             }
@@ -74,6 +79,10 @@ public class TrackModel {
                         boolean found0 = false;
                         boolean found1 = false;
                         boolean foundSwitch=false;
+                        if(section.getValue().get(i).GetIsStation()){
+                            stations.add(section.getValue().get(i));
+                            stationNames.add(section.getValue().get(i).GetStationName());
+                        }
                         int nextBlock0 =   section.getValue().get(i).GetDirection0Num();
                         if(nextBlock0==-1){
                             found0=true;
@@ -178,6 +187,26 @@ public class TrackModel {
             editingBlock.SetLightColor(newLightColor);
             editingBlock.FlipSwitch(flipSwitch);
 
+    }
+    public ArrayList<String> GetStationNameList(){
+        return stationNames;
+    }
+    public Block GetStationBlock(String statName){
+        for(Block stationBlock:stations){
+            if(stationBlock.GetStationName()==statName){
+                return stationBlock;
+            }
+        }
+        return null;
+    }
+    public ArrayList<String> GetLineNamesList(){
+        return lineNames;
+    }
+    public ArrayList<String> GetSectionNamesList(String selectedLineName){
+        Collection<String> sectionNames=track.get(selectedLineName).keySet();
+        ArrayList<String> listOfSections = new ArrayList<String>(sectionNames);
+        System.out.println(listOfSections);
+        return listOfSections;
     }
 }
 //String newLine,char newSection, int newBlockNum, int newLength, float newGrade, int newSpeedLimit,String newInfrastructure

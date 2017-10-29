@@ -31,8 +31,16 @@ public class MyGui extends Application {
     private TrackModel theModel;
     private int trainNum=0;
     private ArrayList<Train> allActiveTrains= new ArrayList<Train>();
+    private ArrayList<String> lightColors = new ArrayList<String>();
+    private ObservableList<String> lightColorsList = FXCollections.observableList(lightColors);
+    private ArrayList<String> lineNames = new ArrayList<String>();
+    private ObservableList<String> lineNameList = FXCollections.observableList(lineNames);
+    private ArrayList<String> sectionNames = new ArrayList<String>();
+    private ObservableList<String> sectionNameList = FXCollections.observableList(sectionNames);
     private ArrayList<Integer> activeTrainNumbers = new ArrayList<Integer>();
     private ObservableList<Integer> activeTrainNumbersList = FXCollections.observableList(activeTrainNumbers);
+    private ArrayList<String> stationNames = new ArrayList<String>();
+    private ObservableList<String> stationNameList = FXCollections.observableList(stationNames);
     private ArrayList<Node> sectionDisplayLabels;
     private ArrayList<Block> outputToWayside;
     private String outputToWaysideDisplay="";
@@ -87,7 +95,8 @@ public class MyGui extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
+        lightColors.add("Green");
+        lightColors.add("Red");
 
 
         observableOutputToWayside.setValue(outputToWaysideDisplay);
@@ -127,6 +136,17 @@ public class MyGui extends Application {
                 selectedFile = fileChooser.showOpenDialog(new Stage());
                 if(theModel != null && selectedFile !=null) {
                     theModel.LoadNewTrack(selectedFile.getAbsolutePath());
+                    stationNames=theModel.GetStationNameList();
+                    stationNameList.clear();
+                    for(String newStation:stationNames){
+                        stationNameList.add(newStation);
+                    }
+                    lineNames = theModel.GetLineNamesList();
+                    lineNameList.clear();
+                    for(String newLine:lineNames){
+                        lineNameList.add(newLine);
+                    }
+
                 }
             }
         });
@@ -224,12 +244,44 @@ public class MyGui extends Application {
         grid.add(lineSectionSelectionTitle, 0, 5, 2, 1);
         Label lineSelectionLabel = new Label("Line:");
         grid.add(lineSelectionLabel, 0, 6,1,1);
-        TextField lineSelectionTextField = new TextField();
-        grid.add(lineSelectionTextField, 1, 6,1,1);
+
+        ComboBox<String> lineSelectionComboBox = new ComboBox<String>();
+        lineSelectionComboBox.setItems(lineNameList);
+        grid.add(lineSelectionComboBox,1,6,1,1);
+        lineNameList.addListener(new ListChangeListener<String>() {
+
+            @Override
+            public void onChanged(ListChangeListener.Change change) {
+                lineSelectionComboBox.setItems(lineNameList);
+            }
+        });
+        lineSelectionComboBox.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+                if(theModel != null){
+                    sectionNameList.clear();
+                    sectionNames=theModel.GetSectionNamesList(lineSelectionComboBox.getSelectionModel().getSelectedItem());
+                    for(String newSection:sectionNames){
+                        sectionNameList.add(newSection);
+                    }
+                }
+            }
+        });
         Label sectionSelectionLabel = new Label("Section:");
         grid.add(sectionSelectionLabel, 0, 7,1,1);
-        TextField sectionTextField = new TextField();
-        grid.add(sectionTextField, 1, 7,1,1);
+        ComboBox<String> sectionSelectionComboBox = new ComboBox<String>();
+        sectionSelectionComboBox.setItems(sectionNameList);
+        grid.add(sectionSelectionComboBox,1,7,1,1);
+        sectionNameList.addListener(new ListChangeListener<String>() {
+
+            @Override
+            public void onChanged(ListChangeListener.Change change) {
+                sectionSelectionComboBox.setItems(sectionNameList);
+            }
+        });
+
+
         Button showTrackButton = new Button("Show Track");
         showTrackButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -241,7 +293,7 @@ public class MyGui extends Application {
                         grid.getChildren().removeAll(sectionDisplayLabels);
                     }
                     sectionDisplayLabels = new ArrayList<Node>();
-                    ArrayList<String> sectionString = theModel.DisplaySection(lineSelectionTextField.getCharacters().toString(),sectionTextField.getCharacters().toString());
+                    ArrayList<String> sectionString = theModel.DisplaySection(lineSelectionComboBox.getSelectionModel().getSelectedItem(),sectionSelectionComboBox.getSelectionModel().getSelectedItem());
                     for(int i=0;i<sectionString.size();i++) {
 
                         String[] blockData = sectionString.get(i).split(",");
@@ -290,8 +342,9 @@ public class MyGui extends Application {
         grid.add(blockChangingTextField, 8,1,1,1);
         Label lightColorInputLabel = new Label("Light Color:");
         grid.add(lightColorInputLabel,7,2,1,1);
-        TextField lightColorInputTextField = new TextField();
-        grid.add(lightColorInputTextField, 8,2,1,1);
+        ComboBox<String> lightColorComboBox = new ComboBox<String>();
+        lightColorComboBox.setItems(lightColorsList);
+        grid.add(lightColorComboBox,8,2,1,1);
         Label flipSwitchLabel = new Label("Flip Switch: ");
         grid.add(flipSwitchLabel,7,3,1,1);
         CheckBox flipSwitchCheckBox = new CheckBox();
@@ -302,7 +355,7 @@ public class MyGui extends Application {
 
             @Override
             public void handle(ActionEvent e) {
-                theModel.WaysideInput(Integer.parseInt(blockChangingTextField.getCharacters().toString()),lightColorInputTextField.getCharacters().toString(),flipSwitchCheckBox.isSelected());
+                theModel.WaysideInput(Integer.parseInt(blockChangingTextField.getCharacters().toString()),lightColorComboBox.getSelectionModel().getSelectedItem(),flipSwitchCheckBox.isSelected());
             }
         });
         grid.add(waysideInputButton, 7, 4,2,1);
@@ -319,6 +372,7 @@ public class MyGui extends Application {
                 trainEditComboBox.setItems(activeTrainNumbersList);
             }
         });
+
 
         Label authorityInputLabel = new Label("Authority: ");
         grid.add(authorityInputLabel,7,6,1,1);
@@ -347,8 +401,17 @@ public class MyGui extends Application {
         //Demo Mode select train line
         Label trainLineLabel = new Label("Train Line: ");
         grid.add(trainLineLabel, 9, 1,1,1);
-        TextField trainLineTextField = new TextField();
-        grid.add(trainLineTextField, 10,1,1,1);
+        ComboBox<String> lineSelectionTrainComboBox = new ComboBox<String>();
+        lineSelectionTrainComboBox.setItems(lineNameList);
+        grid.add(lineSelectionTrainComboBox,10,1,1,1);
+        lineNameList.addListener(new ListChangeListener<String>() {
+
+            @Override
+            public void onChanged(ListChangeListener.Change change) {
+                lineSelectionTrainComboBox.setItems(lineNameList);
+            }
+        });
+
         //Demo Mode select Starting Block
         Label trainStartLabel = new Label("Starting Block Num: ");
         grid.add(trainStartLabel, 9, 2,1,1);
@@ -369,7 +432,7 @@ public class MyGui extends Application {
                 timeline.stop();
                 timeline.play();
                 if(theModel != null) {
-                    if(theModel.GetStartingBlock(trainLineTextField.getCharacters().toString())!= null) {
+                    if(theModel.GetStartingBlock(lineSelectionComboBox.getSelectionModel().getSelectedItem())!= null) {
                         Train newTrain = new Train(trainNum, 0, theModel.GetBlock(Integer.parseInt(trainStartTextField.getCharacters().toString())),theModel.GetBlock(Integer.parseInt(trainEndTextField.getCharacters().toString())), theModel);
                         allActiveTrains.add(newTrain);
                         activeTrainNumbersList.add(trainNum);
@@ -393,6 +456,29 @@ public class MyGui extends Application {
         trainSelectComboBox.setOnAction((event) -> {
                     displayingTrain = trainSelectComboBox.getSelectionModel().getSelectedItem();
                 });
+        //Ticket Sales section
+        Text ticketCountTitle = new Text("Send Ticket Counts");
+        ticketCountTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        grid.add(ticketCountTitle, 9, 5, 2, 1);
+        Label stationSelectLabel = new Label("Station: ");
+        grid.add(stationSelectLabel,9,6,1,1);
+        ComboBox<String> stationNameComboBox = new ComboBox<String>();
+        stationNameComboBox.setItems(stationNameList);
+        grid.add(stationNameComboBox,10,6,1,1);
+        Label ticketCountLabel = new Label("Ticket Count:");
+        grid.add(ticketCountLabel,9,7,1,1);
+        TextField ticketCountTextField = new TextField();
+        grid.add(ticketCountTextField,10,7,1,1);
+        Button sendTicketCountButton = new Button("Confirm Input");
+        sendTicketCountButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+                theModel.GetStationBlock(stationNameComboBox.getSelectionModel().getSelectedItem()).GetStation().AddTickets(Integer.parseInt(ticketCountTextField.getCharacters().toString()));
+                System.out.println("Ticket Update: "+stationNameComboBox.getSelectionModel().getSelectedItem()+" total sales= "+theModel.GetStationBlock(stationNameComboBox.getSelectionModel().getSelectedItem()).GetStation().GetTicketNumbers());
+            }
+        });
+        grid.add(sendTicketCountButton,9,8,2,1);
         primaryStage.show();
     };
     private Train GetTrain(int lookingNum){
