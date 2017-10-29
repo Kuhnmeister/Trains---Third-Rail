@@ -213,5 +213,11 @@ public class Block{
     public boolean GetForceMajeureTrainPresence(){
         return forceMajeureTrainPresence;
     }
+    public boolean GetHasBeacon(){
+        return hasBeacon;
+    }
+    public Beacon GetBeacon(){
+        return thisBeacon;
+    }
 
 }

@@ -151,8 +151,28 @@ public class MyGui extends Application {
             }
         });
         grid.add(updateTrackButton, 2,1,2,1);
-
-
+        //Set Beacon Data
+        Text beaconInputTitle = new Text("Set Beacon Data");
+        beaconInputTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        grid.add(beaconInputTitle,2,2,2,1);
+        Label beaconDataLabel = new Label("Beacon Data: ");
+        grid.add(beaconDataLabel,2,3,1,1);
+        TextField beaconDataTextField = new TextField();
+        grid.add(beaconDataTextField,3,3,1,1);
+        Label beaconBlockLabel = new Label("Block Number:");
+        grid.add(beaconBlockLabel,2,4,1,1);
+        TextField beaconBlockTextField = new TextField();
+        grid.add(beaconBlockTextField,3,4,1,1);
+        Button beaconDataButton = new Button("Set Beacon");
+        beaconDataButton.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent e){
+                if(theModel.GetBlock(Integer.parseInt(beaconBlockTextField.getCharacters().toString())).GetHasBeacon()){
+                    theModel.GetBlock(Integer.parseInt(beaconBlockTextField.getCharacters().toString())).GetBeacon().SetMessageString(beaconDataTextField.getCharacters().toString());
+                }
+            }
+        });
+        grid.add(beaconDataButton,2,5,2,1);
         //Force Majeure
         Text forceMajeureTitle = new Text("Force Majeure Input");
         forceMajeureTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
