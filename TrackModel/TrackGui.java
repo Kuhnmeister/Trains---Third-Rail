@@ -27,7 +27,7 @@ import javafx.stage.FileChooser;
 import java.io.File;
 
 
-public class MyGui extends Application {
+public class TrackGui extends Application {
     private TrackModel theModel;
     private int trainNum=0;
     private ArrayList<Train> allActiveTrains= new ArrayList<Train>();
@@ -60,7 +60,7 @@ public class MyGui extends Application {
             outputToWaysideDisplay=Integer.toString(outputToWayside.get(0).GetBlockNum());
         }
         for(int i=1;i<outputToWayside.size();i++){
-           outputToWaysideDisplay=outputToWaysideDisplay+","+outputToWayside.get(i).GetBlockNum();
+            outputToWaysideDisplay=outputToWaysideDisplay+","+outputToWayside.get(i).GetBlockNum();
         }
         System.out.println("Wayside Output Updated: "+outputToWaysideDisplay);
         observableOutputToWayside.set(outputToWaysideDisplay);
@@ -474,8 +474,8 @@ public class MyGui extends Application {
             }
         });
         trainSelectComboBox.setOnAction((event) -> {
-                    displayingTrain = trainSelectComboBox.getSelectionModel().getSelectedItem();
-                });
+            displayingTrain = trainSelectComboBox.getSelectionModel().getSelectedItem();
+        });
         //Ticket Sales section
         Text ticketCountTitle = new Text("Send Ticket Counts");
         ticketCountTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));

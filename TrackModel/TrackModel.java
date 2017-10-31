@@ -7,14 +7,17 @@ import java.util.Collection;
 public class TrackModel {
     HashMap<String,HashMap<String,ArrayList<Block>>> track = new HashMap<String,HashMap<String,ArrayList<Block>>>();
     private HashMap<String,Block> startingBlocks;
-    private MyGui theGui;
+    private TrackGui theGui;
     private ArrayList<Block> occupiedBlocks;
-    public TrackModel(MyGui newGui){
-        theGui=newGui;
-    }
+
     public ArrayList<String> lineNames = new ArrayList<String>();
     private ArrayList<Block> stations = new ArrayList<Block>();
     private ArrayList<String> stationNames = new ArrayList<String>();
+
+
+    public TrackModel(TrackGui newGui){
+        theGui=newGui;
+    }
     public void LoadNewTrack(String fileName){
         occupiedBlocks=new ArrayList<Block>();
         track = new HashMap<String,HashMap<String,ArrayList<Block>>>();
@@ -164,7 +167,7 @@ public class TrackModel {
         return sectionData;
     }
     //Updating Data Sent to Wayside
-    public ArrayList<Block> getNewWaysideOutput(){
+    public ArrayList<Block> GetNewWaysideOutput(){
         return occupiedBlocks;
     }
     public Block GetStartingBlock(String trainLine){
