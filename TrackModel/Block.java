@@ -10,6 +10,8 @@ public class Block{
     private String stationName;
     private boolean isStation;
     private boolean hasSwitch;
+    private boolean hasBeacon;
+    private Beacon thisBeacon;
     private boolean switchPosition;
     private boolean hasRailwayCrossing;
     private boolean isOccupied=false;
@@ -21,7 +23,12 @@ public class Block{
     private int nextBlockDirection0Num;
     private int nextBlockDirection1Num;
     private int nextBlockSwitchNum;
-
+    private boolean hasHeater=false;
+    private boolean trackCircuitFail=false;
+    private boolean powerFail=false;
+    private boolean brokenRail=false;
+    private boolean forceMajeureTrainPresence=false;
+    private Station thisStation;
 
     public Block(String newLine,String newSection, int newBlockNum, int newLength, float newGrade, int newSpeedLimit, boolean newIsBidirectional,int newNextBlock0,int newNextBlock1,int newSwitchBlock,String newInfrastructure){
         line = newLine;
@@ -39,10 +46,18 @@ public class Block{
         }else{
             isUnderground=false;
         }
+        if(newInfrastructure.contains("Beacon")){
+            hasBeacon=true;
+            thisBeacon=new Beacon();
+            System.out.println("There is a beacon at block "+blockNum);
+        }else{
+            hasBeacon=false;
+        }
         if(newInfrastructure.contains("Station")){
             isStation=true;
             String[] tempString=newInfrastructure.split(";");
             stationName=tempString[1];
+            thisStation = new Station(stationName);
         }else{
             isStation=false;
             stationName="No Station";
@@ -57,6 +72,10 @@ public class Block{
         }else{
             hasSwitch=false;
         }
+    }
+
+    public Station GetStation(){
+        return thisStation;
     }
     public Block GetNextBlock(int trainDirection){
 
@@ -93,7 +112,9 @@ public class Block{
     public int GetSpeedLimit(){
         return speedLimit;
     }
-
+    public boolean GetIsOccupied(){
+        return isOccupied;
+    }
     public boolean GetIsUnderground(){
         return isUnderground;
     }
@@ -109,17 +130,30 @@ public class Block{
     public boolean GetSwitchPosition(){
         return switchPosition;
     }
+    public void FlipSwitch(boolean flip){
+        if(GetHasSwitch() && flip && !powerFail){
+            switchPosition=!switchPosition;
+        }
+    }
     public boolean GetHasRailwayCrossing(){
         return hasRailwayCrossing;
     }
     public String PrintBlock(){
-        return(line+","+section+","+blockNum+","+isOccupied+","+lightColor+","+ grade+","+speedLimit+","+isUnderground+ ","+isStation+","+stationName+","+hasSwitch+","+hasRailwayCrossing);
+        return(blockNum+","+isOccupied+","+lightColor+","+ grade+","+speedLimit+","+isUnderground+ ","+isStation+","+stationName+","+hasSwitch+","+switchPosition+","+hasRailwayCrossing);
     }
     public boolean GetIsBidirectional(){
         return isBidirectional;
     }
-    public void SetIsOccupied(boolean newIsOccupied){
-        isOccupied=newIsOccupied;
+    public boolean GetHasHeater(){return hasHeater;}
+    public void SetHasHeater(boolean newHasHeater){
+        hasHeater=newHasHeater;
+    }
+    public void SetIsOccupied(boolean newIsOccupied) {
+        if(!powerFail && !trackCircuitFail && !brokenRail ) {
+            isOccupied = newIsOccupied;
+            System.out.println("Block Num: " + blockNum + " is now occipied: " + isOccupied);
+        }
+        forceMajeureTrainPresence=newIsOccupied;
     }
     public int GetDirection0Num(){
         return nextBlockDirection0Num;
@@ -129,6 +163,11 @@ public class Block{
     }
     public int GetSwitchNum(){
         return nextBlockSwitchNum;
+    }
+    public void SetLightColor(String newColor){
+        if(!powerFail && (newColor.equals("Green")||newColor.equals("Red"))) {
+            lightColor = newColor;
+        }
     }
     public void SetDirection0Block(Block new0Block){
         nextBlockDirection0=new0Block;
@@ -140,4 +179,45 @@ public class Block{
     {
         nextBlockSwitch=newSwitchBlock;
     }
+    public void SetPowerFail() {
+        lightColor=null;
+        isOccupied=false;
+
+        powerFail=true;
+    }
+    public void SetTrackCircuitFail(){
+        isOccupied=true;
+        trackCircuitFail=true;
+    }
+    public void SetBrokenRail(){
+        isOccupied=true;
+        brokenRail=true;
+    }
+    public boolean GetTrackCircuitFail(){
+
+        return trackCircuitFail;
+    }
+    public boolean GetPowerFail(){
+        return powerFail;
+    }
+    public boolean GetBrokenRail(){
+
+        return brokenRail;
+    }
+    public void RemoveAllForceMajeure(){
+        brokenRail=false;
+        trackCircuitFail=false;
+        powerFail=false;
+        isOccupied=forceMajeureTrainPresence;
+    }
+    public boolean GetForceMajeureTrainPresence(){
+        return forceMajeureTrainPresence;
+    }
+    public boolean GetHasBeacon(){
+        return hasBeacon;
+    }
+    public Beacon GetBeacon(){
+        return thisBeacon;
+    }
+
 }

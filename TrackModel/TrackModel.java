@@ -2,12 +2,26 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Collection;
 
 public class TrackModel {
     HashMap<String,HashMap<String,ArrayList<Block>>> track = new HashMap<String,HashMap<String,ArrayList<Block>>>();
-    private Block startingBlock;
+    private HashMap<String,Block> startingBlocks;
+    private TrackGui theGui;
+    private ArrayList<Block> occupiedBlocks;
+
+    public ArrayList<String> lineNames = new ArrayList<String>();
+    private ArrayList<Block> stations = new ArrayList<Block>();
+    private ArrayList<String> stationNames = new ArrayList<String>();
+
+
+    public TrackModel(TrackGui newGui){
+        theGui=newGui;
+    }
     public void LoadNewTrack(String fileName){
+        occupiedBlocks=new ArrayList<Block>();
         track = new HashMap<String,HashMap<String,ArrayList<Block>>>();
+        startingBlocks = new HashMap<String,Block>();
         File f = new File(fileName);
         FileReader fRead;
         BufferedReader bufRead;
@@ -52,9 +66,10 @@ public class TrackModel {
                     track.get(blockString[0]).put(blockString[1],new ArrayList<Block>());
                     Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Integer.parseInt(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),Boolean.parseBoolean(blockString[6]),nextBlock0Num,nextBlock1Num,nextSwitchBlockNum,blockString[10]);
                     track.get(blockString[0]).get(blockString[1]).add(newBlock);
-                    if(startingBlock==null){
-                        startingBlock=newBlock;
+                    if(startingBlocks.get(blockString[0]) == null){
+                        startingBlocks.put(blockString[0],newBlock);
                     }
+                    lineNames.add(blockString[0]);
                 }
 
             }
@@ -67,6 +82,10 @@ public class TrackModel {
                         boolean found0 = false;
                         boolean found1 = false;
                         boolean foundSwitch=false;
+                        if(section.getValue().get(i).GetIsStation()){
+                            stations.add(section.getValue().get(i));
+                            stationNames.add(section.getValue().get(i).GetStationName());
+                        }
                         int nextBlock0 =   section.getValue().get(i).GetDirection0Num();
                         if(nextBlock0==-1){
                             found0=true;
@@ -85,18 +104,27 @@ public class TrackModel {
                                     if(!found0) {
                                         if (nextBlock0 == innerSection.getValue().get(j).GetBlockNum()) {
                                             section.getValue().get(i).SetDirection0Block(innerSection.getValue().get(j));
+                                            if(innerSection.getValue().get(j).GetIsStation()){
+                                                section.getValue().get(i).SetHasHeater(true);
+                                            }
                                             found0=true;
                                         }
                                     }
                                     if(!found1) {
                                         if (nextBlock1 == innerSection.getValue().get(j).GetBlockNum()) {
                                             section.getValue().get(i).SetDirection1Block(innerSection.getValue().get(j));
+                                            if(innerSection.getValue().get(j).GetIsStation()){
+                                                section.getValue().get(i).SetHasHeater(true);
+                                            }
                                             found1=true;
                                         }
                                     }
                                     if(!foundSwitch) {
                                         if (nextBlockSwitch == innerSection.getValue().get(j).GetBlockNum()) {
                                             section.getValue().get(i).SetSwitchBlock(innerSection.getValue().get(j));
+                                            if(innerSection.getValue().get(j).GetIsStation()){
+                                                section.getValue().get(i).SetHasHeater(true);
+                                            }
                                             foundSwitch=true;
                                         }
                                     }
@@ -121,7 +149,14 @@ public class TrackModel {
         }
 
     }
-
+    public void AddOccupied(Block newBlock){
+            occupiedBlocks.add(newBlock);
+            System.out.println("Added Block: " + newBlock.GetBlockNum());
+    }
+    public void RemoveOccupied(Block newBlock){
+        occupiedBlocks.remove(newBlock);
+        System.out.println("Removed Block: "+newBlock.GetBlockNum());
+    }
     public ArrayList<String> DisplaySection(String Line, String Section){
         ArrayList<String> sectionData = new ArrayList<String>();
         int sectionSize=track.get(Line).get(Section).size();
@@ -132,11 +167,49 @@ public class TrackModel {
         return sectionData;
     }
     //Updating Data Sent to Wayside
-    public void WaysideSendNewData(){
-        System.out.println("Moving to new Block");
+    public ArrayList<Block> GetNewWaysideOutput(){
+        return occupiedBlocks;
     }
-    public Block GetStartingBlock(){
-        return startingBlock;
+    public Block GetStartingBlock(String trainLine){
+        return startingBlocks.get(trainLine);
+    }
+    public Block GetBlock(int requestedBlockNum){
+        for(HashMap.Entry<String,HashMap<String,ArrayList<Block>>> line:track.entrySet()) {
+            for (HashMap.Entry<String, ArrayList<Block>> section : line.getValue().entrySet()) {
+                for (int i = 0; i < section.getValue().size(); i++) {
+                    if(section.getValue().get(i).GetBlockNum()==requestedBlockNum){
+                        return section.getValue().get(i);
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    public void WaysideInput(int updateBlock,String newLightColor,boolean flipSwitch){
+            Block editingBlock = GetBlock(updateBlock);
+            editingBlock.SetLightColor(newLightColor);
+            editingBlock.FlipSwitch(flipSwitch);
+
+    }
+    public ArrayList<String> GetStationNameList(){
+        return stationNames;
+    }
+    public Block GetStationBlock(String statName){
+        for(Block stationBlock:stations){
+            if(stationBlock.GetStationName()==statName){
+                return stationBlock;
+            }
+        }
+        return null;
+    }
+    public ArrayList<String> GetLineNamesList(){
+        return lineNames;
+    }
+    public ArrayList<String> GetSectionNamesList(String selectedLineName){
+        Collection<String> sectionNames=track.get(selectedLineName).keySet();
+        ArrayList<String> listOfSections = new ArrayList<String>(sectionNames);
+        System.out.println(listOfSections);
+        return listOfSections;
     }
 }
 //String newLine,char newSection, int newBlockNum, int newLength, float newGrade, int newSpeedLimit,String newInfrastructure
