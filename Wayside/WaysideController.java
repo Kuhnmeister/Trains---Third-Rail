@@ -1,5 +1,7 @@
 package Controller;
 
+import java.util.ArrayList;
+
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import javafx.application.Application;
@@ -31,10 +33,11 @@ public class WaysideController extends Application{
 	private Label controllerLabel, blockLabel, authorityLabel, switchStateLabel, lightLabel, stationLabel, sectionLabel,
 	PLCProgramLabel, curBlock, occupyLabel, CTCLabel, inCTCLabel, mphLabel, CTCOutLabel;
 	
-	//keep track of the current block, for updating reasons
+	//these are used during the updating process
+	//this is event driven based on input from the Track model
 	private int currentBlock = 1;
 	private int currentAuth = 0;
-	private BlockInfo block = null;
+	private BlockInfo block = new BlockInfo();
 	private String selectedBlock, PLC, selectedLine; 
 	
 	public static void main(String[] args) {
@@ -66,8 +69,8 @@ public class WaysideController extends Application{
 		CTCOutLabel = new Label();
 		
 		//call method to get a test track
-		BlockInfo[] track = CreateFive();
-		block = track[0];
+		ArrayList<BlockInfo> track = CreateFive();
+		block = track.get(1);
 		
 		//create a choice box for selecting the controller
 		ChoiceBox<String> cb = new ChoiceBox<>();
@@ -140,12 +143,12 @@ public class WaysideController extends Application{
 		    		 //TODO make the blocks update all fields when submitted
 		    		 
 		    		 //write the updates to the track object before clearing the block
-		    		 track[currentBlock - 1] = block;
+		    		 
 		    		 
 		    		 //update text fields with existing data
 		    		 currentBlock = Integer.parseInt(blockInput.getText());
 		    		 if(currentBlock < 5 && currentBlock > 0) {
-		    			 block = track[currentBlock - 1];
+		    			 
 		    		 }
 		    		 //now set the values for the block when block is submitted
 		    		occBox.setSelected(block.occupy);
@@ -154,7 +157,7 @@ public class WaysideController extends Application{
 		    		}
 		    		
 		    		//get and display Auth for the new block
-		    		currentAuth = GetAuthority(track, currentBlock);
+		    		currentAuth = 0;
 		    		authorityLabel.setText("Authority:    " + currentAuth + " Blocks ");
 		    		 
 		    	 }
@@ -227,32 +230,22 @@ public class WaysideController extends Application{
 	}
 	
 	//create an Authority calculator
-	public int GetAuthority(BlockInfo[] track, int blockNow) {
+	public int GetAuthority(ArrayList<BlockInfo> track, int blockNow) {
 		int Auth = 0;
 		
-		//get number of free blocks ahead of the train
-		for(int i = 0; i < track.length - blockNow; i++) {
-			//if there is no train on the next block Authority is increased
-			if(!(track[blockNow + i].occupy)) {
-				Auth++;
-			}else {
-				break; //leave the for loop and return the calculated Authority
-			}
-		}
-		
+		//Auth here is the interger for the next not free block
 		return Auth;
 	}
 	
 	
 	//create a method to initialize the first few blocks to show functionality
-	public BlockInfo[] CreateFive() {
-		BlockInfo[] testTrack = new BlockInfo[5]; //create an array of the 5 peices of track for the test
-		//load the track info for each track starting at green 1 through green 5
-		testTrack[0] = new BlockInfo(false, false, null, "Green");
-		testTrack[1] = new BlockInfo(false, false, false, "Green");
-		testTrack[2] = new BlockInfo(false, false, null, "Green");
-		testTrack[3] = new BlockInfo(false, false, null, "Green");
-		testTrack[4] = new BlockInfo(false, false, false, "Green");
+	public ArrayList<BlockInfo> CreateFive() {
+		ArrayList<BlockInfo> testTrack = new ArrayList<BlockInfo>(); //create an array of the 5 peices of track for the test
+		//creates a test track
+		testTrack.add(new BlockInfo());
+		testTrack.add(new BlockInfo());
+		testTrack.add(new BlockInfo());
+		testTrack.add(new BlockInfo());
 		return testTrack;
 	}
 
