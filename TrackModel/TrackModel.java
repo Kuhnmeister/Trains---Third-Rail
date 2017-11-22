@@ -211,5 +211,46 @@ public class TrackModel {
         System.out.println(listOfSections);
         return listOfSections;
     }
+    public void SetBeaconDataString(int blockNum, String messageString){
+        GetBlock(blockNum).SetBeaconMessageString(messageString);
+    }
+    public void SetBrokenRail(int blockNum){
+        GetBlock(blockNum).SetBrokenRail();
+        AddOccupied(GetBlock(blockNum));
+    }
+    public void SetTrackCircuitFail(int blockNum){
+        GetBlock(blockNum).SetTrackCircuitFail();
+        AddOccupied(GetBlock(blockNum));
+    }
+    public void SetPowerFail(int blockNum){
+        GetBlock(blockNum).SetPowerFail();
+        RemoveOccupied(GetBlock(blockNum));
+    }
+    public void RemoveForceMajeure(int blockNum){
+        int whichForce =0;
+        Block affectedBlock = GetBlock(blockNum);
+        if( affectedBlock.GetTrackCircuitFail()||affectedBlock.GetBrokenRail()){
+            whichForce=1;
+        }
+        if(affectedBlock.GetPowerFail()){
+            whichForce=-1;
+        }
+        affectedBlock.RemoveAllForceMajeure();
+        if(whichForce==1){
+            RemoveOccupied(affectedBlock);
+
+        }else if(whichForce==-1){
+
+        }else{
+            return;
+        }
+        if(GetBlock(blockNum).GetIsOccupied()){
+            AddOccupied(affectedBlock);
+        }
+    }
+    public void SetTicketCount(String stationName,int ticketCount){
+        Block stationBlock = GetStationBlock(stationName);
+        stationBlock.GetStation().AddTickets(ticketCount);
+    }
 }
 //String newLine,char newSection, int newBlockNum, int newLength, float newGrade, int newSpeedLimit,String newInfrastructure

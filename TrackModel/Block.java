@@ -219,5 +219,9 @@ public class Block{
     public Beacon GetBeacon(){
         return thisBeacon;
     }
-
+    public void SetBeaconMessageString(String newMessage){
+        if(GetHasBeacon()){
+            thisBeacon.SetMessageString(newMessage);
+        }
+    }
 }

@@ -167,9 +167,7 @@ public class TrackGui extends Application {
         beaconDataButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent e){
-                if(theModel.GetBlock(Integer.parseInt(beaconBlockTextField.getCharacters().toString())).GetHasBeacon()){
-                    theModel.GetBlock(Integer.parseInt(beaconBlockTextField.getCharacters().toString())).GetBeacon().SetMessageString(beaconDataTextField.getCharacters().toString());
-                }
+                theModel.SetBeaconDataString(Integer.parseInt(beaconBlockTextField.getCharacters().toString()),beaconDataTextField.getCharacters().toString());
             }
         });
         grid.add(beaconDataButton,2,5,2,1);
@@ -185,8 +183,7 @@ public class TrackGui extends Application {
         brokenRailButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent e){
-                theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())).SetBrokenRail();
-                theModel.AddOccupied(theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())));
+                theModel.SetBrokenRail(Integer.parseInt(blockAffectedTextField.getCharacters().toString()));
                 SetOutputToWayside(theModel.GetNewWaysideOutput());
             }
         });
@@ -195,8 +192,7 @@ public class TrackGui extends Application {
         trackCircuitFailButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent e){
-                theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())).SetTrackCircuitFail();
-                theModel.AddOccupied(theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())));
+                theModel.SetTrackCircuitFail(Integer.parseInt(blockAffectedTextField.getCharacters().toString()));
                 SetOutputToWayside(theModel.GetNewWaysideOutput());
             }
         });
@@ -205,8 +201,7 @@ public class TrackGui extends Application {
         powerFailButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent e){
-                theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())).SetPowerFail();
-                theModel.RemoveOccupied(theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())));
+                theModel.SetPowerFail(Integer.parseInt(blockAffectedTextField.getCharacters().toString()));
                 SetOutputToWayside(theModel.GetNewWaysideOutput());
             }
         });
@@ -215,27 +210,7 @@ public class TrackGui extends Application {
         removeAllButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent e){
-                int whichForce =0;
-                if( theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())).GetTrackCircuitFail()||theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())).GetBrokenRail()){
-                    whichForce=1;
-                }
-                if(theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())).GetPowerFail()){
-                    whichForce=-1;
-                }
-                theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())).RemoveAllForceMajeure();
-                if(whichForce==1){
-                    theModel.RemoveOccupied(theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())));
-
-                }else if(whichForce==-1){
-
-                }else{
-                    return;
-                }
-                if(theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())).GetIsOccupied()){
-                    theModel.AddOccupied(theModel.GetBlock(Integer.parseInt(blockAffectedTextField.getCharacters().toString())));
-                }
-
-
+                theModel.RemoveForceMajeure(Integer.parseInt(blockAffectedTextField.getCharacters().toString()));
                 SetOutputToWayside(theModel.GetNewWaysideOutput());
             }
         });
@@ -494,7 +469,7 @@ public class TrackGui extends Application {
 
             @Override
             public void handle(ActionEvent e) {
-                theModel.GetStationBlock(stationNameComboBox.getSelectionModel().getSelectedItem()).GetStation().AddTickets(Integer.parseInt(ticketCountTextField.getCharacters().toString()));
+                theModel.SetTicketCount(stationNameComboBox.getSelectionModel().getSelectedItem(),Integer.parseInt(ticketCountTextField.getCharacters().toString()))
                 System.out.println("Ticket Update: "+stationNameComboBox.getSelectionModel().getSelectedItem()+" total sales= "+theModel.GetStationBlock(stationNameComboBox.getSelectionModel().getSelectedItem()).GetStation().GetTicketNumbers());
             }
         });
