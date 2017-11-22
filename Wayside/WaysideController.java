@@ -35,9 +35,12 @@ public class WaysideController extends Application{
 	
 	//these are used during the updating process
 	//this is event driven based on input from the Track model
-	private int currentBlock = 1;
+	private ArrayList<BlockInfo> track;
+	private ArrayList<String> trackSections = new ArrayList<String>();
+	private ArrayList<ArrayList<String>> blockSections = new ArrayList<ArrayList<String>>();
+	private int currentBlock = 0;
 	private int currentAuth = 0;
-	private BlockInfo block = new BlockInfo();
+	private BlockInfo block = null;
 	private String selectedBlock, PLC, selectedLine; 
 	
 	public static void main(String[] args) {
@@ -58,9 +61,6 @@ public class WaysideController extends Application{
 		curBlock = new Label("Block 1 on the Green Line ");
 		lightLabel = new Label("Light State:	Green");
 		occupyLabel = new Label("Occupancy: Empty");
-		
-		//TODO add a field for speed from the CTC
-		//TODO make a list of occupied blocks
 		CTCLabel = new Label("output to the CTC: ");
 		inCTCLabel = new Label("Suggested Speed: ");
 		TextField CTCin = new TextField();
@@ -68,21 +68,40 @@ public class WaysideController extends Application{
 		mphLabel= new Label("mph");
 		CTCOutLabel = new Label();
 		
-		//call method to get a test track
-		ArrayList<BlockInfo> track = CreateFive();
-		block = track.get(1);
+		//call method to get track
+		track = getTrack();
+		block = track.get(0);
 		
+		//TODO make this change which wayside object is being used, look up later
 		//create a choice box for selecting the controller
 		ChoiceBox<String> cb = new ChoiceBox<>();
 		cb.getItems().add("Green");
 		cb.getItems().add("Red");
 		//set a default value
 		cb.setValue("Green");
-		//nice little tooltip for guidance
 		cb.setTooltip(new Tooltip("Select a Line"));
 
-		//create a textfeild for the Block & PLC Program
-		TextField blockInput = new TextField("1");
+		//TODO make blockInput choice box that is filled automatically
+		ChoiceBox<String> sectionCB = new ChoiceBox<String>();
+		ChoiceBox<String> blockInput = new ChoiceBox<String>();
+		
+		getSections(); 
+		
+		//for each section of track
+		for(int i = 0; i < trackSections.size(); i++) {
+			sectionCB.getItems().add(trackSections.get(i));
+			//for each block in that section
+			for(int j = 0; j < blockSections.get(i).size(); j++)
+			{
+				blockInput.getItems().add(blockSections.get(i).get(j));
+			}
+		}
+		
+		//set default values
+		sectionCB.setValue(trackSections.get(0));
+		blockInput.setValue(blockSections.get(0).get(0));
+		
+		//TODO make this a file selector
 		TextField PLCInput = new TextField();
 		PLCInput.setPromptText("Enter a PLC Program");
 		//FileChooser fileChooser = new FileChooser();
@@ -92,18 +111,18 @@ public class WaysideController extends Application{
 		CheckBox occBox = new CheckBox("Occupied");
 		occBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
 	        public void changed(ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) {
-	              //when the occupy box is checked set block to occupied and inform that block's object
+	            //when the occupy box is checked set block to occupied and inform that block's object
 	        	if(new_val) {
 	        		occupyLabel.setText("Occupancy: Occupied");
-	        		block.occupy = true;
+	        		block.setOccupancy(true);
 	        		lightLabel.setText("Light State:	Red");
-	        		block.light = true;
+	        		block.setLight(true);
 	        		CTCOutLabel.setText(currentBlock +" Occupied");
 	        	}else {
 	        		occupyLabel.setText("Occupancy: Empty");
-	        		block.occupy = false;
+	        		block.setOccupancy(false);
 	        		lightLabel.setText("Light State:	Green");
-	        		block.light = false;
+	        		block.setLight(false);
 	        		CTCOutLabel.setText(currentBlock +" Empty");
 	        	}
 	        }
@@ -112,14 +131,17 @@ public class WaysideController extends Application{
 		//checkbox for switch state
 		CheckBox swiBox = new CheckBox("High");
 		swiBox.setTooltip(new Tooltip("Switch is in the high position when checked"));
-		if(block.switchState != null) {
+		//TODO learn how to disable this part when block doesn't have switch
+		if(block.hasSwitch()) {
 			swiBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
 				public void changed(ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) {
 					//when the switch box is checked set switch to high and inform that block's object
 					if(new_val) {
 						switchStateLabel.setText("Switch State: High");
+						//call a method to move the switch
 					}else {
 						switchStateLabel.setText("Switch State: Low");
+						//call a method to move the switch, return true for success
 					}
 				}
 			});
@@ -127,46 +149,19 @@ public class WaysideController extends Application{
 			
 		
 		
-		//create a button to submit all entered fields
-		Button btn = new Button("Submit Block");
+		//button updates which block is being edited/viewed 
+		Button btn = new Button("Get Block");
 		HBox hbBtn = new HBox(10);
 		hbBtn.setAlignment(Pos.BOTTOM_LEFT);
 		btn.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
-		    	//TODO make the button update everything when pressed
-		    	//read in the block number from the textfield
-		    	 if ((blockInput.getText() != null && !blockInput.getText().isEmpty())) {
-		    		 //get information form the GUI 
-		    		 selectedBlock = blockInput.getText();
-		    		 selectedLine = cb.getValue();
-		    		 curBlock.setText("Block " + selectedBlock + " on the " + selectedLine + " Line");
-		    		 //TODO make the blocks update all fields when submitted
-		    		 
-		    		 //write the updates to the track object before clearing the block
-		    		 
-		    		 
-		    		 //update text fields with existing data
-		    		 currentBlock = Integer.parseInt(blockInput.getText());
-		    		 if(currentBlock < 5 && currentBlock > 0) {
-		    			 
-		    		 }
-		    		 //now set the values for the block when block is submitted
-		    		occBox.setSelected(block.occupy);
-		    		if(block.switchState != null) {
-		    			swiBox.setSelected(block.switchState);
-		    		}
-		    		
-		    		//get and display Auth for the new block
-		    		currentAuth = 0;
-		    		authorityLabel.setText("Authority:    " + currentAuth + " Blocks ");
-		    		 
-		    	 }
-		    	//first calculate occupancy, light, and authority
+		    	blockInput.getValue();
 		    }
 		});
 		
+		hbBtn.getChildren().add(btn);
 		
-		//button for PLC
+		//TODO make this a file selector
 		Button Pbtn = new Button("Submit PLC");
 		HBox PLCBtn = new HBox(10);
 		PLCBtn.setAlignment(Pos.BOTTOM_RIGHT);
@@ -184,7 +179,7 @@ public class WaysideController extends Application{
 		});
 		//adding buttons
 		PLCBtn.getChildren().add(Pbtn);
-		hbBtn.getChildren().add(btn);
+		
 		
 		//set switch to none unless otherwise stated
 		switchStateLabel.setText("No switch on this block");
@@ -201,7 +196,8 @@ public class WaysideController extends Application{
 		GridPane.setConstraints(controllerLabel, 0, 0);
 		GridPane.setConstraints(cb, 1, 0);
 		GridPane.setConstraints(blockLabel, 0, 1);
-		GridPane.setConstraints(blockInput, 1, 1);
+		GridPane.setConstraints(sectionCB, 1, 1);
+		GridPane.setConstraints(blockInput, 2, 1);
 		GridPane.setConstraints(PLCProgramLabel, 0, 2);
 		GridPane.setConstraints(PLCInput, 1, 2);
 		GridPane.setConstraints(curBlock, 0, 4);
@@ -220,7 +216,7 @@ public class WaysideController extends Application{
 		
 		
 		//set choicebox for selecting the block in that section
-		grid.getChildren().addAll(controllerLabel, cb, blockLabel, blockInput, authorityLabel, PLCProgramLabel, PLCInput, curBlock, switchStateLabel, 
+		grid.getChildren().addAll(controllerLabel, cb, blockLabel, blockInput, sectionCB, authorityLabel, PLCProgramLabel, PLCInput, curBlock, switchStateLabel, 
 		lightLabel, stationLabel, occupyLabel, occBox, swiBox, inCTCLabel, CTCin, mphLabel, CTCLabel, CTCOutLabel);
 		//prepare the scene
 		Scene scene = new Scene(grid, 800, 600);
@@ -238,15 +234,68 @@ public class WaysideController extends Application{
 	}
 	
 	
-	//create a method to initialize the first few blocks to show functionality
-	public ArrayList<BlockInfo> CreateFive() {
-		ArrayList<BlockInfo> testTrack = new ArrayList<BlockInfo>(); //create an array of the 5 peices of track for the test
-		//creates a test track
-		testTrack.add(new BlockInfo());
-		testTrack.add(new BlockInfo());
-		testTrack.add(new BlockInfo());
-		testTrack.add(new BlockInfo());
+	//this method will get the track that this wayside will have control over
+	//import from track
+	public ArrayList<BlockInfo> getTrack() {
+		ArrayList<BlockInfo> testTrack = new ArrayList<BlockInfo>();
+		BlockInfo currBlock, prevBlock, nextBlock, switchBlock;
+		//the first block will be the yard
+		testTrack.add(new BlockInfo(false, 0 , 0 , 1));
+		
+		for(int i = 1; i < 11; i++)
+		{
+			if(i < 10) {
+				if(i != 5) {
+					testTrack.add(new BlockInfo(i - 1, i, i + 1));
+				}else {
+					testTrack.add(new BlockInfo(true, i - 1, i, i + 1)); //create a block with a crossing @5
+				}
+			}else {
+				testTrack.add(new BlockInfo(false, i - 1, i, 0)); //loop it back to the yard
+			}
+		}
+		
+		currBlock = testTrack.get(0);
+		//now link the track
+		while(testTrack.get(currBlock.blockNumber()).nextBlock1() == null) {
+			prevBlock = testTrack.get(currBlock.blockNumber0());
+			nextBlock = testTrack.get(currBlock.blockNumber1());
+			if(currBlock.blockSwitch() == -1) {
+				switchBlock = null;
+			}else {
+				switchBlock = testTrack.get(currBlock.blockSwitch()).nextBlockSwitch();
+			}
+			//System.out.println("linking blocks");	
+			testTrack.get(currBlock.blockNumber()).setNextBlocks(prevBlock, nextBlock, switchBlock);
+			currBlock = currBlock.nextBlock1();
+		}
+		
 		return testTrack;
+	}
+	
+	public void getSections()
+	{
+		String currentSection = track.get(0).section();
+		trackSections.add(currentSection);
+		int sectionNumber = 0;
+		blockSections.add(new ArrayList<String>());
+		
+		for(int i = 0; i < track.size(); i++)
+		{
+			if(track.get(i).section().equals(currentSection)) {
+				//add the block number to the section of track
+				blockSections.get(sectionNumber).add(Integer.toString(i));
+			}else {
+				//create a new section
+				currentSection = track.get(0).section();
+				trackSections.add(currentSection);
+				blockSections.add(new ArrayList<String>());
+				sectionNumber++;
+				blockSections.get(sectionNumber).add(Integer.toString(i));
+			}
+		}
+		//trackSection now holds a string for all sections of the track
+		//blockSection now holds a string for every block of the track
 	}
 
 }
