@@ -1,9 +1,7 @@
 package Controller;
 
 import java.util.ArrayList;
-
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -27,11 +25,16 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+
+//TODO things that will make this a lot more user friendly, but aren't requirements:
+//show all occupied blocks in a section
+//make entering a PLC easier(unsure of how just yet)
+
 public class WaysideController extends Application{
 
 	//labels for the fields that will be displayed
 	private Label controllerLabel, blockLabel, authorityLabel, switchStateLabel, lightLabel, stationLabel, sectionLabel,
-	PLCProgramLabel, curBlock, occupyLabel, CTCLabel, inCTCLabel, mphLabel, CTCOutLabel;
+	PLCProgramLabel, curBlock, occupyLabel, CTCLabel, inCTCLabel, mphLabel, CTCOutLabel, crossingLabel;
 	
 	//these are used during the updating process
 	//this is event driven based on input from the Track model
@@ -41,7 +44,9 @@ public class WaysideController extends Application{
 	private int currentBlock = 0;
 	private int currentAuth = 0;
 	private BlockInfo block = null;
-	private String selectedBlock, PLC, selectedLine; 
+	private String selectedBlock, choosenPLC, selectedLine; 
+	private AuthorityCalculator authCalc = new AuthorityCalculator();
+	private Object PLC;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -53,7 +58,7 @@ public class WaysideController extends Application{
 		//set up the labels
 		controllerLabel = new Label("Wayside Controller: ");
 		blockLabel = new Label("Block:	");
-		authorityLabel = new Label("Authority: ");
+		authorityLabel = new Label("Authority to: ");
 		switchStateLabel = new Label("Switch State: Low");
 		sectionLabel = new Label("Section: ");
 		stationLabel = new Label("Station:	none");
@@ -67,6 +72,7 @@ public class WaysideController extends Application{
 		CTCin.setPromptText("Enter input from the CTC");
 		mphLabel= new Label("mph");
 		CTCOutLabel = new Label();
+		crossingLabel = new Label("There is no crossing on this block");
 		
 		//call method to get track
 		track = getTrack();
@@ -125,6 +131,7 @@ public class WaysideController extends Application{
 	        		block.setLight(false);
 	        		CTCOutLabel.setText(currentBlock +" Empty");
 	        	}
+	        	//get new authority from the newly occupied block
 	        }
 	    });
 		
@@ -155,7 +162,43 @@ public class WaysideController extends Application{
 		hbBtn.setAlignment(Pos.BOTTOM_LEFT);
 		btn.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
-		    	blockInput.getValue();
+		    	//get current block from dropdown menu
+		    	currentBlock = Integer.parseInt(blockInput.getValue());
+		    	//update all the current information displayed to match the block
+		    	block = track.get(currentBlock);
+		    	//check occupancy
+		    	if(block.occupancy()) {
+		    		occupyLabel.setText("Occupancy: Occupied");
+		    		lightLabel.setText("Light State:	Red");
+		    		CTCOutLabel.setText(currentBlock +" Occupied");
+		    		occBox.setSelected(true);
+		    	}else {
+		    		occupyLabel.setText("Occupancy: Empty");
+		    		CTCOutLabel.setText(currentBlock +" Empty");
+		    		occBox.setSelected(false);
+		    	}
+		    	//check switch
+		    	if(block.hasSwitch()) {
+		    		swiBox.setVisible(true);
+		    		if(block.switchState()) {
+		    			switchStateLabel.setText("Switch State: High");
+					}else {
+						switchStateLabel.setText("Switch State: Low");
+					}
+		    	}else {
+		    		switchStateLabel.setText("Switch State: none");
+		    		//hide the check box for blocks without switches
+		    		swiBox.setVisible(false);
+		    	}
+		    	//update crossing label
+		    	if(block.hasCrossing())
+		    	{
+		    		crossingLabel.setText("The crossing on this block is: ");
+		    	}
+		    	//check crossing
+		    	//check authority
+		    	currentAuth = getAuthority(currentBlock);
+		    	authorityLabel = new Label("Authority to Block: " + currentAuth);
 		    }
 		});
 		
@@ -171,8 +214,9 @@ public class WaysideController extends Application{
 		    	//read in the block number from the textfield
 		    	 if ((PLCInput.getText() != null && !PLCInput.getText().isEmpty())) {
 		    		 //get the path to a java file to run for the PLC
-		    		 PLC = PLCInput.getText();
+		    		 choosenPLC = PLCInput.getText();
 		    		 selectedLine = cb.getValue();
+		    		 PLC = getPLC();
 		    	 }
 		    	//first calculate occupancy, light, and authority
 		    }
@@ -208,6 +252,7 @@ public class WaysideController extends Application{
 		GridPane.setConstraints(swiBox, 3, 7);
 		GridPane.setConstraints(lightLabel, 0, 8);
 		GridPane.setConstraints(stationLabel, 0, 9);
+		GridPane.setConstraints(crossingLabel, 1, 8);
 		GridPane.setConstraints(inCTCLabel, 0, 10);
 		GridPane.setConstraints(CTCin, 1, 10);
 		GridPane.setConstraints(mphLabel, 2, 10);
@@ -217,7 +262,7 @@ public class WaysideController extends Application{
 		
 		//set choicebox for selecting the block in that section
 		grid.getChildren().addAll(controllerLabel, cb, blockLabel, blockInput, sectionCB, authorityLabel, PLCProgramLabel, PLCInput, curBlock, switchStateLabel, 
-		lightLabel, stationLabel, occupyLabel, occBox, swiBox, inCTCLabel, CTCin, mphLabel, CTCLabel, CTCOutLabel);
+		lightLabel, stationLabel, occupyLabel, occBox, swiBox, inCTCLabel, CTCin, mphLabel, CTCLabel, CTCOutLabel,crossingLabel);
 		//prepare the scene
 		Scene scene = new Scene(grid, 800, 600);
 		primaryStage.setScene(scene);
@@ -226,17 +271,18 @@ public class WaysideController extends Application{
 	}
 	
 	//create an Authority calculator
-	public int GetAuthority(ArrayList<BlockInfo> track, int blockNow) {
+	public int getAuthority(int blockNow) {
 		int Auth = 0;
-		
-		//Auth here is the interger for the next not free block
+		System.out.println("calling the authCalc");
+		Auth = authCalc.getAuth(blockNow, true, track);
+		//Auth here is the next not free block
 		return Auth;
 	}
 	
 	
 	//this method will get the track that this wayside will have control over
 	//import from track
-	public ArrayList<BlockInfo> getTrack() {
+	private ArrayList<BlockInfo> getTrack() {
 		ArrayList<BlockInfo> testTrack = new ArrayList<BlockInfo>();
 		BlockInfo currBlock, prevBlock, nextBlock, switchBlock;
 		//the first block will be the yard
@@ -245,10 +291,12 @@ public class WaysideController extends Application{
 		for(int i = 1; i < 11; i++)
 		{
 			if(i < 10) {
-				if(i != 5) {
+				if(i != 5 && i != 7) {
 					testTrack.add(new BlockInfo(i - 1, i, i + 1));
+				}else if(i == 5){
+					testTrack.add(new BlockInfo(true, i - 1, i, i + 1)); //create a block with a crossing & switch @5
 				}else {
-					testTrack.add(new BlockInfo(true, i - 1, i, i + 1)); //create a block with a crossing @5
+					testTrack.add(new BlockInfo(true, i - 1, i, i + 1)); //create a swtich at 7, point to 11
 				}
 			}else {
 				testTrack.add(new BlockInfo(false, i - 1, i, 0)); //loop it back to the yard
@@ -263,17 +311,25 @@ public class WaysideController extends Application{
 			if(currBlock.blockSwitch() == -1) {
 				switchBlock = null;
 			}else {
-				switchBlock = testTrack.get(currBlock.blockSwitch()).nextBlockSwitch();
+				switchBlock = testTrack.get(currBlock.blockSwitch());
 			}
 			//System.out.println("linking blocks");	
 			testTrack.get(currBlock.blockNumber()).setNextBlocks(prevBlock, nextBlock, switchBlock);
 			currBlock = currBlock.nextBlock1();
 		}
 		
+		//looped track; add in all the fun bits here
+		testTrack.get(8).setSection("B");
+		testTrack.get(9).setSection("C");
+		testTrack.get(10).setSection("D");
+		//switch check
+		//a block between 5 and 7 thats switchable
+		
+		
 		return testTrack;
 	}
 	
-	public void getSections()
+	private void getSections()
 	{
 		String currentSection = track.get(0).section();
 		trackSections.add(currentSection);
@@ -287,15 +343,44 @@ public class WaysideController extends Application{
 				blockSections.get(sectionNumber).add(Integer.toString(i));
 			}else {
 				//create a new section
-				currentSection = track.get(0).section();
+				sectionNumber++;
+				currentSection = track.get(i).section();
 				trackSections.add(currentSection);
 				blockSections.add(new ArrayList<String>());
-				sectionNumber++;
 				blockSections.get(sectionNumber).add(Integer.toString(i));
 			}
 		}
 		//trackSection now holds a string for all sections of the track
 		//blockSection now holds a string for every block of the track
+		
+		/*for(int i = 0; i < trackSections.size(); i++)
+		{
+			System.out.println("new section" + trackSections.get(i));
+			for(int j = 0; j < blockSections.get(i).size(); j++)
+			{
+				System.out.println(blockSections.get(i).get(j));
+			}
+		}
+		*/
 	}
+	
+	public Object getPLC() {
+		Object PLCobject = new AuthorityCalculator();
+		try {
+			PLCobject = Class.forName(choosenPLC).newInstance();
+			//now test that the PLC works(testPLC in package is Controller.testPLC)
+			System.out.println(((PLCinterface)PLCobject).getAuth(currentBlock, true, track));
+			System.out.println(((PLCinterface)PLCobject).decideCrossing(currentBlock, track));
+		}catch(Exception e) {
+			System.out.println("The PLC has failed to load");
+			System.out.println(e);
+			PLCobject = new AuthorityCalculator();
+		}
+
+		return PLCobject;
+	}
+	
+	//integration methods
+	
 
 }

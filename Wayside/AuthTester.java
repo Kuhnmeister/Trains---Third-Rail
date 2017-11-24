@@ -10,9 +10,11 @@ public class AuthTester {
 	
 	public static void main(String[] args) {
 		//call a method to fill an ArrayList of BlockInfo
+		
+		//testPLC trail = new testPLC();
 		ArrayList<BlockInfo> track = createTestTrack();
 		
-		AuthorityCalculator test = new AuthorityCalculator(track);
+		AuthorityCalculator test = new AuthorityCalculator();
 		
 		//set a few blocks occupied
 		track.get(4).changeOccupancy();

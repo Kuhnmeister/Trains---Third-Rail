@@ -6,14 +6,12 @@ import java.util.*;
 //Third Rail Inc.
 //This class exists to calculate the authority given an ArrayList<BlockInfo> and a current block number
 
-public class AuthorityCalculator {
-	
-	private ArrayList<BlockInfo> baseTrack = null;
+public class AuthorityCalculator implements PLCinterface{
 	
 	//only one can exist per track
-	//track means a segment of blocks
-	public AuthorityCalculator(ArrayList<BlockInfo> importTrack) {
-		baseTrack = importTrack; //saves on sending in a new track every time
+	//track meaning any number of blocks
+	public AuthorityCalculator() {
+		//null constructor
 	}
 		
 	//this method will return the maximum safe Authority for a train(aka doesn't let it run into anything)
@@ -23,6 +21,7 @@ public class AuthorityCalculator {
 		//the current block will always be the minimum authority; i.e. can't move forward or backwards
 		//this will also be safe
 		int authority = currentBlock; 
+		System.out.println("get Auth has been called");
 		//direction determines advancing/returning
 		if(direction) {
 			//compare the blocks to make sure they aren't the same(if they're the same the maximum has been reached)
@@ -35,6 +34,7 @@ public class AuthorityCalculator {
 				authority = canReturn(track.get(authority));
 			}
 		}
+		System.out.println(authority);
 		return authority;
 	}
 	
