@@ -15,8 +15,12 @@ public class TrackModel {
     private ArrayList<String> stationNames = new ArrayList<String>();
 
 
-    public TrackModel(TrackGui newGui){
-        theGui=newGui;
+    public TrackModel(String[] args){
+        theGui = new TrackGui(args,this);
+    }
+    public static void main(String[] args){
+        TrackModel thisModel = new TrackModel(args);
+
     }
     public void LoadNewTrack(String fileName){
         occupiedBlocks=new ArrayList<Block>();

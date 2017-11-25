@@ -28,7 +28,7 @@ import java.io.File;
 
 
 public class TrackGui extends Application {
-    private TrackModel theModel;
+    private static TrackModel theModel;
     private int trainNum=0;
     private ArrayList<Train> allActiveTrains= new ArrayList<Train>();
     private ArrayList<String> lightColors = new ArrayList<String>();
@@ -49,8 +49,23 @@ public class TrackGui extends Application {
     private String outputToTrainsDisplay="";
     private int displayingTrain;
     private SimpleStringProperty observableOutputToTrains = new SimpleStringProperty();
-    public static void main(String[] args) {
+    public TrackGui(String[] args, TrackModel newModel){
+        System.out.println("Now this is being called");
+        theModel=newModel;
+        if(theModel==null){
+            System.out.println("Um, ok");
+        }else{
+            System.out.println("Then why isn't it working");
+        }
         launch(args);
+    }
+    public TrackGui(){
+        System.out.println("Why is this being called");
+        if(theModel==null){
+            System.out.println("Um, ok");
+        }else{
+            System.out.println("Then why isn't it working");
+        }
     }
     public void SetOutputToWayside(ArrayList<Block> newOutput){
         outputToWayside=newOutput;
@@ -100,7 +115,6 @@ public class TrackGui extends Application {
 
 
         observableOutputToWayside.setValue(outputToWaysideDisplay);
-        theModel=new TrackModel(this);
         primaryStage.setTitle("Track Model");
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -469,7 +483,7 @@ public class TrackGui extends Application {
 
             @Override
             public void handle(ActionEvent e) {
-                theModel.SetTicketCount(stationNameComboBox.getSelectionModel().getSelectedItem(),Integer.parseInt(ticketCountTextField.getCharacters().toString()))
+                theModel.SetTicketCount(stationNameComboBox.getSelectionModel().getSelectedItem(),Integer.parseInt(ticketCountTextField.getCharacters().toString()));
                 System.out.println("Ticket Update: "+stationNameComboBox.getSelectionModel().getSelectedItem()+" total sales= "+theModel.GetStationBlock(stationNameComboBox.getSelectionModel().getSelectedItem()).GetStation().GetTicketNumbers());
             }
         });
