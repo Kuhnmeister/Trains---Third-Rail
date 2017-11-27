@@ -15,7 +15,8 @@ public class TrackModel {
     public ArrayList<String> lineNames = new ArrayList<String>();
     private ArrayList<Block> stations = new ArrayList<Block>();
     private ArrayList<String> stationNames = new ArrayList<String>();
-
+    private int minimumBlockLength=-1;
+    private boolean demoMode=false;
 
     public TrackModel(String[] args){
         theGui = new TrackGui(args,this);
@@ -62,10 +63,18 @@ public class TrackModel {
                     if(track.get(blockString[0]).containsKey(blockString[1])){
                         Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Integer.parseInt(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),Boolean.parseBoolean(blockString[6]),nextBlock0Num,nextBlock1Num,nextSwitchBlockNum,blockString[10]);
                         track.get(blockString[0]).get(blockString[1]).add(newBlock);
+                        if(newBlock.GetLength()<minimumBlockLength|| minimumBlockLength==-1){
+                            minimumBlockLength=newBlock.GetLength();
+                            System.out.println("New minimum block length: "+minimumBlockLength);
+                        }
                     }else{
                         track.get(blockString[0]).put(blockString[1],new ArrayList<Block>());
                         Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Integer.parseInt(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),Boolean.parseBoolean(blockString[6]),nextBlock0Num,nextBlock1Num,nextSwitchBlockNum,blockString[10]);
                         track.get(blockString[0]).get(blockString[1]).add(newBlock);
+                        if(newBlock.GetLength()<minimumBlockLength || minimumBlockLength==-1){
+                            minimumBlockLength=newBlock.GetLength();
+                            System.out.println("New minimum block length: "+minimumBlockLength);
+                        }
                     }
                 }else{
                     track.put(blockString[0],new HashMap<String,ArrayList<Block>>());
@@ -74,6 +83,11 @@ public class TrackModel {
                     track.get(blockString[0]).get(blockString[1]).add(newBlock);
                     if(startingBlocks.get(blockString[0]) == null){
                         startingBlocks.put(blockString[0],newBlock);
+                    }
+                    if(newBlock.GetLength()<minimumBlockLength || minimumBlockLength==-1){
+                        minimumBlockLength=newBlock.GetLength();
+                        System.out.println("New minimum block length: "+minimumBlockLength);
+
                     }
                     lineNames.add(blockString[0]);
                 }
@@ -156,10 +170,16 @@ public class TrackModel {
 
     }
     public void AddOccupied(Block newBlock){
+            if(!demoMode){
+                //call central class to report new occupied to Wayside
+            }
             occupiedBlocks.add(newBlock);
             System.out.println("Added Block: " + newBlock.GetBlockNum());
     }
     public void RemoveOccupied(Block newBlock){
+        if(!demoMode){
+            //call central class to report new unoccupied to Wayside
+        }
         occupiedBlocks.remove(newBlock);
         System.out.println("Removed Block: "+newBlock.GetBlockNum());
     }
@@ -262,6 +282,20 @@ public class TrackModel {
         Block stationBlock = GetStationBlock(stationName);
         stationBlock.GetStation().AddTickets(ticketCount);
     }
+
+    //***********************************************************Integrated Methods*******************************************//
+    //Called when a train is dispatched from the station
+    public void NewTrain(int trainNum){
+
+    }
+    //Get authority from actual wayside. Wayside will return arraylist<int> which will represent the block nums of all the blocks of authority starting with block the train is on
+    //blockNum is the number of the block the train we are seeking authority is on
+    //this method returns the distance the train can travel
+    private int GetAuthorityFromWayside(int blockNum){
+        return 0;
+    }
+    
+
     public HashMap<String,HashMap<String,ArrayList<Block>>> GetTrack(){
         return track;
     }
