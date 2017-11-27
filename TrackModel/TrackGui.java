@@ -30,6 +30,7 @@ import java.io.File;
 public class TrackGui extends Application {
     private static TrackModel theModel;
     private int trainNum=0;
+    private boolean trackUploaded=false;
     private ArrayList<Train> allActiveTrains= new ArrayList<Train>();
     private ArrayList<String> lightColors = new ArrayList<String>();
     private ObservableList<String> lightColorsList = FXCollections.observableList(lightColors);
@@ -50,36 +51,28 @@ public class TrackGui extends Application {
     private int displayingTrain;
     private SimpleStringProperty observableOutputToTrains = new SimpleStringProperty();
     public TrackGui(String[] args, TrackModel newModel){
-        System.out.println("Now this is being called");
+
         theModel=newModel;
-        if(theModel==null){
-            System.out.println("Um, ok");
-        }else{
-            System.out.println("Then why isn't it working");
-        }
+
         launch(args);
     }
     public TrackGui(){
-        System.out.println("Why is this being called");
-        if(theModel==null){
-            System.out.println("Um, ok");
-        }else{
-            System.out.println("Then why isn't it working");
-        }
+
     }
     public void SetOutputToWayside(ArrayList<Block> newOutput){
-        outputToWayside=newOutput;
-        if(outputToWayside.size()==0){
-            outputToWaysideDisplay="";
-        }else{
-            outputToWaysideDisplay=Integer.toString(outputToWayside.get(0).GetBlockNum());
+        if(trackUploaded) {
+            outputToWayside = newOutput;
+            if (outputToWayside.size() == 0) {
+                outputToWaysideDisplay = "";
+            } else {
+                outputToWaysideDisplay = Integer.toString(outputToWayside.get(0).GetBlockNum());
+            }
+            for (int i = 1; i < outputToWayside.size(); i++) {
+                outputToWaysideDisplay = outputToWaysideDisplay + "," + outputToWayside.get(i).GetBlockNum();
+            }
+            System.out.println("Wayside Output Updated: " + outputToWaysideDisplay);
+            observableOutputToWayside.set(outputToWaysideDisplay);
         }
-        for(int i=1;i<outputToWayside.size();i++){
-            outputToWaysideDisplay=outputToWaysideDisplay+","+outputToWayside.get(i).GetBlockNum();
-        }
-        System.out.println("Wayside Output Updated: "+outputToWaysideDisplay);
-        observableOutputToWayside.set(outputToWaysideDisplay);
-
     }
     public void SetOutputToTrains(){
         //removes Trains that are now done from the list
@@ -150,6 +143,7 @@ public class TrackGui extends Application {
                 selectedFile = fileChooser.showOpenDialog(new Stage());
                 if(theModel != null && selectedFile !=null) {
                     theModel.LoadNewTrack(selectedFile.getAbsolutePath());
+                    trackUploaded=true;
                     stationNames=theModel.GetStationNameList();
                     stationNameList.clear();
                     for(String newStation:stationNames){
@@ -181,7 +175,9 @@ public class TrackGui extends Application {
         beaconDataButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent e){
-                theModel.SetBeaconDataString(Integer.parseInt(beaconBlockTextField.getCharacters().toString()),beaconDataTextField.getCharacters().toString());
+                if(trackUploaded && IsInteger(beaconBlockTextField.getCharacters().toString())) {
+                    theModel.SetBeaconDataString(Integer.parseInt(beaconBlockTextField.getCharacters().toString()), beaconDataTextField.getCharacters().toString());
+                }
             }
         });
         grid.add(beaconDataButton,2,5,2,1);
@@ -197,8 +193,10 @@ public class TrackGui extends Application {
         brokenRailButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent e){
-                theModel.SetBrokenRail(Integer.parseInt(blockAffectedTextField.getCharacters().toString()));
-                SetOutputToWayside(theModel.GetNewWaysideOutput());
+                if(IsInteger(blockAffectedTextField.getCharacters().toString()) && trackUploaded) {
+                    theModel.SetBrokenRail(Integer.parseInt(blockAffectedTextField.getCharacters().toString()));
+                    SetOutputToWayside(theModel.GetNewWaysideOutput());
+                }
             }
         });
         grid.add(brokenRailButton,0,2,1,1);
@@ -206,8 +204,10 @@ public class TrackGui extends Application {
         trackCircuitFailButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent e){
-                theModel.SetTrackCircuitFail(Integer.parseInt(blockAffectedTextField.getCharacters().toString()));
-                SetOutputToWayside(theModel.GetNewWaysideOutput());
+                if(IsInteger(blockAffectedTextField.getCharacters().toString()) && trackUploaded) {
+                    theModel.SetTrackCircuitFail(Integer.parseInt(blockAffectedTextField.getCharacters().toString()));
+                    SetOutputToWayside(theModel.GetNewWaysideOutput());
+                }
             }
         });
         grid.add(trackCircuitFailButton,1,2,1,1);
@@ -215,8 +215,10 @@ public class TrackGui extends Application {
         powerFailButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent e){
-                theModel.SetPowerFail(Integer.parseInt(blockAffectedTextField.getCharacters().toString()));
-                SetOutputToWayside(theModel.GetNewWaysideOutput());
+                if(IsInteger(blockAffectedTextField.getCharacters().toString())&& trackUploaded) {
+                    theModel.SetPowerFail(Integer.parseInt(blockAffectedTextField.getCharacters().toString()));
+                    SetOutputToWayside(theModel.GetNewWaysideOutput());
+                }
             }
         });
         grid.add(powerFailButton,0,3,1,1);
@@ -224,8 +226,10 @@ public class TrackGui extends Application {
         removeAllButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent e){
-                theModel.RemoveForceMajeure(Integer.parseInt(blockAffectedTextField.getCharacters().toString()));
-                SetOutputToWayside(theModel.GetNewWaysideOutput());
+                if(IsInteger(blockAffectedTextField.getCharacters().toString()) && trackUploaded) {
+                    theModel.RemoveForceMajeure(Integer.parseInt(blockAffectedTextField.getCharacters().toString()));
+                    SetOutputToWayside(theModel.GetNewWaysideOutput());
+                }
             }
         });
         grid.add(removeAllButton,1,3,1,1);
@@ -296,7 +300,7 @@ public class TrackGui extends Application {
 
             @Override
             public void handle(ActionEvent e) {
-                if(theModel != null) {
+                if(theModel != null && trackUploaded) {
                     if(sectionDisplayLabels != null){
 
                         grid.getChildren().removeAll(sectionDisplayLabels);
@@ -364,7 +368,13 @@ public class TrackGui extends Application {
 
             @Override
             public void handle(ActionEvent e) {
-                theModel.WaysideInput(Integer.parseInt(blockChangingTextField.getCharacters().toString()),lightColorComboBox.getSelectionModel().getSelectedItem(),flipSwitchCheckBox.isSelected());
+                if(IsInteger(blockChangingTextField.getCharacters().toString()) && trackUploaded) {
+                    if (lightColorComboBox.getSelectionModel().getSelectedItem() == null) {
+
+                    } else {
+                        theModel.WaysideInput(Integer.parseInt(blockChangingTextField.getCharacters().toString()), lightColorComboBox.getSelectionModel().getSelectedItem(), flipSwitchCheckBox.isSelected());
+                    }
+                }
             }
         });
         grid.add(waysideInputButton, 7, 4,2,1);
@@ -398,8 +408,10 @@ public class TrackGui extends Application {
 
             @Override
             public void handle(ActionEvent e) {
-                Train editingTrain= GetTrain(trainEditComboBox.getSelectionModel().getSelectedItem());
-                editingTrain.WaysideInput(Integer.parseInt(authorityInputTextField.getCharacters().toString()),(0!=Integer.parseInt(speedLimitInputTextField.getCharacters().toString())));
+                if(trackUploaded) {
+                    Train editingTrain = GetTrain(trainEditComboBox.getSelectionModel().getSelectedItem());
+                    editingTrain.WaysideInput(Integer.parseInt(authorityInputTextField.getCharacters().toString()), (0 != Integer.parseInt(speedLimitInputTextField.getCharacters().toString())));
+                }
             }
         });
         grid.add(waysideTrainInputButton, 7, 8,2,1);
@@ -438,15 +450,17 @@ public class TrackGui extends Application {
 
             @Override
             public void handle(ActionEvent e) {
-                timeline.stop();
-                timeline.play();
-                if(theModel != null) {
-                    if(theModel.GetStartingBlock(lineSelectionComboBox.getSelectionModel().getSelectedItem())!= null) {
-                        Train newTrain = new Train(trainNum, 0, theModel.GetBlock(Integer.parseInt(trainStartTextField.getCharacters().toString())),theModel.GetBlock(Integer.parseInt(trainEndTextField.getCharacters().toString())), theModel);
-                        allActiveTrains.add(newTrain);
-                        activeTrainNumbersList.add(trainNum);
-                        System.out.println(trainNum);
-                        trainNum++;
+                if(trackUploaded) {
+                    timeline.stop();
+                    timeline.play();
+                    if (theModel != null) {
+                        if (theModel.GetStartingBlock(lineSelectionComboBox.getSelectionModel().getSelectedItem()) != null) {
+                            Train newTrain = new Train(trainNum, 0, theModel.GetBlock(Integer.parseInt(trainStartTextField.getCharacters().toString())), theModel.GetBlock(Integer.parseInt(trainEndTextField.getCharacters().toString())), theModel);
+                            allActiveTrains.add(newTrain);
+                            activeTrainNumbersList.add(trainNum);
+                            System.out.println(trainNum);
+                            trainNum++;
+                        }
                     }
                 }
             }
@@ -483,8 +497,14 @@ public class TrackGui extends Application {
 
             @Override
             public void handle(ActionEvent e) {
-                theModel.SetTicketCount(stationNameComboBox.getSelectionModel().getSelectedItem(),Integer.parseInt(ticketCountTextField.getCharacters().toString()));
-                System.out.println("Ticket Update: "+stationNameComboBox.getSelectionModel().getSelectedItem()+" total sales= "+theModel.GetStationBlock(stationNameComboBox.getSelectionModel().getSelectedItem()).GetStation().GetTicketNumbers());
+                if(trackUploaded && IsInteger(ticketCountTextField.getCharacters().toString())) {
+                    if (stationNameComboBox.getSelectionModel().getSelectedItem() == null) {
+
+                    } else {
+                        theModel.SetTicketCount(stationNameComboBox.getSelectionModel().getSelectedItem(), Integer.parseInt(ticketCountTextField.getCharacters().toString()));
+                        System.out.println("Ticket Update: " + stationNameComboBox.getSelectionModel().getSelectedItem() + " total sales= " + theModel.GetStationBlock(stationNameComboBox.getSelectionModel().getSelectedItem()).GetStation().GetTicketNumbers());
+                    }
+                }
             }
         });
         grid.add(sendTicketCountButton,9,8,2,1);
@@ -498,5 +518,13 @@ public class TrackGui extends Application {
             }
         }
         return null;
+    }
+    public boolean IsInteger(String s) {
+       if(s.isEmpty()){
+           return false;
+       }else if(!s.matches("\\d+")){
+           return false;
+       }
+       return true;
     }
 }

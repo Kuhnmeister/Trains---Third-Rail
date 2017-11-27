@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.Collection;
 
 public class TrackModel {
-    HashMap<String,HashMap<String,ArrayList<Block>>> track = new HashMap<String,HashMap<String,ArrayList<Block>>>();
+    private HashMap<String,HashMap<String,ArrayList<Block>>> track = new HashMap<String,HashMap<String,ArrayList<Block>>>();
     private HashMap<String,Block> startingBlocks;
     private TrackGui theGui;
     private ArrayList<Block> occupiedBlocks;
@@ -178,16 +178,19 @@ public class TrackModel {
         return startingBlocks.get(trainLine);
     }
     public Block GetBlock(int requestedBlockNum){
-        for(HashMap.Entry<String,HashMap<String,ArrayList<Block>>> line:track.entrySet()) {
+
+        for (HashMap.Entry<String, HashMap<String, ArrayList<Block>>> line : track.entrySet()) {
             for (HashMap.Entry<String, ArrayList<Block>> section : line.getValue().entrySet()) {
                 for (int i = 0; i < section.getValue().size(); i++) {
-                    if(section.getValue().get(i).GetBlockNum()==requestedBlockNum){
+                    if (section.getValue().get(i).GetBlockNum() == requestedBlockNum) {
                         return section.getValue().get(i);
                     }
                 }
+
             }
         }
         return null;
+
     }
     public void WaysideInput(int updateBlock,String newLightColor,boolean flipSwitch){
             Block editingBlock = GetBlock(updateBlock);
@@ -195,6 +198,7 @@ public class TrackModel {
             editingBlock.FlipSwitch(flipSwitch);
 
     }
+
     public ArrayList<String> GetStationNameList(){
         return stationNames;
     }
@@ -256,5 +260,11 @@ public class TrackModel {
         Block stationBlock = GetStationBlock(stationName);
         stationBlock.GetStation().AddTickets(ticketCount);
     }
+    public HashMap<String,HashMap<String,ArrayList<Block>>> GetTrack(){
+        return track;
+    }
+
+
+
 }
 //String newLine,char newSection, int newBlockNum, int newLength, float newGrade, int newSpeedLimit,String newInfrastructure
