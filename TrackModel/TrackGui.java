@@ -1,3 +1,5 @@
+//Zachery Blouse COE 1186 Fall 2017 - The Third Rail
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

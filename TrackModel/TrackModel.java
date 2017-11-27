@@ -1,3 +1,5 @@
+//Zachery Blouse COE 1186 Fall 2017 - The Third Rail
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;

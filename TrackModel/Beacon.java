@@ -1,3 +1,4 @@
+//Zachery Blouse COE 1186 Fall 2017 - The Third Rail
 import java.util.BitSet;
 public class Beacon{
     private BitSet message = new BitSet(32);
