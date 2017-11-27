@@ -52,9 +52,12 @@ public class AuthorityCalculator implements PLCinterface{
 			}
 		}else {
 			//System.out.println("testing auth on no switch");
-			if(!(safeAdvance.nextBlock1().occupancy()))
+			if(safeAdvance.nextBlock1() != null) 
 			{
-				safeAdvance = safeAdvance.nextBlock1();
+				if(!(safeAdvance.nextBlock1().occupancy()))
+				{
+					safeAdvance = safeAdvance.nextBlock1();
+				}
 			}
 		}
 		
@@ -74,9 +77,12 @@ public class AuthorityCalculator implements PLCinterface{
 				safeReturn = safeReturn.nextBlockSwitch();
 			}
 		}else {
-			if(!safeReturn.nextBlock0().occupancy())
+			if(safeReturn.nextBlock0() != null)
 			{
-				safeReturn = safeReturn.nextBlock0();
+				if(!safeReturn.nextBlock0().occupancy())
+				{
+					safeReturn = safeReturn.nextBlock0();
+				}
 			}
 		}
 		
@@ -87,7 +93,7 @@ public class AuthorityCalculator implements PLCinterface{
 	public boolean decideCrossing(int currentBlock, ArrayList<BlockInfo> track)
 	{
 		int nextBlock = currentBlock;
-		boolean turnOnCrossing = true; //Defaulted to true incase something goes wrong with calculation
+		boolean turnOnCrossing = true; //Defaulted to true in case something goes wrong with calculation
 		for(int i = 0; i < 2; i++)
 		{
 			//the if statement is a check that the train isn't branching off to any path
@@ -100,7 +106,7 @@ public class AuthorityCalculator implements PLCinterface{
 			if(track.get(nextBlock).hasSwitch() && (track.get(nextBlock).switchState() == true))
 			{
 				nextBlock = track.get(nextBlock).blockSwitch();
-			}else {
+			}else if(track.get(nextBlock) != null){
 				nextBlock = track.get(nextBlock).blockNumber1();
 			}
 			turnOnCrossing = false; //if no crossing is found, no need to turn it on

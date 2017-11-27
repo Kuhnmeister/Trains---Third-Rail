@@ -34,7 +34,7 @@ public class WaysideController extends Application{
 
 	//labels for the fields that will be displayed
 	private Label controllerLabel, blockLabel, authorityLabel, switchStateLabel, lightLabel, stationLabel, sectionLabel,
-	PLCProgramLabel, curBlock, occupyLabel, CTCLabel, inCTCLabel, mphLabel, CTCOutLabel, crossingLabel;
+	PLCProgramLabel, curBlock, occupyLabel, CTCLabel, inCTCLabel, mphLabel, CTCOutLabel, crossingLabel, inCTCAuth, trackOut;
 	
 	//these are used during the updating process
 	//this is event driven based on input from the Track model
@@ -43,10 +43,14 @@ public class WaysideController extends Application{
 	private ArrayList<ArrayList<String>> blockSections = new ArrayList<ArrayList<String>>();
 	private int currentBlock = 0;
 	private int currentAuth = 0;
+	private double suggSpeed = 55;
+	private int suggBlock = 0;
 	private BlockInfo block = null;
 	private String selectedBlock, choosenPLC, selectedLine; 
 	private AuthorityCalculator authCalc = new AuthorityCalculator();
 	private Object PLC;
+	///if a PLC has been succesfully loaded, us it for auth and for crossing
+	private boolean PLCloaded = false;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -69,10 +73,14 @@ public class WaysideController extends Application{
 		CTCLabel = new Label("output to the CTC: ");
 		inCTCLabel = new Label("Suggested Speed: ");
 		TextField CTCin = new TextField();
-		CTCin.setPromptText("Enter input from the CTC");
+		CTCin.setPromptText("Enter input speed");
+		inCTCAuth = new Label("Suggested Authority: ");
+		TextField CTCinAuth = new TextField();
+		CTCinAuth.setPromptText("Enter input Authority");
 		mphLabel= new Label("mph");
 		CTCOutLabel = new Label();
 		crossingLabel = new Label("There is no crossing on this block");
+		trackOut = new Label("Output to the track: ");
 		
 		//call method to get track
 		track = getTrack();
@@ -124,6 +132,8 @@ public class WaysideController extends Application{
 	        		lightLabel.setText("Light State:	Red");
 	        		block.setLight(true);
 	        		CTCOutLabel.setText(currentBlock +" Occupied");
+	        		currentAuth = getAuthority(currentBlock, true);
+	        		block.setCrossing(getCrossing(currentBlock));
 	        	}else {
 	        		occupyLabel.setText("Occupancy: Empty");
 	        		block.setOccupancy(false);
@@ -131,8 +141,8 @@ public class WaysideController extends Application{
 	        		block.setLight(false);
 	        		CTCOutLabel.setText(currentBlock +" Empty");
 	        	}
-	        	//get new authority from the newly occupied block
 	        }
+
 	    });
 		
 		//checkbox for switch state
@@ -193,12 +203,18 @@ public class WaysideController extends Application{
 		    	//update crossing label
 		    	if(block.hasCrossing())
 		    	{
-		    		crossingLabel.setText("The crossing on this block is: ");
+		    		if(block.crossingOn()) 
+		    		{
+		    			crossingLabel.setText("The crossing on this block is: ON");
+		    		} else {
+		    			crossingLabel.setText("The crossing on this block is: OFF");
+		    		}
 		    	}
 		    	//check crossing
 		    	//check authority
-		    	currentAuth = getAuthority(currentBlock);
-		    	authorityLabel = new Label("Authority to Block: " + currentAuth);
+		    	currentAuth = getAuthority(currentBlock, true);
+		    	authorityLabel.setText("Authority to Block: " + currentAuth);
+		    	trackOut.setText("Output to the track: Authority to " + currentAuth);
 		    }
 		});
 		
@@ -210,20 +226,50 @@ public class WaysideController extends Application{
 		PLCBtn.setAlignment(Pos.BOTTOM_RIGHT);
 		Pbtn.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
-		    	//TODO make the button update everything when pressed
-		    	//read in the block number from the textfield
 		    	 if ((PLCInput.getText() != null && !PLCInput.getText().isEmpty())) {
 		    		 //get the path to a java file to run for the PLC
 		    		 choosenPLC = PLCInput.getText();
 		    		 selectedLine = cb.getValue();
 		    		 PLC = getPLC();
 		    	 }
-		    	//first calculate occupancy, light, and authority
 		    }
 		});
 		//adding buttons
 		PLCBtn.getChildren().add(Pbtn);
 		
+		//create the input button for CTC
+		Button CTCSbtn = new Button("Submit Speed");
+		Button CTCAbtn = new Button("Submit Authority");
+		HBox Sbtn = new HBox(10);
+		HBox Abtn = new HBox(10);
+		Sbtn.setAlignment(Pos.BOTTOM_LEFT);
+		Abtn.setAlignment(Pos.BOTTOM_RIGHT);
+		//create action listener for buttons
+		CTCSbtn.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		    	//TODO make the button update everything when pressed
+		    	//read in the block number from the text field
+		    	 if ((CTCin.getText() != null && !CTCin.getText().isEmpty())) {
+		    		 suggSpeed = Double.parseDouble(CTCin.getText());
+		    		 //output to track
+		    	 }
+		    	//first calculate occupancy, light, and authority
+		    }
+		});
+		CTCAbtn.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		    	//TODO make the button update everything when pressed
+		    	//read in the block number from the text field
+		    	 if ((CTCinAuth.getText() != null && !CTCinAuth.getText().isEmpty())) {
+		    		 suggBlock = Integer.parseInt(CTCinAuth.getText());
+		    		 //output to track
+		    	 }
+		    	//first calculate occupancy, light, and authority
+		    }
+		});
+		
+		Sbtn.getChildren().add(CTCSbtn);
+		Abtn.getChildren().add(CTCAbtn);
 		
 		//set switch to none unless otherwise stated
 		switchStateLabel.setText("No switch on this block");
@@ -256,13 +302,19 @@ public class WaysideController extends Application{
 		GridPane.setConstraints(inCTCLabel, 0, 10);
 		GridPane.setConstraints(CTCin, 1, 10);
 		GridPane.setConstraints(mphLabel, 2, 10);
-		GridPane.setConstraints(CTCLabel, 0, 11);
-		GridPane.setConstraints(CTCOutLabel, 1, 11);
+		GridPane.setConstraints(inCTCAuth, 0, 11);
+		GridPane.setConstraints(CTCinAuth, 1, 11);
+		GridPane.setConstraints(Sbtn, 0, 12);
+		GridPane.setConstraints(Abtn, 1, 12);
+		GridPane.setConstraints(CTCLabel, 0, 13);
+		GridPane.setConstraints(CTCOutLabel, 1, 13);
+		GridPane.setConstraints(trackOut, 0, 14);
 		
 		
 		//set choicebox for selecting the block in that section
 		grid.getChildren().addAll(controllerLabel, cb, blockLabel, blockInput, sectionCB, authorityLabel, PLCProgramLabel, PLCInput, curBlock, switchStateLabel, 
-		lightLabel, stationLabel, occupyLabel, occBox, swiBox, inCTCLabel, CTCin, mphLabel, CTCLabel, CTCOutLabel,crossingLabel);
+		lightLabel, stationLabel, occupyLabel, occBox, swiBox, inCTCLabel, CTCin, mphLabel, CTCLabel, CTCOutLabel,crossingLabel, CTCinAuth, inCTCAuth, Sbtn,
+		Abtn, trackOut);
 		//prepare the scene
 		Scene scene = new Scene(grid, 800, 600);
 		primaryStage.setScene(scene);
@@ -271,12 +323,20 @@ public class WaysideController extends Application{
 	}
 	
 	//create an Authority calculator
-	public int getAuthority(int blockNow) {
-		int Auth = 0;
+	public int getAuthority(int blockNow, boolean direction) {
+		int auth = blockNow;
 		System.out.println("calling the authCalc");
-		Auth = authCalc.getAuth(blockNow, true, track);
-		//Auth here is the next not free block
-		return Auth;
+		//use PLC
+		if(PLCloaded)
+		{
+			auth = ((PLCinterface)PLC).getAuth(blockNow, direction, track);
+		}
+		else {
+			auth = authCalc.getAuth(blockNow, direction, track);
+		}
+		//TODO create an authority check method
+
+		return auth;
 	}
 	
 	
@@ -291,12 +351,12 @@ public class WaysideController extends Application{
 		for(int i = 1; i < 11; i++)
 		{
 			if(i < 10) {
-				if(i != 5 && i != 7) {
+				if(i != 5 && i != 1) {
 					testTrack.add(new BlockInfo(i - 1, i, i + 1));
 				}else if(i == 5){
 					testTrack.add(new BlockInfo(true, i - 1, i, i + 1)); //create a block with a crossing & switch @5
 				}else {
-					testTrack.add(new BlockInfo(true, i - 1, i, i + 1)); //create a swtich at 7, point to 11
+					testTrack.add(new BlockInfo(true, i - 1, i, i + 1)); 
 				}
 			}else {
 				testTrack.add(new BlockInfo(false, i - 1, i, 0)); //loop it back to the yard
@@ -364,6 +424,18 @@ public class WaysideController extends Application{
 		*/
 	}
 	
+
+	private Boolean getCrossing(int currentBlock) {
+		boolean crossing = true;
+		if(PLCloaded)
+		{
+			crossing = ((PLCinterface)PLC).decideCrossing(currentBlock, track);
+		}else {
+			crossing = authCalc.decideCrossing(currentBlock, track);
+		}
+		return crossing;
+	}
+	
 	public Object getPLC() {
 		Object PLCobject = new AuthorityCalculator();
 		try {
@@ -371,10 +443,12 @@ public class WaysideController extends Application{
 			//now test that the PLC works(testPLC in package is Controller.testPLC)
 			System.out.println(((PLCinterface)PLCobject).getAuth(currentBlock, true, track));
 			System.out.println(((PLCinterface)PLCobject).decideCrossing(currentBlock, track));
+			PLCloaded = true;
 		}catch(Exception e) {
 			System.out.println("The PLC has failed to load");
 			System.out.println(e);
 			PLCobject = new AuthorityCalculator();
+			PLCloaded = false;
 		}
 
 		return PLCobject;
