@@ -201,7 +201,7 @@ public class Wayside {
 		
 	}
 	
-	public void switchSwitch(int blockNum, ) 
+	public void switchSwitch(int blockNum) 
 	{
 		
 	}
