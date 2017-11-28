@@ -56,7 +56,16 @@ public class CentralGui extends Application{
                 theCentral.CreateTrackModel(theArgs);
             }
         });
-        grid.add(createTrackModelButton,9,8,2,1);
+        Button createWaysideButton = new Button("Wayside");
+        createWaysideButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+                theCentral.CreateWayside(theArgs);
+            }
+        });
+        grid.add(createTrackModelButton,0,0,2,1);
+        grid.add(createWaysideButton,0,1,2,1);
         primaryStage.show();
     }
 }

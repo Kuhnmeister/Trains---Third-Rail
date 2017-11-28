@@ -1,5 +1,8 @@
 import java.lang.*;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Central{
 	private TrackModel trackModel;
 	private Wayside wayside;
@@ -24,7 +27,16 @@ public class Central{
 		wayside=new Wayside(emptyArgs, this);
 	}
 
-	public void CreateTrain(int trainNum, int trainLength, ){
+	public void CreateTrain(int trainNum, int trainLength){
+
+	}
+	public void UpdateTrack(HashMap<String,HashMap<String,ArrayList<Block>>> track){
+		System.out.println("Updating the track");
+	}
+	public void UpdateTrainDistance(int trainId, float  movedDistance){
+
+	}
+	public void Update(){
 
 	}
 	/*

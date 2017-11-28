@@ -519,6 +519,10 @@ public class TrackGui extends Application {
         grid.add(sendTicketCountButton,9,8,2,1);
         primaryStage.show();
     };
+    public void AddTrain(Train newTrain){
+        allActiveTrains.add(newTrain);
+        activeTrainNumbersList.add(newTrain.GetTrainNum());
+    }
     private Train GetTrain(int lookingNum){
         for (Iterator<Train> iterator = allActiveTrains.iterator(); iterator.hasNext();) {
             Train train = iterator.next();

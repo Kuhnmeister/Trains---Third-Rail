@@ -296,20 +296,22 @@ public class TrackModel {
 
     //***********************************************************Integrated Methods*******************************************//
     //Called when a train is dispatched from the station
-    public void NewTrain(int trainNum){
-
+    public void NewTrain(int trainNum, int length, int startBlock){
+        Train newTrain =new Train(trainNum, length,0, GetBlock(startBlock),this,true);
+        theGui.AddTrain(newTrain);
     }
+    public void NewTrain(int trainNum, int length, int startBlock,boolean noTrainModel){
+        Train newTrain =new Train(trainNum, length,0, GetBlock(startBlock),this,true,true);
+        theGui.AddTrain(newTrain);
+    }
+
     //Get authority from actual wayside. Wayside will return arraylist<int> which will represent the block nums of all the blocks of authority starting with block the train is on
     //blockNum is the number of the block the train we are seeking authority is on
     //this method returns the distance the train can travel
-    private int GetAuthorityFromWayside(int blockNum){
-        return 0;
-    }
+
     
 
-    public HashMap<String,HashMap<String,ArrayList<Block>>> GetTrack(){
-        return track;
-    }
+
 
 
 
