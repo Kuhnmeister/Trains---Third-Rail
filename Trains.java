@@ -9,6 +9,9 @@ public class Trains{
 	String[] trainStops = new String[26];
 	int stopCount= 0;
 	String departTime;
+	String amPm;
+	int location;
+	String line;
 	
 	public Trains(){
 		numOfTrains++; 
@@ -40,16 +43,26 @@ public class Trains{
 	}
 	public void setSpeed(double speed){
 		trainSpeed = speed;
+
 	}
 	public String getSpeed(){
 		String speed = Double.toString(trainSpeed);
 		return speed;
 	}
-	public void setDeparture(String depart){
-		departTime = depart;
+	public Double getSpeedDouble(){
+		return trainSpeed;
 	}
-	public String getDeparture(){
+	public void setDeparture(String depart){
+		departTime = depart.substring(0,2);
+		System.out.println(departTime);
+		amPm = depart.substring(2,4);
+		System.out.println(amPm);
+	}
+	public String getDepartureTime(){
 		return departTime;
+	}
+	public String getDepartureHalf(){
+		return amPm;
 	}
 	public void setAuthority(int authority){
 		trainAuthority = authority;
@@ -63,7 +76,7 @@ public class Trains{
 		stopCount++;
 	}
 	public boolean hasSchedule(){
-		return (trainStops[0] == null);
+		return (!(trainStops[0] == null));
 	}
 	public String[] getSchedule(){
 		String[] trainSchedule = new String[stopCount];
@@ -71,5 +84,17 @@ public class Trains{
 			trainSchedule[i] = trainStops[i];
 		}
 		return trainSchedule;
+	}
+	public void setLocation(int block){
+		location = block;
+	}
+	public String getLine(){
+		return line;
+	}
+	public int getLocation(){
+		return location;
+	}
+	public void setLine(String lineChoose){
+		line = lineChoose;
 	}
 }
