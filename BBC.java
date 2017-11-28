@@ -384,23 +384,24 @@ public class BBC{
 		JComboBox blockChoose = new JComboBox();
 		
 		
-		line.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				int choice = line.getSelectedIndex();
-				ArrayList<String> blocks = Tracking.getSection(choice);
-				blockChoose.removeAllItems();
-				for(int i = 0; i < blocks.size(); i++){
-					blockChoose.addItem(blocks.get(i));
-				}
-			}
-		});
-		blockChoose.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				int choice = blockChoose.getSelectedIndex();
-				String block = (String)blockChoose.getSelectedItem();
-				LineView(choice, block);
-			}
-		});
+	//	line.addActionListener(new ActionListener(){
+		//	public void actionPerformed(ActionEvent e){
+		//		int choice = line.getSelectedIndex();
+		//		ArrayList<String> blocks = Tracking.getSection(choice);
+		//		blockChoose.removeAllItems();
+		//		for(int i = 0; i < blocks.size(); i++){
+		//			blockChoose.addItem(blocks.get(i));
+	//			}
+			//}
+		//});
+	//	blockChoose.addActionListener(new ActionListener(){
+			//public void actionPerformed(ActionEvent e){
+			//	int choice = blockChoose.getSelectedIndex();
+				
+				//String block = (String)blockChoose.getSelectedItem();
+				//LineView(choice, block);
+			//}
+		//});
 		//adding in components and opening window
 		speedChoice.add(none);
 		speedChoice.add(ten);
@@ -432,10 +433,6 @@ public class BBC{
 		panelBL1.add(trainSelect);
 		panelBL3.add(thruPut);
 		
-		ArrayList<String> lineNames = Tracking.getLines();
-		for(int i = 0; i < lineNames.size(); i++){
-			line.addItem(lineNames.get(i));
-		}
 		panelBL1.add(scheduleView);
 		panelBL1.add(line);
 		panelBL1.add(blockChoose);
@@ -563,41 +560,7 @@ public class BBC{
 	public static void receiveTickets(int numOfTickets){
 
 	}
-	private static void LineView(int choice, String block){
-		JPanel box = new JPanel();
-		JPanel crossings = new JPanel();
-		JPanel undergrounds = new JPanel();
-		JPanel theSwitches = new JPanel();
-		JFrame lineView = new JFrame("Block: " + block);
-		box.setLayout(new GridLayout(1,2));
-		JLabel header = new JLabel();
-		Container lineContainer = lineView.getContentPane();
-		lineContainer.setLayout(new GridLayout(4,1));
-		lineContainer.add(crossings);
-		lineContainer.add(undergrounds);
-		lineContainer.add(theSwitches);
-		ImageIcon Crossing = new ImageIcon("Crossing.png");
-		ImageIcon Underground = new ImageIcon("Underground.png");
-		ImageIcon trackSwitch = new ImageIcon("Switch.png");
-		box.add(header);
-		crossings.removeAll();
-		undergrounds.removeAll();
-		theSwitches.removeAll();
-		if(Tracking.hasCrossing(choice)){
-			JLabel Cross = new JLabel(Crossing);
-			crossings.add(Cross);
-		}
-		if(Tracking.isUnderground(choice)){
-			JLabel Under = new JLabel(Underground);
-			undergrounds.add(Under);
-		}
-		if(Tracking.hasSwitch(choice)){
-			JLabel switches = new JLabel(trackSwitch);
-			theSwitches.add(switches);
-		}
-		lineView.setSize( 250,500 );
-		lineView.setVisible( true );
-	}
+	
 	public static void Purge(Timer t){
 		t.cancel();
 		t.purge();
