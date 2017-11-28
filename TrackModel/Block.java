@@ -109,6 +109,9 @@ public class Block{
     public float GetGrade(){
         return grade;
     }
+    public static void main(String[] args){
+        System.out.println("Ran the main");
+    }
 
     public int GetSpeedLimit(){
         return speedLimit;

@@ -58,6 +58,11 @@ public class TrackGui extends Application {
 
         launch(args);
     }
+    public TrackGui(String[] args, TrackModel newModel, boolean integrated){
+        theModel=newModel;
+        System.out.println("inside the TrackGui");
+
+    }
     public TrackGui(){
 
     }

@@ -5,19 +5,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Collection;
+import javafx.stage.Stage;
 
 public class TrackModel {
     private HashMap<String,HashMap<String,ArrayList<Block>>> track = new HashMap<String,HashMap<String,ArrayList<Block>>>();
     private HashMap<String,Block> startingBlocks;
     private TrackGui theGui;
     private ArrayList<Block> occupiedBlocks;
-
+    private Central theCentral;
     public ArrayList<String> lineNames = new ArrayList<String>();
     private ArrayList<Block> stations = new ArrayList<Block>();
     private ArrayList<String> stationNames = new ArrayList<String>();
     private int minimumBlockLength=-1;
     private boolean demoMode=false;
+    public TrackModel(String[] args, Central newCentral){
+        System.out.println("Inside track Model contstructor");
+        theCentral=newCentral;
+        theGui = new TrackGui(args,this,true);
+        theGui.start(new Stage());
 
+    }
     public TrackModel(String[] args){
         theGui = new TrackGui(args,this);
     }
@@ -26,6 +33,9 @@ public class TrackModel {
 
     }
     public void LoadNewTrack(String fileName){
+        if(theCentral != null) {
+            theCentral.TestMethod("IT Works!!!!!");
+        }
         occupiedBlocks=new ArrayList<Block>();
         track = new HashMap<String,HashMap<String,ArrayList<Block>>>();
         startingBlocks = new HashMap<String,Block>();
