@@ -14,7 +14,7 @@ public class BlockInfo {
 	private int blockNumber = 0; //the block number
 	private int blockNumber0 = 0; //the block being pointed towards on initial departure(0 means yard)
 	private int blockNumber1 = 0; //block being pointed towards during return
-	private int blockNumberSwitch = -1; //will be -1 for any block without a switch
+	private int blockNumberSwitch = 0; //will be -1 for any block without a switch
 	//this blocks are same as above
 	//but this must be completed after the track is imported as BlockInfo
 	private BlockInfo nextBlock0 = null;

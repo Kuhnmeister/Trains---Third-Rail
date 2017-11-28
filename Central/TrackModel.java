@@ -174,7 +174,7 @@ public class TrackModel {
                     }
                 }
             }
-
+            theCentral.UpdateTrack(track);
         }catch(IOException e){
             System.err.println("Caught IOException: " + e.getMessage());
         }
