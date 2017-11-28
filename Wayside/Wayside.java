@@ -43,7 +43,7 @@ public class Wayside {
 		central = cen;
 		//getTrack();
 		//getSections();
-		track = getTrack(newTrack);
+		track = GetTrack(newTrack);
 		block = track.get(0);
 		theGui = new WaysideController(args, this, true); //launchless GUI
 		try {
@@ -173,7 +173,7 @@ public class Wayside {
 			}
 		}
 	
-	public ArrayList<BlockInfo> getTrack( HashMap<String,HashMap<String,ArrayList<Block>>> newTrack)
+	public ArrayList<BlockInfo> GetTrack( HashMap<String,HashMap<String,ArrayList<Block>>> newTrack)
 	{
 		try {
 		Block currentBlock;
