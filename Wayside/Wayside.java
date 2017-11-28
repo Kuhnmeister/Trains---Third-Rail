@@ -4,12 +4,14 @@
 //this is the handle that he central will use to controll everything
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javafx.stage.Stage;
 
 public class Wayside {
 
 	public ArrayList<BlockInfo> track;
+	public ArrayList<ArrayList<BlockInfo>> lines;
 	public ArrayList<String> trackSections = new ArrayList<String>();
 	public ArrayList<ArrayList<String>> blockSections = new ArrayList<ArrayList<String>>();
 	public int currentBlock = 0;
@@ -37,11 +39,11 @@ public class Wayside {
     }
 	
 	//constructor for being called from anything else
-	public Wayside(String[] args, Central cen){
+	public Wayside(String[] args, Central cen, HashMap<String,HashMap<String,ArrayList<Block>>> newTrack){
 		central = cen;
 		//getTrack();
 		//getSections();
-		track = getTrack();
+		track = getTrack(newTrack);
 		block = track.get(0);
 		theGui = new WaysideController(args, this, true); //launchless GUI
 		try {
@@ -171,6 +173,55 @@ public class Wayside {
 			}
 		}
 	
+	public ArrayList<BlockInfo> getTrack( HashMap<String,HashMap<String,ArrayList<Block>>> newTrack)
+	{
+		try {
+		Block currentBlock;
+		BlockInfo newBlockInfo, prevBlock, nextBlock, currBlock, switchBlock;
+		for (HashMap.Entry<String, HashMap<String, ArrayList<Block>>> line : newTrack.entrySet()) {
+			track = new ArrayList<BlockInfo>();
+            for (HashMap.Entry<String, ArrayList<Block>> section : line.getValue().entrySet()) {
+                for (int i = 0; i < section.getValue().size(); i++) {
+                	//this is a block in the form of Block
+                	currentBlock = section.getValue().get(i); 
+                	//public BlockInfo(Boolean crossing, Boolean switchHere, int createBlockNumber0, int blockNumber, int createBlockNumber1, int createBlockNumberSwitch)
+                	newBlockInfo = new BlockInfo(currentBlock.GetHasRailwayCrossing(), currentBlock.GetHasSwitch(), currentBlock.GetDirection1Num(), currentBlock.GetBlockNum(),
+                			currentBlock.GetDirection0Num(), currentBlock.GetSwitchNum(), currentBlock.GetSection());
+                	track.add(newBlockInfo);
+                }
+            }
+            
+            //link the track its itself
+            currBlock = track.get(0);
+            for(int i = 0; i < track.size(); i++)
+            {
+            	prevBlock = track.get(currBlock.blockNumber0());
+    			nextBlock = track.get(currBlock.blockNumber1());
+    			if(currBlock.blockSwitch() == -1) {
+    				switchBlock = null;
+    			}else {
+    				switchBlock = track.get(currBlock.blockSwitch());
+    			}
+    			//System.out.println("linking blocks");	
+    			track.get(currBlock.blockNumber()).setNextBlocks(prevBlock, nextBlock, switchBlock);
+    			currBlock = currBlock.nextBlock1();
+            	
+            }
+            
+            lines.add(track);
+		} 
+		
+		//set initial track to green line
+		track = lines.get(0);
+		
+		}catch(Exception e) {
+			//something wasn't loaded/read correctly
+			System.out.println(e);
+		}
+		
+		return track;
+        }
+		
 	//called from controller method to update track state
 	public void AddOccupied(int occBlock)
 	{
@@ -192,13 +243,22 @@ public class Wayside {
 	//get speed from central 
 	public void suggestSpeed(int blockNum, double speed)
 	{
-		
+		//pass this like a hot potatoe
+		//central.suggestSpeed(blockNum, speed);
 	}
 	
 	//get authority from central
 	public void suggestAuthority(int blockNum, int suggestedAuth)
 	{
-		
+		currentBlock = blockNum;
+		currentAuth = getAuthority(currentBlock, true);
+		 if(currentAuth.contains(suggestedAuth)) {
+			//safe authority
+			int index = currentAuth.indexOf(suggestedAuth);
+			currentAuth = new ArrayList<Integer> (currentAuth.subList(0, index));
+
+		 }
+		 //call central to pass to track
 	}
 	
 	public void switchSwitch(int blockNum) 
