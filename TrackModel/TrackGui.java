@@ -461,8 +461,10 @@ public class TrackGui extends Application {
                     timeline.stop();
                     timeline.play();
                     if (theModel != null) {
-                        if (theModel.GetStartingBlock(lineSelectionComboBox.getSelectionModel().getSelectedItem()) != null) {
-                            Train newTrain = new Train(trainNum, 0, theModel.GetBlock(Integer.parseInt(trainStartTextField.getCharacters().toString())), theModel.GetBlock(Integer.parseInt(trainEndTextField.getCharacters().toString())), theModel);
+                        if (theModel.GetStartingBlock(lineSelectionTrainComboBox.getSelectionModel().getSelectedItem()) != null) {
+
+
+                            Train newTrain = new Train(trainNum, 20,0, theModel.GetBlock(Integer.parseInt(trainStartTextField.getCharacters().toString())), theModel.GetBlock(Integer.parseInt(trainEndTextField.getCharacters().toString())), theModel);
                             allActiveTrains.add(newTrain);
                             activeTrainNumbersList.add(trainNum);
                             System.out.println(trainNum);

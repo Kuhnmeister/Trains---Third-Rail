@@ -14,12 +14,16 @@ public class Train{
     private boolean trainActive=true;
     private int authority=0;
     private boolean moveAtMaxSpeed=false;
+    private Block prevBlock;
+    private int trainLength;
+    private boolean prevBlockOccupied=false;
 
-    public Train(int newTrainNum,int newDirection,Block newCurrentBlock,Block newEndingBlock,TrackModel newModel) {
+    public Train(int newTrainNum,int newTrainLength,int newDirection,Block newCurrentBlock,Block newEndingBlock,TrackModel newModel) {
         trainNum = newTrainNum;
         direction = newDirection;
         currentBlock = newCurrentBlock;
         endingBlock=newEndingBlock;
+        trainLength=newTrainLength;
         theModel = newModel;
         theModel.AddOccupied(currentBlock);
         currentBlock.SetIsOccupied(true);
@@ -27,14 +31,26 @@ public class Train{
         updatePositionTimer=new Timer();
         updatePositionTimer.schedule(new TrainUpdateTimer(updateTimeMS,this),0,updateTimeMS);
     }
+    public Train(int newTrainNum,int newTrainLength,int newDirection,Block newCurrentBlock,Block newEndingBlock,TrackModel newModel,boolean integrated) {
+        trainNum = newTrainNum;
+        direction = newDirection;
+        currentBlock = newCurrentBlock;
+        endingBlock=newEndingBlock;
+        theModel = newModel;
+        trainLength=newTrainLength;
+        theModel.AddOccupied(currentBlock);
+        currentBlock.SetIsOccupied(true);
+        nextBlock = currentBlock.GetNextBlock(direction);
+
+    }
 
     public Block GetCurrentBlock(){
         return currentBlock;
     }
     private void MoveNextBlock(){
         if(!currentBlock.GetPowerFail() && !currentBlock.GetTrackCircuitFail() && !currentBlock.GetBrokenRail()) {
-            theModel.RemoveOccupied(currentBlock);
-            currentBlock.SetIsOccupied(false);
+            prevBlock=currentBlock;
+            prevBlockOccupied=true;
         }
         if(currentBlock != endingBlock) {
             currentBlock = nextBlock;
@@ -69,7 +85,34 @@ public class Train{
                 positionOnBlock = positionOnBlock - currentBlock.GetLength();
                 MoveNextBlock();
             }
+            if(prevBlockOccupied){
+                if(positionOnBlock>trainLength){
+                    if(!prevBlock.GetPowerFail() && !prevBlock.GetTrackCircuitFail() && !prevBlock.GetBrokenRail()) {
+                        theModel.RemoveOccupied(prevBlock);
+                        prevBlock.SetIsOccupied(false);
+                        System.out.println("Finally left block: "+prevBlock.GetBlockNum()+ " After Travelling: "+positionOnBlock);
+                        prevBlockOccupied=false;
 
+                    }
+                }
+            }
+
+        }
+    }
+    public void UpdatePositionIntegrated(float travelledDistance){
+        positionOnBlock = positionOnBlock + travelledDistance;
+        if (positionOnBlock > currentBlock.GetLength()) {
+            positionOnBlock = positionOnBlock - currentBlock.GetLength();
+            MoveNextBlock();
+        }
+        if(prevBlockOccupied){
+            if(positionOnBlock>trainLength){
+                if(!prevBlock.GetPowerFail() && !prevBlock.GetTrackCircuitFail() && !prevBlock.GetBrokenRail()) {
+                    theModel.RemoveOccupied(prevBlock);
+                    prevBlock.SetIsOccupied(false);
+                    prevBlockOccupied=false;
+                }
+            }
         }
     }
     public float GetUpdateTime(){
