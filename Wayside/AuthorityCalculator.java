@@ -1,4 +1,3 @@
-package Controller;
 
 import java.util.*;
 
@@ -10,32 +9,42 @@ public class AuthorityCalculator implements PLCinterface{
 	
 	//only one can exist per track
 	//track meaning any number of blocks
+	
+	//an arraylist of all the blocks that are safe to move on
+	private ArrayList<Integer>  freeBlocks;
+	
 	public AuthorityCalculator() {
 		//null constructor
 	}
 		
 	//this method will return the maximum safe Authority for a train(aka doesn't let it run into anything)
 	//used when no PLC is uploaded
-	public int getAuth(int currentBlock, boolean direction, ArrayList<BlockInfo> track)
+	public ArrayList<Integer> getAuth(int currentBlock, boolean direction, ArrayList<BlockInfo> track)
 	{
 		//the current block will always be the minimum authority; i.e. can't move forward or backwards
 		//this will also be safe
 		int authority = currentBlock; 
+		//array list of free blocks
+		freeBlocks = new ArrayList<Integer>();
+		freeBlocks.add(authority);
+		
 		System.out.println("get Auth has been called");
 		//direction determines advancing/returning
 		if(direction) {
 			//compare the blocks to make sure they aren't the same(if they're the same the maximum has been reached)
 			while(canAdvance(track.get(authority)) != authority) {
 				authority = canAdvance(track.get(authority));
+				freeBlocks.add(authority);
 			}
 		}else {
 			//compare the blocks to make sure they aren't the same(if they're the same the maximum has been reached)
 			while(canReturn(track.get(authority)) != authority) {
 				authority = canReturn(track.get(authority));
+				freeBlocks.add(authority);
 			}
 		}
 		System.out.println(authority);
-		return authority;
+		return freeBlocks;
 	}
 	
 	//canAdvance will return that is is safe to move forward from current block

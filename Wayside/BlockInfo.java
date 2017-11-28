@@ -1,4 +1,4 @@
-package Controller;
+
 //Ethan Shuffelbottom
 //This class will contain all the information need for wayside operation
 //block occupancy, block Light, block crossing, if there is a switch, 
@@ -11,9 +11,9 @@ package Controller;
 public class BlockInfo {
 	private String section;
 	private Boolean occupancy, light, hasCrossing, crossingOn, hasSwitch, switchState;
-	private int blockNumber; //the block number
-	private int blockNumber0; //the block being pointed towards on initial departure(0 means yard)
-	private int blockNumber1; //block being pointed towards during return
+	private int blockNumber = 0; //the block number
+	private int blockNumber0 = 0; //the block being pointed towards on initial departure(0 means yard)
+	private int blockNumber1 = 0; //block being pointed towards during return
 	private int blockNumberSwitch = -1; //will be -1 for any block without a switch
 	//this blocks are same as above
 	//but this must be completed after the track is imported as BlockInfo
@@ -39,9 +39,7 @@ public class BlockInfo {
 		blockNumber0 = createBlockNumber0;
 		blockNumber1 = createBlockNumber1;
 		
-		if(switchHere) {
-			blockNumberSwitch = createBlockNumberSwitch;
-		}
+		blockNumberSwitch = createBlockNumberSwitch;
 	}
 	
 	public BlockInfo(Boolean crossing, Boolean switchHere, int createBlockNumber0, int blockNumber, int createBlockNumber1, int createBlockNumberSwitch)
@@ -60,9 +58,7 @@ public class BlockInfo {
 		blockNumber0 = createBlockNumber0;
 		blockNumber1 = createBlockNumber1;
 		
-		if(switchHere) {
-			blockNumberSwitch = createBlockNumberSwitch;
-		}
+		blockNumberSwitch = createBlockNumberSwitch;
 	}
 	
 	//the switchless constructor
@@ -111,9 +107,8 @@ public class BlockInfo {
 	public void setNextBlocks(BlockInfo block0, BlockInfo block1, BlockInfo blockSwitch) {
 		nextBlock0 = block0; //for the block before
 		nextBlock1 = block1; //for block after
-		if(hasSwitch) {
-			nextBlockSwitch = blockSwitch;
-		}
+		
+		nextBlockSwitch = blockSwitch;
 	}
 	
 	public void setOccupancy(boolean newOcc)
