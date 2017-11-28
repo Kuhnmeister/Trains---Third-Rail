@@ -41,8 +41,8 @@ public class BBC{
 		Label thruPut = new Label("Ticket Sales: " + ticketSales);
 		int[] autoManState = new int[1];
 		autoManState[0] = 0;
-		JComboBox trainSelect = new JComboBox();
-		JComboBox trainChoice = new JComboBox();
+		JComboBox<String> trainSelect = new JComboBox<String>();
+		JComboBox<String> trainChoice = new JComboBox<String>();
 		
 		int[] trainCount = new int[1];
 		trainCount[0] = 0;
@@ -107,7 +107,7 @@ public class BBC{
 		jlabelNum[0] = 0;
 		
 		//track interactivity functionality
-		JComboBox line = new JComboBox();
+		JComboBox<String> line = new JComboBox<String>();
 		
 		
 
@@ -231,7 +231,7 @@ public class BBC{
 				}
 				String temp;
 				int state = autoListener.getStateChange();
-				if (state == autoListener.SELECTED) {
+				if (state == ItemEvent.SELECTED) {
 					autoMan.setText("Automatic"); 
 				} 
 				else {
@@ -381,27 +381,10 @@ public class BBC{
 			}
 		});
 		
-		JComboBox blockChoose = new JComboBox();
+		JComboBox<String> blockChoose = new JComboBox<String>();
 		
 		
-	//	line.addActionListener(new ActionListener(){
-		//	public void actionPerformed(ActionEvent e){
-		//		int choice = line.getSelectedIndex();
-		//		ArrayList<String> blocks = Tracking.getSection(choice);
-		//		blockChoose.removeAllItems();
-		//		for(int i = 0; i < blocks.size(); i++){
-		//			blockChoose.addItem(blocks.get(i));
-	//			}
-			//}
-		//});
-	//	blockChoose.addActionListener(new ActionListener(){
-			//public void actionPerformed(ActionEvent e){
-			//	int choice = blockChoose.getSelectedIndex();
-				
-				//String block = (String)blockChoose.getSelectedItem();
-				//LineView(choice, block);
-			//}
-		//});
+
 		//adding in components and opening window
 		speedChoice.add(none);
 		speedChoice.add(ten);
@@ -446,7 +429,7 @@ public class BBC{
 	public static void createFrame( ArrayList<JFrame> trainWindow, int[] windowNum, ArrayList<Trains> trainList, int open){
 		windowNum[0] += 1;
 		Trains trainData = trainList.get(open);
-		JComboBox stations = new JComboBox();
+		JComboBox<String> stations = new JComboBox<String>();
 		stations.addItem("Pioneer");
 		stations.addItem("Edgebrook");
 		stations.addItem("Station");
@@ -560,13 +543,13 @@ public class BBC{
 	public static void receiveTickets(int numOfTickets){
 
 	}
-	
+
 	public static void Purge(Timer t){
 		t.cancel();
 		t.purge();
 	}
 	public static Timer OneTimes( TimerTask clockRun, int[] timeConstant, int[] time, JLabel clock,
-	String[] amPm, ArrayList<Trains> trainList, int[] autoManState, int[] trainListed, int[] trainCount, JComboBox trainSelect, JComboBox trainChoice)
+	String[] amPm, ArrayList<Trains> trainList, int[] autoManState, int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice)
 	{
 		timeConstant[0] = 1000;
 		Timer t = new Timer();
@@ -576,7 +559,7 @@ public class BBC{
 		return t;
 	}
 	public static Timer TenTimes( TimerTask clockRun, int[] timeConstant, int[] time, JLabel clock, 
-	String[] amPm, ArrayList<Trains> trainList, int[] autoManState, int[] trainListed, int[] trainCount, JComboBox trainSelect, JComboBox trainChoice)
+	String[] amPm, ArrayList<Trains> trainList, int[] autoManState, int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice)
 	{
 		timeConstant[0] = 100;
 		Timer t = new Timer();
@@ -586,7 +569,7 @@ public class BBC{
 		return t;
 	}
 	public static Timer HundredTimes( TimerTask clockRun, int[] timeConstant, int[] time, JLabel clock,
-	String[] amPm, ArrayList<Trains> trainList, int[] autoManState, int[] trainListed, int[] trainCount, JComboBox trainSelect, JComboBox trainChoice)
+	String[] amPm, ArrayList<Trains> trainList, int[] autoManState, int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice)
 	{
 		timeConstant[0] = 10;
 		Timer t = new Timer();
@@ -596,7 +579,7 @@ public class BBC{
 		return t;
 	}
 	public static TimerTask ClockRun(int[] time, JLabel clock, String[] amPm, ArrayList<Trains> trainList, int[] autoManState,
-	int[] trainListed, int[] trainCount, JComboBox trainSelect, JComboBox trainChoice){
+	int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice){
 		TimerTask clockRun = new TimerTask(){
 			public void run(){
 				if((time[0]/10000) == 12){
