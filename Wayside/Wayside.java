@@ -1,6 +1,7 @@
 //Ethan shuffelbottom
 //migrate(d) all no GUI related functionality from WaysideController
 //to this Wayside. This was done for integration 
+//this is the handle that he central will use to controll everything
 
 import java.util.ArrayList;
 
@@ -195,7 +196,12 @@ public class Wayside {
 	}
 	
 	//get authority from central
-	public void suggestAuthority(int blockNum, ArrayList<Integer> suggestedAuth)
+	public void suggestAuthority(int blockNum, int suggestedAuth)
+	{
+		
+	}
+	
+	public void switchSwitch(int blockNum, ) 
 	{
 		
 	}

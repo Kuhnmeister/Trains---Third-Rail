@@ -1,7 +1,7 @@
 import java.util.ArrayList;
-
+//Ethan Shuffelbottom
 //this is a test PLC to try loading the a new PLC
-
+//view this as an emergency PLC, stops trains from moving and turns on all crossings
 public class testPLC implements PLCinterface {
 	
 
@@ -22,7 +22,7 @@ public class testPLC implements PLCinterface {
 	@Override
 	public boolean decideCrossing(int currentBlock, ArrayList<BlockInfo> track) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }

@@ -106,11 +106,12 @@ public class WaysideController extends Application{
 		way.getSections(); 
 		
 		//for each section of track
+		//TODO make a choice box for all sections, instead of showing all blocks
 		for(int i = 0; i < way.trackSections.size(); i++) {
 			sectionCB.getItems().add(way.trackSections.get(i));
 			for(int j = 0; j < way.blockSections.get(i).size(); j++)
 			{
-				blockInput.getItems().add(way.blockSections.get(0).get(j));
+				blockInput.getItems().add(way.blockSections.get(i).get(j));
 			}
 		}
 		
