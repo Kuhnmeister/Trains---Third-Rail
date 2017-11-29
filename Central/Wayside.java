@@ -329,7 +329,6 @@ public class Wayside {
 	public void SuggestSpeed(int blockNum,int trainNum, double speed)
 	{
 		//pass this like a hot potato
-		//central.suggestSpeed(blockNum, speed);
 		System.out.println("Received Suggested Speed for train: "+trainNum+": BlockNum: "+blockNum+" speed: "+speed);
 		central.WaysideCommandedSpeed(trainNum,speed);
 	}
@@ -359,7 +358,7 @@ public class Wayside {
 		//move switch in BlockInfo with this method
 		if(track.get(blockNum).setSwitch(state))
 		{
-			central.TrackMoveSwitch(blockNum, lineNames[0]);
+			//central.TrackMoveSwitch(blockNum, lineNames[0]);
 		}
 		return track.get(blockNum).switchState();
 	}
