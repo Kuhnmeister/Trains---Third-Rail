@@ -271,7 +271,7 @@ public class Wayside {
 	}
 	
 	//get newly freed block from track
-	public void removeOccupied(int freedBlock)
+	public void RemoveOccupied(int freedBlock)
 	{
 		if(occBlocks.contains((Integer) freedBlock))
 		{
