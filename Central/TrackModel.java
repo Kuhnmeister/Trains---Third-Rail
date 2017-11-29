@@ -58,6 +58,7 @@ public class TrackModel {
                 }else{
                     nextBlock0Num = Integer.parseInt(blockString[7]);
                 }
+                System.out.println("");
                 if(blockString[8].equals("None")){
                     nextBlock1Num=-1;
                 }else{
