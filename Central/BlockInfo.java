@@ -145,8 +145,22 @@ public class BlockInfo {
 	{
 		boolean worked = false;
 		//the only possible state that will allow a switch to move: free and has switch
-		if(!occupancy && hasSwitch) {
+		if(!occupancy && hasSwitch && !(nextBlock1.occupancy) && !(nextBlock0.occupancy)) {
 			switchState = !(switchState);
+			//check that the switch was moved
+			worked = true;
+		}
+		
+		return worked;
+	}
+	
+	
+	public boolean setSwitch(boolean state)
+	{
+		boolean worked = false;
+		//the only possible state that will allow a switch to move: free and has switch
+		if(!occupancy && hasSwitch && !(nextBlock1.occupancy) && !(nextBlock0.occupancy)) {
+			switchState = state;
 			//check that the switch was moved
 			worked = true;
 		}

@@ -57,11 +57,17 @@ public class Wayside {
 		Wayside thisWayside = new Wayside(args);
 	}
 	
+	//called from GUI in order to change the currentTrack
+	public void changeTrack()
+	{
+		
+	}
 	
 	//method for getting the Authority
 	public ArrayList<Integer> getAuthority(int blockNow, boolean direction) {
 		ArrayList<Integer> auth;
 		System.out.println("calling the authCalc");
+		try {
 		//use PLC
 		if(PLCloaded)
 		{
@@ -71,6 +77,11 @@ public class Wayside {
 			auth = authCalc.getAuth(blockNow, direction, track);
 		}
 		//TODO check Authority gotten from these methods
+		} catch(Exception e) {
+			//if there is any error in calculating authoirty, set authority to currentBlock
+			auth = new ArrayList<Integer>();
+			auth.add((Integer) blockNow);
+		}
 		return auth;
 	}
 	
@@ -78,6 +89,7 @@ public class Wayside {
 		return track;
 	}
 	
+	//A hard coded track used for testing purposes only
 	//replace this with getTrack from trackModel
 	public ArrayList<BlockInfo> getTrack(boolean t) {
 		ArrayList<BlockInfo> testTrack = new ArrayList<BlockInfo>();
@@ -327,9 +339,10 @@ public class Wayside {
 		 central.WaysideSendAuthority(currentAuth, trainNum);
 	}
 	
-	public void switchSwitch(int blockNum) 
+	public void switchSwitch(int blockNum, boolean state) 
 	{
 		//move switch in BlockInfo with this method
-		
+		track.get(blockNum).setSwitch(state);
+		//call central to call track to move switch at block number
 	}
 }
