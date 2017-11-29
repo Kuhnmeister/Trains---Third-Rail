@@ -15,7 +15,8 @@ public class Wayside {
 	public ArrayList<String> trackSections = new ArrayList<String>();
 	public ArrayList<ArrayList<String>> blockSections = new ArrayList<ArrayList<String>>();
 	public int currentBlock = 0;
-	public ArrayList<Integer> currentAuth, occBlocks;
+	public ArrayList<Integer> currentAuth;
+	public ArrayList<Integer> occBlocks = new ArrayList<Integer>();
 	public double suggSpeed = 55;
 	public int suggBlock = 0;
 	public BlockInfo block = null;
@@ -41,7 +42,6 @@ public class Wayside {
 	//constructor for being called from anything else
 	public Wayside(String[] args, Central cen, HashMap<String,HashMap<String,ArrayList<Block>>> newTrack){
 		central = cen;
-		//getTrack();
 		//getSections();
 		track = GetTrack(newTrack);
 		block = track.get(0);
@@ -74,8 +74,12 @@ public class Wayside {
 		return auth;
 	}
 	
+	public ArrayList<BlockInfo> getTrack(){
+		return track;
+	}
+	
 	//replace this with getTrack from trackModel
-	public ArrayList<BlockInfo> getTrack() {
+	public ArrayList<BlockInfo> getTrack(boolean t) {
 		ArrayList<BlockInfo> testTrack = new ArrayList<BlockInfo>();
 		BlockInfo currBlock, prevBlock, nextBlock, switchBlock;
 		//the first block will be the yard
@@ -252,13 +256,34 @@ public class Wayside {
 	//called from controller method to update track state
 	public void AddOccupied(int occBlock)
 	{
+		if(occBlocks.contains((Integer) occBlock))
+		{
+			//do not add, already in list
+		}else {
+			//add to occupied list
+			occBlocks.add((Integer) occBlock);
+			//set the block in the trck object as occupied
+			track.get(occBlock).setOccupancy(true);
+			//call Central to inform CTC
+			//Central.TrackStateUpdate(int occBlock);
+		}
 		
 	}
 	
 	//get newly freed block from track
 	public void removeOccupied(int freedBlock)
 	{
-		
+		if(occBlocks.contains((Integer) freedBlock))
+		{
+			//add to occupied list
+			occBlocks.add((Integer) freedBlock);
+			//set the block in the trck object as occupied
+			track.get(freedBlock).setOccupancy(false);
+			//call Central to inform CTC
+			//Central.TrackStateUpdate(int occBlock);
+		}else {
+			
+		}
 	}
 	
 	//this method creates a track from the track models object
