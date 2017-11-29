@@ -15,10 +15,10 @@ public class Tracking{
 	HashMap<String, HashMap<String, ArrayList<Block>>> trackData;
 	HashMap<String, ArrayList<Block>> section;
 	ArrayList<String[]> sectionList = new ArrayList<String[]>();
-	HashMap<Block, Integer> blockInfrastructure;
+	HashMap<Block, Integer> blockInfrastructure = new HashMap<Block, Integer>();
 	String[] lines;
-	ArrayList<Block> blocks;
-	HashMap< String, ArrayList<Block>> lineBlocks;
+	ArrayList<Block> blocks = new ArrayList<Block>();
+	HashMap< String, ArrayList<Block>> lineBlocks = new HashMap<String, ArrayList<Block>>();
 	ArrayList<Block> lineBlockList = new ArrayList<Block>();
 	boolean trackTrue = false;
 	public Tracking(){
