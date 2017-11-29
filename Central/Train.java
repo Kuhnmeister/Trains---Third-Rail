@@ -69,10 +69,13 @@ public class Train{
             }
             nextBlock = nextBlock.GetNextBlock(direction);
             currentBlock = nextBlock;
-            if(currentBlock.IsDirectionChange()){
-                if(direction==0){
+            if(direction==0){
+                if(currentBlock.IsDirectionChange1()){
                     direction=1;
-                }else{
+                    System.out.println("Direction changed to 1 Next block: "+nextBlock.GetBlockNum());
+                }
+            }else{
+                if(currentBlock.IsDirectionChange0()){
                     direction=0;
                 }
             }
@@ -80,7 +83,7 @@ public class Train{
                 theModel.AddOccupied(currentBlock);
                 currentBlock.SetIsOccupied(true);
             }
-                nextBlock = nextBlock.GetNextBlock(direction);
+
 
         }else {
             if (!currentBlock.GetPowerFail() && !currentBlock.GetTrackCircuitFail() && !currentBlock.GetBrokenRail()) {
@@ -90,10 +93,13 @@ public class Train{
             if (currentBlock != endingBlock) {
                 nextBlock = nextBlock.GetNextBlock(direction);
                 currentBlock = nextBlock;
-                if(currentBlock.IsDirectionChange()){
-                    if(direction==0){
+                if(direction==0){
+                    if(currentBlock.IsDirectionChange1()){
                         direction=1;
-                    }else{
+                        System.out.println("Direction changed to 1 Next block: "+nextBlock.GetBlockNum());
+                    }
+                }else{
+                    if(currentBlock.IsDirectionChange0()){
                         direction=0;
                     }
                 }
@@ -102,7 +108,7 @@ public class Train{
                     currentBlock.SetIsOccupied(true);
 
                 }
-                nextBlock = nextBlock.GetNextBlock(direction);
+                //nextBlock = nextBlock.GetNextBlock(direction);
             } else {
                 updatePositionTimer.cancel();
                 trainActive = false;
@@ -125,7 +131,7 @@ public class Train{
         return direction;
     }
     public void UpdatePosition(int timeSinceLastUpdateMS){
-        System.out.println("Train is updating");
+
         if(moveAtMaxSpeed) {
             positionOnBlock = positionOnBlock + currentVelocity * (double) (timeSinceLastUpdateMS / 1000);
             if (positionOnBlock > currentBlock.GetLength()) {
@@ -204,6 +210,6 @@ class TrainUpdateTimer extends TimerTask{
     }
     public void run(){
         System.out.println("Train update timer: "+updateTime);
-        thisTrain.UpdatePosition(updateTime);
+        thisTrain.UpdatePosition(updateTime*3);
     }
 }

@@ -4,6 +4,7 @@
 //this is the handle that he central will use to controll everything
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import javafx.stage.Stage;
@@ -14,8 +15,10 @@ public class Wayside {
 	public ArrayList<ArrayList<BlockInfo>> lines;
 	public ArrayList<String> trackSections = new ArrayList<String>();
 	public ArrayList<ArrayList<String>> blockSections = new ArrayList<ArrayList<String>>();
+	public String[] lineNames;
 	public int currentBlock = 0;
 	public ArrayList<Integer> currentAuth;
+	public ArrayList<Integer> currentAuth1;
 	public ArrayList<Integer> occBlocks = new ArrayList<Integer>();
 	public double suggSpeed = 55;
 	public int suggBlock = 0;
@@ -191,6 +194,8 @@ public class Wayside {
 	
 	public ArrayList<BlockInfo> GetTrack( HashMap<String,HashMap<String,ArrayList<Block>>> newTrack)
 	{
+		String[] keyArray = newTrack.keySet().toArray(new String[newTrack.keySet().size()]);
+		lineNames = keyArray;
 		try {
 		Block currentBlock;
 		BlockInfo newBlockInfo, prevBlock, nextBlock, currBlock, switchBlock;
@@ -291,6 +296,11 @@ public class Wayside {
 			central.TrackStateUpdate(occBlock);
 		}
 		System.out.println(occBlocks.toString());
+		//now call for an authority and send to to the track
+		currentAuth = getAuthority(occBlock, true);
+		currentAuth1 = getAuthority(occBlock, false);
+		//pass these to the central to be sent to the train
+		central.WaysideSendAuthority(currentAuth, currentAuth1, occBlock, true);
 	}
 	
 	//get newly freed block from track
@@ -329,20 +339,28 @@ public class Wayside {
 	{
 		currentBlock = blockNum;
 		currentAuth = getAuthority(currentBlock, true);
+		currentAuth1 = getAuthority(currentBlock, false);
 		 if(currentAuth.contains(suggestedAuth)) {
 			//safe authority
 			int index = currentAuth.indexOf(suggestedAuth);
 			currentAuth = new ArrayList<Integer> (currentAuth.subList(0, index));
+			
+		 }else if(currentAuth1.contains(suggestedAuth)) {
+			int index = currentAuth1.indexOf(suggestedAuth);
+			currentAuth = new ArrayList<Integer> (currentAuth1.subList(0, index));
 		 }
 		 //call central to pass to track
 		 
-		 central.WaysideSendAuthority(currentAuth, trainNum);
+		 central.WaysideSendAuthority(currentAuth, currentAuth1, trainNum);
 	}
 	
-	public void switchSwitch(int blockNum, boolean state) 
+	public boolean SwitchSwitch(int blockNum, boolean state) 
 	{
 		//move switch in BlockInfo with this method
-		track.get(blockNum).setSwitch(state);
-		//call central to call track to move switch at block number
+		if(track.get(blockNum).setSwitch(state))
+		{
+			central.TrackMoveSwitch(blockNum, lineNames[0]);
+		}
+		return track.get(blockNum).switchState();
 	}
 }

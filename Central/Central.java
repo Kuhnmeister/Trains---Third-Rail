@@ -105,12 +105,28 @@ public class Central{
 	public void CTCAuthority(int location, int authority, int trainNum){
 		wayside.SuggestAuthority(location, authority, trainNum);
 	}
-	public void WaysideSendAuthority(ArrayList<Integer> authorityBlocks, int trainNum){
+	public void WaysideSendAuthority(ArrayList<Integer> authorityBlocks, ArrayList<Integer> authorityBlocks1, int blockNum, boolean filler){
+		if(!hasTrainModel) {
+			trackModel.CommandedAuthority(authorityBlocks,blockNum,true);
+		}else{
+			trackModel.CommandedAuthority(authorityBlocks,blockNum);
+		}
+	}
+	public void WaysideSendAuthority(ArrayList<Integer> authorityBlocks, ArrayList<Integer> authorityBlocks1, int trainNum){
 		if(!hasTrainModel) {
 			trackModel.CommandedAuthority(authorityBlocks,trainNum,true);
 		}else{
 			trackModel.CommandedAuthority(authorityBlocks,trainNum);
 		}
+	}
+
+	public boolean CTCMoveSwitch(int blockNum, boolean state)
+	{
+		return wayside.SwitchSwitch(blockNum, state);
+	}
+	public void TrackMoveSwitch(int blockNum, String Line)
+	{
+		//trackModel.flipSwitch();
 	}
 
 	public void TrainModelSendAuthority(int trainNum, Double authority) {
@@ -126,13 +142,11 @@ public class Central{
         trainWithControl.emergencyStop(trainId, activate);
     }
     // stopAtStation = true =>  arrives at a station after moving distance of authority
-    public void TrainStopAtStation(int trainID, Boolean stopAtStation)
+    public void TrainStopAtStation(int trainId, Boolean stopAtStation)
     {
         trainWithControl.atStation(trainId, stopAtStation);
     }
-
-
-
+    
 	public void Update(int mulitplyer){
 		trainWithControl.step();
 	}
