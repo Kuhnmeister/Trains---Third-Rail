@@ -196,18 +196,19 @@ public class Wayside {
             currBlock = track.get(1);
             for(int i = 1; i < track.size(); i++)
             {
+            	System.out.println(currBlock.blockNumber());
             	if(currBlock.blockNumber0() != -1) {
             		prevBlock = track.get(currBlock.blockNumber0());
             	}else {
-            		prevBlock = null;
+            		prevBlock = track.get(0);
             	}
             	if(currBlock.blockNumber1() != -1) {
             		nextBlock = track.get(currBlock.blockNumber1());
             	} else {
-            		nextBlock = null;
+            		nextBlock = track.get(0);
             	}
     			if(currBlock.blockSwitch() == -1) {
-    				switchBlock = null;
+    				switchBlock = track.get(0);
     			}else {
     				switchBlock = track.get(currBlock.blockSwitch());
     			}
