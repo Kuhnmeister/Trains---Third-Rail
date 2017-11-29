@@ -214,32 +214,32 @@ public class Wayside {
             }
             
             //link the track its itself(starts at one)
-            System.out.println(track.size());
+            //System.out.println(track.size());
             currBlock = track.get(1);
             
             for(BlockInfo cBlock : track)
             {
-            	System.out.println(cBlock.blockNumber());
+            	//System.out.println(cBlock.blockNumber());
             	if(cBlock.blockNumber0() != -1) {
-            		System.out.println(cBlock.blockNumber0());
+            		//System.out.println(cBlock.blockNumber0());
             		prevBlock = track.get(cBlock.blockNumber0());
             	}else {
             		prevBlock = track.get(0);
             	}
             	if(cBlock.blockNumber1() != -1) {
-            		System.out.println(cBlock.blockNumber1());
+            		//System.out.println(cBlock.blockNumber1());
             		nextBlock = track.get(cBlock.blockNumber1());
             	} else {
             		nextBlock = track.get(0);
             	}
     			if(cBlock.blockSwitch() == -1) {
-    				System.out.println(cBlock.blockSwitch());
+    				//System.out.println(cBlock.blockSwitch());
     				switchBlock = track.get(0);
     			}else {
     				switchBlock = track.get(cBlock.blockSwitch());
     			}
     			//System.out.println("linking blocks");	
-    			//track.get(currBlock.blockNumber()).setNextBlocks(prevBlock, nextBlock, switchBlock);
+    			track.get(cBlock.blockNumber()).setNextBlocks(prevBlock, nextBlock, switchBlock);
             }
 		} 
 		System.out.println("It worked!");
@@ -302,7 +302,7 @@ public class Wayside {
 	}
 	
 	//get authority from central
-	public void suggestAuthority(int blockNum, int suggestedAuth)
+	public void SuggestAuthority(int blockNum, int suggestedAuth, int trainNum)
 	{
 		currentBlock = blockNum;
 		currentAuth = getAuthority(currentBlock, true);
