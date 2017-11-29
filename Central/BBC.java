@@ -862,7 +862,7 @@ public class BBC{
 		window.setSize( 1000,575 );
 		window.setVisible( true );
 	}
-	public void lineAdd(JComboBox line){
+	public void lineAdd(JComboBox<String> line){
 		Tracking lineGet = new Tracking();
 		String[] lineNames = lineGet.getLines();
 		for(int i = 0; i < lineNames.length; i++){
