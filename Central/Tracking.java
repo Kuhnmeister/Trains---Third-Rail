@@ -68,14 +68,14 @@ public class Tracking{
 		}
 		trackTrue = true;
 	}
-	public TrackTrue(){
+	public boolean TrackTrue(){
 		return trackTrue;
 	}
 	public String[] getLines(){
 		return lines;
 	}
 	public ArrayList<Integer> blocks(String choice){
-		ArrayList<Integer> blockReturn = new ArrayList<Integer>;
+		ArrayList<Integer> blockReturn = new ArrayList<Integer>();
 		for(int v = 0; v < lineBlocks.get(choice).size(); v++){
 			blockReturn.add(lineBlocks.get(choice).get(v).GetBlockNum());
 		}
