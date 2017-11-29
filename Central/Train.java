@@ -31,6 +31,7 @@ public class Train{
         nextBlock = currentBlock.GetNextBlock(direction);
         updatePositionTimer=new Timer();
         updatePositionTimer.schedule(new TrainUpdateTimer(updateTimeMS,this),0,updateTimeMS);
+
     }
     public Train(int newTrainNum,int newTrainLength,int newDirection,Block newCurrentBlock,TrackModel newModel,boolean newIntegrated) {
         trainNum = newTrainNum;
@@ -186,6 +187,7 @@ class TrainUpdateTimer extends TimerTask{
         this.thisTrain=thisTrain;
     }
     public void run(){
+        System.out.println("Train update timer: "+updateTime);
         thisTrain.UpdatePosition(updateTime);
     }
 }

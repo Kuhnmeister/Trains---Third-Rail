@@ -175,72 +175,102 @@ public class TrackGui extends Application {
         grid.add(beaconDataLabel,2,3,1,1);
         TextField beaconDataTextField = new TextField();
         grid.add(beaconDataTextField,3,3,1,1);
+        Label beaconTrainLineLabel = new Label("Train Line: ");
+        grid.add(beaconTrainLineLabel, 2, 4,1,1);
+        ComboBox<String> lineSelectionBeaconTrainComboBox = new ComboBox<String>();
+        lineSelectionBeaconTrainComboBox.setItems(lineNameList);
+        grid.add(lineSelectionBeaconTrainComboBox,3,4,1,1);
+        lineNameList.addListener(new ListChangeListener<String>() {
+
+            @Override
+            public void onChanged(ListChangeListener.Change change) {
+                lineSelectionBeaconTrainComboBox.setItems(lineNameList);
+            }
+        });
         Label beaconBlockLabel = new Label("Block Number:");
-        grid.add(beaconBlockLabel,2,4,1,1);
+        grid.add(beaconBlockLabel,2,5,1,1);
         TextField beaconBlockTextField = new TextField();
-        grid.add(beaconBlockTextField,3,4,1,1);
+        grid.add(beaconBlockTextField,3,5,1,1);
         Button beaconDataButton = new Button("Set Beacon");
         beaconDataButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent e){
                 if(trackUploaded && IsInteger(beaconBlockTextField.getCharacters().toString())) {
-                    theModel.SetBeaconDataString(Integer.parseInt(beaconBlockTextField.getCharacters().toString()), beaconDataTextField.getCharacters().toString());
+                    theModel.SetBeaconDataString(Integer.parseInt(beaconBlockTextField.getCharacters().toString()),lineSelectionBeaconTrainComboBox.getSelectionModel().getSelectedItem(), beaconDataTextField.getCharacters().toString());
                 }
             }
         });
-        grid.add(beaconDataButton,2,5,2,1);
+        grid.add(beaconDataButton,2,6,2,1);
         //Force Majeure
         Text forceMajeureTitle = new Text("Force Majeure Input");
         forceMajeureTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(forceMajeureTitle, 0, 0, 2, 1);
+        Label forceMajeureLineLabel = new Label("Line: ");
+        grid.add(forceMajeureLineLabel, 0, 1,1,1);
+        ComboBox<String> lineSelectionForceComboBox = new ComboBox<String>();
+        lineSelectionForceComboBox.setItems(lineNameList);
+        grid.add(lineSelectionForceComboBox,1,1,1,1);
+        lineNameList.addListener(new ListChangeListener<String>() {
+
+            @Override
+            public void onChanged(ListChangeListener.Change change) {
+                lineSelectionForceComboBox.setItems(lineNameList);
+            }
+        });
         Label blockAffectedLabel = new Label("Block Affected:");
-        grid.add(blockAffectedLabel, 0, 1,1,1);
+        grid.add(blockAffectedLabel, 0, 2,1,1);
         TextField blockAffectedTextField = new TextField();
-        grid.add(blockAffectedTextField, 1, 1,1,1);
+        grid.add(blockAffectedTextField, 1, 2,1,1);
         Button brokenRailButton = new Button("Broken Rail");
         brokenRailButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent e){
                 if(IsInteger(blockAffectedTextField.getCharacters().toString()) && trackUploaded) {
-                    theModel.SetBrokenRail(Integer.parseInt(blockAffectedTextField.getCharacters().toString()));
-                    SetOutputToWayside(theModel.GetNewWaysideOutput());
+                    if(lineSelectionForceComboBox.getSelectionModel().getSelectedItem()==null){
+
+                    }else{
+                        System.out.println(lineSelectionForceComboBox.getSelectionModel().getSelectedItem());
+                        theModel.SetBrokenRail(Integer.parseInt(blockAffectedTextField.getCharacters().toString()), lineSelectionForceComboBox.getSelectionModel().getSelectedItem());
+
+                        SetOutputToWayside(theModel.GetNewWaysideOutput());
+                    }
                 }
             }
         });
-        grid.add(brokenRailButton,0,2,1,1);
+        grid.add(brokenRailButton,0,3,1,1);
         Button trackCircuitFailButton = new Button("Track Circuit Failure");
         trackCircuitFailButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent e){
                 if(IsInteger(blockAffectedTextField.getCharacters().toString()) && trackUploaded) {
-                    theModel.SetTrackCircuitFail(Integer.parseInt(blockAffectedTextField.getCharacters().toString()));
+                    theModel.SetTrackCircuitFail(Integer.parseInt(blockAffectedTextField.getCharacters().toString()),lineSelectionForceComboBox.getSelectionModel().getSelectedItem());
                     SetOutputToWayside(theModel.GetNewWaysideOutput());
                 }
             }
         });
-        grid.add(trackCircuitFailButton,1,2,1,1);
+        grid.add(trackCircuitFailButton,1,3,1,1);
         Button powerFailButton = new Button("Power Failure");
         powerFailButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent e){
                 if(IsInteger(blockAffectedTextField.getCharacters().toString())&& trackUploaded) {
-                    theModel.SetPowerFail(Integer.parseInt(blockAffectedTextField.getCharacters().toString()));
+                    theModel.SetPowerFail(Integer.parseInt(blockAffectedTextField.getCharacters().toString()),lineSelectionForceComboBox.getSelectionModel().getSelectedItem());
                     SetOutputToWayside(theModel.GetNewWaysideOutput());
                 }
             }
         });
-        grid.add(powerFailButton,0,3,1,1);
+        grid.add(powerFailButton,0,4,1,1);
         Button removeAllButton = new Button("Remove All");
         removeAllButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent e){
                 if(IsInteger(blockAffectedTextField.getCharacters().toString()) && trackUploaded) {
-                    theModel.RemoveForceMajeure(Integer.parseInt(blockAffectedTextField.getCharacters().toString()));
+                    theModel.RemoveForceMajeure(Integer.parseInt(blockAffectedTextField.getCharacters().toString()),lineSelectionForceComboBox.getSelectionModel().getSelectedItem());
                     SetOutputToWayside(theModel.GetNewWaysideOutput());
                 }
             }
         });
-        grid.add(removeAllButton,1,3,1,1);
+        grid.add(removeAllButton,1,4,1,1);
         //Wayside Outputs
         Text outputToWaysideTitle = new Text("Output to Wayside");
         outputToWaysideTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -321,7 +351,7 @@ public class TrackGui extends Application {
                         for(int j=0;j<blockData.length;j++) {
                             Label lineSelectionLabel = new Label(blockData[j]);
                             sectionDisplayLabels.add(lineSelectionLabel);
-                            grid.add(lineSelectionLabel, j, 10+i, 1, 1);
+                            grid.add(lineSelectionLabel, j, 11+i, 1, 1);
                         }
                     }
 
@@ -331,46 +361,58 @@ public class TrackGui extends Application {
         grid.add(showTrackButton, 0, 8,1,1);
         //Section display Labels
         Label blockDisplayLabel = new Label("Block");
-        grid.add(blockDisplayLabel, 0, 9,1,1);
+        grid.add(blockDisplayLabel, 0, 10,1,1);
         Label occupiedDisplayLabel = new Label("Occupied?");
-        grid.add(occupiedDisplayLabel, 1, 9,1,1);
+        grid.add(occupiedDisplayLabel, 1, 10,1,1);
         Label lightColorDisplayLabel = new Label("Light Color");
-        grid.add(lightColorDisplayLabel, 2, 9,1,1);
+        grid.add(lightColorDisplayLabel, 2, 10,1,1);
         Label gradeDisplayLabel = new Label("Grade");
-        grid.add(gradeDisplayLabel, 3, 9,1,1);
+        grid.add(gradeDisplayLabel, 3, 10,1,1);
         Label speedLimitDisplayLabel = new Label("Speed Limit");
-        grid.add(speedLimitDisplayLabel, 4, 9,1,1);
+        grid.add(speedLimitDisplayLabel, 4, 10,1,1);
         Label undergroundDisplayLabel = new Label("Underground?");
-        grid.add(undergroundDisplayLabel, 5, 9,1,1);
+        grid.add(undergroundDisplayLabel, 5,10,1,1);
         Label stationDisplayLabel = new Label("Station?");
-        grid.add(stationDisplayLabel, 6, 9,1,1);
+        grid.add(stationDisplayLabel, 6, 10,1,1);
         Label stationNameDisplayLabel = new Label("Station Name");
-        grid.add(stationNameDisplayLabel, 7, 9,1,1);
+        grid.add(stationNameDisplayLabel, 7, 10,1,1);
         Label switchDisplayLabel = new Label("Switch");
-        grid.add(switchDisplayLabel, 8, 9,1,1);
+        grid.add(switchDisplayLabel, 8, 10,1,1);
         Label switchActiveDisplayLabel = new Label("Switched?");
-        grid.add(switchActiveDisplayLabel, 9, 9,1,1);
+        grid.add(switchActiveDisplayLabel, 9, 10,1,1);
         Label railwayCrossingDisplayLabel = new Label("Railway Crossing?");
-        grid.add(railwayCrossingDisplayLabel, 10, 9,1,1);
+        grid.add(railwayCrossingDisplayLabel, 10, 10,1,1);
 
         //Demo Mode Inputs
         Text inputTitle = new Text("Wayside Inputs");
         inputTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(inputTitle, 7, 0, 2, 1);
+        Label waysideTrainLineLabel = new Label("Train Line: ");
+        grid.add(waysideTrainLineLabel, 7, 1,1,1);
+        ComboBox<String> lineSelectionWaysideComboBox = new ComboBox<String>();
+        lineSelectionWaysideComboBox.setItems(lineNameList);
+        grid.add(lineSelectionWaysideComboBox,8,1,1,1);
+        lineNameList.addListener(new ListChangeListener<String>() {
+
+            @Override
+            public void onChanged(ListChangeListener.Change change) {
+                lineSelectionWaysideComboBox.setItems(lineNameList);
+            }
+        });
         Label blockChangingLabel = new Label("Block to Edit: ");
-        grid.add(blockChangingLabel,7,1,1,1);
+        grid.add(blockChangingLabel,7,2,1,1);
         TextField blockChangingTextField = new TextField();
-        grid.add(blockChangingTextField, 8,1,1,1);
+        grid.add(blockChangingTextField, 8,2,1,1);
         Label lightColorInputLabel = new Label("Light Color:");
-        grid.add(lightColorInputLabel,7,2,1,1);
+        grid.add(lightColorInputLabel,7,3,1,1);
         ComboBox<String> lightColorComboBox = new ComboBox<String>();
         lightColorComboBox.setItems(lightColorsList);
-        grid.add(lightColorComboBox,8,2,1,1);
+        grid.add(lightColorComboBox,8,3,1,1);
         Label flipSwitchLabel = new Label("Flip Switch: ");
-        grid.add(flipSwitchLabel,7,3,1,1);
+        grid.add(flipSwitchLabel,7,4,1,1);
         CheckBox flipSwitchCheckBox = new CheckBox();
         flipSwitchCheckBox.setIndeterminate(false);
-        grid.add(flipSwitchCheckBox,8,3,1,1);
+        grid.add(flipSwitchCheckBox,8,4,1,1);
         Button waysideInputButton = new Button("Confirm Input");
         waysideInputButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -380,18 +422,19 @@ public class TrackGui extends Application {
                     if (lightColorComboBox.getSelectionModel().getSelectedItem() == null) {
 
                     } else {
-                        theModel.WaysideInput(Integer.parseInt(blockChangingTextField.getCharacters().toString()), lightColorComboBox.getSelectionModel().getSelectedItem(), flipSwitchCheckBox.isSelected());
+                        theModel.WaysideInput(Integer.parseInt(blockChangingTextField.getCharacters().toString()), lineSelectionForceComboBox.getSelectionModel().getSelectedItem(),lightColorComboBox.getSelectionModel().getSelectedItem(), flipSwitchCheckBox.isSelected());
                     }
                 }
             }
         });
-        grid.add(waysideInputButton, 7, 4,2,1);
+        grid.add(waysideInputButton, 7, 5,2,1);
+
         //Wayside Input to pass to trains
         Label waysideTrainInputLabel = new Label("Train to Edit:");
-        grid.add(waysideTrainInputLabel,7,5,1,1);
+        grid.add(waysideTrainInputLabel,7,6,1,1);
         ComboBox<Integer> trainEditComboBox = new ComboBox<Integer>();
         trainEditComboBox.setItems(activeTrainNumbersList);
-        grid.add(trainEditComboBox,8,5,1,1);
+        grid.add(trainEditComboBox,8,6,1,1);
         activeTrainNumbersList.addListener(new ListChangeListener<Integer>() {
 
             @Override
@@ -402,13 +445,13 @@ public class TrackGui extends Application {
 
 
         Label authorityInputLabel = new Label("Authority: ");
-        grid.add(authorityInputLabel,7,6,1,1);
+        grid.add(authorityInputLabel,7,7,1,1);
         TextField authorityInputTextField = new TextField();
-        grid.add(authorityInputTextField, 8,6,1,1);
+        grid.add(authorityInputTextField, 8,7,1,1);
         Label speedLimitInputLabel = new Label("Train Speed: ");
-        grid.add(speedLimitInputLabel,7,7,1,1);
+        grid.add(speedLimitInputLabel,7,8,1,1);
         TextField speedLimitInputTextField = new TextField();
-        grid.add(speedLimitInputTextField, 8,7,1,1);
+        grid.add(speedLimitInputTextField, 8,8,1,1);
 
 
         Button waysideTrainInputButton = new Button("Confirm Input");
@@ -422,7 +465,7 @@ public class TrackGui extends Application {
                 }
             }
         });
-        grid.add(waysideTrainInputButton, 7, 8,2,1);
+        grid.add(waysideTrainInputButton, 7, 9,2,1);
         //Demo Mode Create Train
         Text demoModeTitle = new Text("Demo Mode: Create Train");
         demoModeTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -465,7 +508,7 @@ public class TrackGui extends Application {
                         if (theModel.GetStartingBlock(lineSelectionTrainComboBox.getSelectionModel().getSelectedItem()) != null) {
 
 
-                            Train newTrain = new Train(trainNum, 20,0, theModel.GetBlock(Integer.parseInt(trainStartTextField.getCharacters().toString())), theModel.GetBlock(Integer.parseInt(trainEndTextField.getCharacters().toString())), theModel);
+                            Train newTrain = new Train(trainNum, 20,0, theModel.GetBlock(Integer.parseInt(trainStartTextField.getCharacters().toString()),lineSelectionTrainComboBox.getSelectionModel().getSelectedItem()), theModel.GetBlock(Integer.parseInt(trainEndTextField.getCharacters().toString()),lineSelectionTrainComboBox.getSelectionModel().getSelectedItem()), theModel);
                             allActiveTrains.add(newTrain);
                             activeTrainNumbersList.add(trainNum);
                             System.out.println(trainNum);

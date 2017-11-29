@@ -18,7 +18,7 @@ public class TrackModel {
     private ArrayList<Block> stations = new ArrayList<Block>();
     private ArrayList<String> stationNames = new ArrayList<String>();
     private HashMap<Integer,Train> allTrains = new HashMap<Integer,Train>();
-    private int minimumBlockLength=-1;
+    private double minimumBlockLength=-1;
     private boolean demoMode=false;
     public TrackModel(String[] args, Central newCentral){
         System.out.println("Inside track Model contstructor");
@@ -28,10 +28,13 @@ public class TrackModel {
 
     }
     public TrackModel(String[] args){
+        demoMode=true;
         theGui = new TrackGui(args,this);
+
     }
     public static void main(String[] args){
         TrackModel thisModel = new TrackModel(args);
+
 
     }
     public void LoadNewTrack(String fileName){
@@ -58,7 +61,7 @@ public class TrackModel {
                 }else{
                     nextBlock0Num = Integer.parseInt(blockString[7]);
                 }
-                System.out.println("");
+
                 if(blockString[8].equals("None")){
                     nextBlock1Num=-1;
                 }else{
@@ -74,7 +77,7 @@ public class TrackModel {
                     //checks if the section is currently in the hashmap, if so it adds the block, if not it creates the section
 
                     if(track.get(blockString[0]).containsKey(blockString[1])){
-                        Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Integer.parseInt(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),Boolean.parseBoolean(blockString[6]),nextBlock0Num,nextBlock1Num,nextSwitchBlockNum,blockString[10]);
+                        Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Double.parseDouble(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),Boolean.parseBoolean(blockString[6]),nextBlock0Num,nextBlock1Num,nextSwitchBlockNum,blockString[10]);
                         track.get(blockString[0]).get(blockString[1]).add(newBlock);
                         if(newBlock.GetLength()<minimumBlockLength|| minimumBlockLength==-1){
                             minimumBlockLength=newBlock.GetLength();
@@ -82,7 +85,7 @@ public class TrackModel {
                         }
                     }else{
                         track.get(blockString[0]).put(blockString[1],new ArrayList<Block>());
-                        Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Integer.parseInt(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),Boolean.parseBoolean(blockString[6]),nextBlock0Num,nextBlock1Num,nextSwitchBlockNum,blockString[10]);
+                        Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Double.parseDouble(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),Boolean.parseBoolean(blockString[6]),nextBlock0Num,nextBlock1Num,nextSwitchBlockNum,blockString[10]);
                         track.get(blockString[0]).get(blockString[1]).add(newBlock);
                         if(newBlock.GetLength()<minimumBlockLength || minimumBlockLength==-1){
                             minimumBlockLength=newBlock.GetLength();
@@ -92,7 +95,7 @@ public class TrackModel {
                 }else{
                     track.put(blockString[0],new HashMap<String,ArrayList<Block>>());
                     track.get(blockString[0]).put(blockString[1],new ArrayList<Block>());
-                    Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Integer.parseInt(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),Boolean.parseBoolean(blockString[6]),nextBlock0Num,nextBlock1Num,nextSwitchBlockNum,blockString[10]);
+                    Block newBlock = new Block(blockString[0],blockString[1],Integer.parseInt(blockString[2]),Double.parseDouble(blockString[3]),Float.parseFloat(blockString[4]),Integer.parseInt(blockString[5]),Boolean.parseBoolean(blockString[6]),nextBlock0Num,nextBlock1Num,nextSwitchBlockNum,blockString[10]);
                     track.get(blockString[0]).get(blockString[1]).add(newBlock);
                     if(startingBlocks.get(blockString[0]) == null){
                         startingBlocks.put(blockString[0],newBlock);
@@ -176,7 +179,9 @@ public class TrackModel {
                     }
                 }
             }
-            theCentral.UpdateTrack(track);
+            if(!demoMode) {
+                theCentral.UpdateTrack(track);
+            }
         }catch(IOException e){
             System.err.println("Caught IOException: " + e.getMessage());
         }
@@ -212,23 +217,26 @@ public class TrackModel {
     public Block GetStartingBlock(String trainLine){
         return startingBlocks.get(trainLine);
     }
-    public Block GetBlock(int requestedBlockNum){
+    public Block GetBlock(int requestedBlockNum, String rLine){
 
         for (HashMap.Entry<String, HashMap<String, ArrayList<Block>>> line : track.entrySet()) {
+
             for (HashMap.Entry<String, ArrayList<Block>> section : line.getValue().entrySet()) {
                 for (int i = 0; i < section.getValue().size(); i++) {
                     if (section.getValue().get(i).GetBlockNum() == requestedBlockNum) {
-                        return section.getValue().get(i);
+                        if(section.getValue().get(i).GetLine().equals(rLine)) {
+                            return section.getValue().get(i);
+                        }
                     }
                 }
-
             }
+
         }
         return null;
 
     }
-    public void WaysideInput(int updateBlock,String newLightColor,boolean flipSwitch){
-            Block editingBlock = GetBlock(updateBlock);
+    public void WaysideInput(int updateBlock,String line, String newLightColor,boolean flipSwitch){
+            Block editingBlock = GetBlock(updateBlock, line);
             editingBlock.SetLightColor(newLightColor);
             editingBlock.FlipSwitch(flipSwitch);
 
@@ -254,24 +262,29 @@ public class TrackModel {
         System.out.println(listOfSections);
         return listOfSections;
     }
-    public void SetBeaconDataString(int blockNum, String messageString){
-        GetBlock(blockNum).SetBeaconMessageString(messageString);
+    public void SetBeaconDataString(int blockNum, String line, String messageString){
+        GetBlock(blockNum,line).SetBeaconMessageString(messageString);
     }
-    public void SetBrokenRail(int blockNum){
-        GetBlock(blockNum).SetBrokenRail();
-        AddOccupied(GetBlock(blockNum));
+    public void SetBrokenRail(int blockNum, String line){
+        if(GetBlock(blockNum,line)==null){
+            System.out.println("Null Block blockNum: "+blockNum+" line: "+line);
+        }else {
+            GetBlock(blockNum, line).SetBrokenRail();
+            AddOccupied(GetBlock(blockNum, line));
+        }
+
     }
-    public void SetTrackCircuitFail(int blockNum){
-        GetBlock(blockNum).SetTrackCircuitFail();
-        AddOccupied(GetBlock(blockNum));
+    public void SetTrackCircuitFail(int blockNum, String line){
+        GetBlock(blockNum,line).SetTrackCircuitFail();
+        AddOccupied(GetBlock(blockNum, line));
     }
-    public void SetPowerFail(int blockNum){
-        GetBlock(blockNum).SetPowerFail();
-        RemoveOccupied(GetBlock(blockNum));
+    public void SetPowerFail(int blockNum, String line){
+        GetBlock(blockNum,line).SetPowerFail();
+        RemoveOccupied(GetBlock(blockNum, line));
     }
-    public void RemoveForceMajeure(int blockNum){
+    public void RemoveForceMajeure(int blockNum, String line){
         int whichForce =0;
-        Block affectedBlock = GetBlock(blockNum);
+        Block affectedBlock = GetBlock(blockNum, line);
         if( affectedBlock.GetTrackCircuitFail()||affectedBlock.GetBrokenRail()){
             whichForce=1;
         }
@@ -287,7 +300,7 @@ public class TrackModel {
         }else{
             return;
         }
-        if(GetBlock(blockNum).GetIsOccupied()){
+        if(GetBlock(blockNum,line).GetIsOccupied()){
             AddOccupied(affectedBlock);
         }
     }
@@ -298,14 +311,14 @@ public class TrackModel {
 
     //***********************************************************Integrated Methods*******************************************//
     //Called when a train is dispatched from the station
-    public void NewTrain(int trainNum, int length, int direction,int startBlock){
+    public void NewTrain(int trainNum, int length, int direction,int startBlock,String line){
 
-        Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock),this,true);
+        Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock, line),this,true);
         theGui.AddTrain(newTrain);
         allTrains.put(trainNum,newTrain);
     }
-    public void NewTrain(int trainNum, int length, int direction, int startBlock,boolean noTrainModel){
-        Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock),this);
+    public void NewTrain(int trainNum, int length, int direction, int startBlock,String line,boolean noTrainModel){
+        Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock,line),this);
         theGui.AddTrain(newTrain,true);
         allTrains.put(trainNum,newTrain);
     }

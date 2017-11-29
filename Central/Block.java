@@ -3,7 +3,7 @@ public class Block{
     private String line;
     private String section;
     private int blockNum;
-    private int length;
+    private double length;
     private float grade;
     private int speedLimit;
     private String infraStructure;
@@ -31,10 +31,12 @@ public class Block{
     private boolean forceMajeureTrainPresence=false;
     private Station thisStation;
 
-    public Block(String newLine,String newSection, int newBlockNum, int newLength, float newGrade, int newSpeedLimit, boolean newIsBidirectional,int newNextBlock0,int newNextBlock1,int newSwitchBlock,String newInfrastructure){
+    public Block(String newLine,String newSection, int newBlockNum, double newLength, float newGrade, int newSpeedLimit, boolean newIsBidirectional,int newNextBlock0,int newNextBlock1,int newSwitchBlock,String newInfrastructure){
         line = newLine;
+
         section=newSection;
         blockNum=newBlockNum;
+        System.out.println("New Block: "+blockNum+" on line: "+line);
         length=newLength;
         grade=newGrade;
         nextBlockDirection0Num=newNextBlock0;
@@ -94,7 +96,7 @@ public class Block{
         return blockNum;
     }
 
-    public int GetLength(){
+    public double GetLength(){
         return length;
     }
 
