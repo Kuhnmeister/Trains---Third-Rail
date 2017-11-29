@@ -26,10 +26,10 @@ public class Tracking{
 	}
 	public void receiveTrackData(HashMap<String, HashMap<String, ArrayList<Block>>> track){
 		trackData = track;
-		lines = (String[])track.keySet().toArray();
+		lines = Arrays.copyOf(track.keySet().toArray(), track.keySet().toArray().length, String[].class);
 		for(int i = 0; i < lines.length; i++){
 			section = trackData.get(lines[i]);
-			sectionList.add((String[])section.keySet().toArray());
+			sectionList.add(Arrays.copyOf(section.keySet().toArray(), section.keySet().toArray().length, String[].class));
 			for(int j = 0; j < sectionList.get(i).length; j++){
 				String[] sectionThru = sectionList.get(i);
 				ArrayList<Block> medium = section.get(sectionThru[j]);
@@ -58,7 +58,8 @@ public class Tracking{
 			String choice = lines[l];
 			ArrayList<Integer> blocksReturned;
 			for(int m = 0; m < trackData.get(choice).keySet().toArray().length; m++){
-				String[] checkLines = (String[])trackData.get(choice).keySet().toArray();
+				Arrays.copyOf(trackData.get(choice).keySet().toArray(), trackData.get(choice).keySet().toArray().length, String[].class);
+				String[] checkLines = Arrays.copyOf(trackData.get(choice).keySet().toArray(), trackData.get(choice).keySet().toArray().length, String[].class);
 				ArrayList<Block> temp = trackData.get(choice).get(checkLines[m]);
 				for(int n = 0; n < temp.size(); n++){
 					lineBlockList.add(temp.get(n));
