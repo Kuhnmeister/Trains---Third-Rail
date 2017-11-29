@@ -36,11 +36,11 @@ public class Central{
 		ctc=new CTCcontroller(this);
 	}
 
-	public void CreateTrain(int trainNum, int length, int direction,int startBlock){
+	public void CreateTrain(int trainNum, int length, int direction,int startBlock, String line){
 		if(hasTrainModel) {
-			trackModel.NewTrain(trainNum, length*2, direction, startBlock);
+			trackModel.NewTrain(trainNum, length*2, direction, startBlock, line);
 		}else{
-			trackModel.NewTrain(trainNum, length*2, direction, startBlock,true);
+			trackModel.NewTrain(trainNum, length*2, direction, startBlock,line, true);
 		}
 	}
 	public void UpdateTrack(HashMap<String,HashMap<String,ArrayList<Block>>> track){
