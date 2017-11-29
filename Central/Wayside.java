@@ -178,8 +178,26 @@ public class Wayside {
 		try {
 		Block currentBlock;
 		BlockInfo newBlockInfo, prevBlock, nextBlock, currBlock, switchBlock;
+		int numberOfBlocks = 1;
+		track = new ArrayList<BlockInfo>();
+		track.add(0, new BlockInfo(0, 0, 0));
+		track.get(0).setNextBlocks(track.get(0), track.get(0), track.get(0));
+		
+		//create one track object large enough to hold every block on the track
 		for (HashMap.Entry<String, HashMap<String, ArrayList<Block>>> line : newTrack.entrySet()) {
-			track = new ArrayList<BlockInfo>();
+			for (HashMap.Entry<String, ArrayList<Block>> sectionCount : line.getValue().entrySet()) {
+                for (int i = 0; i < sectionCount.getValue().size(); i++) {
+                	numberOfBlocks++;
+                	track.add(new BlockInfo(0, 0, 0));
+                }
+			}
+		}
+		
+		
+		for (HashMap.Entry<String, HashMap<String, ArrayList<Block>>> line : newTrack.entrySet()) {
+			//get the total number of blocks in this line
+			System.out.println(numberOfBlocks);
+			
             for (HashMap.Entry<String, ArrayList<Block>> section : line.getValue().entrySet()) {
                 for (int i = 0; i < section.getValue().size(); i++) {
                 	//this is a block in the form of Block
@@ -187,32 +205,41 @@ public class Wayside {
                 	//public BlockInfo(Boolean crossing, Boolean switchHere, int createBlockNumber0, int blockNumber, int createBlockNumber1, int createBlockNumberSwitch)
                 	newBlockInfo = new BlockInfo(currentBlock.GetHasRailwayCrossing(), currentBlock.GetHasSwitch(), currentBlock.GetDirection1Num(), currentBlock.GetBlockNum(),
                 			currentBlock.GetDirection0Num(), currentBlock.GetSwitchNum(), currentBlock.GetSection());
-                	track.add(newBlockInfo);
+                	track.set(currentBlock.GetBlockNum(), newBlockInfo);
                 }
             }
             
-            //link the track its itself
-            currBlock = track.get(0);
-            for(int i = 0; i < track.size(); i++)
+            //link the track its itself(starts at one)
+            System.out.println(track.size());
+            currBlock = track.get(1);
+            
+            for(BlockInfo cBlock : track)
             {
-            	prevBlock = track.get(currBlock.blockNumber0());
-    			nextBlock = track.get(currBlock.blockNumber1());
-    			if(currBlock.blockSwitch() == -1) {
-    				switchBlock = null;
+            	System.out.println(cBlock.blockNumber());
+            	if(cBlock.blockNumber0() != -1) {
+            		System.out.println(cBlock.blockNumber0());
+            		prevBlock = track.get(cBlock.blockNumber0());
+            	}else {
+            		prevBlock = track.get(0);
+            	}
+            	if(cBlock.blockNumber1() != -1) {
+            		System.out.println(cBlock.blockNumber1());
+            		nextBlock = track.get(cBlock.blockNumber1());
+            	} else {
+            		nextBlock = track.get(0);
+            	}
+    			if(cBlock.blockSwitch() == -1) {
+    				System.out.println(cBlock.blockSwitch());
+    				switchBlock = track.get(0);
     			}else {
-    				switchBlock = track.get(currBlock.blockSwitch());
+    				switchBlock = track.get(cBlock.blockSwitch());
     			}
     			//System.out.println("linking blocks");	
-    			track.get(currBlock.blockNumber()).setNextBlocks(prevBlock, nextBlock, switchBlock);
-    			currBlock = currBlock.nextBlock1();
-            	
+    			//track.get(currBlock.blockNumber()).setNextBlocks(prevBlock, nextBlock, switchBlock);
             }
-            
-            lines.add(track);
 		} 
-		
+		System.out.println("It worked!");
 		//set initial track to green line
-		track = lines.get(0);
 		
 		}catch(Exception e) {
 			//something wasn't loaded/read correctly
