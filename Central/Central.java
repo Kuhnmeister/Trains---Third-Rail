@@ -1,3 +1,5 @@
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.lang.*;
 import java.io.*;
 import java.util.ArrayList;
@@ -8,6 +10,7 @@ public class Central{
 	private Wayside wayside;
 	private CTCcontroller ctc;
 	private CentralGui centralGui;
+	private TrainWithController trainWithControl;
 	private boolean hasTrainModel=false;
 	private String[] args;
 	public static void main(String[] args){
@@ -21,12 +24,11 @@ public class Central{
 		System.out.println(testString);
 	}
 	//*********************He, put the code to instantiate your stuff here****************************
-	public void CreateTrainModel(String[] theArgs){
-
+	public void CreateTrainWithController(String[] emptyArgs){
+		System.out.println("Create Train Model and Train Controller");
+		trainWithControl = new TrainWithController(emptyArgs, this);
 	}
-	public void CreateTrainController(String[] theArgs){
 
-	}
 	public void CreateTrackModel(String[] emptyArgs){
 		System.out.println("Create Track Model");
 		trackModel=new TrackModel(emptyArgs, this);
@@ -36,7 +38,14 @@ public class Central{
 		ctc=new CTCcontroller(this);
 	}
 
+	// Change this name to sth. more aproperaite
+	public void TrainModelNewTrain(int trainId, String name, int carNumber, ArrayList<String> stopNames)
+    {
+        trainWithControl.newTrain(trainId, name, carNumber, stopNames);
+    }
+
 	public void CreateTrain(int trainNum, int length, int direction,int startBlock, String line){
+        hasTrainModel = trainWithControl != null;
 		if(hasTrainModel) {
 			trackModel.NewTrain(trainNum, length*2, direction, startBlock, line);
 		}else{
@@ -58,12 +67,32 @@ public class Central{
 			trackModel.WaysideCommandedSpeed(trainNum, speed);
 		}
 	}
-	public void TrackModelCommandedSpeed(int trainNum, double speed){
+	public void TrackModelCommandedSpeed(int trainId, double speed){
 
 	}
-	public void UpdateTrainDistance(int trainId, float  movedDistance){
+
+	public void TrainModelCommandedSpeed(int trainId, double speed)
+    {
+        trainWithControl.getCommandSpeed(trainId, speed);
+    }
+
+    // TrainModel will call this
+	public void UpdateTrainDistance(int trainId, float movedDistance){
 
 	}
+
+	// TrainModel will call this
+	public void ServiceBrakeFromTrain(int trainId, Boolean activate)
+    {
+
+    }
+
+    // TrainModel will call this
+    public void EmergencyStopFromTrain(int trainId, Boolean activate)
+    {
+
+    }
+
 	public void TrackStateUpdate(int occBlock){
 
 	}
@@ -83,8 +112,29 @@ public class Central{
 			trackModel.CommandedAuthority(authorityBlocks,trainNum);
 		}
 	}
-	public void Update(int mulitplyer){
 
+	public void TrainModelSendAuthority(int trainNum, Double authority) {
+	    trainWithControl.getAuthority(trainNum, authority);
+    }
+
+    public void TrainSendServiceBrake(int trainId, Boolean activate)
+    {
+        trainWithControl.serviceBrake(trainId, activate);
+    }
+    public void TrainSendEmergencyStop(int trainId, Boolean activate)
+    {
+        trainWithControl.emergencyStop(trainId, activate);
+    }
+    // stopAtStation = true =>  arrives at a station after moving distance of authority
+    public void TrainStopAtStation(int trainID, Boolean stopAtStation)
+    {
+        trainWithControl.atStation(trainId, stopAtStation);
+    }
+
+
+
+	public void Update(int mulitplyer){
+		trainWithControl.step();
 	}
 	/*
 	public void suggestedSpeed(int blockForTrain, double speedForTrain){

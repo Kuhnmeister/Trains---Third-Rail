@@ -374,7 +374,7 @@ public class TrackGui extends Application {
         grid.add(undergroundDisplayLabel, 5,10,1,1);
         Label stationDisplayLabel = new Label("Station?");
         grid.add(stationDisplayLabel, 6, 10,1,1);
-        Label stationNameDisplayLabel = new Label("Station Name");
+        Label stationNameDisplayLabel = new Label("Station name");
         grid.add(stationNameDisplayLabel, 7, 10,1,1);
         Label switchDisplayLabel = new Label("Switch");
         grid.add(switchDisplayLabel, 8, 10,1,1);
