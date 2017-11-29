@@ -816,7 +816,7 @@ public class BBC{
 			}
 		});
 		
-
+		
 		//adding in components and opening window
 		speedChoice.add(none);
 		speedChoice.add(ten);
@@ -847,10 +847,9 @@ public class BBC{
 		panelBL1.add(panelBL10);
 		panelBL1.add(trainSelect);
 		panelBL3.add(thruPut);
-		Tracking lineGet = new Tracking();
-		String[] lineNames = lineGet.getLines();
-		for(int i = 0; i < lineNames.length; i++){
-			line.addItem(lineNames[i]);
+		Tracking isTrackTrue = new Tracking();
+		if(isTrackTrue.TrackTrue()){
+			lineAdd(line);
 		}
 
 		panelBL1.add(scheduleView);
@@ -862,6 +861,13 @@ public class BBC{
 		//window displaying
 		window.setSize( 1000,575 );
 		window.setVisible( true );
+	}
+	public void lineAdd(JComboBox line){
+		Tracking lineGet = new Tracking();
+		String[] lineNames = lineGet.getLines();
+		for(int i = 0; i < lineNames.length; i++){
+			line.addItem(lineNames[i]);
+		}
 	}
 	public void createFrame( ArrayList<JFrame> trainWindow, int[] windowNum, ArrayList<Trains> trainList, int open){
 		windowNum[0] += 1;
