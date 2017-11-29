@@ -226,6 +226,8 @@ public class TrackModel {
                     if (section.getValue().get(i).GetBlockNum() == requestedBlockNum) {
                         if(section.getValue().get(i).GetLine().equals(rLine)) {
                             return section.getValue().get(i);
+                        }else{
+                            System.out.println("Block "+section.getValue().get(i).GetBlockNum()+" is on line: "+section.getValue().get(i).GetLine()+ " looking for "+rLine);
                         }
                     }
                 }
@@ -237,8 +239,14 @@ public class TrackModel {
     }
     public void WaysideInput(int updateBlock,String line, String newLightColor,boolean flipSwitch){
             Block editingBlock = GetBlock(updateBlock, line);
-            editingBlock.SetLightColor(newLightColor);
-            editingBlock.FlipSwitch(flipSwitch);
+            if(editingBlock==null){
+                System.out.println("the block is null");
+            }else if(newLightColor == null){
+                System.out.println("the light color is null");
+            }else {
+                editingBlock.SetLightColor(newLightColor);
+                editingBlock.FlipSwitch(flipSwitch);
+            }
 
     }
 

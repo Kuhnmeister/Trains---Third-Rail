@@ -422,7 +422,7 @@ public class TrackGui extends Application {
                     if (lightColorComboBox.getSelectionModel().getSelectedItem() == null) {
 
                     } else {
-                        theModel.WaysideInput(Integer.parseInt(blockChangingTextField.getCharacters().toString()), lineSelectionForceComboBox.getSelectionModel().getSelectedItem(),lightColorComboBox.getSelectionModel().getSelectedItem(), flipSwitchCheckBox.isSelected());
+                        theModel.WaysideInput(Integer.parseInt(blockChangingTextField.getCharacters().toString()), lineSelectionWaysideComboBox.getSelectionModel().getSelectedItem(),lightColorComboBox.getSelectionModel().getSelectedItem(), flipSwitchCheckBox.isSelected());
                     }
                 }
             }
