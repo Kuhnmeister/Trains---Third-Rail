@@ -180,6 +180,7 @@ public class Wayside {
 		BlockInfo newBlockInfo, prevBlock, nextBlock, currBlock, switchBlock;
 		for (HashMap.Entry<String, HashMap<String, ArrayList<Block>>> line : newTrack.entrySet()) {
 			track = new ArrayList<BlockInfo>();
+			track.add(0, new BlockInfo(0, 0, 0));
             for (HashMap.Entry<String, ArrayList<Block>> section : line.getValue().entrySet()) {
                 for (int i = 0; i < section.getValue().size(); i++) {
                 	//this is a block in the form of Block
@@ -191,12 +192,20 @@ public class Wayside {
                 }
             }
             
-            //link the track its itself
-            currBlock = track.get(0);
-            for(int i = 0; i < track.size(); i++)
+            //link the track its itself(starts at one)
+            currBlock = track.get(1);
+            for(int i = 1; i < track.size(); i++)
             {
-            	prevBlock = track.get(currBlock.blockNumber0());
-    			nextBlock = track.get(currBlock.blockNumber1());
+            	if(currBlock.blockNumber0() != -1) {
+            		prevBlock = track.get(currBlock.blockNumber0());
+            	}else {
+            		prevBlock = null;
+            	}
+            	if(currBlock.blockNumber1() != -1) {
+            		nextBlock = track.get(currBlock.blockNumber1());
+            	} else {
+            		nextBlock = null;
+            	}
     			if(currBlock.blockSwitch() == -1) {
     				switchBlock = null;
     			}else {
