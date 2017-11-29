@@ -6,8 +6,8 @@ public class Train{
     private Block nextBlock;
     private int direction;
     private int trainNum;
-    private float currentVelocity=5;
-    private float positionOnBlock;
+    private double currentVelocity=5;
+    private double positionOnBlock;
     private TrackModel theModel;
     private int updateTimeMS = 1000;
     private Timer updatePositionTimer;
@@ -96,19 +96,21 @@ public class Train{
     public boolean GetActive(){
         return trainActive;
     }
-    public void SetVelocity(float newVelocity){
+    public void SetVelocity(double newVelocity){
+        System.out.println("New Train Velocity: "+newVelocity);
         currentVelocity=newVelocity;
     }
     public int GetTrainNum(){
         return trainNum;
     }
+
     public int GetDirection(){
         return direction;
     }
     public void UpdatePosition(int timeSinceLastUpdateMS){
         System.out.println("Train is updating");
         if(moveAtMaxSpeed) {
-            positionOnBlock = positionOnBlock + currentVelocity * (float) (timeSinceLastUpdateMS / 1000);
+            positionOnBlock = positionOnBlock + currentVelocity * (double) (timeSinceLastUpdateMS / 1000);
             if (positionOnBlock > currentBlock.GetLength()) {
                 positionOnBlock = positionOnBlock - currentBlock.GetLength();
                 MoveNextBlock();
@@ -127,7 +129,7 @@ public class Train{
 
         }
     }
-    public void UpdatePositionIntegrated(float travelledDistance){
+    public void UpdatePositionIntegrated(double travelledDistance){
         positionOnBlock = positionOnBlock + travelledDistance;
         if (positionOnBlock > currentBlock.GetLength()) {
             positionOnBlock = positionOnBlock - currentBlock.GetLength();

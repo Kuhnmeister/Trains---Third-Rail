@@ -45,6 +45,16 @@ public class Central{
 	public void SuggestSpeed(int blockNum, int trainNum, double speed){
 		wayside.SuggestSpeed(blockNum,trainNum,speed);
 	}
+	public void WaysideCommandedSpeed(int trainNum, double speed){
+		if(!hasTrainModel) {
+			trackModel.WaysideCommandedSpeed(trainNum,speed,true);
+		}else{
+			trackModel.WaysideCommandedSpeed(trainNum, speed);
+		}
+	}
+	public void TrackModelCommandedSpeed(int trainNum, double speed){
+
+	}
 	public void UpdateTrainDistance(int trainId, float  movedDistance){
 
 	}

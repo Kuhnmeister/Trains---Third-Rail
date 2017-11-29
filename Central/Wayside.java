@@ -273,6 +273,7 @@ public class Wayside {
 		//pass this like a hot potato
 		//central.suggestSpeed(blockNum, speed);
 		System.out.println("Received Suggested Speed for train: "+trainNum+": BlockNum: "+blockNum+" speed: "+speed);
+		central.WaysideCommandedSpeed(trainNum,speed);
 	}
 	
 	//get authority from central

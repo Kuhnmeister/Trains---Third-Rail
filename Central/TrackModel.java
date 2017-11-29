@@ -17,6 +17,7 @@ public class TrackModel {
     public ArrayList<String> lineNames = new ArrayList<String>();
     private ArrayList<Block> stations = new ArrayList<Block>();
     private ArrayList<String> stationNames = new ArrayList<String>();
+    private HashMap<Integer,Train> allTrains = new HashMap<Integer,Train>();
     private int minimumBlockLength=-1;
     private boolean demoMode=false;
     public TrackModel(String[] args, Central newCentral){
@@ -300,10 +301,18 @@ public class TrackModel {
 
         Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock),this,true);
         theGui.AddTrain(newTrain);
+        allTrains.put(trainNum,newTrain);
     }
     public void NewTrain(int trainNum, int length, int direction, int startBlock,boolean noTrainModel){
         Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock),this);
         theGui.AddTrain(newTrain,true);
+        allTrains.put(trainNum,newTrain);
+    }
+    public void WaysideCommandedSpeed(int trainNum, double speed){
+
+    }
+    public void WaysideCommandedSpeed(int trainNum, double speed,boolean noTrainModel){
+        allTrains.get(trainNum).SetVelocity(speed);
     }
 
     //Get authority from actual wayside. Wayside will return arraylist<int> which will represent the block nums of all the blocks of authority starting with block the train is on
