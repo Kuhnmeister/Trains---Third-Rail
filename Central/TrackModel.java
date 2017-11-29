@@ -324,7 +324,13 @@ public class TrackModel {
     //Get authority from actual wayside. Wayside will return arraylist<int> which will represent the block nums of all the blocks of authority starting with block the train is on
     //blockNum is the number of the block the train we are seeking authority is on
     //this method returns the distance the train can travel
-
+    public void CommandedAuthority(ArrayList<Integer> authorityBlocks, int trainNum){
+        allTrains.get(trainNum).SetAuthority(authorityBlocks.size()-1);
+        //connect to TrainModel
+    }
+    public void CommandedAuthority(ArrayList<Integer> authorityBlocks, int trainNum,boolean noTrainModel){
+        allTrains.get(trainNum).SetAuthority(authorityBlocks.size()-1);
+    }
     
 
 

@@ -127,6 +127,25 @@ public class Train{
                 }
             }
 
+        }else{
+            if(authority>=1){
+                positionOnBlock = positionOnBlock + currentVelocity * (double) (timeSinceLastUpdateMS / 1000);
+                if (positionOnBlock > currentBlock.GetLength()) {
+                    positionOnBlock = positionOnBlock - currentBlock.GetLength();
+                    MoveNextBlock();
+                }
+                if(prevBlockOccupied){
+                    if(positionOnBlock>trainLength){
+                        if(!prevBlock.GetPowerFail() && !prevBlock.GetTrackCircuitFail() && !prevBlock.GetBrokenRail()) {
+                            theModel.RemoveOccupied(prevBlock);
+                            prevBlock.SetIsOccupied(false);
+                            System.out.println("Finally left block: "+prevBlock.GetBlockNum()+ " After Travelling: "+positionOnBlock);
+                            prevBlockOccupied=false;
+
+                        }
+                    }
+                }
+            }
         }
     }
     public void UpdatePositionIntegrated(double travelledDistance){
@@ -150,6 +169,9 @@ public class Train{
     }
     public void WaysideInput(int newAuthority,boolean newMoving){
         moveAtMaxSpeed=newMoving;
+        authority=newAuthority;
+    }
+    public void SetAuthority(int newAuthority){
         authority=newAuthority;
     }
     public int GetAuthority(){

@@ -20,7 +20,13 @@ public class Central{
 	public void TestMethod(String testString){
 		System.out.println(testString);
 	}
+	//*********************He, put the code to instantiate your stuff here****************************
+	public void CreateTrainModel(String[] theArgs){
 
+	}
+	public void CreateTrainController(String[] theArgs){
+
+	}
 	public void CreateTrackModel(String[] emptyArgs){
 		System.out.println("Create Track Model");
 		trackModel=new TrackModel(emptyArgs, this);
@@ -66,6 +72,16 @@ public class Central{
 	}
 	public void WaysideRemoveOccupied(int blockNum){
 		wayside.RemoveOccupied(blockNum);
+	}
+	public void CTCAuthority(int location, int authority, int trainNum){
+		wayside.SuggestAuthority(location, authority, trainNum);
+	}
+	public void WaysideSendAuthority(ArrayList<Integer> authorityBlocks, int trainNum){
+		if(!hasTrainModel) {
+			trackModel.CommandedAuthority(authorityBlocks,trainNum,true);
+		}else{
+			trackModel.CommandedAuthority(authorityBlocks,trainNum);
+		}
 	}
 	public void Update(int mulitplyer){
 

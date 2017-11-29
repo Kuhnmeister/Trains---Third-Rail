@@ -64,8 +64,26 @@ public class CentralGui extends Application{
                 theCentral.CreateCTC(theArgs);
             }
         });
+        Button createTrainModelButton = new Button("Train Model");
+        createTrainModelButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+                theCentral.CreateTrainModel(theArgs);
+            }
+        });
+        Button createTrainControllerButton = new Button("Train Model");
+        createTrainControllerButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+                theCentral.CreateTrainController(theArgs);
+            }
+        });
         grid.add(createCTCButton,0,0,2,1);
         grid.add(createTrackModelButton,0,1,2,1);
+        grid.add(createTrainModelButton,0,2,2,1);
+        grid.add(createTrainControllerButton,0,3,2,1);
         primaryStage.show();
     }
 }
