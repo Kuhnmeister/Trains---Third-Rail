@@ -207,41 +207,45 @@ public class Wayside {
                 	//this is a block in the form of Block
                 	currentBlock = section.getValue().get(i); 
                 	//public BlockInfo(Boolean crossing, Boolean switchHere, int createBlockNumber0, int blockNumber, int createBlockNumber1, int createBlockNumberSwitch)
+                	System.out.println(currentBlock.GetDirection1Num() + " " + currentBlock.GetBlockNum() + " " + currentBlock.GetDirection0Num());
+                	
                 	newBlockInfo = new BlockInfo(currentBlock.GetHasRailwayCrossing(), currentBlock.GetHasSwitch(), currentBlock.GetDirection1Num(), currentBlock.GetBlockNum(),
                 			currentBlock.GetDirection0Num(), currentBlock.GetSwitchNum(), currentBlock.GetSection());
                 	track.set(currentBlock.GetBlockNum(), newBlockInfo);
                 }
             }
-            
-            //link the track its itself(starts at one)
-            //System.out.println(track.size());
-            currBlock = track.get(1);
-            
-            for(BlockInfo cBlock : track)
-            {
-            	//System.out.println(cBlock.blockNumber());
-            	if(cBlock.blockNumber0() != -1) {
-            		//System.out.println(cBlock.blockNumber0());
-            		prevBlock = track.get(cBlock.blockNumber0());
-            	}else {
-            		prevBlock = track.get(0);
-            	}
-            	if(cBlock.blockNumber1() != -1) {
-            		//System.out.println(cBlock.blockNumber1());
-            		nextBlock = track.get(cBlock.blockNumber1());
-            	} else {
-            		nextBlock = track.get(0);
-            	}
-    			if(cBlock.blockSwitch() == -1) {
-    				//System.out.println(cBlock.blockSwitch());
-    				switchBlock = track.get(0);
-    			}else {
-    				switchBlock = track.get(cBlock.blockSwitch());
-    			}
-    			//System.out.println("linking blocks");	
-    			track.get(cBlock.blockNumber()).setNextBlocks(prevBlock, nextBlock, switchBlock);
-            }
 		} 
+		for(BlockInfo cBlock : track)
+		{
+			System.out.println(cBlock.blockNumber0() + " " + cBlock.blockNumber() + " " + cBlock.blockNumber1());
+		}
+		
+		 for(BlockInfo cBlock : track)
+         {
+         	//System.out.println(cBlock.blockNumber());
+         	if(cBlock.blockNumber0() != -1) {
+         		//System.out.println(cBlock.blockNumber0());
+         		prevBlock = track.get(cBlock.blockNumber0());
+         	}else {
+         		prevBlock = track.get(0);
+         	}
+         	if(cBlock.blockNumber1() != -1) {
+         		//System.out.println(cBlock.blockNumber1());
+         		nextBlock = track.get(cBlock.blockNumber1());
+         	} else {
+         		nextBlock = track.get(0);
+         	}
+ 			if(cBlock.blockSwitch() == -1) {
+ 				//System.out.println(cBlock.blockSwitch());
+ 				switchBlock = track.get(0);
+ 			}else {
+ 				switchBlock = track.get(cBlock.blockSwitch());
+ 			}
+ 			//System.out.println("linking blocks");	
+ 			System.out.println("Prev Block: " + prevBlock.blockNumber() + " Next Block: " + nextBlock.blockNumber() + " Switch Block: " + switchBlock.blockNumber());
+ 			track.get(cBlock.blockNumber()).setNextBlocks(prevBlock, nextBlock, switchBlock);
+         }
+		
 		System.out.println("It worked!");
 		//set initial track to green line
 		
@@ -312,7 +316,7 @@ public class Wayside {
 			currentAuth = new ArrayList<Integer> (currentAuth.subList(0, index));
 		 }
 		 //call central to pass to track
-		 //central.WaysideSendAuthority(trainNum, currentAuth);
+		 central.WaysideSendAuthority(currentAuth, trainNum);
 	}
 	
 	public void switchSwitch(int blockNum) 
