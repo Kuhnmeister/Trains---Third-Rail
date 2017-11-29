@@ -4,6 +4,7 @@
 //this is the handle that he central will use to controll everything
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import javafx.stage.Stage;
@@ -14,6 +15,7 @@ public class Wayside {
 	public ArrayList<ArrayList<BlockInfo>> lines;
 	public ArrayList<String> trackSections = new ArrayList<String>();
 	public ArrayList<ArrayList<String>> blockSections = new ArrayList<ArrayList<String>>();
+	public String[] lineNames;
 	public int currentBlock = 0;
 	public ArrayList<Integer> currentAuth;
 	public ArrayList<Integer> occBlocks = new ArrayList<Integer>();
@@ -191,6 +193,8 @@ public class Wayside {
 	
 	public ArrayList<BlockInfo> GetTrack( HashMap<String,HashMap<String,ArrayList<Block>>> newTrack)
 	{
+		String[] keyArray = newTrack.keySet().toArray(new String[newTrack.keySet().size()]);
+		lineNames = keyArray;
 		try {
 		Block currentBlock;
 		BlockInfo newBlockInfo, prevBlock, nextBlock, currBlock, switchBlock;
@@ -339,10 +343,13 @@ public class Wayside {
 		 central.WaysideSendAuthority(currentAuth, trainNum);
 	}
 	
-	public void switchSwitch(int blockNum, boolean state) 
+	public boolean SwitchSwitch(int blockNum, boolean state) 
 	{
 		//move switch in BlockInfo with this method
-		track.get(blockNum).setSwitch(state);
-		//call central to call track to move switch at block number
+		if(track.get(blockNum).setSwitch(state))
+		{
+			central.TrackMoveSwitch(blockNum, lineNames[0]);
+		}
+		return track.get(blockNum).switchState();
 	}
 }

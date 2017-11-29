@@ -83,6 +83,14 @@ public class Central{
 			trackModel.CommandedAuthority(authorityBlocks,trainNum);
 		}
 	}
+	public boolean CTCMoveSwitch(int blockNum, boolean state)
+	{
+		return wayside.SwitchSwitch(blockNum, state);
+	}
+	public void TrackMoveSwitch(int blockNum, String Line)
+	{
+		//trackModel.flipSwitch();
+	}
 	public void Update(int mulitplyer){
 
 	}
