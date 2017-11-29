@@ -29,8 +29,8 @@ public class Tracking{
 		lines = Arrays.copyOf(track.keySet().toArray(), track.keySet().toArray().length, String[].class);
 		for(int i = 0; i < lines.length; i++){
 			section = trackData.get(lines[i]);
-			System.out.println(section.keySet.toArray().length);
-			System.out.println(section.keySEt().toArray();
+			System.out.println(section.keySet().toArray().length);
+			System.out.println(section.keySet().toArray());
 			sectionList.add(Arrays.copyOf(section.keySet().toArray(), section.keySet().toArray().length, String[].class));
 			for(int j = 0; j < sectionList.get(i).length; j++){
 				String[] sectionThru = sectionList.get(i);
