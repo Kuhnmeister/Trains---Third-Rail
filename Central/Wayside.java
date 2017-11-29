@@ -265,7 +265,7 @@ public class Wayside {
 			//set the block in the trck object as occupied
 			track.get(occBlock).setOccupancy(true);
 			//call Central to inform CTC
-			Central.TrackStateUpdate(int occBlock);
+			central.TrackStateUpdate(occBlock);
 		}
 		
 	}
@@ -280,7 +280,6 @@ public class Wayside {
 			//set the block in the trck object as occupied
 			track.get(freedBlock).setOccupancy(false);
 			//call Central to inform CTC
-			Central.TrackStateUpdate(int occBlock);
 		}else {
 			
 		}
@@ -298,6 +297,7 @@ public class Wayside {
 		//pass this like a hot potato
 		//central.suggestSpeed(blockNum, speed);
 		System.out.println("Received Suggested Speed for train: "+trainNum+": BlockNum: "+blockNum+" speed: "+speed);
+		central.WaysideCommandedSpeed(trainNum,speed);
 	}
 	
 	//get authority from central
