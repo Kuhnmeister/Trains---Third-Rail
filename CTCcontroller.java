@@ -15,6 +15,9 @@ public class CTCcontroller{
 	public CTCcontroller(Central central){
 		BBC thisBBC = new BBC(central);
 	}
+	public CTCcontroller(){
+		BBC thisBBC = new BBC();
+	}
 	public void receiveTrackData(HashMap<String, HashMap<String, ArrayList<Block>>> track){
 		Tracking bob = new Tracking();
 		bob.receiveTrackData(track);
