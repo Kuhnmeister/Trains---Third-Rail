@@ -183,14 +183,14 @@ public class TrackModel {
     }
     public void AddOccupied(Block newBlock){
             if(!demoMode){
-                //call central class to report new occupied to Wayside
+                IntegratedAddOccupancy(newBlock.GetBlockNum());
             }
             occupiedBlocks.add(newBlock);
             System.out.println("Added Block: " + newBlock.GetBlockNum());
     }
     public void RemoveOccupied(Block newBlock){
         if(!demoMode){
-            //call central class to report new unoccupied to Wayside
+            IntegratedRemoveOccupancy(newBlock.GetBlockNum());
         }
         occupiedBlocks.remove(newBlock);
         System.out.println("Removed Block: "+newBlock.GetBlockNum());
@@ -313,6 +313,12 @@ public class TrackModel {
     }
     public void WaysideCommandedSpeed(int trainNum, double speed,boolean noTrainModel){
         allTrains.get(trainNum).SetVelocity(speed);
+    }
+    public void IntegratedAddOccupancy(int blockNum){
+        theCentral.WaysideAddOccupied(blockNum);
+    }
+    public void IntegratedRemoveOccupancy(int blockNum){
+        theCentral.WaysideRemoveOccupied(blockNum);
     }
 
     //Get authority from actual wayside. Wayside will return arraylist<int> which will represent the block nums of all the blocks of authority starting with block the train is on

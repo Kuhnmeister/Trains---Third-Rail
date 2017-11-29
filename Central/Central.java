@@ -58,6 +58,15 @@ public class Central{
 	public void UpdateTrainDistance(int trainId, float  movedDistance){
 
 	}
+	public void TrackStateUpdate(int occBlock){
+
+	}
+	public void WaysideAddOccupied(int blockNum){
+		wayside.AddOccupied(blockNum);
+	}
+	public void WaysideRemoveOccupied(int blockNum){
+		wayside.RemoveOccupied(blockNum);
+	}
 	public void Update(int mulitplyer){
 
 	}
