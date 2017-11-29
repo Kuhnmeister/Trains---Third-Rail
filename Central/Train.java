@@ -67,7 +67,7 @@ public class Train{
                 prevBlock = currentBlock;
                 prevBlockOccupied = true;
             }
-
+            nextBlock = nextBlock.GetNextBlock(direction);
             currentBlock = nextBlock;
             if(currentBlock.IsDirectionChange()){
                 if(direction==0){
@@ -88,6 +88,7 @@ public class Train{
                 prevBlockOccupied = true;
             }
             if (currentBlock != endingBlock) {
+                nextBlock = nextBlock.GetNextBlock(direction);
                 currentBlock = nextBlock;
                 if(currentBlock.IsDirectionChange()){
                     if(direction==0){
