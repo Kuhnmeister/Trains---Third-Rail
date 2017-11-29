@@ -20,6 +20,7 @@ public class Trains{
 		id = numOfTrains;
 		trainSpeed = 0;
 		trainAuthority = 3;
+		trainLength = 1;
 	}
 	public Trains(double Speed){
 		numOfTrains++;
