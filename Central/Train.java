@@ -67,7 +67,15 @@ public class Train{
                 prevBlock = currentBlock;
                 prevBlockOccupied = true;
             }
+
             currentBlock = nextBlock;
+            if(currentBlock.IsDirectionChange()){
+                if(direction==0){
+                    direction=1;
+                }else{
+                    direction=0;
+                }
+            }
             if (!currentBlock.GetPowerFail() && !currentBlock.GetTrackCircuitFail() && !currentBlock.GetBrokenRail()) {
                 theModel.AddOccupied(currentBlock);
                 currentBlock.SetIsOccupied(true);
@@ -81,6 +89,13 @@ public class Train{
             }
             if (currentBlock != endingBlock) {
                 currentBlock = nextBlock;
+                if(currentBlock.IsDirectionChange()){
+                    if(direction==0){
+                        direction=1;
+                    }else{
+                        direction=0;
+                    }
+                }
                 if (!currentBlock.GetPowerFail() && !currentBlock.GetTrackCircuitFail() && !currentBlock.GetBrokenRail()) {
                     theModel.AddOccupied(currentBlock);
                     currentBlock.SetIsOccupied(true);

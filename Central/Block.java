@@ -30,6 +30,7 @@ public class Block{
     private boolean brokenRail=false;
     private boolean forceMajeureTrainPresence=false;
     private Station thisStation;
+    private boolean directionChange=false;
 
     public Block(String newLine,String newSection, int newBlockNum, double newLength, float newGrade, int newSpeedLimit, boolean newIsBidirectional,int newNextBlock0,int newNextBlock1,int newSwitchBlock,String newInfrastructure){
         line = newLine;
@@ -48,6 +49,11 @@ public class Block{
             isUnderground=true;
         }else{
             isUnderground=false;
+        }
+        if(newInfrastructure.contains("Direction")){
+            directionChange=true;
+        }else{
+            directionChange=false;
         }
         if(newInfrastructure.contains("Beacon")){
             hasBeacon=true;
@@ -95,7 +101,9 @@ public class Block{
     public int GetBlockNum(){
         return blockNum;
     }
-
+    public boolean IsDirectionChange(){
+        return directionChange;
+    }
     public double GetLength(){
         return length;
     }
