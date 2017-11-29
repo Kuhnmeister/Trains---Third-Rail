@@ -271,12 +271,12 @@ public class Wayside {
 	}
 	
 	//get newly freed block from track
-	public void RemoveOccupied(int freedBlock)
+	public void removeOccupied(int freedBlock)
 	{
 		if(occBlocks.contains((Integer) freedBlock))
 		{
 			//add to occupied list
-			occBlocks.add((Integer) freedBlock);
+			occBlocks.remove((Integer) freedBlock);
 			//set the block in the trck object as occupied
 			track.get(freedBlock).setOccupancy(false);
 			//call Central to inform CTC
