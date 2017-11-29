@@ -42,7 +42,7 @@ public class BlockInfo {
 		blockNumberSwitch = createBlockNumberSwitch;
 	}
 	
-	public BlockInfo(Boolean crossing, Boolean switchHere, int createBlockNumber0, int blockNumber, int createBlockNumber1, int createBlockNumberSwitch)
+	public BlockInfo(Boolean crossing, Boolean switchHere, int createBlockNumber0, int blockNum, int createBlockNumber1, int createBlockNumberSwitch)
 	{
 		//always start as false
 		occupancy = false; 
@@ -54,7 +54,7 @@ public class BlockInfo {
 		//this fields start out differently based on the blocks
 		hasCrossing = crossing;
 		hasSwitch = switchHere;
-		
+		blockNumber = blockNum;
 		blockNumber0 = createBlockNumber0;
 		blockNumber1 = createBlockNumber1;
 		

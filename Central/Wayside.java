@@ -183,21 +183,25 @@ public class Wayside {
 		Block currentBlock;
 		BlockInfo newBlockInfo, prevBlock, nextBlock, currBlock, switchBlock;
 		int numberOfBlocks = 1;
-		track = new ArrayList<BlockInfo>();
-		track.add(0, new BlockInfo(0, 0, 0));
-		track.get(0).setNextBlocks(track.get(0), track.get(0), track.get(0));
-		
+		int numberOfLines = 0;
+		//create the lines object, to hold each line
+		lines = new ArrayList<ArrayList<BlockInfo>>();
 		//create one track object large enough to hold every block on the track
 		for (HashMap.Entry<String, HashMap<String, ArrayList<Block>>> line : newTrack.entrySet()) {
+			track = new ArrayList<BlockInfo>();
+			track.add(0, new BlockInfo(0, 0, 0));
+			track.get(0).setNextBlocks(track.get(0), track.get(0), track.get(0));
 			for (HashMap.Entry<String, ArrayList<Block>> sectionCount : line.getValue().entrySet()) {
                 for (int i = 0; i < sectionCount.getValue().size(); i++) {
                 	numberOfBlocks++;
                 	track.add(new BlockInfo(0, 0, 0));
                 }
 			}
+			lines.add(track);
 		}
 		
-		
+		//start on the first line
+		track = lines.get(numberOfLines);
 		for (HashMap.Entry<String, HashMap<String, ArrayList<Block>>> line : newTrack.entrySet()) {
 			//get the total number of blocks in this line
 			System.out.println(numberOfBlocks);
@@ -213,37 +217,40 @@ public class Wayside {
                 			currentBlock.GetDirection0Num(), currentBlock.GetSwitchNum(), currentBlock.GetSection());
                 	track.set(currentBlock.GetBlockNum(), newBlockInfo);
                 }
+                for(BlockInfo cBlock : track)
+        		{
+        			System.out.println(cBlock.blockNumber0() + " " + cBlock.blockNumber() + " " + cBlock.blockNumber1());
+        		}
+        		
+        		 for(BlockInfo cBlock : track)
+                 {
+                 	//System.out.println(cBlock.blockNumber());
+                 	if(cBlock.blockNumber0() != -1) {
+                 		//System.out.println(cBlock.blockNumber0());
+                 		prevBlock = track.get(cBlock.blockNumber0());
+                 	}else {
+                 		prevBlock = track.get(0);
+                 	}
+                 	if(cBlock.blockNumber1() != -1) {
+                 		//System.out.println(cBlock.blockNumber1());
+                 		nextBlock = track.get(cBlock.blockNumber1());
+                 	} else {
+                 		nextBlock = track.get(0);
+                 	}
+         			if(cBlock.blockSwitch() == -1) {
+         				//System.out.println(cBlock.blockSwitch());
+         				switchBlock = track.get(0);
+         			}else {
+         				switchBlock = track.get(cBlock.blockSwitch());
+         			}
+         			//System.out.println("linking blocks");	
+         			System.out.println("Prev Block: " + prevBlock.blockNumber() + " Next Block: " + nextBlock.blockNumber() + " Switch Block: " + switchBlock.blockNumber());
+         			track.get(cBlock.blockNumber()).setNextBlocks(prevBlock, nextBlock, switchBlock);
             }
-		} 
-		for(BlockInfo cBlock : track)
-		{
-			System.out.println(cBlock.blockNumber0() + " " + cBlock.blockNumber() + " " + cBlock.blockNumber1());
-		}
-		
-		 for(BlockInfo cBlock : track)
-         {
-         	//System.out.println(cBlock.blockNumber());
-         	if(cBlock.blockNumber0() != -1) {
-         		//System.out.println(cBlock.blockNumber0());
-         		prevBlock = track.get(cBlock.blockNumber0());
-         	}else {
-         		prevBlock = track.get(0);
-         	}
-         	if(cBlock.blockNumber1() != -1) {
-         		//System.out.println(cBlock.blockNumber1());
-         		nextBlock = track.get(cBlock.blockNumber1());
-         	} else {
-         		nextBlock = track.get(0);
-         	}
- 			if(cBlock.blockSwitch() == -1) {
- 				//System.out.println(cBlock.blockSwitch());
- 				switchBlock = track.get(0);
- 			}else {
- 				switchBlock = track.get(cBlock.blockSwitch());
- 			}
- 			//System.out.println("linking blocks");	
- 			System.out.println("Prev Block: " + prevBlock.blockNumber() + " Next Block: " + nextBlock.blockNumber() + " Switch Block: " + switchBlock.blockNumber());
- 			track.get(cBlock.blockNumber()).setNextBlocks(prevBlock, nextBlock, switchBlock);
+            } 
+            //change the track to the next line
+            numberOfLines++;
+            track = lines.get(numberOfLines);
          }
 		
 		System.out.println("It worked!");
@@ -322,6 +329,7 @@ public class Wayside {
 	
 	public void switchSwitch(int blockNum) 
 	{
+		//move switch in BlockInfo with this method
 		
 	}
 }
