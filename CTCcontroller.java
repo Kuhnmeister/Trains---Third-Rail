@@ -13,7 +13,7 @@ public class CTCcontroller{
 		CTCcontroller thisController = new CTCcontroller();
 	}
 	public CTCcontroller(Central central){
-		BBC thisBBC = new BBC(Central central);
+		BBC thisBBC = new BBC(central);
 	}
 	public void receiveTrackData(HashMap<String, HashMap<String, ArrayList<Block>>> track){
 		Tracking bob = new Tracking();
