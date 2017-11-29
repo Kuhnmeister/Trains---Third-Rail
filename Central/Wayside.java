@@ -296,6 +296,11 @@ public class Wayside {
 			central.TrackStateUpdate(occBlock);
 		}
 		System.out.println(occBlocks.toString());
+		//now call for an authority and send to to the track
+		currentAuth = getAuthority(occBlock, true);
+		currentAuth1 = getAuthority(occBlock, false);
+		//pass these to the central to be sent to the train
+		central.WaysideSendAuthority(currentAuth, currentAuth1, occBlock, true);
 	}
 	
 	//get newly freed block from track
