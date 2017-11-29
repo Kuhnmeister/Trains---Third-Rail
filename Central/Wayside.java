@@ -18,6 +18,7 @@ public class Wayside {
 	public String[] lineNames;
 	public int currentBlock = 0;
 	public ArrayList<Integer> currentAuth;
+	public ArrayList<Integer> currentAuth1;
 	public ArrayList<Integer> occBlocks = new ArrayList<Integer>();
 	public double suggSpeed = 55;
 	public int suggBlock = 0;
@@ -333,14 +334,19 @@ public class Wayside {
 	{
 		currentBlock = blockNum;
 		currentAuth = getAuthority(currentBlock, true);
+		currentAuth1 = getAuthority(currentBlock, false);
 		 if(currentAuth.contains(suggestedAuth)) {
 			//safe authority
 			int index = currentAuth.indexOf(suggestedAuth);
 			currentAuth = new ArrayList<Integer> (currentAuth.subList(0, index));
+			
+		 }else if(currentAuth1.contains(suggestedAuth)) {
+			int index = currentAuth1.indexOf(suggestedAuth);
+			currentAuth = new ArrayList<Integer> (currentAuth1.subList(0, index));
 		 }
 		 //call central to pass to track
 		 
-		 central.WaysideSendAuthority(currentAuth, trainNum);
+		 central.WaysideSendAuthority(currentAuth, currentAuth1, trainNum);
 	}
 	
 	public boolean SwitchSwitch(int blockNum, boolean state) 

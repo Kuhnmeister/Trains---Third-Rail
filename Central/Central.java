@@ -76,7 +76,7 @@ public class Central{
 	public void CTCAuthority(int location, int authority, int trainNum){
 		wayside.SuggestAuthority(location, authority, trainNum);
 	}
-	public void WaysideSendAuthority(ArrayList<Integer> authorityBlocks, int trainNum){
+	public void WaysideSendAuthority(ArrayList<Integer> authorityBlocks, ArrayList<Integer> authorityBlocks1, int trainNum){
 		if(!hasTrainModel) {
 			trackModel.CommandedAuthority(authorityBlocks,trainNum,true);
 		}else{
