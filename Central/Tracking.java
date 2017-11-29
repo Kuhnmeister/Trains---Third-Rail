@@ -20,6 +20,7 @@ public class Tracking{
 	ArrayList<Block> blocks;
 	HashMap< String, ArrayList<Block>> lineBlocks;
 	ArrayList<Block> lineBlockList = new ArrayList<Block>();
+	boolean trackTrue = false;
 	public Tracking(){
 		
 	}
@@ -65,12 +66,16 @@ public class Tracking{
 			}
 			lineBlocks.put(choice, lineBlockList);
 		}
+		trackTrue = true;
+	}
+	public TrackTrue(){
+		return trackTrue;
 	}
 	public String[] getLines(){
 		return lines;
 	}
 	public ArrayList<Integer> blocks(String choice){
-		ArrayList<Integer> blockReturn = new ArrayList<Integer>();
+		ArrayList<Integer> blockReturn = new ArrayList<Integer>;
 		for(int v = 0; v < lineBlocks.get(choice).size(); v++){
 			blockReturn.add(lineBlocks.get(choice).get(v).GetBlockNum());
 		}
