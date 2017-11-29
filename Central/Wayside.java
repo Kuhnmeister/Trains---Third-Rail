@@ -267,7 +267,7 @@ public class Wayside {
 			//call Central to inform CTC
 			central.TrackStateUpdate(occBlock);
 		}
-		
+		System.out.println(occBlocks.toString());
 	}
 	
 	//get newly freed block from track
@@ -283,6 +283,7 @@ public class Wayside {
 		}else {
 			
 		}
+		System.out.println(occBlocks.toString());
 	}
 	
 	//this method creates a track from the track models object
