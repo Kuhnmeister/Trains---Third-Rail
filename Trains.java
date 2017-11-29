@@ -12,10 +12,12 @@ public class Trains{
 	String amPm;
 	int location;
 	String line;
+	int trainLength;
 	
 	public Trains(){
 		numOfTrains++; 
 		trainName = "Train" + Integer.toString(numOfTrains);
+		id = numOfTrains;
 		trainSpeed = 0;
 		trainAuthority = 3;
 	}
@@ -38,8 +40,13 @@ public class Trains{
 		trainAuthority = Authority;
 	}
 	public int getId(){
-		id = numOfTrains;
 		return id;
+	}
+	public void setLength(int length){
+		trainLength = length;
+	}
+	public int getLength(){
+		return trainLength;
 	}
 	public void setSpeed(double speed){
 		trainSpeed = speed;
