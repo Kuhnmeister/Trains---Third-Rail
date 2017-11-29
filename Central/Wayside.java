@@ -312,6 +312,7 @@ public class Wayside {
 			currentAuth = new ArrayList<Integer> (currentAuth.subList(0, index));
 		 }
 		 //call central to pass to track
+		 //central.WaysideSendAuthority(trainNum, currentAuth);
 	}
 	
 	public void switchSwitch(int blockNum) 
