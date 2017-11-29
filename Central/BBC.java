@@ -9,7 +9,7 @@ import java.util.Timer;
 import java.util.List;
 
 public class BBC{
-	private static Central central;
+	Central central;
 	public static void main(String args[]){
 		BBC thisBBC = new BBC();
 	}
@@ -194,7 +194,7 @@ public class BBC{
 				if(currentTimer[0] != null){
 					Purge(currentTimer[0]);
 				}
-				currentTimer[0] = OneTimes(clockRun, timeConstant, time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice);
+				currentTimer[0] = OneTime(clockRun, timeConstant, time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice);
 			}
 		});
 		ten.addActionListener(new ActionListener(){
@@ -205,7 +205,7 @@ public class BBC{
 				if(currentTimer[0] != null){
 					Purge(currentTimer[0]);
 				}
-				currentTimer[0] = TenTimes(clockRun, timeConstant, time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice);
+				currentTimer[0] = TenTime(clockRun, timeConstant, time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice);
 			}
 		});
 		hundred.addActionListener(new ActionListener(){
@@ -216,7 +216,7 @@ public class BBC{
 				if(currentTimer[0] != null){
 					Purge(currentTimer[0]);
 				}
-				currentTimer[0] = HundredTimes(clockRun, timeConstant, time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice);
+				currentTimer[0] = HundredTime(clockRun, timeConstant, time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice);
 			}
 		});
 		//auto/manual button creation
@@ -432,9 +432,10 @@ public class BBC{
 	
 	public BBC(Central newCentral){
 		//main window variables
+		central = newCentral;
 		JFrame window = new JFrame( "Centralized Traffic Control" );
 		Container content;
-		central=newCentral;
+		
 		//panel variables
 		JPanel panelRight = new JPanel();
 		JPanel panelLeft = new JPanel();
@@ -525,15 +526,7 @@ public class BBC{
 		
 		//track interactivity functionality
 		JComboBox<String> line = new JComboBox<String>();
-		
-		
-
-		
-		
-		
-		
-		
-		
+			
 		TimerTask clockRun = new TimerTask(){
 			public void run(){
 				if((time[0]/10000) == 12){
@@ -598,6 +591,7 @@ public class BBC{
 						}
 					}
 				}
+				//central.UpdateTrainModel(1);
 			}
 		};
 		t.schedule(clockRun, timeConstant[0], timeConstant[0]);
@@ -611,7 +605,7 @@ public class BBC{
 				if(currentTimer[0] != null){
 					Purge(currentTimer[0]);
 				}
-				currentTimer[0] = OneTimes(clockRun, timeConstant, time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice);
+				currentTimer[0] = OneTimes(clockRun, timeConstant, time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, central);
 			}
 		});
 		ten.addActionListener(new ActionListener(){
@@ -622,7 +616,7 @@ public class BBC{
 				if(currentTimer[0] != null){
 					Purge(currentTimer[0]);
 				}
-				currentTimer[0] = TenTimes(clockRun, timeConstant, time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice);
+				currentTimer[0] = TenTimes(clockRun, timeConstant, time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, central);
 			}
 		});
 		hundred.addActionListener(new ActionListener(){
@@ -633,7 +627,7 @@ public class BBC{
 				if(currentTimer[0] != null){
 					Purge(currentTimer[0]);
 				}
-				currentTimer[0] = HundredTimes(clockRun, timeConstant, time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice);
+				currentTimer[0] = HundredTimes(clockRun, timeConstant, time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, central);
 			}
 		});
 		//auto/manual button creation
@@ -667,19 +661,11 @@ public class BBC{
 						trainList.add(new Trains());
 						trainCount[0] += 1;
 						trainListed[0]++;
-						System.out.println(trainCount[0]);
-						if(trainCount.length>0) {
-							trainList.get(trainCount[0] - 1).setLength(1);
-
-							trainSelect.addItem("Train " + Integer.toString(trainCount[0]));
-							trainChoice.addItem("Train " + Integer.toString(trainCount[0]));
-						}else{
-							System.out.println(":(");
-						}
+						trainSelect.addItem("Train " + Integer.toString(trainCount[0]));
+						trainChoice.addItem("Train " + Integer.toString(trainCount[0]));
 					}
 					else{
 						trainListed[0]++;
-						trainList.get(trainListed[0]).setLength(1);
 						trainSelect.addItem("Train " + Integer.toString(trainListed[0]));
 						trainChoice.addItem("Train " + Integer.toString(trainListed[0]));
 					}
@@ -694,13 +680,13 @@ public class BBC{
 					if(!trainList.isEmpty()){
 						if(trainList.get(trainSelect.getSelectedIndex()).getSpeedDouble() == 0.0){
 						//fix for all possible lines
-							if(trainList.get(trainSelect.getSelectedIndex()).getLine() == "Red ")
+							/*if(trainList.get(trainSelect.getSelectedIndex()).getLine() == "Red ")
 							{
 								trainList.get(trainSelect.getSelectedIndex()).setLocation(96);
 							}
 							else{
 								trainList.get(trainSelect.getSelectedIndex()).setLocation(95);
-							}
+							}*/
 							System.out.println(trainList.get(trainSelect.getSelectedIndex()).getLocation());
 							System.out.println(trainList.get(trainSelect.getSelectedIndex()).getLine());
 							trainList.get(trainSelect.getSelectedIndex()).setSpeed(55.0);
@@ -808,8 +794,27 @@ public class BBC{
 			}
 		});
 		
-		JComboBox<String> blockChoose = new JComboBox<String>();
+		JComboBox<Integer> blockChoose = new JComboBox<Integer>();
 		
+		
+		line.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				Tracking trackCheck = new Tracking();
+				String choice = (String)line.getSelectedItem();
+				ArrayList<Integer> block = trackCheck.blocks(choice);
+				blockChoose.removeAllItems();
+				for(int i = 0; i < block.size(); i++){
+					blockChoose.addItem(block.get(i));
+				}
+			}
+		});
+		blockChoose.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				int choice = blockChoose.getSelectedIndex();
+				int block = (int)blockChoose.getSelectedItem();
+				LineView(choice, block);
+			}
+		});
 		
 
 		//adding in components and opening window
@@ -842,7 +847,11 @@ public class BBC{
 		panelBL1.add(panelBL10);
 		panelBL1.add(trainSelect);
 		panelBL3.add(thruPut);
-		
+		Tracking lineGet = new Tracking();
+		String[] lineNames = lineGet.getLines();
+		for(int i = 0; i < lineNames.length; i++){
+			line.addItem(lineNames[i]);
+		}
 
 		panelBL1.add(scheduleView);
 		panelBL1.add(line);
@@ -854,50 +863,32 @@ public class BBC{
 		window.setSize( 1000,575 );
 		window.setVisible( true );
 	}
-	public static void createFrame( ArrayList<JFrame> trainWindow, int[] windowNum, ArrayList<Trains> trainList, int open){
+	public void createFrame( ArrayList<JFrame> trainWindow, int[] windowNum, ArrayList<Trains> trainList, int open){
 		windowNum[0] += 1;
-		Trains trainData = trainList.get(open);
-		JComboBox<String> stations = new JComboBox<String>();
-		stations.addItem("Pioneer");
-		stations.addItem("Edgebrook");
-		stations.addItem("Station");
-		stations.addItem("Whited");
-		stations.addItem("South bank");
-		stations.addItem("Central - I");
-		stations.addItem("Inglewood - I");
-		stations.addItem("Overbrook - I");
-		stations.addItem("Glenbury - K");
-		stations.addItem("Dormont - L");
-		stations.addItem("Mt Lebanon");
-		stations.addItem("Poplar");
-		stations.addItem("Castle Shannon");
-		stations.addItem("Dormont - T");
-		stations.addItem("Glenbury - U");
-		stations.addItem("Overbrook - W");
-		stations.addItem("Inglewood - W");
-		stations.addItem("Central - W");
-		stations.addItem("Shadyside");
-		stations.addItem("Herron Ave");
-		stations.addItem("Swissville");
-		stations.addItem("Penn Station");
-		stations.addItem("Steel Plaza");
-		stations.addItem("First Ave");
-		stations.addItem("Station Square");
-		stations.addItem("South Hills Junction");
-		
+		Tracking trackBlocks = new Tracking();
+		JComboBox<Integer> stations = new JComboBox<Integer>();
+		String line;
+		if(trainList.get(open).hasSchedule()){
+			line = trainList.get(open).getLine();
+		}
+		else{
+			line = null;
+		}
+		ArrayList<Integer> theBlocks = trackBlocks.blocks(line);
+				
 		JButton createStop = new JButton("Create Stop");
 			createStop.addActionListener( new ActionListener(){
 				public void actionPerformed(ActionEvent e){
 					String newStop = (String)stations.getSelectedItem();
-					trainData.createStop("newStop");
+					trainList.get(open).createStop(newStop);
 				}
 			});
 
 		JFrame newWindow = new JFrame("Train " + (Integer.toString(open+1)));
 		Container trainContainer = newWindow.getContentPane();
 		
-		JTextField speed = new JTextField(trainData.getSpeed(), 5);
-		speed.addActionListener(new ActionListener(){
+		JTextField speed = new JTextField(trainList.get(open).getSpeed(), 5);
+		speed.addActionListener(new ActionListener(){	
 			public void actionPerformed(ActionEvent e){
 				String speedChange = speed.getText();
 				trainList.get(open).setSpeed(Double.parseDouble(speedChange));
@@ -907,24 +898,27 @@ public class BBC{
 			}
 		});
 		
-		JTextField authority = new JTextField(trainData.getAuthority(), 5);
+		JTextField authority = new JTextField(trainList.get(open).getAuthority(), 5);
 		authority.addActionListener(new ActionListener(){	
 			public void actionPerformed(ActionEvent e){
 				String authorityChange = authority.getText();
-				trainData.setAuthority(Integer.parseInt(authorityChange));
+				trainList.get(open).setAuthority(Integer.parseInt(authorityChange));
+				int location = trainList.get(open).getLocation();
+				int authority = trainList.get(open).getLocation() + Integer.parseInt(trainList.get(open).getAuthority());
+				central.CTCAuthority(location, authority, trainList.get(open).getId());
 			}
 		});
-		JTextField length = new JTextField("Enter Length");
+		JTextField length = new JTextField();
 		length.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				String trainLength = length.getText();
-				trainData.setLength(Integer.parseInt(trainLength));
+				trainList.get(open).setLength(Integer.parseInt(trainLength));
 			}
 		});
 		JPanel newPanel1 = new JPanel();
 		JPanel newPanel2 = new JPanel();
 		newPanel1.setLayout(new GridLayout(4,1));
-		newPanel2.setLayout(new GridLayout(5,1));
+		newPanel2.setLayout(new GridLayout(6,1));
 		
 		
 		JPanel newPanel11 = new JPanel();
@@ -936,6 +930,7 @@ public class BBC{
 		JPanel newPanel23 = new JPanel();
 		JPanel newPanel24 = new JPanel();
 		JPanel newPanel25 = new JPanel();
+		JPanel newPanel26 = new JPanel();
 		
 		trainContainer.add(newPanel1);
 		trainContainer.add(newPanel2);
@@ -949,18 +944,23 @@ public class BBC{
 		newPanel2.add(newPanel23);
 		newPanel2.add(newPanel24);
 		newPanel2.add(newPanel25);
+		newPanel2.add(newPanel26);
 		
-		
+		Label lengthLabel = new Label("Enter number of cars");
 		Label stationsLabel = new Label("Selected Station");
 		Label speedLabel = new Label("Enter Speed");
 		Label authorityLabel = new Label("Enter Authority");
 		Label mph = new Label("m/h");
 		Label blocks = new Label("blocks");
 		Label schedule = new Label("Schedule:");
-		String scheduleData = Arrays.toString(trainData.getSchedule());
-		String amPm = trainData.getDepartureHalf();
-		String time = trainData.getDepartureTime();
-		String line = trainData.getLine();
+		String scheduleData = Arrays.toString(trainList.get(open).getSchedule());
+		String amPm = trainList.get(open).getDepartureHalf();
+		String time = trainList.get(open).getDepartureTime();
+		if(line != null){
+			for(int i = 0; i < theBlocks.size(); i++){
+				stations.addItem(theBlocks.get(i));			
+			}
+		}
 		Label scheduleInfo = new Label(line + " " + time + amPm +" "+ scheduleData);
 		
 		newPanel11.add(authorityLabel);
@@ -974,52 +974,136 @@ public class BBC{
 		newPanel22.add(createStop);
 		newPanel23.add(schedule);
 		newPanel24.add(scheduleInfo);
-		newPanel25.add(length);
+		newPanel26.add(length);
+		newPanel25.add(lengthLabel);
 		trainContainer.setLayout(new GridLayout(2,1));
 		
-		newWindow.setSize( 250,515 );
+		newWindow.setSize( 250,555 );
 		newWindow.setVisible( true );
 	}
 	public static void receiveTickets(int numOfTickets){
 
 	}
 	
+	private static void LineView(int choice, int block){
+		Tracking trackCheck = new Tracking();
+		JPanel box = new JPanel();
+		JPanel crossings = new JPanel();
+		JPanel undergrounds = new JPanel();
+		JPanel theSwitches = new JPanel();
+		JFrame lineView = new JFrame("Block: " + Integer.toString(block));
+		box.setLayout(new GridLayout(1,2));
+		JLabel header = new JLabel();
+		Container lineContainer = lineView.getContentPane();
+		lineContainer.setLayout(new GridLayout(4,1));
+		lineContainer.add(crossings);
+		lineContainer.add(undergrounds);
+		lineContainer.add(theSwitches);
+		ImageIcon Crossing = new ImageIcon("Crossing.png");
+		ImageIcon Underground = new ImageIcon("Underground.png");
+		ImageIcon trackSwitch = new ImageIcon("Switch.png");
+		box.add(header);
+		crossings.removeAll();
+		undergrounds.removeAll();
+		theSwitches.removeAll();
+		if(trackCheck.hasCrossing(block)){
+			JLabel Cross = new JLabel(Crossing);
+			crossings.add(Cross);
+		}
+		if(trackCheck.isUnderground(block)){
+			JLabel Under = new JLabel(Underground);
+			undergrounds.add(Under);
+		}
+		if(trackCheck.hasSwitch(block)){
+			JLabel switches = new JLabel(trackSwitch);
+			theSwitches.add(switches);
+		}
+		lineView.setSize( 250,500 );
+		lineView.setVisible( true );
+	}
+	
+	
 	public static void Purge(Timer t){
 		t.cancel();
 		t.purge();
 	}
-	public static Timer OneTimes( TimerTask clockRun, int[] timeConstant, int[] time, JLabel clock,
+	
+		public static Timer OneTime( TimerTask clockRun, int[] timeConstant, int[] time, JLabel clock,
 	String[] amPm, ArrayList<Trains> trainList, int[] autoManState, int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice)
 	{
 		timeConstant[0] = 1000;
 		Timer t = new Timer();
 		TimerTask newTask;
-		newTask = ClockRun(time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice);
+		int multiplier = 1;
+		newTask = ClockRuns(time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, multiplier);
 		t.schedule(newTask,timeConstant[0], timeConstant[0]);
 		return t;
 	}
-	public static Timer TenTimes( TimerTask clockRun, int[] timeConstant, int[] time, JLabel clock, 
+	public static Timer TenTime( TimerTask clockRun, int[] timeConstant, int[] time, JLabel clock, 
 	String[] amPm, ArrayList<Trains> trainList, int[] autoManState, int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice)
 	{
 		timeConstant[0] = 100;
 		Timer t = new Timer();
 		TimerTask newTask;
-		newTask = ClockRun(time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice);
+		int multiplier = 10;
+		newTask = ClockRuns(time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, multiplier);
 		t.schedule(newTask,timeConstant[0], timeConstant[0]);
 		return t;
 	}
-	public static Timer HundredTimes( TimerTask clockRun, int[] timeConstant, int[] time, JLabel clock,
+	public static Timer HundredTime( TimerTask clockRun, int[] timeConstant, int[] time, JLabel clock,
 	String[] amPm, ArrayList<Trains> trainList, int[] autoManState, int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice)
 	{
 		timeConstant[0] = 10;
 		Timer t = new Timer();
 		TimerTask newTask;
-		newTask = ClockRun(time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice);
+		int multiplier = 100;
+		newTask = ClockRuns(time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, multiplier);
 		t.schedule(newTask,timeConstant[0], timeConstant[0]);
 		return t;
 	}
-	public static TimerTask ClockRun(int[] time, JLabel clock, String[] amPm, ArrayList<Trains> trainList, int[] autoManState,
-	int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice){
+	
+	
+	
+	
+	
+	
+	public static Timer OneTimes( TimerTask clockRun, int[] timeConstant, int[] time, JLabel clock,
+	String[] amPm, ArrayList<Trains> trainList, int[] autoManState, int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice, Central central)
+	{
+		timeConstant[0] = 1000;
+		Timer t = new Timer();
+		TimerTask newTask;
+		int multiplier = 1;
+		newTask = ClockRun(time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, multiplier, central);
+		t.schedule(newTask,timeConstant[0], timeConstant[0]);
+		return t;
+	}
+	public static Timer TenTimes( TimerTask clockRun, int[] timeConstant, int[] time, JLabel clock, 
+	String[] amPm, ArrayList<Trains> trainList, int[] autoManState, int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice, Central central)
+	{
+		timeConstant[0] = 100;
+		Timer t = new Timer();
+		TimerTask newTask;
+		int multiplier = 10;
+		newTask = ClockRun(time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, multiplier, central);
+		t.schedule(newTask,timeConstant[0], timeConstant[0]);
+		return t;
+	}
+	public static Timer HundredTimes( TimerTask clockRun, int[] timeConstant, int[] time, JLabel clock,
+	String[] amPm, ArrayList<Trains> trainList, int[] autoManState, int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice, Central central)
+	{
+		timeConstant[0] = 10;
+		Timer t = new Timer();
+		TimerTask newTask;
+		int multiplier = 100;
+		newTask = ClockRun(time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, multiplier, central);
+		t.schedule(newTask,timeConstant[0], timeConstant[0]);
+		return t;
+	}
+	
+	
+	public static TimerTask ClockRuns(int[] time, JLabel clock, String[] amPm, ArrayList<Trains> trainList, int[] autoManState,
+	int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice, int multiplier){
 		TimerTask clockRun = new TimerTask(){
 			public void run(){
 				if((time[0]/10000) == 12){
@@ -1085,6 +1169,79 @@ public class BBC{
 						}
 					}
 				}
+			}
+		};
+		return clockRun;
+	}
+	
+	public static TimerTask ClockRun(int[] time, JLabel clock, String[] amPm, ArrayList<Trains> trainList, int[] autoManState,
+	int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice, int multiplier, Central central){
+		TimerTask clockRun = new TimerTask(){
+			public void run(){
+				if((time[0]/10000) == 12){
+					if((time[0]/100)%100 == 59){
+						if(time[0]%100 == 59){
+							time[0] = (time[0] = 9999);
+						}
+					}
+				}
+				if((time[0]/100)%100 == 59){
+					if(time[0]%100 == 59){
+						time[0] = (time[0]+4040);
+						if((time[0]/10000) == 11){
+							if(amPm[0] == "am"){
+								amPm[0] = "pm";
+							}
+							else{
+								amPm[0] = "am";
+							}
+						}
+					}
+				}
+				else if(time[0]%100 == 59){
+					time[0] = (time[0]+40);
+				}
+				time[0]++;
+				
+				if((time[0]/100)%100 < 10){
+					if(time[0]%100 < 10){
+						clock.setText(""+((time[0]/10000))+":"+"0"+((time[0]/100)%100)+":"+"0"+(time[0]%100)+" "+amPm[0]);
+					}
+					else{
+						clock.setText(""+((time[0]/10000))+":"+"0"+((time[0]/100)%100)+":"+(time[0]%100)+" "+amPm[0]);
+					}
+				}
+				else if(time[0]%100 < 10){
+					clock.setText(""+((time[0]/10000))+":"+((time[0]/100)%100)+":"+"0"+(time[0]%100)+" "+amPm[0]);
+				}
+				else{
+					clock.setText(""+((time[0]/10000))+":"+((time[0]/100)%100)+":"+(time[0]%100)+" "+amPm[0]);
+				}			
+				if(autoManState[0] == 1 ){			
+					if(trainListed[0] != trainCount[0]){				
+						int diff = trainCount[0] - trainListed[0];
+						int start = trainListed[0];
+						for(int x = (start+1); x < (diff+1); x++){
+							trainListed[0]++;
+							trainSelect.addItem("Train " + Integer.toString(x));
+							trainChoice.addItem("Train " + Integer.toString(x));
+						}
+					}
+					if(!trainList.isEmpty()){
+						for(int i = 0; i < trainList.size(); i++){
+							if(trainList.get(i).hasSchedule()){
+								String dispatchTime = new String(trainList.get(i).getDepartureTime());
+								String half = new String(trainList.get(i).getDepartureHalf());
+								if(Integer.parseInt(dispatchTime) == time[0]/10000){
+									if(half.equals(amPm[0])){
+										trainList.get(i).setSpeed(55);
+									}
+								}
+							}
+						}
+					}
+				}
+			//central.UpdateTrainModel(multiplier);
 			}
 		};
 		return clockRun;
