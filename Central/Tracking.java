@@ -70,7 +70,7 @@ public class Tracking{
 		return lines;
 	}
 	public ArrayList<Integer> blocks(String choice){
-		ArrayList<Integer> blockReturn = new ArrayList<Integer>;
+		ArrayList<Integer> blockReturn = new ArrayList<Integer>();
 		for(int v = 0; v < lineBlocks.get(choice).size(); v++){
 			blockReturn.add(lineBlocks.get(choice).get(v).GetBlockNum());
 		}
