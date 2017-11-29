@@ -42,10 +42,13 @@ public class Central{
 		ctc.receiveTrackData(track);
 		wayside=new Wayside(args, this, track);
 	}
+	public void SuggestSpeed(int blockNum, int trainNum, double speed){
+		wayside.SuggestSpeed(blockNum,trainNum,speed);
+	}
 	public void UpdateTrainDistance(int trainId, float  movedDistance){
 
 	}
-	public void Update(){
+	public void Update(int mulitplyer){
 
 	}
 	/*

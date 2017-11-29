@@ -10,7 +10,7 @@ public class Trains{
 	int stopCount= 0;
 	String departTime;
 	String amPm;
-	int location;
+	int location=1;
 	String line;
 	int trainLength;
 	

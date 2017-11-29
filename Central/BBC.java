@@ -9,6 +9,7 @@ import java.util.Timer;
 import java.util.List;
 
 public class BBC{
+	private static Central central;
 	public static void main(String args[]){
 		BBC thisBBC = new BBC();
 	}
@@ -429,11 +430,11 @@ public class BBC{
 		window.setVisible( true );
 	}
 	
-	public BBC(Central central){
+	public BBC(Central newCentral){
 		//main window variables
 		JFrame window = new JFrame( "Centralized Traffic Control" );
 		Container content;
-		
+		central=newCentral;
 		//panel variables
 		JPanel panelRight = new JPanel();
 		JPanel panelLeft = new JPanel();
@@ -896,10 +897,13 @@ public class BBC{
 		Container trainContainer = newWindow.getContentPane();
 		
 		JTextField speed = new JTextField(trainData.getSpeed(), 5);
-		speed.addActionListener(new ActionListener(){	
+		speed.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				String speedChange = speed.getText();
-				trainData.setSpeed(Double.parseDouble(speedChange));
+				trainList.get(open).setSpeed(Double.parseDouble(speedChange));
+				int id = trainList.get(open).getId();
+				int block = trainList.get(open).getLocation();
+				central.SuggestSpeed(block, id, Double.parseDouble(speedChange));
 			}
 		});
 		

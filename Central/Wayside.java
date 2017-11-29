@@ -268,10 +268,11 @@ public class Wayside {
 	}
 	
 	//get speed from central 
-	public void suggestSpeed(int blockNum, double speed)
+	public void SuggestSpeed(int blockNum,int trainNum, double speed)
 	{
-		//pass this like a hot potatoe
+		//pass this like a hot potato
 		//central.suggestSpeed(blockNum, speed);
+		System.out.println("Received Suggested Speed for train: "+trainNum+": BlockNum: "+blockNum+" speed: "+speed);
 	}
 	
 	//get authority from central
