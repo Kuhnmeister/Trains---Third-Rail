@@ -27,20 +27,20 @@ public class Central{
 	}
 	public void CreateCTC(String[] emptyArgs){
 		System.out.println("Create CTC");
-		ctc=new CTCcontroller();
+		ctc=new CTCcontroller(this);
 	}
 
 	public void CreateTrain(int trainNum, int length, int direction,int startBlock){
 		if(hasTrainModel) {
-			trackModel.NewTrainTrain(trainNum, length, direction, startBlock);
+			trackModel.NewTrain(trainNum, length*2, direction, startBlock);
 		}else{
-			trackModel.NewTrainTrain(trainNum, length, direction, startBlock,true);
+			trackModel.NewTrain(trainNum, length*2, direction, startBlock,true);
 		}
 	}
 	public void UpdateTrack(HashMap<String,HashMap<String,ArrayList<Block>>> track){
 		System.out.println("Updating the track");
 		ctc.receiveTrackData(track);
-		wayside=new Wayside(args, this, track);
+		//wayside=new Wayside(args, this, track);
 	}
 	public void UpdateTrainDistance(int trainId, float  movedDistance){
 

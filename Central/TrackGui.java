@@ -51,6 +51,7 @@ public class TrackGui extends Application {
     private SimpleStringProperty observableOutputToWayside = new SimpleStringProperty();
     private String outputToTrainsDisplay="";
     private int displayingTrain;
+    private Timeline timeline;
     private SimpleStringProperty observableOutputToTrains = new SimpleStringProperty();
     public TrackGui(String[] args, TrackModel newModel){
 
@@ -126,7 +127,7 @@ public class TrackGui extends Application {
         primaryStage.setScene(scene);
         Text scenetitle = new Text("Load New Track");
         //handles updating our reference to occupied blocks
-        Timeline timeline = new Timeline(
+        timeline = new Timeline(
                 new KeyFrame(Duration.seconds(1), e -> {
                     SetOutputToWayside(theModel.GetNewWaysideOutput());
                     SetOutputToTrains();
@@ -522,6 +523,18 @@ public class TrackGui extends Application {
     public void AddTrain(Train newTrain){
         allActiveTrains.add(newTrain);
         activeTrainNumbersList.add(newTrain.GetTrainNum());
+        if(trackUploaded) {
+            timeline.stop();
+            timeline.play();
+        }
+    }
+    public void AddTrain(Train newTrain, boolean noTrainModel){
+        allActiveTrains.add(newTrain);
+        activeTrainNumbersList.add(newTrain.GetTrainNum());
+        if(trackUploaded) {
+            timeline.stop();
+            timeline.play();
+        }
     }
     private Train GetTrain(int lookingNum){
         for (Iterator<Train> iterator = allActiveTrains.iterator(); iterator.hasNext();) {

@@ -301,9 +301,9 @@ public class TrackModel {
         Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock),this,true);
         theGui.AddTrain(newTrain);
     }
-    public void NewTrain(int trainNum, int length, int startBlock,boolean noTrainModel){
-        Train newTrain =new Train(trainNum, length,0, GetBlock(startBlock),this,true,true);
-        theGui.AddTrain(newTrain);
+    public void NewTrain(int trainNum, int length, int direction, int startBlock,boolean noTrainModel){
+        Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock),this);
+        theGui.AddTrain(newTrain,true);
     }
 
     //Get authority from actual wayside. Wayside will return arraylist<int> which will represent the block nums of all the blocks of authority starting with block the train is on

@@ -12,6 +12,9 @@ public class CTCcontroller{
 	public static void main(String[] args){
 		CTCcontroller thisController = new CTCcontroller();
 	}
+	public CTCcontroller(Central central){
+		BBC thisBBC = new BBC(central);
+	}
 	public CTCcontroller(){
 		BBC thisBBC = new BBC();
 	}

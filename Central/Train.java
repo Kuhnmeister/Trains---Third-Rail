@@ -44,7 +44,7 @@ public class Train{
         integrated=newIntegrated;
 
     }
-    public Train(int newTrainNum,int newTrainLength,int newDirection,Block newCurrentBlock,TrackModel newModel, boolean newIntegrated, boolean noTrainModel) {
+    public Train(int newTrainNum,int newTrainLength,int newDirection,Block newCurrentBlock,TrackModel newModel) {
         trainNum = newTrainNum;
         direction = newDirection;
         currentBlock = newCurrentBlock;
@@ -106,6 +106,7 @@ public class Train{
         return direction;
     }
     public void UpdatePosition(int timeSinceLastUpdateMS){
+        System.out.println("Train is updating");
         if(moveAtMaxSpeed) {
             positionOnBlock = positionOnBlock + currentVelocity * (float) (timeSinceLastUpdateMS / 1000);
             if (positionOnBlock > currentBlock.GetLength()) {
