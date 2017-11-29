@@ -296,8 +296,9 @@ public class TrackModel {
 
     //***********************************************************Integrated Methods*******************************************//
     //Called when a train is dispatched from the station
-    public void NewTrain(int trainNum, int length, int startBlock){
-        Train newTrain =new Train(trainNum, length,0, GetBlock(startBlock),this,true);
+    public void NewTrain(int trainNum, int length, int direction,int startBlock){
+
+        Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock),this,true);
         theGui.AddTrain(newTrain);
     }
     public void NewTrain(int trainNum, int length, int startBlock,boolean noTrainModel){
