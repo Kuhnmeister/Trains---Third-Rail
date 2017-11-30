@@ -34,7 +34,7 @@ public class AuthorityCalculator implements PLCinterface{
 		if(direction) {
 			//compare the blocks to make sure they aren't the same(if they're the same the maximum has been reached)
 			while(canAdvance(track.get(authority)) != authority && i >= 0) {
-				System.out.println("Advancing to: " + i);
+				//System.out.println("Advancing to: " + i);
 				authority = canAdvance(track.get(authority));
 				freeBlocks.add(authority);
 				i--;
@@ -42,7 +42,7 @@ public class AuthorityCalculator implements PLCinterface{
 		}else {
 			//compare the blocks to make sure they aren't the same(if they're the same the maximum has been reached)
 			while(canReturn(track.get(authority)) != authority && i >= 0) {
-				System.out.println("Advancing to: " + i);
+				//System.out.println("Advancing to: " + i);
 				authority = canReturn(track.get(authority));
 				freeBlocks.add(authority);
 				i--;

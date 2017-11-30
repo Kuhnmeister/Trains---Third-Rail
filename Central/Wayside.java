@@ -346,7 +346,7 @@ public class Wayside {
 			currentAuth = new ArrayList<Integer> (currentAuth1.subList(0, index));
 		 }
 		 //call central to pass to track
-		 
+		 System.out.println(currentAuth.toArray() + "     " +currentAuth1.toString());
 		 central.WaysideSendAuthority(currentAuth, currentAuth1, trainNum);
 	}
 	
