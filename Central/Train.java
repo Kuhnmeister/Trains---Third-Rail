@@ -27,6 +27,9 @@ public class Train{
     public boolean GetIsReal(){
         return realTrain;
     }
+    public double GetVelocity(){
+        return currentVelocity;
+    }
     public Train(int newTrainNum,int newTrainLength,int newDirection,Block newCurrentBlock,Block newEndingBlock, String newLine, TrackModel newModel) {
         trainNum = newTrainNum;
         direction = newDirection;
