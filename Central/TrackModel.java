@@ -318,7 +318,7 @@ public class TrackModel {
     }
     public void RemoveTrain(Train removingTrain){
         if(!demoMode) {
-            theCentral.TrainToYard(removeingTrain.GetTrainNum());
+            theCentral.TrainToYard(removingTrain.GetTrainNum());
         }
         allTrains.remove(removingTrain.GetTrainNum());
     }

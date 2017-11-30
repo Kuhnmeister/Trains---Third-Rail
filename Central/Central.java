@@ -124,8 +124,11 @@ public class Central{
 			trackModel.CommandedAuthority(authorityBlocks,trainNum);
 		}
 	}
+	public void SendMultiplier(int multiplier){
+		
+	}
 	public void TrainToYard(int trainNum){
-
+		ctc.killTrain(trainNum);
 	}
 	public boolean CTCMoveSwitch(int blockNum, boolean state)
 	{

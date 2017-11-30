@@ -20,8 +20,7 @@ public class Tracking{
 	ArrayList<Block> blocks = new ArrayList<Block>();
 	HashMap< String, ArrayList<Block>> lineBlocks = new HashMap<String, ArrayList<Block>>();
 	ArrayList<Block> lineBlockList = new ArrayList<Block>();
-	HashMap<String, Block> firstBlocks = new HashMap<String, Block>();
-	HashMap<String, Block> yardBlocks = new HashMap<String, Block>();
+	HashMap<String, Block> firstBlocks = new HashMap<String, Block>(); 
 	boolean trackTrue = false;
 	public Tracking(){
 		
@@ -44,9 +43,6 @@ public class Tracking{
 					if(medium.get(k).GetFromYard()){
 						firstBlocks.put(lines[i], medium.get(k));
 					}
-					if(medium.get(k).GetToYard()){
-					    yardBlocks.put(lines[i], medium.get(k));
-                    }
 				}
 			}
 			System.out.println(lines[i]);
@@ -63,9 +59,9 @@ public class Tracking{
 			if(blocks.get(x).GetHasRailwayCrossing()){
 				key += 1;
 			}
-			if(blocks.get(x).GetIsStation()) {
-                key += 20;
-            }
+			if(blocks.get(x).GetIsStation()){
+				key += 20;
+			}
 			blockInfrastructure.put(blocks.get(x), key);
 		}	
 	}
@@ -78,13 +74,16 @@ public class Tracking{
 	public String[] getLines(){
 		return lines;
 	}
-	public void updateRoute(ArrayList<Trains> trainList){
+	public updateRoute(ArrayList<Trains> trainList){
 		for(int i = 0; i < trainList.size(); i++){
 			String[] stops = trainList.get(i).getSchedule();
 			int location = trainList.get(i).getLocation();
 			int difference = 0;
 			int nextStop;
 			for(int j = 0; j < stops.length; j++){
+				if(location == stops[j]){
+					
+				}
 				while(difference <= 0){
 					difference = Integer.parseInt(stops[j]) - location;
 					nextStop = Integer.parseInt(stops[j]);
@@ -96,7 +95,8 @@ public class Tracking{
 			}
 			if(location != 0){
 				if(hasSwitch(location+1, trainList.get(i).getLine())){
-					int closestStop;
+					int direction = nextStop - location;
+					
 				}
 			}
 		}
@@ -113,7 +113,6 @@ public class Tracking{
 
 	public boolean hasStation(int choice, String lineChoice){
 		int checker = blockInfrastructure.get(GetBlock(choice, lineChoice));
-		System.out.println(checker);
 		if(checker >= 15){
 			return true;
 		}
@@ -122,7 +121,6 @@ public class Tracking{
 	public boolean hasCrossing(int choice, String lineChoice){
 
 		int checker = blockInfrastructure.get(GetBlock(choice, lineChoice));
-		System.out.println(checker);
 		if(checker == 1){
 			return true;
 		}
@@ -151,7 +149,6 @@ public class Tracking{
 	}
 	public boolean isUnderground(int choice, String lineChoice){
 		int checker = blockInfrastructure.get(GetBlock(choice, lineChoice));
-		System.out.println(checker);
 		if(checker == -3){
 			return true;
 		}
@@ -179,11 +176,7 @@ public class Tracking{
 		return false;
 	}
 	public boolean hasSwitch(int choice, String lineChoice){
-		int checker = blockInfrastructure.get(GetBlock(choice, lineChoice));
-		System.out.println(checker);
-		if(GetBlock(choice, lineChoice) == yardBlocks.get(lineChoice)){
-		    return true;
-        }
+		int checker = blockInfrastructure.get(GetBlock(choice, lineChoice)); 
 		if(checker == -5){
 			return true;
 		}
