@@ -4,6 +4,7 @@ import java.lang.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.BitSet;
 
 public class Central{
 	private TrackModel trackModel;
@@ -101,10 +102,10 @@ public class Central{
 	public void TrackStateUpdate(int occBlock){
 
 	}
-	public void WaysideAddOccupied(int blockNum){
+	public void WaysideAddOccupied(int blockNum, String line){
 		wayside.AddOccupied(blockNum);
 	}
-	public void WaysideRemoveOccupied(int blockNum){
+	public void WaysideRemoveOccupied(int blockNum, String line){
 		wayside.RemoveOccupied(blockNum);
 	}
 	public void CTCAuthority(int location, int authority, int trainNum){
@@ -138,8 +139,23 @@ public class Central{
 	{
 		trackModel.FlipSwitch(blockNum, line);
 	}
-
-
+	public void TrackSetLight(int blockNum, String line, String color){
+		trackModel.SetLight(blockNum, line,color);
+	}
+	public void CTCAddOccupancy(int blockNum, String line)
+	{
+		
+	}
+	public void TrackSetCrossing(int blockNum, String line)
+	{
+		trackModel.FlipCrossing(blockNum,line);
+	}
+	public void ReportBeaconData(BitSet data, int trainNum){
+		System.out.println("Track Model transmitted: "+data+" to train: "+trainNum);
+	}
+	public void TrackGenerateTickets(int newTickets,int blockNum, String line){
+		System.out.println("Track reported: "+newTickets+" at Block: "+blockNum+" on "+line+" line");
+	}
 	// Send speed limit To TrainModel
     public void TrainSendSpeedLimit(int trainNum, double speedLimit)
     {

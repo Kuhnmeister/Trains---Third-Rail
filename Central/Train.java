@@ -1,5 +1,6 @@
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.BitSet;
 public class Train{
     private Block endingBlock;
     private Block currentBlock;
@@ -12,16 +13,18 @@ public class Train{
     private int updateTimeMS = 1000;
     private Timer updatePositionTimer;
     private boolean trainActive=true;
-    private int authority=0;
+    private double authority=0;
     private boolean moveAtMaxSpeed=false;
     private Block prevBlock;
     private int trainLength;
     private boolean prevBlockOccupied=false;
     private boolean integrated=false;
+    private String line;
 
-    public Train(int newTrainNum,int newTrainLength,int newDirection,Block newCurrentBlock,Block newEndingBlock,TrackModel newModel) {
+    public Train(int newTrainNum,int newTrainLength,int newDirection,Block newCurrentBlock,Block newEndingBlock, String newLine, TrackModel newModel) {
         trainNum = newTrainNum;
         direction = newDirection;
+        line = newLine;
         currentBlock = newCurrentBlock;
         endingBlock=newEndingBlock;
         trainLength=newTrainLength;
@@ -33,29 +36,34 @@ public class Train{
         updatePositionTimer.schedule(new TrainUpdateTimer(updateTimeMS,this),0,updateTimeMS);
 
     }
-    public Train(int newTrainNum,int newTrainLength,int newDirection,Block newCurrentBlock,TrackModel newModel,boolean newIntegrated) {
+    public Train(int newTrainNum,int newTrainLength,int newDirection,Block newCurrentBlock,TrackModel newModel, String newLine,boolean newIntegrated) {
         trainNum = newTrainNum;
         direction = newDirection;
         currentBlock = newCurrentBlock;
         theModel = newModel;
         trainLength=newTrainLength;
+        line=newLine;
         theModel.AddOccupied(currentBlock);
         currentBlock.SetIsOccupied(true);
         nextBlock = currentBlock.GetNextBlock(direction);
         integrated=newIntegrated;
 
     }
-    public Train(int newTrainNum,int newTrainLength,int newDirection,Block newCurrentBlock,TrackModel newModel) {
+    public Train(int newTrainNum,int newTrainLength,int newDirection,Block newCurrentBlock,TrackModel newModel,String newLine) {
         trainNum = newTrainNum;
         direction = newDirection;
         currentBlock = newCurrentBlock;
         trainLength=newTrainLength;
         theModel = newModel;
+        line=newLine;
         theModel.AddOccupied(currentBlock);
         currentBlock.SetIsOccupied(true);
         nextBlock = currentBlock.GetNextBlock(direction);
         updatePositionTimer=new Timer();
         updatePositionTimer.schedule(new TrainUpdateTimer(updateTimeMS,this),0,updateTimeMS);
+    }
+    public String GetLine(){
+        return line;
     }
 
     public Block GetCurrentBlock(){
@@ -69,6 +77,13 @@ public class Train{
             }
 
             currentBlock = nextBlock;
+            if(currentBlock.GetIsStation()){
+                theModel.GenerateTickets(currentBlock.GetBlockNum(),line);
+            }
+            if(currentBlock.GetHasBeacon()){
+               BitSet beaconMessage= currentBlock.GetBeaconData();
+               theModel.ReportBeaconData(beaconMessage, trainNum);
+            }
             nextBlock = currentBlock.GetNextBlock(direction);
             if(direction==0){
                 if(currentBlock.IsDirectionChange1()){
@@ -95,6 +110,9 @@ public class Train{
             if (currentBlock != endingBlock) {
 
                 currentBlock = nextBlock;
+                if(currentBlock.GetIsStation()){
+                    theModel.GenerateTickets(currentBlock.GetBlockNum(),line);
+                }
                 nextBlock = currentBlock.GetNextBlock(direction);
                 if(direction==0){
                     if(currentBlock.IsDirectionChange1()){
@@ -218,12 +236,13 @@ public class Train{
         moveAtMaxSpeed=newMoving;
         authority=newAuthority;
     }
-    public void SetAuthority(int newAuthority){
+    public void SetAuthority(double newAuthority){
         authority=newAuthority;
     }
-    public int GetAuthority(){
+    public double GetAuthority(){
         return authority;
     }
+
 }
 class TrainUpdateTimer extends TimerTask{
     int updateTime;

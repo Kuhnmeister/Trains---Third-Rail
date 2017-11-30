@@ -101,8 +101,13 @@ public class TrackGui extends Application {
                     if (allActiveTrains.get(i).GetTrainNum() == displayingTrain) {
                         outputToTrainsDisplay = outputToTrainsDisplay + "Train " + allActiveTrains.get(i).GetTrainNum() + "\nSpeed Limit: " + allActiveTrains.get(i).GetCurrentBlock().GetSpeedLimit() + "\nGrade: " + allActiveTrains.get(i).GetCurrentBlock().GetGrade();
                         outputToTrainsDisplay=outputToTrainsDisplay+"\nAuthority: "+allActiveTrains.get(i).GetAuthority()+"\nUnderground: " + allActiveTrains.get(i).GetCurrentBlock().GetIsUnderground();
-                        outputToTrainsDisplay = outputToTrainsDisplay + "\nStation Next Block: " + allActiveTrains.get(i).GetCurrentBlock().GetNextBlock(+allActiveTrains.get(i).GetDirection()).GetIsStation()+ "\nHas Heater: " + allActiveTrains.get(i).GetCurrentBlock().GetHasHeater();
+                        if(allActiveTrains.get(i).GetCurrentBlock().GetNextBlock(allActiveTrains.get(i).GetDirection())==null) {
+
+                        }else {
+                            outputToTrainsDisplay = outputToTrainsDisplay + "\nStation Next Block: " + allActiveTrains.get(i).GetCurrentBlock().GetNextBlock(allActiveTrains.get(i).GetDirection()).GetIsStation() + "\nHas Heater: " + allActiveTrains.get(i).GetCurrentBlock().GetHasHeater();
+                        }
                         outputToTrainsDisplay = outputToTrainsDisplay + "\n";
+
                     }
                 }
             }
@@ -383,6 +388,8 @@ public class TrackGui extends Application {
         grid.add(switchActiveDisplayLabel, 9, 10,1,1);
         Label railwayCrossingDisplayLabel = new Label("Railway Crossing?");
         grid.add(railwayCrossingDisplayLabel, 10, 10,1,1);
+        Label railwayCrossingOnDisplayLabel = new Label("Crossing On");
+        grid.add(railwayCrossingOnDisplayLabel, 11, 10,1,1);
 
         //Demo Mode Inputs
         Text inputTitle = new Text("Wayside Inputs");
@@ -509,7 +516,7 @@ public class TrackGui extends Application {
                         if (theModel.GetStartingBlock(lineSelectionTrainComboBox.getSelectionModel().getSelectedItem()) != null) {
 
 
-                            Train newTrain = new Train(trainNum, 20,0, theModel.GetBlock(Integer.parseInt(trainStartTextField.getCharacters().toString()),lineSelectionTrainComboBox.getSelectionModel().getSelectedItem()), theModel.GetBlock(Integer.parseInt(trainEndTextField.getCharacters().toString()),lineSelectionTrainComboBox.getSelectionModel().getSelectedItem()), theModel);
+                            Train newTrain = new Train(trainNum, 20,0, theModel.GetBlock(Integer.parseInt(trainStartTextField.getCharacters().toString()),lineSelectionTrainComboBox.getSelectionModel().getSelectedItem()), theModel.GetBlock(Integer.parseInt(trainEndTextField.getCharacters().toString()),lineSelectionTrainComboBox.getSelectionModel().getSelectedItem()),lineSelectionTrainComboBox.getSelectionModel().getSelectedItem(), theModel);
                             allActiveTrains.add(newTrain);
                             activeTrainNumbersList.add(trainNum);
                             System.out.println(trainNum);

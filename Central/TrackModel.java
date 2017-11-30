@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Collection;
 import javafx.stage.Stage;
+import java.util.BitSet;
 
 public class TrackModel {
     private HashMap<String,HashMap<String,ArrayList<Block>>> track = new HashMap<String,HashMap<String,ArrayList<Block>>>();
@@ -36,6 +37,13 @@ public class TrackModel {
         TrackModel thisModel = new TrackModel(args);
 
 
+    }
+    public void ReportBeaconData(BitSet beaconData, int trainNum){
+        if(!demoMode){
+            theCentral.ReportBeaconData(beaconData, trainNum);
+        }else{
+            System.out.println("Track Transmitted: "+beaconData+" to train: "+trainNum);
+        }
     }
     public void LoadNewTrack(String fileName){
         if(theCentral != null) {
@@ -118,6 +126,7 @@ public class TrackModel {
                         boolean found0 = false;
                         boolean found1 = false;
                         boolean foundSwitch=false;
+                        String blockLine= section.getValue().get(i).GetLine();
                         if(section.getValue().get(i).GetIsStation()){
                             stations.add(section.getValue().get(i));
                             stationNames.add(section.getValue().get(i).GetStationName());
@@ -138,7 +147,7 @@ public class TrackModel {
                             for(HashMap.Entry<String,ArrayList<Block>> innerSection: innerLine.getValue().entrySet()){
                                 for(int j=0;j<innerSection.getValue().size();j++){
                                     if(!found0) {
-                                        if (nextBlock0 == innerSection.getValue().get(j).GetBlockNum()) {
+                                        if (nextBlock0 == innerSection.getValue().get(j).GetBlockNum() && blockLine.equals(innerSection.getValue().get(j).GetLine()) ) {
                                             section.getValue().get(i).SetDirection0Block(innerSection.getValue().get(j));
                                             if(innerSection.getValue().get(j).GetIsStation()){
                                                 section.getValue().get(i).SetHasHeater(true);
@@ -147,7 +156,7 @@ public class TrackModel {
                                         }
                                     }
                                     if(!found1) {
-                                        if (nextBlock1 == innerSection.getValue().get(j).GetBlockNum()) {
+                                        if (nextBlock1 == innerSection.getValue().get(j).GetBlockNum() && blockLine.equals(innerSection.getValue().get(j).GetLine())) {
                                             section.getValue().get(i).SetDirection1Block(innerSection.getValue().get(j));
                                             if(innerSection.getValue().get(j).GetIsStation()){
                                                 section.getValue().get(i).SetHasHeater(true);
@@ -156,7 +165,7 @@ public class TrackModel {
                                         }
                                     }
                                     if(!foundSwitch) {
-                                        if (nextBlockSwitch == innerSection.getValue().get(j).GetBlockNum()) {
+                                        if (nextBlockSwitch == innerSection.getValue().get(j).GetBlockNum() && blockLine.equals(innerSection.getValue().get(j).GetLine())) {
                                             section.getValue().get(i).SetSwitchBlock(innerSection.getValue().get(j));
                                             if(innerSection.getValue().get(j).GetIsStation()){
                                                 section.getValue().get(i).SetHasHeater(true);
@@ -176,6 +185,9 @@ public class TrackModel {
                                 break;
                             }
                         }
+                        if(!found0||!found1||!foundSwitch){
+                            System.out.println("Can't find next block on line:"+blockLine);
+                        }
                     }
                 }
             }
@@ -189,14 +201,14 @@ public class TrackModel {
     }
     public void AddOccupied(Block newBlock){
             if(!demoMode){
-                IntegratedAddOccupancy(newBlock.GetBlockNum());
+                IntegratedAddOccupancy(newBlock.GetBlockNum(), newBlock.GetLine());
             }
             occupiedBlocks.add(newBlock);
             System.out.println("Added Block: " + newBlock.GetBlockNum());
     }
     public void RemoveOccupied(Block newBlock){
         if(!demoMode){
-            IntegratedRemoveOccupancy(newBlock.GetBlockNum());
+            IntegratedRemoveOccupancy(newBlock.GetBlockNum(), newBlock.GetLine());
         }
         occupiedBlocks.remove(newBlock);
         System.out.println("Removed Block: "+newBlock.GetBlockNum());
@@ -316,6 +328,21 @@ public class TrackModel {
         Block stationBlock = GetStationBlock(stationName);
         stationBlock.GetStation().AddTickets(ticketCount);
     }
+    public void GenerateTickets(int blockNum, String line){
+        int newTickets=0;
+        Block stationBlock = GetBlock(blockNum,line);
+        if(stationBlock==null){
+            System.out.println("Station block is null: "+blockNum);
+        }else{
+            newTickets= stationBlock.GenerateTickets();
+            if(!demoMode) {
+                theCentral.TrackGenerateTickets(newTickets, blockNum, line);
+            }else{
+                System.out.println("Track reported: "+newTickets+" at Block: "+blockNum+" on "+line+" line");
+            }
+        }
+
+    }
     public void RemoveTrain(Train removingTrain){
         if(!demoMode) {
             theCentral.TrainToYard(removingTrain.GetTrainNum());
@@ -327,13 +354,13 @@ public class TrackModel {
     //Called when a train is dispatched from the station
     public void NewTrain(int trainNum, int length, int direction,int startBlock,String line){
 
-        Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock, line),this,true);
+        Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock, line),this,line,true);
         theGui.AddTrain(newTrain);
         allTrains.put(trainNum,newTrain);
     }
     public void NewTrain(int trainNum, int length, int direction, int startBlock,String line,boolean noTrainModel){
 		
-        Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock,line),this);
+        Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock,line),this,line);
         theGui.AddTrain(newTrain,true);
         allTrains.put(trainNum,newTrain);
 		System.out.println("Train created: "+ newTrain.GetTrainNum());
@@ -344,12 +371,13 @@ public class TrackModel {
     public void WaysideCommandedSpeed(int trainNum, double speed,boolean noTrainModel){
         allTrains.get(trainNum).SetVelocity(speed);
     }
-    public void IntegratedAddOccupancy(int blockNum){
-        theCentral.WaysideAddOccupied(blockNum);
+    public void IntegratedAddOccupancy(int blockNum,String line){
+        theCentral.WaysideAddOccupied(blockNum,line);
     }
-    public void IntegratedRemoveOccupancy(int blockNum){
-        theCentral.WaysideRemoveOccupied(blockNum);
+    public void IntegratedRemoveOccupancy(int blockNum,String line){
+        theCentral.WaysideRemoveOccupied(blockNum,line);
     }
+
 
     //Get authority from actual wayside. Wayside will return arraylist<int> which will represent the block nums of all the blocks of authority starting with block the train is on
     //blockNum is the number of the block the train we are seeking authority is on
@@ -365,6 +393,7 @@ public class TrackModel {
             if(authorityBlocks == null) {
                 System.out.println("Authority blocks is null");
             }else {
+
                 allTrains.get(trainNum).SetAuthority(authorityBlocks.size() - 1);
 				System.out.println("New Authority on train: "+allTrains.get(trainNum).GetTrainNum()+" Authority is set to: "+(authorityBlocks.size() - 1));
             }
@@ -372,6 +401,7 @@ public class TrackModel {
     }
     public void CommandedAuthority(ArrayList<Integer> authorityBlocks,ArrayList<Integer> authorityBlocks1, int trainNum,boolean noTrainModel){
         Train theTrain = allTrains.get(trainNum);
+        double calcAuthority=0;
         if(theTrain.GetDirection()==0){
             if(theTrain==null) {
                 System.out.println("no reference to train: "+trainNum);
@@ -379,7 +409,13 @@ public class TrackModel {
                 if(authorityBlocks == null) {
                     System.out.println("Authority blocks is null");
                 }else {
-                    theTrain.SetAuthority(authorityBlocks.size() - 1);
+                    if(authorityBlocks.size()>1) {
+                        for (Integer i : authorityBlocks) {
+                            calcAuthority += GetBlock(i, theTrain.GetLine()).GetLength();
+                        }
+                    }
+                    System.out.println("New authority sent to train: "+calcAuthority);
+                    theTrain.SetAuthority(calcAuthority);
                 }
             }
         }else{
@@ -389,13 +425,25 @@ public class TrackModel {
                 if(authorityBlocks1 == null) {
                     System.out.println("Authority blocks is null");
                 }else {
-                    theTrain.SetAuthority(authorityBlocks1.size() - 1);
+                    if(authorityBlocks.size()>1) {
+                        for (Integer i : authorityBlocks1) {
+                            calcAuthority += GetBlock(i, theTrain.GetLine()).GetLength();
+                        }
+                    }
+                    System.out.println("New authority sent to train: "+calcAuthority);
+                    theTrain.SetAuthority(calcAuthority);
                 }
             }
         }
     }
     public void FlipSwitch(int blockNum, String line){
         GetBlock(blockNum,line).FlipSwitch(true);
+    }
+    public void FlipCrossing(int blockNum, String line){
+        GetBlock(blockNum,line).SwitchCrossing();
+    }
+    public void SetLight(int blockNum, String line, String lightColor){
+        GetBlock(blockNum,line).SetLightColor(lightColor);
     }
 
 

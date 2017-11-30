@@ -138,12 +138,14 @@ public class WaysideController extends Application{
 	        		CTCOutLabel.setText(way.currentBlock +" Occupied");
 	        		way.currentAuth = way.getAuthority(way.currentBlock, true);
 	        		way.block.setCrossing(way.getCrossing(way.currentBlock));
+	        		way.AddOccupied(way.currentBlock);
 	        	}else {
 	        		occupyLabel.setText("Occupancy: Empty");
 	        		way.block.setOccupancy(false);
 	        		lightLabel.setText("Light State:	Green");
 	        		way.block.setLight(false);
 	        		CTCOutLabel.setText(way.currentBlock +" Empty");
+	        		way.RemoveOccupied(way.currentBlock);
 	        	}
 	        }
 

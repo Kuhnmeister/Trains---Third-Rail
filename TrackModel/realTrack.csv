@@ -3,23 +3,23 @@ Red,A,2,50,1,40,Yes,3,1,None,None
 Red,A,3,50,1.5,40,Yes,4,2,None,None
 Red,B,4,50,2,40,Yes,5,3,None,None
 Red,B,5,50,1.5,40,Yes,6,4,None,None
-Red,B,6,50,1,40,Yes,7,5,None,None
+Red,B,6,50,1,40,Yes,7,5,None,Beacon;101101
 Red,C,7,75,0.5,40,Yes,8,6,None,Station;Shadyside
-Red,C,8,75,0,40,Yes,9,7,None,None
+Red,C,8,75,0,40,Yes,9,7,None,Beacon;101101
 Red,C,9,75,0,40,Yes,10,8,None,ToYard FromYard
-Red,D,10,75,0,40,Yes,11,9,None,None
+Red,D,10,75,0,40,Yes,11,9,None,Beacon;101101
 Red,D,11,75,-0.5,40,Yes,12,10,None,None
 Red,D,12,75,-1,40,Yes,13,11,None,None
 Red,E,13,70,-2,40,Yes,14,12,None,None
 Red,E,14,60,-1.25,40,Yes,15,13,None,None
-Red,E,15,60,-1,40,Yes,16,14,1,Switch 
+Red,E,15,60,-1,40,Yes,16,14,1,Switch Beacon;101101
 Red,F,16,50,-0.5,40,Yes,17,15,None,Station;Herron Ave
-Red,F,17,200,-0.5,55,Yes,18,16,None,None
+Red,F,17,200,-0.5,55,Yes,18,16,None,Beacon;10110101
 Red,F,18,400,-0.06025,70,Yes,19,17,None,None
 Red,F,19,400,0,70,Yes,20,18,None,None
-Red,F,20,200,0,70,Yes,21,19,None,None
+Red,F,20,200,0,70,Yes,21,19,None,Beacon;101101
 Red,G,21,100,0,55,Yes,22,20,None,Station; Swissvale
-Red,G,22,100,0,55,Yes,23,21,None,None
+Red,G,22,100,0,55,Yes,23,21,None,Beacon;101101
 Red,G,23,100,0,55,Yes,24,22,None,None
 Red,H,24,50,0,70,Yes,25,23,None,Underground
 Red,H,25,50,0,70,Yes,26,24,None,Underground Station;Penn Station
@@ -39,26 +39,26 @@ Red,H,38,50,0,70,Yes,39,37,71,Switch Underground
 Red,H,39,50,0,70,Yes,40,38,None,Underground
 Red,H,40,60,0,70,Yes,41,39,None,Underground
 Red,H,41,60,0,70,Yes,42,40,None,Underground
-Red,H,42,50,0,70,Yes,43,41,None,Underground
+Red,H,42,50,0,70,Yes,43,41,None,Underground Beacon;101101
 Red,H,43,50,0,70,Yes,44,42,67,Switch Underground
-Red,H,44,50,0,70,Yes,45,43,None,Underground
+Red,H,44,50,0,70,Yes,45,43,None,Underground Beacon;101101
 Red,H,45,50,0,70,Yes,46,44,None,Underground Station;First Ave
-Red,I,46,75,0,70,Yes,47,45,None,Underground
-Red,I,47,75,0,70,Yes,48,46,None,Crossing
+Red,I,46,75,0,70,Yes,47,45,None,Underground Beacon;101101
+Red,I,47,75,0,70,Yes,48,46,None,Crossing Beacon;101101
 Red,I,48,75,0,70,Yes,49,47,None,Station;Station Square
-Red,J,49,50,0,60,Yes,50,48,None,None
+Red,J,49,50,0,60,Yes,50,48,None,Beacon;101101
 Red,J,50,50,0,60,Yes,51,49,None,None
-Red,J,51,50,0,55,Yes,52,50,None,None
+Red,J,51,50,0,55,Yes,52,50,None,Beacon;101101
 Red,J,52,43.2,0,55,Yes,53,51,66,Switch
-Red,J,53,50,0,55,Yes,54,52,None,None
+Red,J,53,50,0,55,Yes,54,52,None,Beacon;101101
 Red,J,54,50,0,55,Yes,55,53,None,None
 Red,K,55,75,0.5,55,Yes,56,54,None,None
 Red,K,56,75,0.5,55,Yes,57,55,None,None
 Red,K,57,75,0.5,55,Yes,58,56,None,None
 Red,L,58,75,1,55,Yes,59,57,None,None
-Red,L,59,75,0.5,55,Yes,60,58,None,None
+Red,L,59,75,0.5,55,Yes,60,58,None,Beacon;101101
 Red,L,60,75,0,55,Yes,61,59,None,Station; South Hills Junction
-Red,M,61,75,-0.5,55,Yes,62,60,None,None
+Red,M,61,75,-0.5,55,Yes,62,60,None,Beacon;101101
 Red,M,62,75,-1,55,Yes,63,61,None,None
 Red,M,63,75,-1,55,Yes,64,62,None,None
 Red,N,64,75,-0.5,55,Yes,65,63,None,None
@@ -85,7 +85,7 @@ Green,C,8,100,0,55,No,7,None,None,None
 Green,C,9,100,-5,55,No,8,None,None,Station;Edgebrook
 Green,C,10,100,-4.5,55,No,9,None,None,None
 Green,C,11,100,-4,55,No,10,None,None,None
-Green,C,12,100,-3,55,Yes,11,13,11,Switch 
+Green,C,12,100,-3,55,Yes,13,11,11,Switch Direction0
 Green,D,13,150,0,70,Yes,14,12,None,None
 Green,D,14,150,0,70,Yes,15,13,None,None
 Green,D,15,150,0,70,Yes,16,14,None,None
@@ -102,7 +102,7 @@ Green,F,25,200,0,70,Yes,26,24,None,None
 Green,F,26,100,0,70,Yes,27,25,None,None
 Green,F,27,50,0,70,Yes,28,26,None,None
 Green,F,28,50,0,70,Yes,29,27,None,None
-Green,G,29,50,0,70,Yes,30,None,28,Switch
+Green,G,29,50,0,70,Yes,30,28,28,Switch
 Green,G,30,50,0,70,No,31,None,None,None
 Green,G,31,50,0,70,No,32,None,None,Station;South Bank
 Green,G,32,50,0,70,No,33,None,None,None
@@ -131,11 +131,11 @@ Green,I,54,50,0,70,No,55,None,None,Underground
 Green,I,55,50,0,70,No,56,None,None,Underground
 Green,I,56,50,0,70,No,57,None,None,Underground
 Green,I,57,50,0,70,No,58,None,None,Underground Station; Overbrook
-Green,J,58,50,0,60,No,59,None,None,None
+Green,J,58,50,0,60,No,59,None,None,ToYard
 Green,J,59,50,0,60,No,60,None,None,None
 Green,J,60,50,0,60,No,61,None,None,None
 Green,J,61,50,0,60,No,62,None,None,None
-Green,J,62,50,0,60,No,63,None,None,None
+Green,J,62,50,0,60,No,63,None,None,FromYard
 Green,K,63,100,0,70,No,64,None,None,None
 Green,K,64,100,0,70,No,65,None,None,None
 Green,K,65,200,0,70,No,66,None,None,Station;Glenbury
@@ -149,7 +149,7 @@ Green,L,72,100,0,60,No,73,None,None,None
 Green,L,73,100,0,60,No,74,None,None,Station;Dormont
 Green,M,74,100,0,60,No,75,None,None,None
 Green,M,75,100,0,60,No,76,None,None,None
-Green,M,76,100,0,60,No,77,None,101,Switch
+Green,M,76,100,0,60,No,77,None,101,Switch Direction0
 Green,N,77,300,0,70,Yes,78,76,None,Station;Mt Lebanon
 Green,N,78,300,0,70,Yes,79,77,None,None
 Green,N,79,300,0,70,Yes,80,78,None,None
@@ -159,7 +159,7 @@ Green,N,82,300,0,70,Yes,83,81,None,None
 Green,N,83,300,0,70,Yes,84,82,None,None
 Green,N,84,300,0,70,Yes,85,83,None,None
 Green,N,85,300,0,70,Yes,86,84,None,None
-Green,O,86,100,0,55,Yes,87,None,85,Switch
+Green,O,86,100,0,55,Yes,87,85,85,Switch
 Green,O,87,86.6,0,55,No,88,None,None,None
 Green,O,88,100,0,55,No,89,None,None,Station;Poplar
 Green,P,89,75,-0.5,55,No,90,None,None,None
@@ -173,7 +173,7 @@ Green,P,96,75,0,55,No,97,None,None,Station;Castle Shannon
 Green,P,97,75,0,55,No,98,None,None,None
 Green,Q,98,75,0,55,No,99,None,None,None
 Green,Q,99,75,0,55,No,100,None,None,None
-Green,Q,100,75,0,55,No,86,None,None,None
+Green,Q,100,75,0,55,No,86,None,None,None Direction1
 Green,R,101,35,0,55,No,102,None,None,None
 Green,S,102,100,0,60,No,103,None,None,None
 Green,S,103,100,0,60,No,104,None,None,None
@@ -223,4 +223,4 @@ Green,X,146,50,0,70,No,147,None,None,None
 Green,Y,147,50,0,70,No,148,None,None,None
 Green,Y,148,40,0,70,No,149,None,None,None
 Green,Y,149,40,0,70,No,150,None,None,None
-Green,Z,150,35,0,70,No,29,None,None,None
+Green,Z,150,35,0,70,No,29,None,None,None Direction1
