@@ -48,13 +48,6 @@ public class Tracking{
 			System.out.println(lines[i]);
 			lineBlocks.put(lines[i], blockList);	
 		}
-		
-		for(int g = 0; g < lines.length; g++){
-			for(int s = 0; s < lineBlocks.get(lines[g]).size(); s++){
-				System.out.println(lines[g] + "duper");
-				System.out.println(lineBlocks.get(lines[g]).get(s) + "super");
-			}
-		}
 		for(int x = 0; x < blocks.size(); x++){
 			int key = 0;
 			if(blocks.get(x).GetHasSwitch()){
@@ -71,9 +64,6 @@ public class Tracking{
 			}
 			blockInfrastructure.put(blocks.get(x), key);
 		}	
-		for(int f = 0; f < blocks.size(); f++){
-			System.out.println(blocks.get(f));
-		}
 	}
 	public int GetFirstBlock(String line){
 		return firstBlocks.get(line).GetBlockNum();
@@ -83,6 +73,29 @@ public class Tracking{
 	}
 	public String[] getLines(){
 		return lines;
+	}
+	public void updateRoute(ArrayList<Trains> trainList){
+		for(int i = 0; i < trainList.size(); i++){
+			String[] stops = trainList.get(i).getSchedule();
+			int location = trainList.get(i).getLocation();
+			int difference = 0;
+			int nextStop;
+			for(int j = 0; j < stops.length; j++){
+				while(difference <= 0){
+					difference = Integer.parseInt(stops[j]) - location;
+					nextStop = Integer.parseInt(stops[j]);
+				}
+				if(Integer.parseInt(stops[j]) - location < difference){
+					difference = Integer.parseInt(stops[j]) - location;
+					nextStop = Integer.parseInt(stops[j]);
+				}
+			}
+			if(location != 0){
+				if(hasSwitch(location+1, trainList.get(i).getLine())){
+					int closestStop;
+				}
+			}
+		}
 	}
 	public ArrayList<Integer> blocks(String choice){
 		ArrayList<Integer> blockReturn = new ArrayList<Integer>();

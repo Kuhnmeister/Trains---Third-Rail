@@ -15,6 +15,8 @@ public class BBC{
 	static Tracking tracking = new Tracking();
 	JComboBox<String> line = new JComboBox<String>();
 	static boolean switched = false;
+	ArrayList<Trains> trainList = new ArrayList<Trains>();
+	
 	public static void main(String args[]){
 		BBC thisBBC = new BBC();
 	}
@@ -469,7 +471,6 @@ public class BBC{
 		int[] trainListed = new int[1];
 		trainListed[0] = 0;	
 		//clock creation		
-		ArrayList<Trains> trainList = new ArrayList<Trains>();
 		String[] amPm = new String[1];
 		amPm[0] = "am";
 		Timer[] currentTimer = new Timer[1];
@@ -693,7 +694,8 @@ public class BBC{
 								System.out.println(trainList.get(trainSelect.getSelectedIndex()).getLine());
 								trainList.get(trainSelect.getSelectedIndex()).setSpeed(55.0);
 								int length = 1;
-								central.CreateTrain(trainList.get(trainSelect.getSelectedIndex()).getId(), trainList.get(trainSelect.getSelectedIndex()).getLength(), 0, tracking.GetFirstBlock(trainList.get(trainSelect.getSelectedIndex()).getLine()), trainList.get(trainSelect.getSelectedIndex()).getLine());
+								central.CreateTrain(trainList.get(trainSelect.getSelectedIndex()).getId(), trainList.get(trainSelect.getSelectedIndex()).getLength(),
+								0, tracking.GetFirstBlock(trainList.get(trainSelect.getSelectedIndex()).getLine()), trainList.get(trainSelect.getSelectedIndex()).getLine());
 							}
 						}
 					}
@@ -867,6 +869,9 @@ public class BBC{
 		for(int i = 0; i < lineNames.length; i++){
 			line.addItem(lineNames[i]);
 		}
+	}
+	public void updateRoute(){
+		tracking.updateRoute(trainList);
 	}
 	public void trackReceived(boolean track){
 	}
