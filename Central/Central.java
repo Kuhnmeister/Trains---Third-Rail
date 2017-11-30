@@ -137,7 +137,7 @@ public class Central{
 		trackModel.FlipSwitch(blockNum, line);
 	}
 	public void TrackSetLight(int blockNum, String line, String color){
-		trackModel.SetLight(blockNum, line, color);
+		trackModel.SetLight(blockNum, line,color);
 	}
 	public void CTCAddOccupancy(int blockNum, String line)
 	{
@@ -145,7 +145,7 @@ public class Central{
 	}
 	public void TrackSetCrossing(int blockNum, String line)
 	{
-		
+		trackModel.FlipCrossing(blockNum,line);
 	}
 	public void ReportBeaconData(BitSet data, int trainNum){
 		System.out.println("Track Model transmitted: "+data+" to train: "+trainNum);
