@@ -340,15 +340,17 @@ public class Wayside {
 		 if(currentAuth.contains(suggestedAuth)) {
 			//safe authority
 			int index = currentAuth.indexOf(suggestedAuth);
+			System.out.println("Authority is within safe limits: direction 0");
 			currentAuth = new ArrayList<Integer> (currentAuth.subList(0, index));
 			
 		 }else if(currentAuth1.contains(suggestedAuth)) {
+			System.out.println("Authority is within safe limits: direction 1");
 			int index = currentAuth1.indexOf(suggestedAuth);
 			currentAuth = new ArrayList<Integer> (currentAuth1.subList(0, index));
-		 }
+		  }
 		 //call central to pass to track
-		 System.out.println(currentAuth.toArray() + "     " +currentAuth1.toString());
-		 System.out.println(trainNum);
+		 System.out.println(currentAuth.toString() + "     " +currentAuth1.toString());
+		 System.out.println("To train: " + trainNum);
 		 central.WaysideSendAuthority(currentAuth, currentAuth1, trainNum);
 	}
 	
