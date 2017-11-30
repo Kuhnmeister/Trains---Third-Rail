@@ -29,7 +29,8 @@ public class Tracking{
 		lines = Arrays.copyOf(track.keySet().toArray(), track.keySet().toArray().length, String[].class);
 		for(int i = 0; i < lines.length; i++){
 			section = trackData.get(lines[i]);
-			lineBlockList.clear();
+			ArrayList<Block> blockList = new ArrayList<Block>();
+			
 			sectionList.add(Arrays.copyOf(section.keySet().toArray(), section.keySet().toArray().length, String[].class));
 			for(int j = 0; j < sectionList.get(i).length; j++){
 				String[] sectionThru = sectionList.get(i);
@@ -37,12 +38,23 @@ public class Tracking{
 				
 				for(int k = 0; k < medium.size(); k++){
 					blocks.add(medium.get(k));
-					lineBlockList.add(medium.get(k));
+					blockList.add(medium.get(k));
 				}
 			}
-			lineBlocks.put(lines[i], lineBlockList);	
+			System.out.println(lines[i]);
+			lineBlocks.put(lines[i], blockList);	
 		}
 		
+		
+		
+		
+		
+		for(int g = 0; g < lines.length; g++){
+			for(int s = 0; s < lineBlocks.get(lines[g]).size(); s++){
+				System.out.println(lines[g] + "duper");
+				System.out.println(lineBlocks.get(lines[g]).get(s) + "super");
+			}
+		}
 		for(int x = 0; x < blocks.size(); x++){
 			int key = 0;
 			if(blocks.get(x).GetHasSwitch()){

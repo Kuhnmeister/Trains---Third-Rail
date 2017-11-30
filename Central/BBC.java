@@ -799,6 +799,7 @@ public class BBC{
 		JComboBox<Integer> blockChoose = new JComboBox<Integer>();
 		
 		JButton showBlocks = new JButton("Show line blocks");
+		JButton openBlocks = new JButton("Open Block window");
 		
 		showBlocks.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -810,7 +811,7 @@ public class BBC{
 				}
 			}
 		});
-		blockChoose.addActionListener(new ActionListener(){
+		openBlocks.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				int choice = blockChoose.getSelectedIndex();
 				int block = (int)blockChoose.getSelectedItem();
@@ -847,8 +848,8 @@ public class BBC{
 		panelBL1.add(panelBL8);
 		panelBL1.add(trainSelect);
 		panelBL1.add(panelBL9);
-		panelBL1.add(panelBL10);
 		panelBL1.add(showBlocks);
+		panelBL1.add(openBlocks);
 		panelBL3.add(thruPut);
 
 		panelBL1.add(scheduleView);
@@ -1039,18 +1040,37 @@ public class BBC{
 			JLabel switches = new JLabel(trackSwitch);
 			theSwitches.add(switches);
 			switchButton.add(Switch);
-			switchState[0] = new JTextField(Integer.toString(block) + tracking.GetBlock(block, lineChoice).GetSwitchNum());
+			switchState[0] = new JTextField(Integer.toString(block) + " going to " + tracking.GetBlock(block, lineChoice).GetSwitchNum(), 15);
 			switchDisplay.add(switchState[0]);
 		}
 		if(tracking.hasStation(block, lineChoice)){
-			lineView = new JFrame("Block: " + Integer.toString(block) + "Line " + lineChoice + " STATION");
+			lineView = new JFrame("Block: " + Integer.toString(block) + " Line " + lineChoice + " STATION");
 		}
 		Switch.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				central.CTCMoveSwitch(block, !switched);
-				switchState[0] = new JTextField(Integer.toString(block) + tracking.GetBlock(block, lineChoice).GetSwitchNum());
+				switchState[0].setText(Integer.toString(block) + " going to die " + tracking.GetBlock(block, lineChoice).GetSwitchNum());
 			}
 		});
+		
+		/*ItemListener autoListener = new ItemListener() {
+			public void itemStateChanged(ItemEvent autoListener) {
+				if(autoManState[0] == 0){
+					autoManState[0] = 1;
+				}
+				else{
+					autoManState[0] = 0;
+				}
+				String temp;
+				int state = autoListener.getStateChange();
+				if (state == ItemEvent.SELECTED) {
+					switchState[0].setText(Integer.toString(block) + " going to die " + tracking.GetBlock(block, lineChoice).GetSwitchNum());
+			}
+		};
+		Switch.addItemListener(autoListener);
+		*/
+		
+		
 		lineView.setSize( 500,500 );
 		lineView.setVisible( true );
 	}
