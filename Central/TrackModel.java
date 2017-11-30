@@ -432,7 +432,7 @@ public class TrackModel {
     public void CommandedAuthorityBlock(ArrayList<Integer> authorityBlocks,ArrayList<Integer> authorityBlocks1, int blockNum,String line){
         Train theTrain= new Train();
         for (Train value : allTrains.values()) {
-            if(value.GetCurrentBlock().GetBlockNum()==blockNum && line == value.GetLine()){
+            if(value.GetCurrentBlock().GetBlockNum()==blockNum && line.equals(value.GetLine())){
                 theTrain=value;
             }
         }
@@ -530,7 +530,7 @@ public class TrackModel {
     public void CommandedAuthorityBlock(ArrayList<Integer> authorityBlocks,ArrayList<Integer> authorityBlocks1, int blockNum, String line, boolean noTrainModel){
         Train theTrain= new Train();
         for (Train value : allTrains.values()) {
-            if(value.GetCurrentBlock().GetBlockNum()==blockNum && line == value.GetLine()){
+            if(value.GetCurrentBlock().GetBlockNum()==blockNum && line.equals(value.GetLine())){
                 theTrain=value;
             }
         }
