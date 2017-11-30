@@ -445,37 +445,37 @@ public class TrackModel {
     public void CommandedAuthority(ArrayList<Integer> authorityBlocks,ArrayList<Integer> authorityBlocks1, int trainNum,boolean noTrainModel){
         Train theTrain = allTrains.get(trainNum);
         double calcAuthority=0;
-        if(theTrain.GetDirection()==0){
-            if(theTrain==null) {
-                System.out.println("no reference to train: "+trainNum);
-            }else{
-                if(authorityBlocks == null) {
+        if(theTrain == null){
+            System.out.println("Can't find train: "+trainNum);
+        }else {
+            if (theTrain.GetDirection() == 0) {
+
+                if (authorityBlocks == null) {
                     System.out.println("Authority blocks is null");
-                }else {
-                    if(authorityBlocks.size()>1) {
+                } else {
+                    if (authorityBlocks.size() > 1) {
                         for (Integer i : authorityBlocks) {
                             calcAuthority += GetBlock(i, theTrain.GetLine()).GetLength();
                         }
                     }
-                    System.out.println("New authority sent to train: "+calcAuthority);
+                    System.out.println("New authority sent to train: " + calcAuthority);
                     theTrain.SetAuthority(calcAuthority);
                 }
-            }
-        }else{
-            if(theTrain==null) {
-                System.out.println("no reference to train: "+trainNum);
-            }else{
-                if(authorityBlocks1 == null) {
+
+            } else {
+
+                if (authorityBlocks1 == null) {
                     System.out.println("Authority blocks is null");
-                }else {
-                    if(authorityBlocks.size()>1) {
+                } else {
+                    if (authorityBlocks.size() > 1) {
                         for (Integer i : authorityBlocks1) {
                             calcAuthority += GetBlock(i, theTrain.GetLine()).GetLength();
                         }
                     }
-                    System.out.println("New authority sent to train: "+calcAuthority);
+                    System.out.println("New authority sent to train: " + calcAuthority);
                     theTrain.SetAuthority(calcAuthority);
                 }
+
             }
         }
     }
