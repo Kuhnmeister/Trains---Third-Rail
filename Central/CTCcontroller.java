@@ -22,13 +22,16 @@ public class CTCcontroller{
 	public void receiveTrackData(HashMap<String, HashMap<String, ArrayList<Block>>> track){
 		thisBBC.receiveTrackData(track);
 	}
-	public void receiveOccupancy(int block, String line){
-		thisBBC.Occupancy(block, line);
+	public void ReceiveOccupancy(int block, String line){
+		thisBBC.ReceiveOccupancy(block, line);
 	}
 	public void killTrain(int trainNum){
 		thisBBC.killTrain(trainNum);
 	}
 	public void ReceiveTickets(int newTickets,int blockNum, String line){
 		thisBBC.UpdateTickets(newTickets, blockNum, line);
+	}
+	public void update(){
+		thisBBC.updateRoute();
 	}
 }

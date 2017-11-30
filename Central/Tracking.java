@@ -86,7 +86,8 @@ public class Tracking{
 			int nextStop = 0 ;
 			for(int j = 0; j < stops.length; j++){
 				if(location == Integer.parseInt(stops[j])){
-					
+					bbc.SetSpeed(trainList.get(i).getId(), 0);
+					bbc.SetAuthority(trainList.get(i).getId(), 0);
 				}
 				while(difference <= 0){
 					difference = Integer.parseInt(stops[j]) - location;
@@ -96,11 +97,15 @@ public class Tracking{
 					difference = Integer.parseInt(stops[j]) - location;
 					nextStop = Integer.parseInt(stops[j]);
 				}
+				if(location == lastBlocks.get(trainList.get(i).getLine()).GetBlockNum()){
+					if(lastBlocks.get(trainList.get(i).getLine()).GetBlockNum() == Integer.parseInt(stops[j])){
+						bbc.TrainInYard(i);
+					}
+				}
 			}
 			if(location != 0){
 				if(hasSwitch(location+1, trainList.get(i).getLine())){
 					int direction = nextStop - location;
-					
 				}
 			}
 		}

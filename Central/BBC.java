@@ -664,6 +664,18 @@ public class BBC{
 						trainListed[0]++;
 						trainSelect.addItem("Train " + trainCount[0]);
 						trainChoice.addItem("Train " + trainCount[0]);
+						ArrayList<String> stops = new ArrayList<String>();
+	
+						if(trainList.get(trainCount[0]).hasSchedule()){
+							String[] sendStops = trainList.get(trainCount[0]).getSchedule();
+							for(int i = 0; i < trainList.get(trainCount[0]).getSchedule().length; i++){
+								stops.add(sendStops[i]);
+							}
+							central.TrainModelNewTrain(trainList.get(trainCount[0]).getId(), "bob", 1, stops);
+						}
+						else{
+							central.TrainModelNewTrain(trainList.get(trainCount[0]).getId(), "bob", 1, stops);
+						}
 					}
 					else{
 						trainListed[0]++;
@@ -888,12 +900,13 @@ public class BBC{
 	public void updateRoute(){
 		tracking.updateRoute(trainList, this);
 	}
-	public void trackReceived(boolean track){
-	}
 	public void receiveTrackData(HashMap<String, HashMap<String, ArrayList<Block>>> track){
 		isTrackTrue = true;
 		tracking.receiveTrackData(track);
 		lineAdd();
+	}
+	public void TrainInYard(int num){
+		killTrain(num);
 	}
 	public void killTrain(int trainNum){
 		System.out.println(trainNum);
@@ -1121,11 +1134,19 @@ public class BBC{
 		t.cancel();
 		t.purge();
 	}
-	public void Occupancy(int occupied, String line){
+	public void ReceiveOccupancy(int occupied, String line){
 		boolean trainNotFound = true;
 		int i = 0;
+		int difference = 10000;
+		int closestTrain = 0;
 		while(trainNotFound){
+			if(i == trainList.size()-1){
+					trainNotFound = false;
+			}
 			if(trainList.get(i).getLine() == line){
+				if(trainList.size() == 1){
+					trainList.get(i).setLocation(occupied);
+				}
 				if(trainList.get(i).getLocation() - 1 == occupied){
 					trainList.get(i).setLocation(occupied);
 					trainNotFound = false;
@@ -1133,12 +1154,17 @@ public class BBC{
 				if(trainList.get(i).getLocation() - 1 == occupied){
 					trainList.get(i).setLocation(occupied);
 					trainNotFound = false;
+				}
+				if(Math.abs(trainList.get(i).getLocation() - occupied) < difference){
+					difference = Math.abs(trainList.get(i).getLocation() - occupied);
+					closestTrain = i;
 				}
 			}
 			i++;
 		}
+		trainList.get(closestTrain).setLocation(occupied);
 	}
-		public static Timer OneTime( TimerTask clockRun, int[] timeConstant, int[] time, JLabel clock,
+	public static Timer OneTime( TimerTask clockRun, int[] timeConstant, int[] time, JLabel clock,
 	String[] amPm, ArrayList<Trains> trainList, int[] autoManState, int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice)
 	{
 		timeConstant[0] = 1000;
