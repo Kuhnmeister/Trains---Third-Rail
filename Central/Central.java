@@ -124,9 +124,9 @@ public class Central{
 	{
 		return wayside.SwitchSwitch(blockNum, state);
 	}
-	public void TrackMoveSwitch(int blockNum, String Line)
+	public void TrackMoveSwitch(int blockNum, String line)
 	{
-		//trackModel.flipSwitch();
+		trackModel.FlipSwitch(blockNum, line);
 	}
 
 	public void TrainModelSendAuthority(int trainNum, Double authority) {
