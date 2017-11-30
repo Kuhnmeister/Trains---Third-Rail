@@ -47,6 +47,8 @@ public class TrainController {
     private JFrame PIDSetter;
     TrainStatus currentTrain;
     private ArrayList<TrainControllerOutputReceiver> outputReceivers;
+    private TrainWithController parent;
+
     //private TrainControllerOutputReceiver outputReceiver;
     static final int DEFAULT = 50;
     static final String defaultColor = "#FEFEFE";
@@ -66,9 +68,8 @@ public class TrainController {
     }
 
     public void refresh(){
-        for (TrainStatus Train : Trains) {
-            Train.update();
-        }
+
+        Trains.forEach(TrainStatus::update);
 
         TrainStatus ts = currentTrain;
         if(ts.getAutoMode())
@@ -176,11 +177,11 @@ public class TrainController {
     void Calc()
     {
         Trains.forEach(t -> t.Calc());
-        outputReceivers.forEach(TrainControllerOutputReceiver::update);
+        //outputReceivers.forEach(TrainControllerOutputReceiver::update);
         refresh();
     }
 
-    void reset() {
+    /*void reset() {
         Trains.clear();
         Trains.add(new TrainStatus("Train 1"));
         Trains.add(new TrainStatus("Train 2"));
@@ -188,13 +189,14 @@ public class TrainController {
         currentTrain = Trains.get(0);
         trainSelector.setSelectedIndex(0);
         refresh();
-    }
+    }*/
 
     void closePIDSetter() {
         PIDSetter.dispose();
     }
 
-    public TrainController() {
+    public TrainController(TrainWithController parent) {
+        this.parent = parent;
         TrainController self = this;
 
         for (TrainStatus Train : Trains) {
@@ -241,10 +243,11 @@ public class TrainController {
         });
         serviceBrakeButton.addActionListener(e -> {
             currentTrain.setServiceBrake(!currentTrain.getServiceBrake());
+            parent.triggerServiceBrake(currentTrain.id, currentTrain.getServiceBrake());
             refresh();
         });
         speedOK.addActionListener(e -> {
-            currentTrain.setInputSpeed(Integer.parseInt(speedInput.getText()));
+            currentTrain.setInputSpeed(Double.parseDouble(speedInput.getText()));
             refresh();
         });
         emergencyStopAll.addActionListener(e -> {

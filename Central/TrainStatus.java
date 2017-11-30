@@ -1,5 +1,11 @@
 import com.stormbots.MiniPID;
 
+import java.util.ArrayList;
+
+import static java.lang.Math.abs;
+import static java.lang.Math.max;
+import static jdk.nashorn.internal.objects.NativeMath.min;
+
 public class TrainStatus {
     static final Double NORMAL_BRAKE_RATE = 1.0;
     static final Double SERVICE_BRAKE_RATE = 3.0;
@@ -9,11 +15,16 @@ public class TrainStatus {
     static final Double MPH2MS = 0.44704;
     static final Double WATT2HP = 0.00134102;
     static final Double S = 1.0;
+    static final Double CARWEIGHT = 50.0;
+    static final Double EPS = 0.00001;
+    static final Double MILE2M = 1609.34;
+    static final Double BRAKE_DIST = 0.2;
+    static final Double ACCEL_MAX = 1.0;
 
     String name = "Train";
     Integer id;
     Boolean isAutoMode = true;
-    Integer totalWeight = 250;
+    Double totalWeight = 250.0;
     Boolean hasCarError = false;
     Boolean hasBrakeError = false;
     Boolean hasPowerError = false;
@@ -29,9 +40,9 @@ public class TrainStatus {
     //Double currentBrakeRate = 5.0;
     String currentBrakeRate = "null";
     String nextStation = "Train Center";
-    Integer speedLimit = 60;
-    Integer inputSpeed = 0;
-    Integer commandSpeed = 0;
+    Double speedLimit = 70.0;
+    Double inputSpeed = 0.0;
+    Double commandSpeed = 0.0;
     Double authority = 0.0;
     Boolean authorityEmergencyStop = false;
     Boolean emergencyCommand = false;
@@ -48,13 +59,27 @@ public class TrainStatus {
     Boolean isSpeedLimitReached = false;
     Boolean isAuthorityError = false;
     Boolean inYard = false;
+    Integer carNumber = 1;
+    Boolean motorOff = false;
+    Boolean stopAtStation = false;
+    TrainWithController parent;
+    ArrayList<String> stopNames;
+    Integer stopIndex = 0;
 
     public MiniPID PID;
-    public Double Kp = 0.0;
-    public Double Ki = 0.0;
+    public Double Kp = 100.0;
+    public Double Ki = 100.0;
 
-    public TrainStatus(String name) {
+    public TrainStatus(String name, Integer carNumber, TrainWithController parent, ArrayList<String> stopNames) {
         this.name = name;
+        this.carNumber = carNumber;
+        this.parent = parent;
+        this.stopNames = stopNames;
+        if (stopNames.size() > 0)
+        {
+            nextStation = stopNames.get(0);
+        }
+        totalWeight = carNumber*CARWEIGHT;
         PID = new MiniPID(Kp, Ki, 0.0);
     }
 
@@ -100,8 +125,8 @@ public class TrainStatus {
         if(hasError && currentSpeed > 0 || authorityEmergencyStop)
         {
             isEmergencyStop = true;
-            commandSpeed = 0;
-            inputSpeed = 0;
+            commandSpeed = 0.0;
+            inputSpeed = 0.0;
         }
 
         if(emergencyCommand)
@@ -119,12 +144,13 @@ public class TrainStatus {
                 }
             }
             emergencyCommand = false;
+            parent.triggerEmergencyStop(id, emergencyCommand);
         }
 
         if(hasError)
         {
-            inputSpeed = 0;
-            currentAccel = 0.0;
+            inputSpeed = 0.0;
+            //currentAccel = 0.0;
         }
 
         if(inputSpeed > speedLimit)
@@ -139,7 +165,7 @@ public class TrainStatus {
         {
             currentBrakeRate = "null";
         } else {
-            currentBrakeRate = "someVal";
+            currentBrakeRate = "fricRate";
         }
         //currentBrakeRate = NORMAL_BRAKE_RATE;
         if(isServiceBrake)
@@ -181,10 +207,14 @@ public class TrainStatus {
             lightCommand = false;
         }
 
-        if(commandSpeed < currentSpeed || isEmergencyStop || isServiceBrake)
+        //commandSpeed < currentSpeed
+        if(isEmergencyStop || isServiceBrake)
         {
-            currentPower = 0.0;
-            return;
+            motorOff = true;
+            //currentPower = 0.0;
+            //return;
+        } else {
+            motorOff = false;
         }
 
         /* TODO: power Calculation */
@@ -203,24 +233,68 @@ public class TrainStatus {
 
     }
 
+    private Double brakeDistance(Double currentSpeed, Double currentAccel)
+    {
+        return (currentSpeed*currentSpeed - 0.0)/(2*currentAccel);
+    }
+
     public void Calc()
     {
         Double speedMS = currentSpeed*MPH2MS;
         Double currentForce;
-        if(currentPower >= 0.0001) {
+        Double rate;
+        Double oldSpeed;
+
+        Double dist = brakeDistance(speedMS, totalWeight*G*SERVICE_BRAKE_RATE);
+        if(dist >= (authority + BRAKE_DIST)*MILE2M && !isEmergencyStop)
+        {
+            isServiceBrake = true;
+        }else{
+            isServiceBrake = false;
+        }
+
+        if(currentPower >= EPS && !motorOff) {
             currentForce = currentPower / speedMS;
         } else {
             currentForce = 0.000;
         }
-        currentForce -= totalWeight*G*NORMAL_BRAKE_RATE;
+
+        if(isEmergencyStop)
+        {
+            rate = EMERGENCY_BRAKE_RATE;
+        } else if(isServiceBrake) {
+            rate = SERVICE_BRAKE_RATE;
+        } else {
+            rate = NORMAL_BRAKE_RATE;
+        }
+
+        currentForce -= totalWeight*G*rate;
         System.out.println("speedMS:"+speedMS+" currentPower:"+currentPower+" Current Force:"+currentForce);
         Double accel = currentForce/(totalWeight*Ton2Kg);
+        accel = min(accel, ACCEL_MAX);
         currentAccel = accel;
+        oldSpeed = speedMS;
         speedMS = speedMS + accel*S;
+        if(abs(speedMS)<EPS)
+        {
+            speedMS = 0.0;
+            if(oldSpeed>EPS)
+            {
+                //Train has stoped
+                if(stopAtStation)
+                {
+                    stopIndex++;
+                }
+            }
+        }
+
         currentSpeed = speedMS/MPH2MS;
+        parent.updateTrainDistance(id, currentSpeed*S);
 
         Double powerCalculated = 0.0;
-        powerCalculated = PID.getOutput(currentSpeed, commandSpeed);
+        if(!motorOff) {
+            powerCalculated = PID.getOutput(currentSpeed, commandSpeed);
+        }
 
         System.out.println("Kp:"+Kp+" Ki:"+Ki);
         System.out.println("Cur:"+currentSpeed.toString()+" Cmd:"+commandSpeed.toString()+" P:"+powerCalculated.toString());
@@ -251,11 +325,11 @@ public class TrainStatus {
         isAutoMode = autoMode;
     }
 
-    public Integer getTotalWeight() {
+    public Double getTotalWeight() {
         return totalWeight;
     }
 
-    public void setTotalWeight(Integer totalWeight) {
+    public void setTotalWeight(Double totalWeight) {
         this.totalWeight = totalWeight;
     }
 
@@ -371,11 +445,11 @@ public class TrainStatus {
         this.nextStation = nextStation;
     }
 
-    public Integer getSpeedLimit() {
+    public Double getSpeedLimit() {
         return speedLimit;
     }
 
-    public void setSpeedLimit(Integer speedLimit) {
+    public void setSpeedLimit(Double speedLimit) {
         this.speedLimit = speedLimit;
     }
 
@@ -404,19 +478,19 @@ public class TrainStatus {
         this.inYard = inYard;
     }
 
-    public Integer getInputSpeed() {
+    public Double getInputSpeed() {
         return inputSpeed;
     }
 
-    public void setInputSpeed(Integer inputSpeed) {
+    public void setInputSpeed(Double inputSpeed) {
         this.inputSpeed = inputSpeed;
     }
 
-    public Integer getCommandSpeed() {
+    public Double getCommandSpeed() {
         return commandSpeed;
     }
 
-    public void setCommandSpeed(Integer commandSpeed) {
+    public void setCommandSpeed(Double commandSpeed) {
         this.commandSpeed = commandSpeed;
     }
 

@@ -23,10 +23,12 @@ public class Central{
 	public void TestMethod(String testString){
 		System.out.println(testString);
 	}
-	//*********************He, put the code to instantiate your stuff here****************************
+
+	// TrainModel and Controller are now one module.
 	public void CreateTrainWithController(String[] emptyArgs){
 		System.out.println("Create Train Model and Train Controller");
 		trainWithControl = new TrainWithController(emptyArgs, this);
+		hasTrainModel = true;
 	}
 
 	public void CreateTrackModel(String[] emptyArgs){
@@ -43,9 +45,12 @@ public class Central{
     {
         trainWithControl.newTrain(trainId, name, carNumber, stopNames);
     }
+    public void TrainModelDeleteTrain(int trainId)
+    {
+        trainWithControl.deleteTrain(trainId);
+    }
 
 	public void CreateTrain(int trainNum, int length, int direction,int startBlock, String line){
-        hasTrainModel = trainWithControl != null;
 		if(hasTrainModel) {
 			trackModel.NewTrain(trainNum, length*2, direction, startBlock, line);
 		}else{
@@ -78,19 +83,19 @@ public class Central{
 
     // TrainModel will call this
 	public void UpdateTrainDistance(int trainId, float movedDistance){
-
+		//Whoever needs this information, please fill in your parts
 	}
 
 	// TrainModel will call this
 	public void ServiceBrakeFromTrain(int trainId, Boolean activate)
-    {
-
+	{
+		//Whoever needs this information, please fill in your parts
     }
 
     // TrainModel will call this
     public void EmergencyStopFromTrain(int trainId, Boolean activate)
     {
-
+		//Whoever needs this information, please fill in your parts
     }
 
 	public void TrackStateUpdate(int occBlock){
@@ -131,24 +136,35 @@ public class Central{
 		trackModel.FlipSwitch(blockNum, line);
 	}
 
-	public void TrainModelSendAuthority(int trainNum, Double authority) {
+
+	// Send speed limit To TrainModel
+    public void TrainSendSpeedLimit(int trainNum, double speedLimit)
+    {
+        trainWithControl.getSpeedLimit(trainNum, speedLimit);
+    }
+
+    public void TrainSendInYard(int trainNum, Boolean inYard)
+	{
+		trainWithControl.getInYard(trainNum, inYard);
+	}
+
+	// Send authority TO TrainModel
+	public void TrainSendAuthority(int trainNum, Double authority) {
 	    trainWithControl.getAuthority(trainNum, authority);
     }
 
-    public void TrainSendServiceBrake(int trainId, Boolean activate)
-    {
-        trainWithControl.serviceBrake(trainId, activate);
-    }
+    // Send emergency stop info To TrainModel
     public void TrainSendEmergencyStop(int trainId, Boolean activate)
     {
         trainWithControl.emergencyStop(trainId, activate);
     }
+    // Send stop info TO train
     // stopAtStation = true =>  arrives at a station after moving distance of authority
     public void TrainStopAtStation(int trainId, Boolean stopAtStation)
     {
         trainWithControl.atStation(trainId, stopAtStation);
     }
-    
+
 	public void Update(int mulitplyer){
 		trainWithControl.step();
 	}
