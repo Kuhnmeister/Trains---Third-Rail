@@ -354,7 +354,18 @@ public class TrackModel {
         //connect to TrainModel
     }
     public void CommandedAuthority(ArrayList<Integer> authorityBlocks, int trainNum,boolean noTrainModel){
-        allTrains.get(trainNum).SetAuthority(authorityBlocks.size()-1);
+        if(allTrains.get(trainNum)==null) {
+            System.out.println("no reference to train: "+trainNum);
+        }else{
+            if(authorityBlocks == null) {
+                System.out.println("Authority blocks is null");
+            }else {
+                allTrains.get(trainNum).SetAuthority(authorityBlocks.size() - 1);
+            }
+        }
+    }
+    public void CommandedAuthority(){
+
     }
     public void FlipSwitch(int blockNum, String line){
         GetBlock(blockNum,line).FlipSwitch(true);
