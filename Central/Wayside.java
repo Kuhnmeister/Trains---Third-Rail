@@ -214,6 +214,8 @@ public class Wayside {
                 	track.add(new BlockInfo(0, 0, 0));
                 }
 			}
+			//TODO add the read in track to Lines
+			//
 		}
 		
 		//start on the first line
@@ -295,7 +297,7 @@ public class Wayside {
 		currentAuth = getAuthority(occBlock, true);
 		currentAuth1 = getAuthority(occBlock, false);
 		//pass these to the central to be sent to the train
-		central.WaysideSendAuthority(currentAuth, currentAuth1, occBlock, true);
+		//central.WaysideSendAuthority(currentAuth, currentAuth1, occBlock, true);
 	}
 	
 	//get newly freed block from track
