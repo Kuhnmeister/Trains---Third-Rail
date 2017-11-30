@@ -21,6 +21,7 @@ public class Tracking{
 	HashMap< String, ArrayList<Block>> lineBlocks = new HashMap<String, ArrayList<Block>>();
 	ArrayList<Block> lineBlockList = new ArrayList<Block>();
 	HashMap<String, Block> firstBlocks = new HashMap<String, Block>(); 
+	HashMap<String, Block> lastBlocks = new HashMap<String, Block>();
 	boolean trackTrue = false;
 	public Tracking(){
 		
@@ -42,6 +43,9 @@ public class Tracking{
 					blockList.add(medium.get(k));
 					if(medium.get(k).GetFromYard()){
 						firstBlocks.put(lines[i], medium.get(k));
+					}
+					if(medium.get(k).GetToYard()){
+						lastBlocks.put(lines[i], medium.get(k));
 					}
 				}
 			}

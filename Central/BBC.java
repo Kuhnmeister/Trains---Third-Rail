@@ -903,6 +903,8 @@ public class BBC{
 		trainListed[0] -= 1;	
 		trainSelect.removeItemAt(trainNum);
 		trainChoice.removeItemAt(trainNum);
+		
+		trainList.get(trainNum).
 	}
 	
 	public void createFrame( ArrayList<JFrame> trainWindow, int[] windowNum, ArrayList<Trains> trainList, int open){
@@ -1032,8 +1034,14 @@ public class BBC{
 		newWindow.setSize( 250,555 );
 		newWindow.setVisible( true );
 	}
-	public static void receiveTickets(int numOfTickets){
-
+	public void UpdateTickets(int numOfTickets, int block, String line){
+		for(int i = 0; i < trainList.size(); i++){
+			if(trainList.get(i).getLine() == line){
+				if(trainList.get(i).getLocation() == block){
+					trainList.get(i).AddTickets(numOfTickets);
+				}
+			}
+		}
 	}
 	public void SetSpeed(int train, double speed){
 		trainList.get(train).setSpeed(speed);
@@ -1120,6 +1128,10 @@ public class BBC{
 		int i = 0;
 		while(trainNotFound){
 			if(trainList.get(i).getLine() == line){
+				if(trainList.get(i).getLocation() - 1 == occupied){
+					trainList.get(i).setLocation(occupied);
+					trainNotFound = false;
+				}
 				if(trainList.get(i).getLocation() - 1 == occupied){
 					trainList.get(i).setLocation(occupied);
 					trainNotFound = false;

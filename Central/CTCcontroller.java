@@ -28,7 +28,7 @@ public class CTCcontroller{
 	public void killTrain(int trainNum){
 		thisBBC.killTrain(trainNum);
 	}
-	public void receiveTickets(){
-		
+	public void ReceiveTickets(int newTickets,int blockNum, String line){
+		thisBBC.UpdateTickets(newTickets, blockNum, line);
 	}
 }

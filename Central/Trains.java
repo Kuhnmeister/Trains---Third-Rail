@@ -85,6 +85,12 @@ public class Trains{
 	public boolean hasSchedule(){
 		return (!(trainStops[0] == null));
 	}
+	public void sendToYard(int yardBlock){
+		for(int i = 0; i < trainStops.length; i++){
+			trainStops[i] == null;
+		}
+		trainStops[0] == yardBlock;
+	}
 	public String[] getSchedule(){
 		String[] trainSchedule = new String[stopCount];
 		for(int i = 0; i < stopCount; i++){
@@ -98,7 +104,7 @@ public class Trains{
 	public int GetTickets(){
 		return numOfTickets;
 	}
-	public void addTickets(int newTickets){
+	public void AddTickets(int newTickets){
 		numOfTickets += newTickets;
 	}
 	public String getLine(){
