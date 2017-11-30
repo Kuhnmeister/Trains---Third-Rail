@@ -292,16 +292,18 @@ public class Wayside {
 			track.get(occBlock).setOccupancy(true);
 			//call Central to inform CTC
 			central.TrackStateUpdate(occBlock);
+			central.CTCAddOccupancy(occBlock, lineNames[0]);
+			this.SetLights(occBlock, lineNames[0]);
+			this.SetCrossing(occBlock, lineNames[0]);
+			//now call for an authority and send to to the track
+			currentAuth = getAuthority(occBlock, true);
+			currentAuth1 = getAuthority(occBlock, false);
+			//pass these to the central to be sent to the train
+			central.WaysideSendAuthority(currentAuth, currentAuth1, occBlock, true);
 		}
 		//print to show update
 		System.out.println(occBlocks.toString());
-		//now call for an authority and send to to the track
-		currentAuth = getAuthority(occBlock, true);
-		currentAuth1 = getAuthority(occBlock, false);
-		//pass these to the central to be sent to the train
-		central.WaysideSendAuthority(currentAuth, currentAuth1, occBlock, true);
-		//send new light state
-		this.SetLights(occBlock, lineNames[0]);
+		
 	}
 	
 	//get newly freed block from track
@@ -316,6 +318,7 @@ public class Wayside {
 			//call Central to inform CTC of occupancy
 			//call method to set lights
 			this.SetLights(freedBlock, lineNames[0]);
+			this.SetCrossing(freedBlock, lineNames[0]);
 		}else {
 			
 		}
@@ -332,6 +335,12 @@ public class Wayside {
 		}else {
 			central.TrackSetLight(block, Line, "Green");
 		}
+	}
+	
+	//calls central to move a crossing
+	public void SetCrossing(int blockNum, String Line)
+	{
+		central.TrackSetCrossing(blockNum, Line);
 	}
 	
 	//get speed from central 
