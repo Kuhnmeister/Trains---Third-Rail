@@ -21,6 +21,7 @@ public class Tracking{
 	HashMap< String, ArrayList<Block>> lineBlocks = new HashMap<String, ArrayList<Block>>();
 	ArrayList<Block> lineBlockList = new ArrayList<Block>();
 	HashMap<String, Block> firstBlocks = new HashMap<String, Block>(); 
+	HashMap<String, Block> lastBlocks = new HashMap<String, Block>();
 	boolean trackTrue = false;
 	public Tracking(){
 		
@@ -42,6 +43,9 @@ public class Tracking{
 					blockList.add(medium.get(k));
 					if(medium.get(k).GetFromYard()){
 						firstBlocks.put(lines[i], medium.get(k));
+					}
+					if(medium.get(k).GetToYard()){
+						lastBlocks.put(lines[i], medium.get(k));
 					}
 				}
 			}
@@ -74,14 +78,14 @@ public class Tracking{
 	public String[] getLines(){
 		return lines;
 	}
-	public updateRoute(ArrayList<Trains> trainList){
+	public void updateRoute(ArrayList<Trains> trainList, BBC bbc){
 		for(int i = 0; i < trainList.size(); i++){
 			String[] stops = trainList.get(i).getSchedule();
 			int location = trainList.get(i).getLocation();
 			int difference = 0;
-			int nextStop;
+			int nextStop = 0 ;
 			for(int j = 0; j < stops.length; j++){
-				if(location == stops[j]){
+				if(location == Integer.parseInt(stops[j])){
 					
 				}
 				while(difference <= 0){

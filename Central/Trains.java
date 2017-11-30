@@ -13,6 +13,7 @@ public class Trains{
 	int location;
 	String line;
 	int trainLength;
+	int numOfTickets;
 	
 	public Trains(){
 		numOfTrains++; 
@@ -84,6 +85,12 @@ public class Trains{
 	public boolean hasSchedule(){
 		return (!(trainStops[0] == null));
 	}
+	public void sendToYard(int yardBlock){
+		for(int i = 0; i < trainStops.length; i++){
+			trainStops[i] = null;
+		}
+		trainStops[0] = Integer.toString(yardBlock);
+	}
 	public String[] getSchedule(){
 		String[] trainSchedule = new String[stopCount];
 		for(int i = 0; i < stopCount; i++){
@@ -93,6 +100,12 @@ public class Trains{
 	}
 	public void setLocation(int block){
 		location = block;
+	}
+	public int GetTickets(){
+		return numOfTickets;
+	}
+	public void AddTickets(int newTickets){
+		numOfTickets += newTickets;
 	}
 	public String getLine(){
 		return line;
