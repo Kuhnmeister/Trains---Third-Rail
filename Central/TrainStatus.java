@@ -3,6 +3,8 @@ import com.stormbots.MiniPID;
 import java.util.ArrayList;
 
 import static java.lang.Math.abs;
+import static java.lang.Math.max;
+import static jdk.nashorn.internal.objects.NativeMath.min;
 
 public class TrainStatus {
     static final Double NORMAL_BRAKE_RATE = 1.0;
@@ -17,6 +19,7 @@ public class TrainStatus {
     static final Double EPS = 0.00001;
     static final Double MILE2M = 1609.34;
     static final Double BRAKE_DIST = 0.2;
+    static final Double ACCEL_MAX = 1.0;
 
     String name = "Train";
     Integer id;
@@ -268,7 +271,7 @@ public class TrainStatus {
         currentForce -= totalWeight*G*rate;
         System.out.println("speedMS:"+speedMS+" currentPower:"+currentPower+" Current Force:"+currentForce);
         Double accel = currentForce/(totalWeight*Ton2Kg);
-        currentAccel = accel;
+        currentAccel = min(accel, ACCEL_MAX);
         oldSpeed = speedMS;
         speedMS = speedMS + accel*S;
         if(abs(speedMS)<EPS)
