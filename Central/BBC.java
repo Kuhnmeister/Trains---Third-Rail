@@ -10,6 +10,11 @@ import java.util.List;
 
 public class BBC{
 	Central central;
+	static boolean firstTrackCheck = true;
+	static boolean isTrackTrue = false;
+	static Tracking tracking = new Tracking();
+	JComboBox<String> line = new JComboBox<String>();
+	static boolean switched = false;
 	public static void main(String args[]){
 		BBC thisBBC = new BBC();
 	}
@@ -107,7 +112,6 @@ public class BBC{
 		jlabelNum[0] = 0;
 		
 		//track interactivity functionality
-		JComboBox<String> line = new JComboBox<String>();
 		
 		
 
@@ -328,7 +332,6 @@ public class BBC{
 					}
 					for(int j = 0; j < split.length; j++){
 						if(Character.isDigit(split[j].charAt(0))){
-							System.out.println(split[j]);
 							String checker = split[j];
 							String line = checker;
 							trainList.get(i).setDeparture(line);
@@ -360,7 +363,6 @@ public class BBC{
 					if(jlabelNum[0] == 1){
 						panelBL3.removeAll();
 					}
-					System.out.println(openData);
 					JLabel remove = trainViews.get(openData);
 					panelBL3.remove(remove);
 					trainViews.set(openData, null);
@@ -525,7 +527,6 @@ public class BBC{
 		jlabelNum[0] = 0;
 		
 		//track interactivity functionality
-		JComboBox<String> line = new JComboBox<String>();
 			
 		TimerTask clockRun = new TimerTask(){
 			public void run(){
@@ -605,7 +606,7 @@ public class BBC{
 				if(currentTimer[0] != null){
 					Purge(currentTimer[0]);
 				}
-				currentTimer[0] = OneTimes(clockRun, timeConstant, time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, central);
+				currentTimer[0] = OneTimes(clockRun, timeConstant, time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, central, line);
 			}
 		});
 		ten.addActionListener(new ActionListener(){
@@ -616,7 +617,7 @@ public class BBC{
 				if(currentTimer[0] != null){
 					Purge(currentTimer[0]);
 				}
-				currentTimer[0] = TenTimes(clockRun, timeConstant, time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, central);
+				currentTimer[0] = TenTimes(clockRun, timeConstant, time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, central, line);
 			}
 		});
 		hundred.addActionListener(new ActionListener(){
@@ -627,7 +628,7 @@ public class BBC{
 				if(currentTimer[0] != null){
 					Purge(currentTimer[0]);
 				}
-				currentTimer[0] = HundredTimes(clockRun, timeConstant, time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, central);
+				currentTimer[0] = HundredTimes(clockRun, timeConstant, time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, central, line);
 			}
 		});
 		//auto/manual button creation
@@ -679,19 +680,21 @@ public class BBC{
 				if(autoManState[0] == 0){
 					if(!trainList.isEmpty()){
 						if(trainList.get(trainSelect.getSelectedIndex()).getSpeedDouble() == 0.0){
-						//fix for all possible lines
-							/*if(trainList.get(trainSelect.getSelectedIndex()).getLine() == "Red ")
-							{
-								trainList.get(trainSelect.getSelectedIndex()).setLocation(96);
+							if(trainList.get(trainSelect.getSelectedIndex()).hasSchedule()){
+							//fix for all possible lines
+								/*if(trainList.get(trainSelect.getSelectedIndex()).getLine() == "Red ")
+								{
+									trainList.get(trainSelect.getSelectedIndex()).setLocation(96);
+								}
+								else{
+									trainList.get(trainSelect.getSelectedIndex()).setLocation(95);
+								}*/
+								System.out.println(trainList.get(trainSelect.getSelectedIndex()).getLocation());
+								System.out.println(trainList.get(trainSelect.getSelectedIndex()).getLine());
+								trainList.get(trainSelect.getSelectedIndex()).setSpeed(55.0);
+								int length = 1;
+								central.CreateTrain(trainList.get(trainSelect.getSelectedIndex()).getId(), trainList.get(trainSelect.getSelectedIndex()).getLength(), 0, 1, trainList.get(trainSelect.getSelectedIndex()).getLine());
 							}
-							else{
-								trainList.get(trainSelect.getSelectedIndex()).setLocation(95);
-							}*/
-							System.out.println(trainList.get(trainSelect.getSelectedIndex()).getLocation());
-							System.out.println(trainList.get(trainSelect.getSelectedIndex()).getLine());
-							trainList.get(trainSelect.getSelectedIndex()).setSpeed(55.0);
-							int length = 1;
-							central.CreateTrain(trainList.get(trainSelect.getSelectedIndex()).getId(), trainList.get(trainSelect.getSelectedIndex()).getLength(), 0, 1);
 						}
 					}
 				}
@@ -739,16 +742,16 @@ public class BBC{
 					}
 					for(int j = 0; j < split.length; j++){
 						if(Character.isDigit(split[j].charAt(0))){
-							System.out.println(split[j]);
 							String checker = split[j];
-							String line = checker;
-							trainList.get(i).setDeparture(line);
+							String thisLine = checker;
+							trainList.get(i).setDeparture(thisLine);
 						}
 						else{
 							if(Character.isDigit(split[j].charAt(1))){
 								trainList.get(i).createStop(split[j]);
 							}
 							else{
+								System.out.println(split[j]);
 								trainList.get(i).setLine(split[j]);
 							}
 						}
@@ -771,7 +774,6 @@ public class BBC{
 					if(jlabelNum[0] == 1){
 						panelBL3.removeAll();
 					}
-					System.out.println(openData);
 					JLabel remove = trainViews.get(openData);
 					panelBL3.remove(remove);
 					trainViews.set(openData, null);
@@ -796,12 +798,12 @@ public class BBC{
 		
 		JComboBox<Integer> blockChoose = new JComboBox<Integer>();
 		
+		JButton showBlocks = new JButton("Show line blocks");
 		
-		line.addActionListener(new ActionListener(){
+		showBlocks.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				Tracking trackCheck = new Tracking();
 				String choice = (String)line.getSelectedItem();
-				ArrayList<Integer> block = trackCheck.blocks(choice);
+				ArrayList<Integer> block = tracking.blocks(choice);
 				blockChoose.removeAllItems();
 				for(int i = 0; i < block.size(); i++){
 					blockChoose.addItem(block.get(i));
@@ -812,7 +814,8 @@ public class BBC{
 			public void actionPerformed(ActionEvent e){
 				int choice = blockChoose.getSelectedIndex();
 				int block = (int)blockChoose.getSelectedItem();
-				LineView(choice, block);
+				String lineChoice = (String)line.getSelectedItem();
+				LineView(choice, block, lineChoice);
 			}
 		});
 		
@@ -838,19 +841,15 @@ public class BBC{
 		panelBL2.add(none);
 		panelBL1.add(panelBL6);
 		panelBL2.add(ten);
-		panelBL1.add(panelBL7);
+		panelBL1.add(trainChoose);
 		panelBL2.add(hundred);
 		panelBL1.add(fileOpen);
 		panelBL1.add(panelBL8);
-		panelBL1.add(trainChoose);
+		panelBL1.add(trainSelect);
 		panelBL1.add(panelBL9);
 		panelBL1.add(panelBL10);
-		panelBL1.add(trainSelect);
+		panelBL1.add(showBlocks);
 		panelBL3.add(thruPut);
-		Tracking isTrackTrue = new Tracking();
-		if(isTrackTrue.TrackTrue()){
-			lineAdd(line);
-		}
 
 		panelBL1.add(scheduleView);
 		panelBL1.add(line);
@@ -862,30 +861,44 @@ public class BBC{
 		window.setSize( 1000,575 );
 		window.setVisible( true );
 	}
-	public void lineAdd(JComboBox<String> line){
-		Tracking lineGet = new Tracking();
-		String[] lineNames = lineGet.getLines();
+	public void lineAdd(){
+		String[] lineNames = tracking.getLines();
 		for(int i = 0; i < lineNames.length; i++){
 			line.addItem(lineNames[i]);
 		}
 	}
+	public void trackReceived(boolean track){
+	}
+	public void receiveTrackData(HashMap<String, HashMap<String, ArrayList<Block>>> track){
+		isTrackTrue = true;
+		tracking.receiveTrackData(track);
+		lineAdd();
+	}
 	public void createFrame( ArrayList<JFrame> trainWindow, int[] windowNum, ArrayList<Trains> trainList, int open){
 		windowNum[0] += 1;
-		Tracking trackBlocks = new Tracking();
 		JComboBox<Integer> stations = new JComboBox<Integer>();
 		String line;
 		if(trainList.get(open).hasSchedule()){
 			line = trainList.get(open).getLine();
+			ArrayList<Integer> theBlocks = tracking.blocks(line);
+			for(int i = 0; i < theBlocks.size(); i++){
+				stations.addItem(theBlocks.get(i));			
+			}
 		}
 		else{
-			line = null;
+			String[] lines = tracking.getLines();
+			for(int i = 0; i < lines.length; i++){
+				ArrayList<Integer> theBlocks = tracking.blocks(lines[i]);
+				for(int j = 0; j < theBlocks.size();j++){
+					stations.addItem(theBlocks.get(i));
+				}
+			}
 		}
-		ArrayList<Integer> theBlocks = trackBlocks.blocks(line);
 				
 		JButton createStop = new JButton("Create Stop");
 			createStop.addActionListener( new ActionListener(){
 				public void actionPerformed(ActionEvent e){
-					String newStop = (String)stations.getSelectedItem();
+					String newStop = Integer.toString((Integer)stations.getSelectedItem());
 					trainList.get(open).createStop(newStop);
 				}
 			});
@@ -962,11 +975,7 @@ public class BBC{
 		String scheduleData = Arrays.toString(trainList.get(open).getSchedule());
 		String amPm = trainList.get(open).getDepartureHalf();
 		String time = trainList.get(open).getDepartureTime();
-		if(line != null){
-			for(int i = 0; i < theBlocks.size(); i++){
-				stations.addItem(theBlocks.get(i));			
-			}
-		}
+
 		Label scheduleInfo = new Label(line + " " + time + amPm +" "+ scheduleData);
 		
 		newPanel11.add(authorityLabel);
@@ -991,20 +1000,23 @@ public class BBC{
 
 	}
 	
-	private static void LineView(int choice, int block){
-		Tracking trackCheck = new Tracking();
+	private void LineView(int choice, int block, String lineChoice){
 		JPanel box = new JPanel();
 		JPanel crossings = new JPanel();
 		JPanel undergrounds = new JPanel();
 		JPanel theSwitches = new JPanel();
+		JPanel switchButton = new JPanel();
+		JPanel switchDisplay = new JPanel();
 		JFrame lineView = new JFrame("Block: " + Integer.toString(block));
 		box.setLayout(new GridLayout(1,2));
 		JLabel header = new JLabel();
 		Container lineContainer = lineView.getContentPane();
-		lineContainer.setLayout(new GridLayout(4,1));
+		lineContainer.setLayout(new GridLayout(5,1));
 		lineContainer.add(crossings);
 		lineContainer.add(undergrounds);
 		lineContainer.add(theSwitches);
+		lineContainer.add(switchButton);
+		lineContainer.add(switchDisplay);
 		ImageIcon Crossing = new ImageIcon("Crossing.png");
 		ImageIcon Underground = new ImageIcon("Underground.png");
 		ImageIcon trackSwitch = new ImageIcon("Switch.png");
@@ -1012,19 +1024,34 @@ public class BBC{
 		crossings.removeAll();
 		undergrounds.removeAll();
 		theSwitches.removeAll();
-		if(trackCheck.hasCrossing(block)){
+		JTextField[] switchState = new JTextField[1];
+		
+		JButton Switch = new JButton("Move Switch");
+		if(tracking.hasCrossing(block, lineChoice)){
 			JLabel Cross = new JLabel(Crossing);
 			crossings.add(Cross);
 		}
-		if(trackCheck.isUnderground(block)){
+		if(tracking.isUnderground(block, lineChoice)){
 			JLabel Under = new JLabel(Underground);
 			undergrounds.add(Under);
 		}
-		if(trackCheck.hasSwitch(block)){
+		if(tracking.hasSwitch(block, lineChoice)){
 			JLabel switches = new JLabel(trackSwitch);
 			theSwitches.add(switches);
+			switchButton.add(Switch);
+			switchState[0] = new JTextField(Integer.toString(block) + tracking.GetBlock(block, lineChoice).GetSwitchNum());
+			switchDisplay.add(switchState[0]);
 		}
-		lineView.setSize( 250,500 );
+		if(tracking.hasStation(block, lineChoice)){
+			lineView = new JFrame("Block: " + Integer.toString(block) + "Line " + lineChoice + " STATION");
+		}
+		Switch.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				central.CTCMoveSwitch(block, !switched);
+				switchState[0] = new JTextField(Integer.toString(block) + tracking.GetBlock(block, lineChoice).GetSwitchNum());
+			}
+		});
+		lineView.setSize( 500,500 );
 		lineView.setVisible( true );
 	}
 	
@@ -1074,44 +1101,44 @@ public class BBC{
 	
 	
 	public static Timer OneTimes( TimerTask clockRun, int[] timeConstant, int[] time, JLabel clock,
-	String[] amPm, ArrayList<Trains> trainList, int[] autoManState, int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice, Central central)
+	String[] amPm, ArrayList<Trains> trainList, int[] autoManState, int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice, Central central, JComboBox<String> line)
 	{
 		timeConstant[0] = 1000;
 		Timer t = new Timer();
 		TimerTask newTask;
 		int multiplier = 1;
-		newTask = ClockRun(time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, multiplier, central);
+		newTask = ClockRun(time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, multiplier, central, line);
 		t.schedule(newTask,timeConstant[0], timeConstant[0]);
 		return t;
 	}
 	public static Timer TenTimes( TimerTask clockRun, int[] timeConstant, int[] time, JLabel clock, 
-	String[] amPm, ArrayList<Trains> trainList, int[] autoManState, int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice, Central central)
+	String[] amPm, ArrayList<Trains> trainList, int[] autoManState, int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice, Central central, JComboBox<String> line)
 	{
 		timeConstant[0] = 100;
 		Timer t = new Timer();
 		TimerTask newTask;
 		int multiplier = 10;
-		newTask = ClockRun(time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, multiplier, central);
+		newTask = ClockRun(time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, multiplier, central, line);
 		t.schedule(newTask,timeConstant[0], timeConstant[0]);
 		return t;
 	}
 	public static Timer HundredTimes( TimerTask clockRun, int[] timeConstant, int[] time, JLabel clock,
-	String[] amPm, ArrayList<Trains> trainList, int[] autoManState, int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice, Central central)
+	String[] amPm, ArrayList<Trains> trainList, int[] autoManState, int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice, Central central, JComboBox<String> line)
 	{
 		timeConstant[0] = 10;
 		Timer t = new Timer();
 		TimerTask newTask;
 		int multiplier = 100;
-		newTask = ClockRun(time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, multiplier, central);
+		newTask = ClockRun(time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, multiplier, central, line);
 		t.schedule(newTask,timeConstant[0], timeConstant[0]);
 		return t;
 	}
 	
 	
-	public static TimerTask ClockRuns(int[] time, JLabel clock, String[] amPm, ArrayList<Trains> trainList, int[] autoManState,
-	int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice, int multiplier){
+	public static TimerTask ClockRun(int[] time, JLabel clock, String[] amPm, ArrayList<Trains> trainList, int[] autoManState,
+	int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice, int multiplier, Central central, JComboBox<String> line){
 		TimerTask clockRun = new TimerTask(){
-			public void run(){
+			public void run(){			
 				if((time[0]/10000) == 12){
 					if((time[0]/100)%100 == 59){
 						if(time[0]%100 == 59){
@@ -1180,8 +1207,8 @@ public class BBC{
 		return clockRun;
 	}
 	
-	public static TimerTask ClockRun(int[] time, JLabel clock, String[] amPm, ArrayList<Trains> trainList, int[] autoManState,
-	int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice, int multiplier, Central central){
+	public static TimerTask ClockRuns(int[] time, JLabel clock, String[] amPm, ArrayList<Trains> trainList, int[] autoManState,
+	int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice, int multiplier){
 		TimerTask clockRun = new TimerTask(){
 			public void run(){
 				if((time[0]/10000) == 12){
