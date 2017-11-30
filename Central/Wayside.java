@@ -347,6 +347,7 @@ public class Wayside {
 		 }
 		 //call central to pass to track
 		 System.out.println(currentAuth.toArray() + "     " +currentAuth1.toString());
+		 System.out.println(trainNum);
 		 central.WaysideSendAuthority(currentAuth, currentAuth1, trainNum);
 	}
 	
