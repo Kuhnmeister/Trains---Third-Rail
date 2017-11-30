@@ -479,6 +479,48 @@ public class TrackModel {
             }
         }
     }
+    public void CommandedAuthority(ArrayList<Integer> authorityBlocks,ArrayList<Integer> authorityBlocks1, int blockNum, String line, boolean noTrainModel){
+        Train theTrain= new Train();
+        for (Train value : allTrains.values()) {
+            if(value.GetCurrentBlock().GetBlockNum()==blockNum && line == value.GetLine()){
+                theTrain=value;
+            }
+        }
+        double calcAuthority=0;
+        if(!theTrain.GetIsReal()){
+            System.out.println("Can't find train on block: "+blockNum);
+        }else {
+            if (theTrain.GetDirection() == 0) {
+
+                if (authorityBlocks == null) {
+                    System.out.println("Authority blocks is null");
+                } else {
+                    if (authorityBlocks.size() > 1) {
+                        for (Integer i : authorityBlocks) {
+                            calcAuthority += GetBlock(i, theTrain.GetLine()).GetLength();
+                        }
+                    }
+                    System.out.println("New authority sent to train: " + calcAuthority);
+                    theTrain.SetAuthority(calcAuthority);
+                }
+
+            } else {
+
+                if (authorityBlocks1 == null) {
+                    System.out.println("Authority blocks is null");
+                } else {
+                    if (authorityBlocks.size() > 1) {
+                        for (Integer i : authorityBlocks1) {
+                            calcAuthority += GetBlock(i, theTrain.GetLine()).GetLength();
+                        }
+                    }
+                    System.out.println("New authority sent to train: " + calcAuthority);
+                    theTrain.SetAuthority(calcAuthority);
+                }
+
+            }
+        }
+    }
     public void FlipSwitch(int blockNum, String line){
         GetBlock(blockNum,line).FlipSwitch(true);
     }
