@@ -705,6 +705,7 @@ public class BBC{
 								else{
 									trainList.get(trainSelect.getSelectedIndex()).setLocation(95);
 								}*/
+								trainList.get(choice).setLocation(tracking.GetFirstBlock(trainList.get(choice).getLine()));
 								System.out.println(trainList.get(choice).getLocation());
 								System.out.println(trainList.get(choice).getLine());
 								trainList.get(choice).setSpeed(55.0);

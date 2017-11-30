@@ -111,6 +111,7 @@ public class Central{
 		wayside.RemoveOccupied(blockNum);
 	}
 	public void CTCAuthority(int location, int authority, int trainNum){
+		System.out.println(authority);
 		wayside.SuggestAuthority(location, authority, trainNum);
 	}
 	public void WaysideSendAuthority(ArrayList<Integer> authorityBlocks, ArrayList<Integer> authorityBlocks1, int blockNum, String line, boolean filler){
