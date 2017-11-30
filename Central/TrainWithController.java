@@ -79,36 +79,41 @@ public class TrainWithController {
     {
         Integer index = findTrainIndexById(trainId);
         Trains.get(trainId).commandSpeed = commandSpeed;
+        trainControl.refresh();
     }
 
     void getSpeedLimit(Integer trainId, Double speedLimit)
     {
         Integer index = findTrainIndexById(trainId);
         Trains.get(trainId).speedLimit = speedLimit;
+        trainControl.refresh();
     }
 
     void getAuthority(Integer trainId, Double authority)
     {
         Integer index = findTrainIndexById(trainId);
         Trains.get(trainId).authority = authority;
+        trainControl.refresh();
     }
 
     void serviceBrake(Integer trainId, Boolean activate)
     {
         Integer index = findTrainIndexById(trainId);
-
+        trainControl.refresh();
     }
 
     void emergencyStop(Integer trainId, Boolean activate)
     {
         Integer index = findTrainIndexById(trainId);
         Trains.get(trainId).authorityEmergencyStop = activate;
+        trainControl.refresh();
     }
 
     void atStation(Integer trainId, Boolean stopAtStation)
     {
         Integer index = findTrainIndexById(trainId);
         Trains.get(trainId).stopAtStation = stopAtStation;
+        trainControl.refresh();
     }
 
     void step()
