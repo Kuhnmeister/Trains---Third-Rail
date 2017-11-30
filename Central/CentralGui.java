@@ -76,7 +76,7 @@ public class CentralGui extends Application{
         grid.add(createCTCButton,0,0,2,1);
         grid.add(createTrackModelButton,0,1,2,1);
         grid.add(createTrainModelButton,0,2,2,1);
-        
+
         primaryStage.show();
     }
 }
