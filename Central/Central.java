@@ -119,7 +119,7 @@ public class Central{
 	}
 	public void WaysideSendAuthority(ArrayList<Integer> authorityBlocks, ArrayList<Integer> authorityBlocks1, int trainNum){
 		if(!hasTrainModel) {
-			trackModel.CommandedAuthority(authorityBlocks,trainNum,true);
+			trackModel.CommandedAuthority(authorityBlocks, authorityBlocks1, trainNum,true);
 		}else{
 			trackModel.CommandedAuthority(authorityBlocks,trainNum);
 		}
@@ -129,9 +129,9 @@ public class Central{
 	{
 		return wayside.SwitchSwitch(blockNum, state);
 	}
-	public void TrackMoveSwitch(int blockNum, String Line)
+	public void TrackMoveSwitch(int blockNum, String line)
 	{
-		//trackModel.flipSwitch();
+		trackModel.FlipSwitch(blockNum, line);
 	}
 
 

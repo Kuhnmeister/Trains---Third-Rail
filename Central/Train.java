@@ -67,8 +67,9 @@ public class Train{
                 prevBlock = currentBlock;
                 prevBlockOccupied = true;
             }
-            nextBlock = nextBlock.GetNextBlock(direction);
+
             currentBlock = nextBlock;
+            nextBlock = currentBlock.GetNextBlock(direction);
             if(direction==0){
                 if(currentBlock.IsDirectionChange1()){
                     direction=1;
@@ -85,14 +86,16 @@ public class Train{
             }
 
 
+
         }else {
             if (!currentBlock.GetPowerFail() && !currentBlock.GetTrackCircuitFail() && !currentBlock.GetBrokenRail()) {
                 prevBlock = currentBlock;
                 prevBlockOccupied = true;
             }
             if (currentBlock != endingBlock) {
-                nextBlock = nextBlock.GetNextBlock(direction);
+
                 currentBlock = nextBlock;
+                nextBlock = currentBlock.GetNextBlock(direction);
                 if(direction==0){
                     if(currentBlock.IsDirectionChange1()){
                         direction=1;
@@ -108,10 +111,13 @@ public class Train{
                     currentBlock.SetIsOccupied(true);
 
                 }
-                //nextBlock = nextBlock.GetNextBlock(direction);
+
             } else {
                 updatePositionTimer.cancel();
+                currentBlock.SetIsOccupied(false);
+                theModel.RemoveOccupied(currentBlock);
                 trainActive = false;
+                theModel.RemoveTrain(this);
             }
         }
 
@@ -139,13 +145,22 @@ public class Train{
                 MoveNextBlock();
             }
             if(prevBlockOccupied){
-                if(positionOnBlock>trainLength){
+                if(positionOnBlock>=trainLength){
                     if(!prevBlock.GetPowerFail() && !prevBlock.GetTrackCircuitFail() && !prevBlock.GetBrokenRail()) {
                         theModel.RemoveOccupied(prevBlock);
                         prevBlock.SetIsOccupied(false);
                         System.out.println("Finally left block: "+prevBlock.GetBlockNum()+ " After Travelling: "+positionOnBlock);
                         prevBlockOccupied=false;
 
+                    }
+                    if(currentBlock.GetToYard()){
+                        if(currentBlock.GetYardSwitch()){
+                            updatePositionTimer.cancel();
+                            currentBlock.SetIsOccupied(false);
+                            theModel.RemoveOccupied(currentBlock);
+                            trainActive = false;
+                            theModel.RemoveTrain(this);
+                        }
                     }
                 }
             }
@@ -158,13 +173,21 @@ public class Train{
                     MoveNextBlock();
                 }
                 if(prevBlockOccupied){
-                    if(positionOnBlock>trainLength){
+                    if(positionOnBlock>=trainLength){
                         if(!prevBlock.GetPowerFail() && !prevBlock.GetTrackCircuitFail() && !prevBlock.GetBrokenRail()) {
                             theModel.RemoveOccupied(prevBlock);
                             prevBlock.SetIsOccupied(false);
                             System.out.println("Finally left block: "+prevBlock.GetBlockNum()+ " After Travelling: "+positionOnBlock);
                             prevBlockOccupied=false;
-
+                        }
+                        if(currentBlock.GetToYard()){
+                            if(currentBlock.GetYardSwitch()){
+                                updatePositionTimer.cancel();
+                                currentBlock.SetIsOccupied(false);
+                                theModel.RemoveOccupied(currentBlock);
+                                trainActive = false;
+                                theModel.RemoveTrain(this);
+                            }
                         }
                     }
                 }

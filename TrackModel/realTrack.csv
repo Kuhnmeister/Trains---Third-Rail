@@ -6,13 +6,13 @@ Red,B,5,50,1.5,40,Yes,6,4,None,None
 Red,B,6,50,1,40,Yes,7,5,None,None
 Red,C,7,75,0.5,40,Yes,8,6,None,Station;Shadyside
 Red,C,8,75,0,40,Yes,9,7,None,None
-Red,C,9,75,0,40,Yes,10,8,None,None
+Red,C,9,75,0,40,Yes,10,8,None,ToYard FromYard
 Red,D,10,75,0,40,Yes,11,9,None,None
 Red,D,11,75,-0.5,40,Yes,12,10,None,None
 Red,D,12,75,-1,40,Yes,13,11,None,None
 Red,E,13,70,-2,40,Yes,14,12,None,None
 Red,E,14,60,-1.25,40,Yes,15,13,None,None
-Red,E,15,60,-1,40,Yes,16,14,1,Switch Direction0
+Red,E,15,60,-1,40,Yes,16,14,1,Switch 
 Red,F,16,50,-0.5,40,Yes,17,15,None,Station;Herron Ave
 Red,F,17,200,-0.5,55,Yes,18,16,None,None
 Red,F,18,400,-0.06025,70,Yes,19,17,None,None
@@ -49,7 +49,7 @@ Red,I,48,75,0,70,Yes,49,47,None,Station;Station Square
 Red,J,49,50,0,60,Yes,50,48,None,None
 Red,J,50,50,0,60,Yes,51,49,None,None
 Red,J,51,50,0,55,Yes,52,50,None,None
-Red,J,52,43.2,0,55,Yes,53,51,66,Switch Direction1
+Red,J,52,43.2,0,55,Yes,53,51,66,Switch
 Red,J,53,50,0,55,Yes,54,52,None,None
 Red,J,54,50,0,55,Yes,55,53,None,None
 Red,K,55,75,0.5,55,Yes,56,54,None,None
@@ -63,7 +63,7 @@ Red,M,62,75,-1,55,Yes,63,61,None,None
 Red,M,63,75,-1,55,Yes,64,62,None,None
 Red,N,64,75,-0.5,55,Yes,65,63,None,None
 Red,N,65,75,0,55,Yes,66,64,None,None
-Red,N,66,75,0,55,Yes,52,65,None,None
+Red,N,66,75,0,55,Yes,52,65,None,Direction1
 Red,O,67,50,0,55,Yes,43,68,None,Underground
 Red,P,68,50,0,55,Yes,67,69,None,Underground
 Red,P,69,50,0,55,Yes,68,70,None,Underground

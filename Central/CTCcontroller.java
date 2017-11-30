@@ -9,17 +9,18 @@ import java.util.Timer;
 import java.util.List;
 
 public class CTCcontroller{
+	BBC thisBBC;
 	public static void main(String[] args){
 		CTCcontroller thisController = new CTCcontroller();
 	}
 	public CTCcontroller(Central central){
-		BBC thisBBC = new BBC(central);
+		thisBBC = new BBC(central);
 	}
 	public CTCcontroller(){
-		BBC thisBBC = new BBC();
+		thisBBC = new BBC();
 	}
 	public void receiveTrackData(HashMap<String, HashMap<String, ArrayList<Block>>> track){
-		Tracking bob = new Tracking();
-		bob.receiveTrackData(track);
+		thisBBC.receiveTrackData(track);
 	}
+
 }

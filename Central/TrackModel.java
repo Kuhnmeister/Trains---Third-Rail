@@ -316,6 +316,9 @@ public class TrackModel {
         Block stationBlock = GetStationBlock(stationName);
         stationBlock.GetStation().AddTickets(ticketCount);
     }
+    public void RemoveTrain(Train removingTrain){
+        allTrains.remove(removingTrain.GetTrainNum());
+    }
 
     //***********************************************************Integrated Methods*******************************************//
     //Called when a train is dispatched from the station
@@ -326,9 +329,11 @@ public class TrackModel {
         allTrains.put(trainNum,newTrain);
     }
     public void NewTrain(int trainNum, int length, int direction, int startBlock,String line,boolean noTrainModel){
+		
         Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock,line),this);
         theGui.AddTrain(newTrain,true);
         allTrains.put(trainNum,newTrain);
+		System.out.println("Train created: "+ newTrain.GetTrainNum());
     }
     public void WaysideCommandedSpeed(int trainNum, double speed){
 
@@ -351,7 +356,43 @@ public class TrackModel {
         //connect to TrainModel
     }
     public void CommandedAuthority(ArrayList<Integer> authorityBlocks, int trainNum,boolean noTrainModel){
-        allTrains.get(trainNum).SetAuthority(authorityBlocks.size()-1);
+        if(allTrains.get(trainNum)==null) {
+            System.out.println("no reference to train: "+trainNum);
+        }else{
+            if(authorityBlocks == null) {
+                System.out.println("Authority blocks is null");
+            }else {
+                allTrains.get(trainNum).SetAuthority(authorityBlocks.size() - 1);
+				System.out.println("New Authority on train: "+allTrains.get(trainNum).GetTrainNum()+" Authority is set to: "+(authorityBlocks.size() - 1));
+            }
+        }
+    }
+    public void CommandedAuthority(ArrayList<Integer> authorityBlocks,ArrayList<Integer> authorityBlocks1, int trainNum,boolean noTrainModel){
+        Train theTrain = allTrains.get(trainNum);
+        if(theTrain.GetDirection()==0){
+            if(theTrain==null) {
+                System.out.println("no reference to train: "+trainNum);
+            }else{
+                if(authorityBlocks == null) {
+                    System.out.println("Authority blocks is null");
+                }else {
+                    theTrain.SetAuthority(authorityBlocks.size() - 1);
+                }
+            }
+        }else{
+            if(theTrain==null) {
+                System.out.println("no reference to train: "+trainNum);
+            }else{
+                if(authorityBlocks1 == null) {
+                    System.out.println("Authority blocks is null");
+                }else {
+                    theTrain.SetAuthority(authorityBlocks1.size() - 1);
+                }
+            }
+        }
+    }
+    public void FlipSwitch(int blockNum, String line){
+        GetBlock(blockNum,line).FlipSwitch(true);
     }
     
 

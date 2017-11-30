@@ -37,7 +37,7 @@ public class Wayside {
 		//create the track
 		//getTrack();
 		//getSections();
-		track = getTrack();
+		track = getTrack(true);
 		block = track.get(0);
        theGui = new WaysideController(args, this);
     }
@@ -69,7 +69,7 @@ public class Wayside {
 	//method for getting the Authority
 	public ArrayList<Integer> getAuthority(int blockNow, boolean direction) {
 		ArrayList<Integer> auth;
-		System.out.println("calling the authCalc");
+		
 		try {
 		//use PLC
 		if(PLCloaded)
@@ -85,6 +85,7 @@ public class Wayside {
 			auth = new ArrayList<Integer>();
 			auth.add((Integer) blockNow);
 		}
+		System.out.println("Given Authority is: " + auth.toString());
 		return auth;
 	}
 	
@@ -100,9 +101,9 @@ public class Wayside {
 		//the first block will be the yard
 		testTrack.add(new BlockInfo(false, 0 , 0 , 1));
 		
-		for(int i = 1; i < 11; i++)
+		for(int i = 1; i < 100; i++)
 		{
-			if(i < 10) {
+			if(i < 99) {
 				if(i != 5 && i != 1) {
 					testTrack.add(new BlockInfo(i - 1, i, i + 1));
 				}else if(i == 5){
@@ -204,21 +205,21 @@ public class Wayside {
 		//create the lines object, to hold each line
 		lines = new ArrayList<ArrayList<BlockInfo>>();
 		//create one track object large enough to hold every block on the track
+		track = new ArrayList<BlockInfo>();
+		track.add(0, new BlockInfo(0, 0, 0));
+		track.get(0).setNextBlocks(track.get(0), track.get(0), track.get(0));
 		for (HashMap.Entry<String, HashMap<String, ArrayList<Block>>> line : newTrack.entrySet()) {
-			track = new ArrayList<BlockInfo>();
-			track.add(0, new BlockInfo(0, 0, 0));
-			track.get(0).setNextBlocks(track.get(0), track.get(0), track.get(0));
 			for (HashMap.Entry<String, ArrayList<Block>> sectionCount : line.getValue().entrySet()) {
                 for (int i = 0; i < sectionCount.getValue().size(); i++) {
                 	numberOfBlocks++;
                 	track.add(new BlockInfo(0, 0, 0));
                 }
 			}
-			lines.add(track);
+			//TODO add the read in track to Lines
+			//
 		}
 		
 		//start on the first line
-		track = lines.get(numberOfLines);
 		for (HashMap.Entry<String, HashMap<String, ArrayList<Block>>> line : newTrack.entrySet()) {
 			//get the total number of blocks in this line
 			System.out.println(numberOfBlocks);
@@ -265,9 +266,6 @@ public class Wayside {
          			track.get(cBlock.blockNumber()).setNextBlocks(prevBlock, nextBlock, switchBlock);
             }
             } 
-            //change the track to the next line
-            numberOfLines++;
-            track = lines.get(numberOfLines);
          }
 		
 		System.out.println("It worked!");
@@ -337,19 +335,23 @@ public class Wayside {
 	public void SuggestAuthority(int blockNum, int suggestedAuth, int trainNum)
 	{
 		currentBlock = blockNum;
-		currentAuth = getAuthority(currentBlock, true);
-		currentAuth1 = getAuthority(currentBlock, false);
+		System.out.println(blockNum);
+		currentAuth = getAuthority(blockNum, true);
+		currentAuth1 = getAuthority(blockNum, false);
 		 if(currentAuth.contains(suggestedAuth)) {
 			//safe authority
 			int index = currentAuth.indexOf(suggestedAuth);
+			System.out.println("Authority is within safe limits: direction 0");
 			currentAuth = new ArrayList<Integer> (currentAuth.subList(0, index));
 			
 		 }else if(currentAuth1.contains(suggestedAuth)) {
+			System.out.println("Authority is within safe limits: direction 1");
 			int index = currentAuth1.indexOf(suggestedAuth);
 			currentAuth = new ArrayList<Integer> (currentAuth1.subList(0, index));
-		 }
+		  }
 		 //call central to pass to track
-		 
+		 System.out.println(currentAuth.toString() + "  |  " +currentAuth1.toString());
+		 System.out.println("To train: " + trainNum);
 		 central.WaysideSendAuthority(currentAuth, currentAuth1, trainNum);
 	}
 	
@@ -358,7 +360,7 @@ public class Wayside {
 		//move switch in BlockInfo with this method
 		if(track.get(blockNum).setSwitch(state))
 		{
-			//central.TrackMoveSwitch(blockNum, lineNames[0]);
+			central.TrackMoveSwitch(blockNum, lineNames[0]);
 		}
 		return track.get(blockNum).switchState();
 	}

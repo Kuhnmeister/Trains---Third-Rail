@@ -14,29 +14,39 @@ public class Tracking{
 	
 	HashMap<String, HashMap<String, ArrayList<Block>>> trackData;
 	HashMap<String, ArrayList<Block>> section;
-	ArrayList<String[]> sectionList;
-	HashMap<Block, Integer> blockInfrastructure;
+	ArrayList<String[]> sectionList = new ArrayList<String[]>();
+	HashMap<Block, Integer> blockInfrastructure = new HashMap<Block, Integer>();
 	String[] lines;
-	ArrayList<Block> blocks;
-	HashMap< String, ArrayList<Block>> lineBlocks;
+	ArrayList<Block> blocks = new ArrayList<Block>();
+	HashMap< String, ArrayList<Block>> lineBlocks = new HashMap<String, ArrayList<Block>>();
 	ArrayList<Block> lineBlockList = new ArrayList<Block>();
+	boolean trackTrue = false;
 	public Tracking(){
 		
 	}
 	public void receiveTrackData(HashMap<String, HashMap<String, ArrayList<Block>>> track){
 		trackData = track;
-		lines = (String[])track.keySet().toArray();
+		lines = Arrays.copyOf(track.keySet().toArray(), track.keySet().toArray().length, String[].class);
 		for(int i = 0; i < lines.length; i++){
 			section = trackData.get(lines[i]);
-			sectionList.add((String[])section.keySet().toArray());
+			lineBlockList.clear();
+			sectionList.add(Arrays.copyOf(section.keySet().toArray(), section.keySet().toArray().length, String[].class));
 			for(int j = 0; j < sectionList.get(i).length; j++){
 				String[] sectionThru = sectionList.get(i);
-				ArrayList<Block> medium = section.get(sectionThru[j]);
+				ArrayList<Block> medium = section.get(sectionThru[j]);				
+				
 				for(int k = 0; k < medium.size(); k++){
 					blocks.add(medium.get(k));
+					lineBlockList.add(medium.get(k));
 				}
 			}
+			lineBlocks.put(lines[i], lineBlockList);	
+			for(int s = 0; s < lineBlocks.get(lines[i].size()); s++){
+				System.out.Println(lines[i]);
+				System.out.println(lineBlocks.get(lines[i]).get(s));
+			}
 		}
+		
 		for(int x = 0; x < blocks.size(); x++){
 			int key = 0;
 			if(blocks.get(x).GetHasSwitch()){
@@ -52,41 +62,39 @@ public class Tracking{
 				key += 20;
 			}
 			blockInfrastructure.put(blocks.get(x), key);
+		}	
+		for(int f = 0; f < blocks.size(); f++){
+			System.out.println(blocks.get(f));
 		}
-		for(int l = 0; l < lines.length; l++){
-			String choice = lines[l];
-			ArrayList<Integer> blocksReturned;
-			for(int m = 0; m < trackData.get(choice).keySet().toArray().length; m++){
-				String[] checkLines = (String[])trackData.get(choice).keySet().toArray();
-				ArrayList<Block> temp = trackData.get(choice).get(checkLines[m]);
-				for(int n = 0; n < temp.size(); n++){
-					lineBlockList.add(temp.get(n));
-				}
-			}
-			lineBlocks.put(choice, lineBlockList);
-		}
+	}
+	public boolean TrackTrue(){
+		return trackTrue;
 	}
 	public String[] getLines(){
 		return lines;
 	}
 	public ArrayList<Integer> blocks(String choice){
-		ArrayList<Integer> blockReturn;
-		for(int v = 0; v < lineBlocks.get(choice).size(); v++){
-			blockReturn.add(lineBlocks.get(choice).get(v).GetBlockNum());
+		ArrayList<Integer> blockReturn = new ArrayList<Integer>();
+		ArrayList<Block> get = new ArrayList<Block>();
+		get = lineBlocks.get(choice);
+		for(int v = 0; v < get.size(); v++){
+			blockReturn.add(get.get(v).GetBlockNum());
 		}
 		return blockReturn;
 	}
-	public static ArrayList<String> getSection(int choice){
-		
-	}
-	public boolean hasStation(int choice){
-		int checker = blockInfrastructure.get(GetBlock(choice));
+
+	public boolean hasStation(int choice, String lineChoice){
+		int checker = blockInfrastructure.get(GetBlock(choice, lineChoice));
+		System.out.println(checker);
 		if(checker >= 15){
 			return true;
 		}
+		return false;
 	}
-	public boolean hasCrossing(int choice){
-		int checker = blockInfrastructure.get(GetBlock(choice));
+	public boolean hasCrossing(int choice, String lineChoice){
+
+		int checker = blockInfrastructure.get(GetBlock(choice, lineChoice));
+		System.out.println(checker);
 		if(checker == 1){
 			return true;
 		}
@@ -113,8 +121,9 @@ public class Tracking{
 		}		
 		return false;
 	}
-	public boolean isUnderground(int choice){
-		int checker = blockInfrastructure.get(GetBlock(choice));
+	public boolean isUnderground(int choice, String lineChoice){
+		int checker = blockInfrastructure.get(GetBlock(choice, lineChoice));
+		System.out.println(checker);
 		if(checker == -3){
 			return true;
 		}
@@ -141,8 +150,9 @@ public class Tracking{
 		}
 		return false;
 	}
-	public boolean hasSwitch(int choice){
-		int checker = blockInfrastructure.get(GetBlock(choice));
+	public boolean hasSwitch(int choice, String lineChoice){
+		int checker = blockInfrastructure.get(GetBlock(choice, lineChoice));
+		System.out.println(checker);
 		if(checker == -5){
 			return true;
 		}
@@ -169,16 +179,18 @@ public class Tracking{
 		}
 		return false;
 	}
-	public Block GetBlock(int requestedBlockNum){
+	public Block GetBlock(int requestedBlockNum, String rLine){
         for (HashMap.Entry<String, HashMap<String, ArrayList<Block>>> line : trackData.entrySet()) {
             for (HashMap.Entry<String, ArrayList<Block>> section : line.getValue().entrySet()) {
                 for (int i = 0; i < section.getValue().size(); i++) {
                     if (section.getValue().get(i).GetBlockNum() == requestedBlockNum) {
-                        return section.getValue().get(i);
+                        if(section.getValue().get(i).GetLine().equals(rLine)) {
+                            return section.getValue().get(i);
+                        }
                     }
                 }
-
             }
+
         }
         return null;
     }

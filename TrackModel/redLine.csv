@@ -1,0 +1,76 @@
+Red,A,1,50,0.5,40,Yes,2,15,None,Direction0
+Red,A,2,50,1,40,Yes,3,1,None,None
+Red,A,3,50,1.5,40,Yes,4,2,None,None
+Red,B,4,50,2,40,Yes,5,3,None,None
+Red,B,5,50,1.5,40,Yes,6,4,None,None
+Red,B,6,50,1,40,Yes,7,5,None,None
+Red,C,7,75,0.5,40,Yes,8,6,None,Station;Shadyside
+Red,C,8,75,0,40,Yes,9,7,None,None
+Red,C,9,75,0,40,Yes,10,8,None,ToYard FromYard
+Red,D,10,75,0,40,Yes,11,9,None,None
+Red,D,11,75,-0.5,40,Yes,12,10,None,None
+Red,D,12,75,-1,40,Yes,13,11,None,None
+Red,E,13,70,-2,40,Yes,14,12,None,None
+Red,E,14,60,-1.25,40,Yes,15,13,None,None
+Red,E,15,60,-1,40,Yes,16,14,1,Switch 
+Red,F,16,50,-0.5,40,Yes,17,15,None,Station;Herron Ave
+Red,F,17,200,-0.5,55,Yes,18,16,None,None
+Red,F,18,400,-0.06025,70,Yes,19,17,None,None
+Red,F,19,400,0,70,Yes,20,18,None,None
+Red,F,20,200,0,70,Yes,21,19,None,None
+Red,G,21,100,0,55,Yes,22,20,None,Station; Swissvale
+Red,G,22,100,0,55,Yes,23,21,None,None
+Red,G,23,100,0,55,Yes,24,22,None,None
+Red,H,24,50,0,70,Yes,25,23,None,Underground
+Red,H,25,50,0,70,Yes,26,24,None,Underground Station;Penn Station
+Red,H,26,50,0,70,Yes,27,25,None,Underground
+Red,H,27,50,0,70,Yes,28,26,76,Switch Underground
+Red,H,28,50,0,70,Yes,29,27,None,Underground
+Red,H,29,60,0,70,Yes,30,28,None,Underground
+Red,H,30,60,0,70,Yes,31,29,None,Underground
+Red,H,31,50,0,70,Yes,32,30,72,Switch Underground
+Red,H,32,50,0,70,Yes,33,31,None,Underground
+Red,H,33,50,0,70,Yes,34,32,None,Underground
+Red,H,34,50,0,70,Yes,35,33,None,Underground
+Red,H,35,50,0,70,Yes,36,34,None,Underground Station; Steel Plaza
+Red,H,36,50,0,70,Yes,37,35,None,Underground
+Red,H,37,50,0,70,Yes,38,36,None,Underground
+Red,H,38,50,0,70,Yes,39,37,71,Switch Underground
+Red,H,39,50,0,70,Yes,40,38,None,Underground
+Red,H,40,60,0,70,Yes,41,39,None,Underground
+Red,H,41,60,0,70,Yes,42,40,None,Underground
+Red,H,42,50,0,70,Yes,43,41,None,Underground
+Red,H,43,50,0,70,Yes,44,42,67,Switch Underground
+Red,H,44,50,0,70,Yes,45,43,None,Underground
+Red,H,45,50,0,70,Yes,46,44,None,Underground Station;First Ave
+Red,I,46,75,0,70,Yes,47,45,None,Underground
+Red,I,47,75,0,70,Yes,48,46,None,Crossing
+Red,I,48,75,0,70,Yes,49,47,None,Station;Station Square
+Red,J,49,50,0,60,Yes,50,48,None,None
+Red,J,50,50,0,60,Yes,51,49,None,None
+Red,J,51,50,0,55,Yes,52,50,None,None
+Red,J,52,43.2,0,55,Yes,53,51,66,Switch
+Red,J,53,50,0,55,Yes,54,52,None,None
+Red,J,54,50,0,55,Yes,55,53,None,None
+Red,K,55,75,0.5,55,Yes,56,54,None,None
+Red,K,56,75,0.5,55,Yes,57,55,None,None
+Red,K,57,75,0.5,55,Yes,58,56,None,None
+Red,L,58,75,1,55,Yes,59,57,None,None
+Red,L,59,75,0.5,55,Yes,60,58,None,None
+Red,L,60,75,0,55,Yes,61,59,None,Station; South Hills Junction
+Red,M,61,75,-0.5,55,Yes,62,60,None,None
+Red,M,62,75,-1,55,Yes,63,61,None,None
+Red,M,63,75,-1,55,Yes,64,62,None,None
+Red,N,64,75,-0.5,55,Yes,65,63,None,None
+Red,N,65,75,0,55,Yes,66,64,None,None
+Red,N,66,75,0,55,Yes,52,65,None,Direction1
+Red,O,67,50,0,55,Yes,43,68,None,Underground
+Red,P,68,50,0,55,Yes,67,69,None,Underground
+Red,P,69,50,0,55,Yes,68,70,None,Underground
+Red,P,70,50,0,55,Yes,69,71,None,Underground
+Red,Q,71,50,0,55,Yes,70,38,None,Underground
+Red,R,72,50,0,55,Yes,32,73,None,Underground
+Red,S,73,50,0,55,Yes,72,74,None,Underground
+Red,S,74,50,0,55,Yes,73,75,None,Underground
+Red,S,75,50,0,55,Yes,74,76,None,Underground
+Red,T,76,50,0,55,Yes,75,27,None,Underground

@@ -32,6 +32,9 @@ public class Block{
     private Station thisStation;
     private boolean directionChange0=false;
     private boolean directionChange1=false;
+    private boolean fromYard;
+    private boolean toYard;
+    private boolean yardSwitch=false;
 
     public Block(String newLine,String newSection, int newBlockNum, double newLength, float newGrade, int newSpeedLimit, boolean newIsBidirectional,int newNextBlock0,int newNextBlock1,int newSwitchBlock,String newInfrastructure){
         line = newLine;
@@ -87,8 +90,29 @@ public class Block{
         }else{
             hasSwitch=false;
         }
+        if(newInfrastructure.contains("FromYard")){
+            fromYard=true;
+        }else{
+            fromYard=false;
+        }
+        if(newInfrastructure.contains("ToYard")){
+            toYard=true;
+        }else{
+            toYard=false;
+        }
     }
-
+    public boolean GetToYard(){
+        return toYard;
+    }
+    public boolean GetYardSwitch(){
+        return yardSwitch;
+    }
+    public void SetYardSwitch(boolean position){
+        yardSwitch=position;
+    }
+    public boolean GetFromYard(){
+        return fromYard;
+    }
     public Station GetStation(){
         return thisStation;
     }
@@ -156,6 +180,8 @@ public class Block{
     public void FlipSwitch(boolean flip){
         if(GetHasSwitch() && flip && !powerFail){
             switchPosition=!switchPosition;
+        }else if(toYard){
+            yardSwitch=!yardSwitch;
         }
     }
     public boolean GetHasRailwayCrossing(){
