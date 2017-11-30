@@ -114,9 +114,9 @@ public class Central{
 	}
 	public void WaysideSendAuthority(ArrayList<Integer> authorityBlocks, ArrayList<Integer> authorityBlocks1, int blockNum, String line, boolean filler){
 		if(!hasTrainModel) {
-			trackModel.CommandedAuthorityBlock(authorityBlocks, authorityBlocks1, blockNum,true);
+			trackModel.CommandedAuthorityBlock(authorityBlocks, authorityBlocks1, blockNum,line,true);
 		}else{
-			trackModel.CommandedAuthorityBlock(authorityBlocks,authorityBlocks1,blockNum);
+			trackModel.CommandedAuthorityBlock(authorityBlocks,authorityBlocks1,blockNum,line);
 		}
 	}
 	public void WaysideSendAuthority(ArrayList<Integer> authorityBlocks, ArrayList<Integer> authorityBlocks1, int trainNum){
