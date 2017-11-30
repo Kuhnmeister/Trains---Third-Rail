@@ -259,6 +259,7 @@ public class WaysideController extends Application{
 		    		 way.suggSpeed = Double.parseDouble(CTCin.getText());
 		    		 trackOutSpeed.setText("Suggested Speed is: " + way.suggSpeed);
 		    		 //output to track
+		    		 way.SuggestSpeed(way.currentBlock, 1, way.suggSpeed);
 		    	 }
 		    	//first calculate occupancy, light, and authority
 		    }
