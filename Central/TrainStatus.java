@@ -271,7 +271,8 @@ public class TrainStatus {
         currentForce -= totalWeight*G*rate;
         System.out.println("speedMS:"+speedMS+" currentPower:"+currentPower+" Current Force:"+currentForce);
         Double accel = currentForce/(totalWeight*Ton2Kg);
-        currentAccel = min(accel, ACCEL_MAX);
+        accel = min(accel, ACCEL_MAX);
+        currentAccel = accel;
         oldSpeed = speedMS;
         speedMS = speedMS + accel*S;
         if(abs(speedMS)<EPS)
