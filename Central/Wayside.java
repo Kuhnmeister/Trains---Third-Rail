@@ -69,7 +69,7 @@ public class Wayside {
 	//method for getting the Authority
 	public ArrayList<Integer> getAuthority(int blockNow, boolean direction) {
 		ArrayList<Integer> auth;
-		System.out.println("calling the authCalc");
+		
 		try {
 		//use PLC
 		if(PLCloaded)
@@ -85,6 +85,7 @@ public class Wayside {
 			auth = new ArrayList<Integer>();
 			auth.add((Integer) blockNow);
 		}
+		System.out.println("Given Authority is: " + auth.toString());
 		return auth;
 	}
 	
@@ -297,7 +298,7 @@ public class Wayside {
 		currentAuth = getAuthority(occBlock, true);
 		currentAuth1 = getAuthority(occBlock, false);
 		//pass these to the central to be sent to the train
-		//central.WaysideSendAuthority(currentAuth, currentAuth1, occBlock, true);
+		central.WaysideSendAuthority(currentAuth, currentAuth1, occBlock, true);
 	}
 	
 	//get newly freed block from track
@@ -339,14 +340,17 @@ public class Wayside {
 		 if(currentAuth.contains(suggestedAuth)) {
 			//safe authority
 			int index = currentAuth.indexOf(suggestedAuth);
+			System.out.println("Authority is within safe limits: direction 0");
 			currentAuth = new ArrayList<Integer> (currentAuth.subList(0, index));
 			
 		 }else if(currentAuth1.contains(suggestedAuth)) {
+			System.out.println("Authority is within safe limits: direction 1");
 			int index = currentAuth1.indexOf(suggestedAuth);
 			currentAuth = new ArrayList<Integer> (currentAuth1.subList(0, index));
-		 }
+		  }
 		 //call central to pass to track
-		 System.out.println(currentAuth.toArray() + "     " +currentAuth1.toString());
+		 System.out.println(currentAuth.toString() + "     " +currentAuth1.toString());
+		 System.out.println("To train: " + trainNum);
 		 central.WaysideSendAuthority(currentAuth, currentAuth1, trainNum);
 	}
 	

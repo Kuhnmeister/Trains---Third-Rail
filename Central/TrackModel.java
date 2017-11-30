@@ -329,9 +329,11 @@ public class TrackModel {
         allTrains.put(trainNum,newTrain);
     }
     public void NewTrain(int trainNum, int length, int direction, int startBlock,String line,boolean noTrainModel){
+		
         Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock,line),this);
         theGui.AddTrain(newTrain,true);
         allTrains.put(trainNum,newTrain);
+		System.out.println("Train created: "+ newTrain.GetTrainNum());
     }
     public void WaysideCommandedSpeed(int trainNum, double speed){
 
@@ -361,6 +363,7 @@ public class TrackModel {
                 System.out.println("Authority blocks is null");
             }else {
                 allTrains.get(trainNum).SetAuthority(authorityBlocks.size() - 1);
+				System.out.println("New Authority on train: "+allTrains.get(trainNum).GetTrainNum()+" Authority is set to: "+(authorityBlocks.size() - 1));
             }
         }
     }

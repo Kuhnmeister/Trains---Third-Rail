@@ -693,7 +693,7 @@ public class BBC{
 								System.out.println(trainList.get(trainSelect.getSelectedIndex()).getLine());
 								trainList.get(trainSelect.getSelectedIndex()).setSpeed(55.0);
 								int length = 1;
-								central.CreateTrain(trainList.get(trainSelect.getSelectedIndex()).getId(), trainList.get(trainSelect.getSelectedIndex()).getLength(), 0, 1, trainList.get(trainSelect.getSelectedIndex()).getLine());
+								central.CreateTrain(trainList.get(trainSelect.getSelectedIndex()).getId(), trainList.get(trainSelect.getSelectedIndex()).getLength(), 0, tracking.GetFirstBlock(trainList.get(trainSelect.getSelectedIndex()).getLine()), trainList.get(trainSelect.getSelectedIndex()).getLine());
 							}
 						}
 					}
@@ -1048,6 +1048,7 @@ public class BBC{
 		}
 		Switch.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+				switched = tracking.GetBlock(block, lineChoice).GetSwitchPosition();
 				central.CTCMoveSwitch(block, !switched);
 				switchState[0].setText(Integer.toString(block) + " going to die " + tracking.GetBlock(block, lineChoice).GetSwitchNum());
 			}
