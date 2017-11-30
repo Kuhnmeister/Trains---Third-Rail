@@ -664,6 +664,18 @@ public class BBC{
 						trainListed[0]++;
 						trainSelect.addItem("Train " + trainCount[0]);
 						trainChoice.addItem("Train " + trainCount[0]);
+						ArrayList<String> stops = new ArrayList<String>();
+	
+						if(trainList.get(trainCount[0]).hasSchedule()){
+							String[] sendStops = trainList.get(trainCount[0]).getSchedule();
+							for(int i = 0; i < trainList.get(trainCount[0]).getSchedule().length; i++){
+								stops.add(sendStops[i]);
+							}
+							central.TrainModelNewTrain(trainList.get(trainCount[0]).getId(), "bob", 1, stops);
+						}
+						else{
+							central.TrainModelNewTrain(trainList.get(trainCount[0]).getId(), "bob", 1, stops);
+						}
 					}
 					else{
 						trainListed[0]++;
@@ -681,7 +693,8 @@ public class BBC{
 					if(!trainList.isEmpty()){
 						String open = (String)trainSelect.getSelectedItem();
 						String numberOnly= open.replaceAll("[^0-9]", "");
-						int choice = Integer.parseInt(numberOnly);
+						int choice = Integer.parseInt(numberOnly) -1 ;
+						System.out.println(choice + "shabooya");
 						if(trainList.get(choice).getSpeedDouble() == 0.0){
 							if(trainList.get(choice).hasSchedule()){
 							//fix for all possible lines
@@ -696,6 +709,7 @@ public class BBC{
 								System.out.println(trainList.get(choice).getLine());
 								trainList.get(choice).setSpeed(55.0);
 								int length = 1;
+								System.out.println(trainList.get(choice).getId() + "shabobby");
 								central.CreateTrain(trainList.get(choice).getId(), trainList.get(choice).getLength(),
 								0, tracking.GetFirstBlock(trainList.get(choice).getLine()), trainList.get(choice).getLine());
 							}
@@ -888,12 +902,13 @@ public class BBC{
 	public void updateRoute(){
 		tracking.updateRoute(trainList, this);
 	}
-	public void trackReceived(boolean track){
-	}
 	public void receiveTrackData(HashMap<String, HashMap<String, ArrayList<Block>>> track){
 		isTrackTrue = true;
 		tracking.receiveTrackData(track);
 		lineAdd();
+	}
+	public void TrainInYard(int num){
+		killTrain(num);
 	}
 	public void killTrain(int trainNum){
 		System.out.println(trainNum);
@@ -1103,11 +1118,13 @@ public class BBC{
 			public void actionPerformed(ActionEvent e){
 				switched = tracking.GetBlock(block, lineChoice).GetSwitchPosition();
 				central.CTCMoveSwitch(block, !switched);
+				switched = !switched;
+				System.out.println(switched);
 				if(switched == false){
 					switchState[0].setText(Integer.toString(block) + " going to " + tracking.GetBlock(block, lineChoice).GetSwitchNum());
 				}
 				if(switched == true){
-					switchState[0].setText(Integer.toString(block) + "going to " + (block-1));
+					switchState[0].setText(Integer.toString(block) + " going to " + (block-1));
 				}
 			}
 		});		
@@ -1121,11 +1138,19 @@ public class BBC{
 		t.cancel();
 		t.purge();
 	}
-	public void Occupancy(int occupied, String line){
+	public void ReceiveOccupancy(int occupied, String line){
 		boolean trainNotFound = true;
 		int i = 0;
+		int difference = 10000;
+		int closestTrain = 0;
 		while(trainNotFound){
+			if(i == trainList.size()-1){
+					trainNotFound = false;
+			}
 			if(trainList.get(i).getLine() == line){
+				if(trainList.size() == 1){
+					trainList.get(i).setLocation(occupied);
+				}
 				if(trainList.get(i).getLocation() - 1 == occupied){
 					trainList.get(i).setLocation(occupied);
 					trainNotFound = false;
@@ -1133,12 +1158,17 @@ public class BBC{
 				if(trainList.get(i).getLocation() - 1 == occupied){
 					trainList.get(i).setLocation(occupied);
 					trainNotFound = false;
+				}
+				if(Math.abs(trainList.get(i).getLocation() - occupied) < difference){
+					difference = Math.abs(trainList.get(i).getLocation() - occupied);
+					closestTrain = i;
 				}
 			}
 			i++;
 		}
+		trainList.get(closestTrain).setLocation(occupied);
 	}
-		public static Timer OneTime( TimerTask clockRun, int[] timeConstant, int[] time, JLabel clock,
+	public static Timer OneTime( TimerTask clockRun, int[] timeConstant, int[] time, JLabel clock,
 	String[] amPm, ArrayList<Trains> trainList, int[] autoManState, int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice)
 	{
 		timeConstant[0] = 1000;
@@ -1194,7 +1224,7 @@ public class BBC{
 		timeConstant[0] = 100;
 		Timer t = new Timer();
 		TimerTask newTask;
-		int multiplier = 10;
+		int multiplier = 2;
 		newTask = ClockRun(time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, multiplier, central, line);
 		t.schedule(newTask,timeConstant[0], timeConstant[0]);
 		return t;
@@ -1205,7 +1235,7 @@ public class BBC{
 		timeConstant[0] = 10;
 		Timer t = new Timer();
 		TimerTask newTask;
-		int multiplier = 100;
+		int multiplier = 3;
 		newTask = ClockRun(time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, multiplier, central, line);
 		t.schedule(newTask,timeConstant[0], timeConstant[0]);
 		return t;

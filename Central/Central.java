@@ -145,7 +145,8 @@ public class Central{
 	}
 	public void CTCAddOccupancy(int blockNum, String line)
 	{
-		
+		ctc.ReceiveOccupancy(blockNum, line);
+		ctc.update();
 	}
 	public void TrackSetCrossing(int blockNum, String line)
 	{
