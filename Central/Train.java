@@ -1,5 +1,6 @@
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.BitSet;
 public class Train{
     private Block endingBlock;
     private Block currentBlock;
@@ -78,6 +79,10 @@ public class Train{
             currentBlock = nextBlock;
             if(currentBlock.GetIsStation()){
                 theModel.GenerateTickets(currentBlock.GetBlockNum(),line);
+            }
+            if(currentBlock.GetHasBeacon()){
+               BitSet beaconMessage= currentBlock.GetBeaconData();
+               theModel.ReportBeaconData(beaconMessage, trainNum);
             }
             nextBlock = currentBlock.GetNextBlock(direction);
             if(direction==0){

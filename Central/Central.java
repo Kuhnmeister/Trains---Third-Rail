@@ -4,6 +4,7 @@ import java.lang.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.BitSet;
 
 public class Central{
 	private TrackModel trackModel;
@@ -137,6 +138,9 @@ public class Central{
 	}
 	public void TrackSetLight(int blockNum, String line, String color){
 		trackModel.SetLight(blockNum, line, color);
+	}
+	public void ReportBeaconData(BitSet data, int trainNum){
+		System.out.println("Track Model transmitted: "+data+" to train: "+trainNum);
 	}
 	public void TrackGenerateTickets(int newTickets,int blockNum, String line){
 		System.out.println("Track reported: "+newTickets+" at Block: "+blockNum+" on "+line+" line");

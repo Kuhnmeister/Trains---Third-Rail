@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Collection;
 import javafx.stage.Stage;
+import java.util.BitSet;
 
 public class TrackModel {
     private HashMap<String,HashMap<String,ArrayList<Block>>> track = new HashMap<String,HashMap<String,ArrayList<Block>>>();
@@ -36,6 +37,13 @@ public class TrackModel {
         TrackModel thisModel = new TrackModel(args);
 
 
+    }
+    public void ReportBeaconData(BitSet beaconData, int trainNum){
+        if(!demoMode){
+            theCentral.ReportBeaconData(beaconData, trainNum);
+        }else{
+            System.out.println("Track Transmitted: "+beaconData+" to train: "+trainNum);
+        }
     }
     public void LoadNewTrack(String fileName){
         if(theCentral != null) {

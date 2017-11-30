@@ -1,4 +1,5 @@
 //Zachery Blouse COE 1186 Fall 2017 - The Third Rail
+import java.util.BitSet;
 public class Block{
     private String line;
     private String section;
@@ -67,7 +68,10 @@ public class Block{
         if(newInfrastructure.contains("Beacon")){
             hasBeacon=true;
             thisBeacon=new Beacon();
-            System.out.println("There is a beacon at block "+blockNum);
+            String[] tempString=newInfrastructure.split(";");
+            String beaconMessage=tempString[1];
+            thisBeacon.SetMessageString(beaconMessage);
+            System.out.println("There is a beacon at block "+blockNum+" message: "+ thisBeacon.GetMessage());
         }else{
             hasBeacon=false;
         }
@@ -269,6 +273,9 @@ public class Block{
     }
     public Beacon GetBeacon(){
         return thisBeacon;
+    }
+    public BitSet GetBeaconData(){
+        return thisBeacon.GetMessage();
     }
     public void SetBeaconMessageString(String newMessage){
         if(GetHasBeacon()){

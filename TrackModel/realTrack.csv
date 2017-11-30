@@ -3,7 +3,7 @@ Red,A,2,50,1,40,Yes,3,1,None,None
 Red,A,3,50,1.5,40,Yes,4,2,None,None
 Red,B,4,50,2,40,Yes,5,3,None,None
 Red,B,5,50,1.5,40,Yes,6,4,None,None
-Red,B,6,50,1,40,Yes,7,5,None,None
+Red,B,6,50,1,40,Yes,7,5,None,Beacon;101101
 Red,C,7,75,0.5,40,Yes,8,6,None,Station;Shadyside
 Red,C,8,75,0,40,Yes,9,7,None,None
 Red,C,9,75,0,40,Yes,10,8,None,ToYard FromYard
