@@ -102,10 +102,10 @@ public class Central{
 	public void TrackStateUpdate(int occBlock){
 
 	}
-	public void WaysideAddOccupied(int blockNum){
+	public void WaysideAddOccupied(int blockNum, String line){
 		wayside.AddOccupied(blockNum);
 	}
-	public void WaysideRemoveOccupied(int blockNum){
+	public void WaysideRemoveOccupied(int blockNum, String line){
 		wayside.RemoveOccupied(blockNum);
 	}
 	public void CTCAuthority(int location, int authority, int trainNum){

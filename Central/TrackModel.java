@@ -201,14 +201,14 @@ public class TrackModel {
     }
     public void AddOccupied(Block newBlock){
             if(!demoMode){
-                IntegratedAddOccupancy(newBlock.GetBlockNum());
+                IntegratedAddOccupancy(newBlock.GetBlockNum(), newBlock.GetLine());
             }
             occupiedBlocks.add(newBlock);
             System.out.println("Added Block: " + newBlock.GetBlockNum());
     }
     public void RemoveOccupied(Block newBlock){
         if(!demoMode){
-            IntegratedRemoveOccupancy(newBlock.GetBlockNum());
+            IntegratedRemoveOccupancy(newBlock.GetBlockNum(), newBlock.GetLine());
         }
         occupiedBlocks.remove(newBlock);
         System.out.println("Removed Block: "+newBlock.GetBlockNum());
@@ -371,11 +371,11 @@ public class TrackModel {
     public void WaysideCommandedSpeed(int trainNum, double speed,boolean noTrainModel){
         allTrains.get(trainNum).SetVelocity(speed);
     }
-    public void IntegratedAddOccupancy(int blockNum){
-        theCentral.WaysideAddOccupied(blockNum);
+    public void IntegratedAddOccupancy(int blockNum,String line){
+        theCentral.WaysideAddOccupied(blockNum,line);
     }
-    public void IntegratedRemoveOccupancy(int blockNum){
-        theCentral.WaysideRemoveOccupied(blockNum);
+    public void IntegratedRemoveOccupancy(int blockNum,String line){
+        theCentral.WaysideRemoveOccupied(blockNum,line);
     }
 
 
