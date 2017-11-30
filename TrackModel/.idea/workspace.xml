@@ -50,7 +50,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TrackModel.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TrackModel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../Central/TrackModel.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="319">
@@ -74,6 +74,28 @@
                 <element signature="e#16539#16540#0" expanded="true" />
                 <element signature="e#18725#18726#0" expanded="true" />
                 <element signature="e#18781#18782#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BBC.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../Central/BBC.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="922">
+              <caret line="913" column="45" lean-forward="false" selection-start-line="913" selection-start-column="45" selection-end-line="913" selection-end-column="45" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Tracking.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../Central/Tracking.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="222">
+              <caret line="168" column="37" lean-forward="false" selection-start-line="168" selection-start-column="37" selection-end-line="168" selection-end-column="37" />
+              <folding>
+                <element signature="e#2917#2926#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -274,7 +296,6 @@
         <option value="$PROJECT_DIR$/TrackModel.java" />
         <option value="$PROJECT_DIR$/Train.java" />
         <option value="$PROJECT_DIR$/TrackGui.java" />
-        <option value="$PROJECT_DIR$/../Central/BBC.java" />
         <option value="$PROJECT_DIR$/../Central/Trains.java" />
         <option value="$PROJECT_DIR$/../Central/Wayside.java" />
         <option value="$PROJECT_DIR$/../Central/TrackGui.java" />
@@ -283,6 +304,8 @@
         <option value="$PROJECT_DIR$/../Central/Block.java" />
         <option value="$PROJECT_DIR$/../Central/Central.java" />
         <option value="$PROJECT_DIR$/../Central/TrackModel.java" />
+        <option value="$PROJECT_DIR$/../Central/BBC.java" />
+        <option value="$PROJECT_DIR$/../Central/Tracking.java" />
       </list>
     </option>
   </component>
@@ -317,7 +340,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Central/Trains.java" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Central/Tracking.java" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -987,34 +1010,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Central/BBC.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3152">
-          <caret line="899" column="45" lean-forward="false" selection-start-line="899" selection-start-column="45" selection-end-line="899" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../Central/Wayside.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="326">
           <caret line="271" column="4" lean-forward="true" selection-start-line="271" selection-start-column="4" selection-end-line="271" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Central/Tracking.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="79" column="66" lean-forward="true" selection-start-line="79" selection-start-column="66" selection-end-line="79" selection-end-column="66" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#416#426#0" expanded="false" />
-            <element signature="e#636#662#0" expanded="false" />
-            <marker date="1511934655867" expanded="false" signature="2500:2504" ph=" { " />
-            <marker date="1511934655867" expanded="false" signature="2521:2524" ph=" }" />
-            <marker date="1511934655867" expanded="false" signature="2552:2556" ph=" { " />
-            <marker date="1511934655867" expanded="false" signature="2569:2572" ph=" }" />
-            <marker date="1511934655867" expanded="false" signature="2671:2680" ph="&lt;~&gt;" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1196,6 +1195,24 @@
             <element signature="e#16539#16540#0" expanded="true" />
             <element signature="e#18725#18726#0" expanded="true" />
             <element signature="e#18781#18782#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Central/BBC.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="922">
+          <caret line="913" column="45" lean-forward="false" selection-start-line="913" selection-start-column="45" selection-end-line="913" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Central/Tracking.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="168" column="37" lean-forward="false" selection-start-line="168" selection-start-column="37" selection-end-line="168" selection-end-column="37" />
+          <folding>
+            <element signature="e#2917#2926#0" expanded="true" />
           </folding>
         </state>
       </provider>
