@@ -180,6 +180,8 @@ public class Block{
     public void FlipSwitch(boolean flip){
         if(GetHasSwitch() && flip && !powerFail){
             switchPosition=!switchPosition;
+        }else if(toYard){
+            yardSwitch=!yardSwitch;
         }
     }
     public boolean GetHasRailwayCrossing(){
