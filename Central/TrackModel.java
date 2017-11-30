@@ -316,6 +316,9 @@ public class TrackModel {
         Block stationBlock = GetStationBlock(stationName);
         stationBlock.GetStation().AddTickets(ticketCount);
     }
+    public void RemoveTrain(Train removingTrain){
+        allTrains.remove(removingTrain.GetTrainNum());
+    }
 
     //***********************************************************Integrated Methods*******************************************//
     //Called when a train is dispatched from the station
