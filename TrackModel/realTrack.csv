@@ -6,7 +6,7 @@ Red,B,5,50,1.5,40,Yes,6,4,None,None
 Red,B,6,50,1,40,Yes,7,5,None,None
 Red,C,7,75,0.5,40,Yes,8,6,None,Station;Shadyside
 Red,C,8,75,0,40,Yes,9,7,None,None
-Red,C,9,75,0,40,Yes,10,8,None,None
+Red,C,9,75,0,40,Yes,10,8,None,ToYard FromYard
 Red,D,10,75,0,40,Yes,11,9,None,None
 Red,D,11,75,-0.5,40,Yes,12,10,None,None
 Red,D,12,75,-1,40,Yes,13,11,None,None

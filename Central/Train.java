@@ -114,6 +114,8 @@ public class Train{
 
             } else {
                 updatePositionTimer.cancel();
+                currentBlock.SetIsOccupied(false);
+                theModel.RemoveOccupied(currentBlock);
                 trainActive = false;
             }
         }
@@ -142,13 +144,21 @@ public class Train{
                 MoveNextBlock();
             }
             if(prevBlockOccupied){
-                if(positionOnBlock>trainLength){
+                if(positionOnBlock>=trainLength){
                     if(!prevBlock.GetPowerFail() && !prevBlock.GetTrackCircuitFail() && !prevBlock.GetBrokenRail()) {
                         theModel.RemoveOccupied(prevBlock);
                         prevBlock.SetIsOccupied(false);
                         System.out.println("Finally left block: "+prevBlock.GetBlockNum()+ " After Travelling: "+positionOnBlock);
                         prevBlockOccupied=false;
 
+                    }
+                    if(currentBlock.GetToYard()){
+                        if(currentBlock.GetYardSwitch()){
+                            updatePositionTimer.cancel();
+                            currentBlock.SetIsOccupied(false);
+                            theModel.RemoveOccupied(currentBlock);
+                            trainActive = false;
+                        }
                     }
                 }
             }
@@ -161,13 +171,20 @@ public class Train{
                     MoveNextBlock();
                 }
                 if(prevBlockOccupied){
-                    if(positionOnBlock>trainLength){
+                    if(positionOnBlock>=trainLength){
                         if(!prevBlock.GetPowerFail() && !prevBlock.GetTrackCircuitFail() && !prevBlock.GetBrokenRail()) {
                             theModel.RemoveOccupied(prevBlock);
                             prevBlock.SetIsOccupied(false);
                             System.out.println("Finally left block: "+prevBlock.GetBlockNum()+ " After Travelling: "+positionOnBlock);
                             prevBlockOccupied=false;
-
+                        }
+                        if(currentBlock.GetToYard()){
+                            if(currentBlock.GetYardSwitch()){
+                                updatePositionTimer.cancel();
+                                currentBlock.SetIsOccupied(false);
+                                theModel.RemoveOccupied(currentBlock);
+                                trainActive = false;
+                            }
                         }
                     }
                 }
