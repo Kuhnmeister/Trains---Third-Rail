@@ -13,6 +13,7 @@ public class Trains{
 	int location;
 	String line;
 	int trainLength;
+	int numOfTickets;
 	
 	public Trains(){
 		numOfTrains++; 
@@ -93,6 +94,12 @@ public class Trains{
 	}
 	public void setLocation(int block){
 		location = block;
+	}
+	public int GetTickets(){
+		return numOfTickets;
+	}
+	public void addTickets(int newTickets){
+		numOfTickets += newTickets;
 	}
 	public String getLine(){
 		return line;

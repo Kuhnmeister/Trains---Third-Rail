@@ -970,7 +970,7 @@ public class BBC{
 		JPanel newPanel1 = new JPanel();
 		JPanel newPanel2 = new JPanel();
 		newPanel1.setLayout(new GridLayout(4,1));
-		newPanel2.setLayout(new GridLayout(6,1));
+		newPanel2.setLayout(new GridLayout(7,1));
 		
 		
 		JPanel newPanel11 = new JPanel();
@@ -983,7 +983,7 @@ public class BBC{
 		JPanel newPanel24 = new JPanel();
 		JPanel newPanel25 = new JPanel();
 		JPanel newPanel26 = new JPanel();
-		
+		JPanel newPanel27 = new JPanel();
 		trainContainer.add(newPanel1);
 		trainContainer.add(newPanel2);
 		
@@ -997,7 +997,9 @@ public class BBC{
 		newPanel2.add(newPanel24);
 		newPanel2.add(newPanel25);
 		newPanel2.add(newPanel26);
+		newPanel2.add(newPanel27);
 		
+		Label tickets = new Label("Tickets sold: " + trainList.get(open).GetTickets());
 		Label lengthLabel = new Label("Enter number of cars");
 		Label stationsLabel = new Label("Selected Station");
 		Label speedLabel = new Label("Enter Speed");
@@ -1024,6 +1026,7 @@ public class BBC{
 		newPanel24.add(scheduleInfo);
 		newPanel26.add(length);
 		newPanel25.add(lengthLabel);
+		newPanel27.add(tickets);
 		trainContainer.setLayout(new GridLayout(2,1));
 		
 		newWindow.setSize( 250,555 );
@@ -1041,8 +1044,8 @@ public class BBC{
 	public void SetAuthority(int train, int authority){
 		trainList.get(train).setAuthority(authority);
 		int location = trainList.get(train).getLocation();
-		int authority = trainList.get(train).getLocation() + Integer.parseInt(trainList.get(train).getAuthority());
-		central.CTCAuthority(location, authority, trainList.get(open).getId());
+		int authorityChange = trainList.get(train).getLocation() + Integer.parseInt(trainList.get(train).getAuthority());
+		central.CTCAuthority(location, authorityChange, trainList.get(train).getId());
 	}
 	
 	private void LineView(int choice, int block, String lineChoice){
@@ -1117,8 +1120,8 @@ public class BBC{
 		int i = 0;
 		while(trainNotFound){
 			if(trainList.get(i).getLine() == line){
-				if(trainList.get(i).getLocation - 1 == occupied){
-					trainList.get(i).setLocation = occupied;
+				if(trainList.get(i).getLocation() - 1 == occupied){
+					trainList.get(i).setLocation(occupied);
 					trainNotFound = false;
 				}
 			}
