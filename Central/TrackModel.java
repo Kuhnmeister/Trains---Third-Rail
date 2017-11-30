@@ -316,6 +316,9 @@ public class TrackModel {
         Block stationBlock = GetStationBlock(stationName);
         stationBlock.GetStation().AddTickets(ticketCount);
     }
+    public void RemoveTrain(Train removingTrain){
+        allTrains.remove(removingTrain.GetTrainNum());
+    }
 
     //***********************************************************Integrated Methods*******************************************//
     //Called when a train is dispatched from the station
@@ -352,6 +355,9 @@ public class TrackModel {
     }
     public void CommandedAuthority(ArrayList<Integer> authorityBlocks, int trainNum,boolean noTrainModel){
         allTrains.get(trainNum).SetAuthority(authorityBlocks.size()-1);
+    }
+    public void FlipSwitch((int blockNum, String line)){
+        GetBlock(blockNum,line).FlipSwitch(true);
     }
     
 

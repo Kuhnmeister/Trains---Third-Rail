@@ -87,7 +87,8 @@ public class TrackGui extends Application {
         for (Iterator<Train> iterator = allActiveTrains.iterator(); iterator.hasNext();) {
             Train train = iterator.next();
             if (!train.GetActive()) {
-                activeTrainNumbersList.remove(train.GetTrainNum());
+
+                //activeTrainNumbersList.remove(train.GetTrainNum());
                 iterator.remove();
             }
         }
