@@ -119,7 +119,9 @@ public class Central{
 			trackModel.CommandedAuthority(authorityBlocks,trainNum);
 		}
 	}
+	public void TrainToYard(int trainNum){
 
+	}
 	public boolean CTCMoveSwitch(int blockNum, boolean state)
 	{
 		return wayside.SwitchSwitch(blockNum, state);

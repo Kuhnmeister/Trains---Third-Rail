@@ -317,6 +317,9 @@ public class TrackModel {
         stationBlock.GetStation().AddTickets(ticketCount);
     }
     public void RemoveTrain(Train removingTrain){
+        if(!demoMode) {
+            theCentral.TrainToYard(removeingTrain.GetTrainNum());
+        }
         allTrains.remove(removingTrain.GetTrainNum());
     }
 
@@ -394,7 +397,7 @@ public class TrackModel {
     public void FlipSwitch(int blockNum, String line){
         GetBlock(blockNum,line).FlipSwitch(true);
     }
-    
+
 
 
 

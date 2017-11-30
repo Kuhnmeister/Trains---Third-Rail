@@ -23,8 +23,8 @@
       <file leaf-file-name="Central.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../Central/Central.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="364">
-              <caret line="116" column="58" lean-forward="false" selection-start-line="116" selection-start-column="58" selection-end-line="116" selection-end-column="58" />
+            <state relative-caret-position="432">
+              <caret line="120" column="5" lean-forward="true" selection-start-line="120" selection-start-column="5" selection-end-line="120" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#440#441#0" expanded="true" />
@@ -39,22 +39,22 @@
                 <element signature="e#2985#2986#0" expanded="true" />
                 <element signature="e#3035#3036#0" expanded="true" />
                 <element signature="e#3074#3075#0" expanded="true" />
-                <element signature="e#3857#3858#0" expanded="true" />
-                <element signature="e#3908#3909#0" expanded="true" />
-                <element signature="e#3967#3968#0" expanded="true" />
-                <element signature="e#4011#4012#0" expanded="true" />
-                <element signature="e#4700#4701#0" expanded="true" />
-                <element signature="e#4730#4731#0" expanded="true" />
+                <element signature="e#3919#3920#0" expanded="true" />
+                <element signature="e#3970#3971#0" expanded="true" />
+                <element signature="e#4029#4030#0" expanded="true" />
+                <element signature="e#4073#4074#0" expanded="true" />
+                <element signature="e#4762#4763#0" expanded="true" />
+                <element signature="e#4792#4793#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TrackModel.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TrackModel.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../Central/TrackModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
-              <caret line="388" column="28" lean-forward="false" selection-start-line="388" selection-start-column="28" selection-end-line="388" selection-end-column="28" />
+            <state relative-caret-position="125">
+              <caret line="321" column="9" lean-forward="false" selection-start-line="321" selection-start-column="9" selection-end-line="321" selection-end-column="9" />
               <folding>
                 <element signature="e#10911#10919#0" expanded="true" />
                 <element signature="e#11233#11234#0" expanded="true" />
@@ -66,14 +66,12 @@
                 <element signature="e#13148#13149#0" expanded="true" />
                 <element signature="e#13180#13181#0" expanded="true" />
                 <element signature="e#13391#13399#0" expanded="true" />
-                <element signature="e#15201#15202#0" expanded="true" />
-                <element signature="e#15262#15263#0" expanded="true" />
-                <element signature="e#16369#16370#0" expanded="true" />
-                <element signature="e#16424#16425#0" expanded="true" />
-                <element signature="e#16481#16482#0" expanded="true" />
-                <element signature="e#16539#16540#0" expanded="true" />
-                <element signature="e#18725#18726#0" expanded="true" />
-                <element signature="e#18781#18782#0" expanded="true" />
+                <element signature="e#16469#16470#0" expanded="true" />
+                <element signature="e#16524#16525#0" expanded="true" />
+                <element signature="e#16581#16582#0" expanded="true" />
+                <element signature="e#16639#16640#0" expanded="true" />
+                <element signature="e#18825#18826#0" expanded="true" />
+                <element signature="e#18881#18882#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -89,7 +87,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Tracking.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Tracking.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../Central/Tracking.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="222">
@@ -119,8 +117,8 @@
       <file leaf-file-name="Train.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../Central/Train.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1843">
-              <caret line="13" column="31" lean-forward="false" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="31" />
+            <state relative-caret-position="287">
+              <caret line="161" column="0" lean-forward="true" selection-start-line="161" selection-start-column="0" selection-end-line="161" selection-end-column="0" />
               <folding>
                 <element signature="e#2376#2377#0" expanded="true" />
                 <element signature="e#2411#2412#0" expanded="true" />
@@ -130,12 +128,12 @@
                 <element signature="e#5035#5036#0" expanded="true" />
                 <element signature="e#5067#5068#0" expanded="true" />
                 <element signature="e#5099#5100#0" expanded="true" />
-                <element signature="e#8680#8681#0" expanded="true" />
-                <element signature="e#8715#8716#0" expanded="true" />
-                <element signature="e#8901#8902#0" expanded="true" />
-                <element signature="e#8939#8940#0" expanded="true" />
-                <element signature="e#8970#8971#0" expanded="true" />
-                <element signature="e#9002#9003#0" expanded="true" />
+                <element signature="e#8681#8682#0" expanded="true" />
+                <element signature="e#8716#8717#0" expanded="true" />
+                <element signature="e#8902#8903#0" expanded="true" />
+                <element signature="e#8940#8941#0" expanded="true" />
+                <element signature="e#8971#8972#0" expanded="true" />
+                <element signature="e#9003#9004#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -268,8 +266,8 @@
       <find>activeTrainNumbersList</find>
       <find>trains</find>
       <find>flip</find>
-      <find>trainActive</find>
       <find>FlipSwit</find>
+      <find>trainActive</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -299,13 +297,13 @@
         <option value="$PROJECT_DIR$/../Central/Trains.java" />
         <option value="$PROJECT_DIR$/../Central/Wayside.java" />
         <option value="$PROJECT_DIR$/../Central/TrackGui.java" />
-        <option value="$PROJECT_DIR$/../Central/Train.java" />
         <option value="$PROJECT_DIR$/../Central/CentralGui.java" />
         <option value="$PROJECT_DIR$/../Central/Block.java" />
-        <option value="$PROJECT_DIR$/../Central/Central.java" />
-        <option value="$PROJECT_DIR$/../Central/TrackModel.java" />
         <option value="$PROJECT_DIR$/../Central/BBC.java" />
         <option value="$PROJECT_DIR$/../Central/Tracking.java" />
+        <option value="$PROJECT_DIR$/../Central/Central.java" />
+        <option value="$PROJECT_DIR$/../Central/Train.java" />
+        <option value="$PROJECT_DIR$/../Central/TrackModel.java" />
       </list>
     </option>
   </component>
@@ -1121,84 +1119,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Central/Train.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1843">
-          <caret line="13" column="31" lean-forward="false" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="31" />
-          <folding>
-            <element signature="e#2376#2377#0" expanded="true" />
-            <element signature="e#2411#2412#0" expanded="true" />
-            <element signature="e#4784#4785#0" expanded="true" />
-            <element signature="e#4818#4819#0" expanded="true" />
-            <element signature="e#5004#5005#0" expanded="true" />
-            <element signature="e#5035#5036#0" expanded="true" />
-            <element signature="e#5067#5068#0" expanded="true" />
-            <element signature="e#5099#5100#0" expanded="true" />
-            <element signature="e#8680#8681#0" expanded="true" />
-            <element signature="e#8715#8716#0" expanded="true" />
-            <element signature="e#8901#8902#0" expanded="true" />
-            <element signature="e#8939#8940#0" expanded="true" />
-            <element signature="e#8970#8971#0" expanded="true" />
-            <element signature="e#9002#9003#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Central/Central.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="116" column="58" lean-forward="false" selection-start-line="116" selection-start-column="58" selection-end-line="116" selection-end-column="58" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#440#441#0" expanded="true" />
-            <element signature="e#486#487#0" expanded="true" />
-            <element signature="e#620#621#0" expanded="true" />
-            <element signature="e#657#658#0" expanded="true" />
-            <element signature="e#2046#2047#0" expanded="true" />
-            <element signature="e#2098#2099#0" expanded="true" />
-            <element signature="e#2455#2456#0" expanded="true" />
-            <element signature="e#2519#2520#0" expanded="true" />
-            <element signature="e#2949#2950#0" expanded="true" />
-            <element signature="e#2985#2986#0" expanded="true" />
-            <element signature="e#3035#3036#0" expanded="true" />
-            <element signature="e#3074#3075#0" expanded="true" />
-            <element signature="e#3857#3858#0" expanded="true" />
-            <element signature="e#3908#3909#0" expanded="true" />
-            <element signature="e#3967#3968#0" expanded="true" />
-            <element signature="e#4011#4012#0" expanded="true" />
-            <element signature="e#4700#4701#0" expanded="true" />
-            <element signature="e#4730#4731#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Central/TrackModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="388" column="28" lean-forward="false" selection-start-line="388" selection-start-column="28" selection-end-line="388" selection-end-column="28" />
-          <folding>
-            <element signature="e#10911#10919#0" expanded="true" />
-            <element signature="e#11233#11234#0" expanded="true" />
-            <element signature="e#11270#11271#0" expanded="true" />
-            <element signature="e#11323#11324#0" expanded="true" />
-            <element signature="e#11375#11376#0" expanded="true" />
-            <element signature="e#12826#12827#0" expanded="true" />
-            <element signature="e#12861#12862#0" expanded="true" />
-            <element signature="e#13148#13149#0" expanded="true" />
-            <element signature="e#13180#13181#0" expanded="true" />
-            <element signature="e#13391#13399#0" expanded="true" />
-            <element signature="e#15201#15202#0" expanded="true" />
-            <element signature="e#15262#15263#0" expanded="true" />
-            <element signature="e#16369#16370#0" expanded="true" />
-            <element signature="e#16424#16425#0" expanded="true" />
-            <element signature="e#16481#16482#0" expanded="true" />
-            <element signature="e#16539#16540#0" expanded="true" />
-            <element signature="e#18725#18726#0" expanded="true" />
-            <element signature="e#18781#18782#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../Central/BBC.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="922">
@@ -1213,6 +1133,82 @@
           <caret line="168" column="37" lean-forward="false" selection-start-line="168" selection-start-column="37" selection-end-line="168" selection-end-column="37" />
           <folding>
             <element signature="e#2917#2926#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Central/Central.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="120" column="5" lean-forward="true" selection-start-line="120" selection-start-column="5" selection-end-line="120" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#440#441#0" expanded="true" />
+            <element signature="e#486#487#0" expanded="true" />
+            <element signature="e#620#621#0" expanded="true" />
+            <element signature="e#657#658#0" expanded="true" />
+            <element signature="e#2046#2047#0" expanded="true" />
+            <element signature="e#2098#2099#0" expanded="true" />
+            <element signature="e#2455#2456#0" expanded="true" />
+            <element signature="e#2519#2520#0" expanded="true" />
+            <element signature="e#2949#2950#0" expanded="true" />
+            <element signature="e#2985#2986#0" expanded="true" />
+            <element signature="e#3035#3036#0" expanded="true" />
+            <element signature="e#3074#3075#0" expanded="true" />
+            <element signature="e#3919#3920#0" expanded="true" />
+            <element signature="e#3970#3971#0" expanded="true" />
+            <element signature="e#4029#4030#0" expanded="true" />
+            <element signature="e#4073#4074#0" expanded="true" />
+            <element signature="e#4762#4763#0" expanded="true" />
+            <element signature="e#4792#4793#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Central/Train.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="161" column="0" lean-forward="true" selection-start-line="161" selection-start-column="0" selection-end-line="161" selection-end-column="0" />
+          <folding>
+            <element signature="e#2376#2377#0" expanded="true" />
+            <element signature="e#2411#2412#0" expanded="true" />
+            <element signature="e#4784#4785#0" expanded="true" />
+            <element signature="e#4818#4819#0" expanded="true" />
+            <element signature="e#5004#5005#0" expanded="true" />
+            <element signature="e#5035#5036#0" expanded="true" />
+            <element signature="e#5067#5068#0" expanded="true" />
+            <element signature="e#5099#5100#0" expanded="true" />
+            <element signature="e#8681#8682#0" expanded="true" />
+            <element signature="e#8716#8717#0" expanded="true" />
+            <element signature="e#8902#8903#0" expanded="true" />
+            <element signature="e#8940#8941#0" expanded="true" />
+            <element signature="e#8971#8972#0" expanded="true" />
+            <element signature="e#9003#9004#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Central/TrackModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="321" column="9" lean-forward="false" selection-start-line="321" selection-start-column="9" selection-end-line="321" selection-end-column="9" />
+          <folding>
+            <element signature="e#10911#10919#0" expanded="true" />
+            <element signature="e#11233#11234#0" expanded="true" />
+            <element signature="e#11270#11271#0" expanded="true" />
+            <element signature="e#11323#11324#0" expanded="true" />
+            <element signature="e#11375#11376#0" expanded="true" />
+            <element signature="e#12826#12827#0" expanded="true" />
+            <element signature="e#12861#12862#0" expanded="true" />
+            <element signature="e#13148#13149#0" expanded="true" />
+            <element signature="e#13180#13181#0" expanded="true" />
+            <element signature="e#13391#13399#0" expanded="true" />
+            <element signature="e#16469#16470#0" expanded="true" />
+            <element signature="e#16524#16525#0" expanded="true" />
+            <element signature="e#16581#16582#0" expanded="true" />
+            <element signature="e#16639#16640#0" expanded="true" />
+            <element signature="e#18825#18826#0" expanded="true" />
+            <element signature="e#18881#18882#0" expanded="true" />
           </folding>
         </state>
       </provider>
