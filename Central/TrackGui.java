@@ -388,8 +388,8 @@ public class TrackGui extends Application {
         grid.add(switchActiveDisplayLabel, 9, 10,1,1);
         Label railwayCrossingDisplayLabel = new Label("Railway Crossing?");
         grid.add(railwayCrossingDisplayLabel, 10, 10,1,1);
-        Label railwayCrossingDisplayLabel = new Label("Crossing On");
-        grid.add(railwayCrossingDisplayLabel, 11, 10,1,1);
+        Label railwayCrossingOnDisplayLabel = new Label("Crossing On");
+        grid.add(railwayCrossingOnDisplayLabel, 11, 10,1,1);
 
         //Demo Mode Inputs
         Text inputTitle = new Text("Wayside Inputs");

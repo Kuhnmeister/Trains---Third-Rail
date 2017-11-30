@@ -20,11 +20,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Central.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Central.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../Central/Central.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="218">
-              <caret line="147" column="47" lean-forward="false" selection-start-line="147" selection-start-column="47" selection-end-line="147" selection-end-column="47" />
+            <state relative-caret-position="201">
+              <caret line="153" column="87" lean-forward="false" selection-start-line="153" selection-start-column="87" selection-end-line="153" selection-end-column="87" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#465#466#0" expanded="true" />
@@ -263,11 +263,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TrackGui.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TrackGui.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../Central/TrackGui.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="361">
-              <caret line="390" column="66" lean-forward="false" selection-start-line="390" selection-start-column="66" selection-end-line="390" selection-end-column="66" />
+              <caret line="390" column="43" lean-forward="true" selection-start-line="390" selection-start-column="43" selection-end-line="390" selection-end-column="43" />
               <folding>
                 <element signature="e#8305#8313#0" expanded="true" />
                 <element signature="e#9928#9936#0" expanded="true" />
@@ -275,12 +275,12 @@
                 <element signature="e#15108#15109#0" expanded="true" />
                 <element signature="e#15184#15185#0" expanded="true" />
                 <element signature="e#15908#15916#0" expanded="true" />
-                <element signature="e#19342#19350#0" expanded="true" />
-                <element signature="e#20119#20127#0" expanded="true" />
-                <element signature="e#21524#21533#0" expanded="true" />
-                <element signature="e#23442#23450#0" expanded="true" />
-                <marker date="1512073505606" expanded="false" signature="25725:25734" ph="&lt;~&gt;" />
-                <marker date="1512073505606" expanded="false" signature="26654:26662" ph="&lt;~&gt;" />
+                <element signature="e#19346#19354#0" expanded="true" />
+                <element signature="e#20123#20131#0" expanded="true" />
+                <element signature="e#21528#21537#0" expanded="true" />
+                <element signature="e#23446#23454#0" expanded="true" />
+                <marker date="1512073801409" expanded="false" signature="25729:25738" ph="&lt;~&gt;" />
+                <marker date="1512073801409" expanded="false" signature="26658:26666" ph="&lt;~&gt;" />
               </folding>
             </state>
           </provider>
@@ -290,7 +290,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>timeline</find>
       <find>getyard</find>
       <find>directionChange</find>
       <find>all</find>
@@ -320,6 +319,7 @@
       <find>has</find>
       <find>light</find>
       <find>crossing</find>
+      <find>ticket</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -355,8 +355,8 @@
         <option value="$PROJECT_DIR$/../Central/Train.java" />
         <option value="$PROJECT_DIR$/../Central/TrackModel.java" />
         <option value="$PROJECT_DIR$/../Central/Block.java" />
-        <option value="$PROJECT_DIR$/../Central/TrackGui.java" />
         <option value="$PROJECT_DIR$/../Central/Central.java" />
+        <option value="$PROJECT_DIR$/../Central/TrackGui.java" />
       </list>
     </option>
   </component>
@@ -1150,27 +1150,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Central/TrackGui.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="390" column="66" lean-forward="false" selection-start-line="390" selection-start-column="66" selection-end-line="390" selection-end-column="66" />
-          <folding>
-            <element signature="e#8305#8313#0" expanded="true" />
-            <element signature="e#9928#9936#0" expanded="true" />
-            <element signature="e#14834#14842#0" expanded="true" />
-            <element signature="e#15108#15109#0" expanded="true" />
-            <element signature="e#15184#15185#0" expanded="true" />
-            <element signature="e#15908#15916#0" expanded="true" />
-            <element signature="e#19342#19350#0" expanded="true" />
-            <element signature="e#20119#20127#0" expanded="true" />
-            <element signature="e#21524#21533#0" expanded="true" />
-            <element signature="e#23442#23450#0" expanded="true" />
-            <marker date="1512073505606" expanded="false" signature="25725:25734" ph="&lt;~&gt;" />
-            <marker date="1512073505606" expanded="false" signature="26654:26662" ph="&lt;~&gt;" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../Central/TrackModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="231">
@@ -1201,8 +1180,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../Central/Central.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="147" column="47" lean-forward="false" selection-start-line="147" selection-start-column="47" selection-end-line="147" selection-end-column="47" />
+        <state relative-caret-position="201">
+          <caret line="153" column="87" lean-forward="false" selection-start-line="153" selection-start-column="87" selection-end-line="153" selection-end-column="87" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#465#466#0" expanded="true" />
@@ -1233,6 +1212,27 @@
             <element signature="e#5400#5401#0" expanded="true" />
             <element signature="e#5888#5889#0" expanded="true" />
             <element signature="e#5918#5919#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Central/TrackGui.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="390" column="43" lean-forward="true" selection-start-line="390" selection-start-column="43" selection-end-line="390" selection-end-column="43" />
+          <folding>
+            <element signature="e#8305#8313#0" expanded="true" />
+            <element signature="e#9928#9936#0" expanded="true" />
+            <element signature="e#14834#14842#0" expanded="true" />
+            <element signature="e#15108#15109#0" expanded="true" />
+            <element signature="e#15184#15185#0" expanded="true" />
+            <element signature="e#15908#15916#0" expanded="true" />
+            <element signature="e#19346#19354#0" expanded="true" />
+            <element signature="e#20123#20131#0" expanded="true" />
+            <element signature="e#21528#21537#0" expanded="true" />
+            <element signature="e#23446#23454#0" expanded="true" />
+            <marker date="1512073801409" expanded="false" signature="25729:25738" ph="&lt;~&gt;" />
+            <marker date="1512073801409" expanded="false" signature="26658:26666" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
