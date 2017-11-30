@@ -87,9 +87,9 @@ public class Trains{
 	}
 	public void sendToYard(int yardBlock){
 		for(int i = 0; i < trainStops.length; i++){
-			trainStops[i] == null;
+			trainStops[i] = null;
 		}
-		trainStops[0] == yardBlock;
+		trainStops[0] = Integer.toString(yardBlock);
 	}
 	public String[] getSchedule(){
 		String[] trainSchedule = new String[stopCount];

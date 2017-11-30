@@ -903,8 +903,6 @@ public class BBC{
 		trainListed[0] -= 1;	
 		trainSelect.removeItemAt(trainNum);
 		trainChoice.removeItemAt(trainNum);
-		
-		trainList.get(trainNum).
 	}
 	
 	public void createFrame( ArrayList<JFrame> trainWindow, int[] windowNum, ArrayList<Trains> trainList, int open){
