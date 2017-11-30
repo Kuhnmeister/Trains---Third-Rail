@@ -10,7 +10,7 @@ public class Trains{
 	int stopCount= 0;
 	String departTime;
 	String amPm;
-	int location=1;
+	int location;
 	String line;
 	int trainLength;
 	
@@ -20,6 +20,7 @@ public class Trains{
 		id = numOfTrains;
 		trainSpeed = 0;
 		trainAuthority = 3;
+		trainLength = 1;
 	}
 	public Trains(double Speed){
 		numOfTrains++;
@@ -61,9 +62,7 @@ public class Trains{
 	}
 	public void setDeparture(String depart){
 		departTime = depart.substring(0,2);
-		System.out.println(departTime);
 		amPm = depart.substring(2,4);
-		System.out.println(amPm);
 	}
 	public String getDepartureTime(){
 		return departTime;
