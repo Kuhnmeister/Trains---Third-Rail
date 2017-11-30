@@ -83,19 +83,19 @@ public class Central{
 
     // TrainModel will call this
 	public void UpdateTrainDistance(int trainId, float movedDistance){
-
+		//Whoever needs this information, please fill in your parts
 	}
 
 	// TrainModel will call this
 	public void ServiceBrakeFromTrain(int trainId, Boolean activate)
-    {
-
+	{
+		//Whoever needs this information, please fill in your parts
     }
 
     // TrainModel will call this
     public void EmergencyStopFromTrain(int trainId, Boolean activate)
     {
-
+		//Whoever needs this information, please fill in your parts
     }
 
 	public void TrackStateUpdate(int occBlock){

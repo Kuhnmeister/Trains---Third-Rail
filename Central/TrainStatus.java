@@ -55,18 +55,25 @@ public class TrainStatus {
     Boolean isAuthorityError = false;
     Boolean inYard = false;
     Integer carNumber = 1;
+    Boolean motorOff = false;
     Boolean stopAtStation = false;
     TrainWithController parent;
     ArrayList<String> stopNames;
+    Integer stopIndex = 0;
 
     public MiniPID PID;
     public Double Kp = 100.0;
     public Double Ki = 100.0;
 
-    public TrainStatus(String name, Integer carNumber, TrainWithController parent) {
+    public TrainStatus(String name, Integer carNumber, TrainWithController parent, ArrayList<String> stopNames) {
         this.name = name;
         this.carNumber = carNumber;
         this.parent = parent;
+        this.stopNames = stopNames;
+        if (stopNames.size() > 0)
+        {
+            nextStation = stopNames.get(0);
+        }
         totalWeight = carNumber*CARWEIGHT;
         PID = new MiniPID(Kp, Ki, 0.0);
     }
@@ -153,7 +160,7 @@ public class TrainStatus {
         {
             currentBrakeRate = "null";
         } else {
-            currentBrakeRate = "someVal";
+            currentBrakeRate = "fricRate";
         }
         //currentBrakeRate = NORMAL_BRAKE_RATE;
         if(isServiceBrake)
@@ -195,10 +202,14 @@ public class TrainStatus {
             lightCommand = false;
         }
 
-        if(commandSpeed < currentSpeed || isEmergencyStop || isServiceBrake)
+        //commandSpeed < currentSpeed
+        if(isEmergencyStop || isServiceBrake)
         {
-            currentPower = 0.0;
+            motorOff = true;
+            //currentPower = 0.0;
             //return;
+        } else {
+            motorOff = false;
         }
 
         /* TODO: power Calculation */
@@ -225,6 +236,7 @@ public class TrainStatus {
         }
         Double speedMS = currentSpeed*MPH2MS;
         Double currentForce;
+
         if(currentPower >= EPS) {
             currentForce = currentPower / speedMS;
         } else {
@@ -236,9 +248,12 @@ public class TrainStatus {
         currentAccel = accel;
         speedMS = speedMS + accel*S;
         currentSpeed = speedMS/MPH2MS;
+        parent.updateTrainDistance(id, currentSpeed);
 
         Double powerCalculated = 0.0;
-        powerCalculated = PID.getOutput(currentSpeed, commandSpeed);
+        if(!motorOff) {
+            powerCalculated = PID.getOutput(currentSpeed, commandSpeed);
+        }
 
         System.out.println("Kp:"+Kp+" Ki:"+Ki);
         System.out.println("Cur:"+currentSpeed.toString()+" Cmd:"+commandSpeed.toString()+" P:"+powerCalculated.toString());

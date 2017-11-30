@@ -57,7 +57,7 @@ public class TrainWithController {
         {
             return false;
         }
-        TrainStatus aTrain = new TrainStatus(name, carNumber, this);
+        TrainStatus aTrain = new TrainStatus(name, carNumber, this, stopNames);
         Trains.add(aTrain);
         trainControl.refresh();
         return true;
@@ -125,6 +125,11 @@ public class TrainWithController {
     void triggerEmergencyStop(Integer trainId, Boolean activate)
     {
         central.EmergencyStopFromTrain(trainId, activate);
+    }
+
+    void updateTrainDistance(Integer trainId, Double movedDistance)
+    {
+        central.UpdateTrainDistance(trainId, movedDistance.floatValue());
     }
 
 
