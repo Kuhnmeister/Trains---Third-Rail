@@ -356,7 +356,7 @@ public class TrackModel {
     public void CommandedAuthority(ArrayList<Integer> authorityBlocks, int trainNum,boolean noTrainModel){
         allTrains.get(trainNum).SetAuthority(authorityBlocks.size()-1);
     }
-    public void FlipSwitch((int blockNum, String line)){
+    public void FlipSwitch(int blockNum, String line){
         GetBlock(blockNum,line).FlipSwitch(true);
     }
     
