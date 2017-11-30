@@ -129,7 +129,7 @@ public class Central{
 		}
 	}
 	public void SendMultiplier(int multiplier){
-		
+		trackModel.SetExecutionMultiplier(multiplier);
 	}
 	public void TrainToYard(int trainNum){
 		ctc.killTrain(trainNum);
