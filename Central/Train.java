@@ -67,8 +67,9 @@ public class Train{
                 prevBlock = currentBlock;
                 prevBlockOccupied = true;
             }
-            nextBlock = nextBlock.GetNextBlock(direction);
+
             currentBlock = nextBlock;
+            nextBlock = currentBlock.GetNextBlock(direction);
             if(direction==0){
                 if(currentBlock.IsDirectionChange1()){
                     direction=1;
@@ -85,14 +86,16 @@ public class Train{
             }
 
 
+
         }else {
             if (!currentBlock.GetPowerFail() && !currentBlock.GetTrackCircuitFail() && !currentBlock.GetBrokenRail()) {
                 prevBlock = currentBlock;
                 prevBlockOccupied = true;
             }
             if (currentBlock != endingBlock) {
-                nextBlock = nextBlock.GetNextBlock(direction);
+
                 currentBlock = nextBlock;
+                nextBlock = currentBlock.GetNextBlock(direction);
                 if(direction==0){
                     if(currentBlock.IsDirectionChange1()){
                         direction=1;
@@ -108,7 +111,7 @@ public class Train{
                     currentBlock.SetIsOccupied(true);
 
                 }
-                //nextBlock = nextBlock.GetNextBlock(direction);
+
             } else {
                 updatePositionTimer.cancel();
                 trainActive = false;
