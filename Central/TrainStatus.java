@@ -285,7 +285,7 @@ public class TrainStatus {
         }
 
         currentSpeed = speedMS/MPH2MS;
-        parent.updateTrainDistance(id, currentSpeed);
+        parent.updateTrainDistance(id, currentSpeed*S);
 
         Double powerCalculated = 0.0;
         if(!motorOff) {

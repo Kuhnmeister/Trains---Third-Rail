@@ -75,24 +75,31 @@ public class TrainWithController {
         return true;
     }
 
+    void getInYard(Integer trainId, Boolean InYard)
+    {
+        Integer index = findTrainIndexById(trainId);
+        Trains.get(index).setInYard(InYard);
+        trainControl.refresh();
+    }
+
     void getCommandSpeed(Integer trainId, Double commandSpeed)
     {
         Integer index = findTrainIndexById(trainId);
-        Trains.get(trainId).commandSpeed = commandSpeed;
+        Trains.get(index).commandSpeed = commandSpeed;
         trainControl.refresh();
     }
 
     void getSpeedLimit(Integer trainId, Double speedLimit)
     {
         Integer index = findTrainIndexById(trainId);
-        Trains.get(trainId).speedLimit = speedLimit;
+        Trains.get(index).speedLimit = speedLimit;
         trainControl.refresh();
     }
 
     void getAuthority(Integer trainId, Double authority)
     {
         Integer index = findTrainIndexById(trainId);
-        Trains.get(trainId).authority = authority;
+        Trains.get(index).authority = authority;
         trainControl.refresh();
     }
 
@@ -105,14 +112,14 @@ public class TrainWithController {
     void emergencyStop(Integer trainId, Boolean activate)
     {
         Integer index = findTrainIndexById(trainId);
-        Trains.get(trainId).authorityEmergencyStop = activate;
+        Trains.get(index).authorityEmergencyStop = activate;
         trainControl.refresh();
     }
 
     void atStation(Integer trainId, Boolean stopAtStation)
     {
         Integer index = findTrainIndexById(trainId);
-        Trains.get(trainId).stopAtStation = stopAtStation;
+        Trains.get(index).stopAtStation = stopAtStation;
         trainControl.refresh();
     }
 

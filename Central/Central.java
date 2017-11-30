@@ -141,6 +141,11 @@ public class Central{
         trainWithControl.getSpeedLimit(trainNum, speedLimit);
     }
 
+    public void TrainSendInYard(int trainNum, Boolean inYard)
+	{
+		trainWithControl.getInYard(trainNum, inYard);
+	}
+
 	// Send authority TO TrainModel
 	public void TrainSendAuthority(int trainNum, Double authority) {
 	    trainWithControl.getAuthority(trainNum, authority);
