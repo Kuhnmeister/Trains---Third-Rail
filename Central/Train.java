@@ -20,9 +20,10 @@ public class Train{
     private boolean integrated=false;
     private String line;
 
-    public Train(int newTrainNum,int newTrainLength,int newDirection,Block newCurrentBlock,Block newEndingBlock,TrackModel newModel) {
+    public Train(int newTrainNum,int newTrainLength,int newDirection,Block newCurrentBlock,Block newEndingBlock, String newLine, TrackModel newModel) {
         trainNum = newTrainNum;
         direction = newDirection;
+        line = newLine;
         currentBlock = newCurrentBlock;
         endingBlock=newEndingBlock;
         trainLength=newTrainLength;
