@@ -155,7 +155,7 @@ public class Train{
         return direction;
     }
     public void UpdatePosition(int timeSinceLastUpdateMS){
-
+        timeSinceLastUpdateMS=timeSinceLastUpdateMS*theModel.GetMultiplier();
         if(moveAtMaxSpeed) {
             positionOnBlock = positionOnBlock + currentVelocity * (double) (timeSinceLastUpdateMS / 1000);
             if (positionOnBlock > currentBlock.GetLength()) {
@@ -253,6 +253,6 @@ class TrainUpdateTimer extends TimerTask{
     }
     public void run(){
         System.out.println("Train update timer: "+updateTime);
-        thisTrain.UpdatePosition(updateTime*3);
+        thisTrain.UpdatePosition(updateTime);
     }
 }
