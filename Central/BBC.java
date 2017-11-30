@@ -877,7 +877,7 @@ public class BBC{
 	public void createFrame( ArrayList<JFrame> trainWindow, int[] windowNum, ArrayList<Trains> trainList, int open){
 		windowNum[0] += 1;
 		JComboBox<Integer> stations = new JComboBox<Integer>();
-		String line;
+		String line = null;
 		if(trainList.get(open).hasSchedule()){
 			line = trainList.get(open).getLine();
 			ArrayList<Integer> theBlocks = tracking.blocks(line);
