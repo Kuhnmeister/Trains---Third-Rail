@@ -56,6 +56,7 @@ public class Central{
 			trackModel.NewTrain(trainNum, length*2, direction, startBlock, line);
 		}else{
 			trackModel.NewTrain(trainNum, length*2, direction, startBlock,line, true);
+
 		}
 	}
 	public void UpdateTrack(HashMap<String,HashMap<String,ArrayList<Block>>> track){
@@ -113,16 +114,16 @@ public class Central{
 	}
 	public void WaysideSendAuthority(ArrayList<Integer> authorityBlocks, ArrayList<Integer> authorityBlocks1, int blockNum, boolean filler){
 		if(!hasTrainModel) {
-			trackModel.CommandedAuthority(authorityBlocks,blockNum,true);
+			trackModel.CommandedAuthority(authorityBlocks, authorityBlocks1, blockNum,true);
 		}else{
-			trackModel.CommandedAuthority(authorityBlocks,blockNum);
+			trackModel.CommandedAuthority(authorityBlocks,authorityBlocks1,blockNum);
 		}
 	}
 	public void WaysideSendAuthority(ArrayList<Integer> authorityBlocks, ArrayList<Integer> authorityBlocks1, int trainNum){
 		if(!hasTrainModel) {
 			trackModel.CommandedAuthority(authorityBlocks, authorityBlocks1, trainNum,true);
 		}else{
-			trackModel.CommandedAuthority(authorityBlocks,trainNum);
+			trackModel.CommandedAuthority(authorityBlocks, authorityBlocks1, trainNum);
 		}
 	}
 	public void SendMultiplier(int multiplier){

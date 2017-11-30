@@ -217,6 +217,7 @@ public class TrackModel {
         occupiedBlocks.remove(newBlock);
         System.out.println("Removed Block: "+newBlock.GetBlockNum());
     }
+
     public ArrayList<String> DisplaySection(String Line, String Section){
         ArrayList<String> sectionData = new ArrayList<String>();
         int sectionSize=track.get(Line).get(Section).size();
@@ -362,6 +363,9 @@ public class TrackModel {
         theGui.AddTrain(newTrain);
         allTrains.put(trainNum,newTrain);
     }
+    public void TrainModelUpdatePosition(int trainNum, double movedDistance){
+        allTrains.get(trainNum).UpdatePositionIntegrated(movedDistance);
+    }
     public void NewTrain(int trainNum, int length, int direction, int startBlock,String line,boolean noTrainModel){
 		
         Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock,line),this,line);
@@ -370,7 +374,7 @@ public class TrackModel {
 		System.out.println("Train created: "+ newTrain.GetTrainNum());
     }
     public void WaysideCommandedSpeed(int trainNum, double speed){
-
+        theCentral.TrainModelCommandedSpeed(trainNum,speed);
     }
     public void WaysideCommandedSpeed(int trainNum, double speed,boolean noTrainModel){
         allTrains.get(trainNum).SetVelocity(speed);
@@ -386,9 +390,44 @@ public class TrackModel {
     //Get authority from actual wayside. Wayside will return arraylist<int> which will represent the block nums of all the blocks of authority starting with block the train is on
     //blockNum is the number of the block the train we are seeking authority is on
     //this method returns the distance the train can travel
-    public void CommandedAuthority(ArrayList<Integer> authorityBlocks, int trainNum){
-        allTrains.get(trainNum).SetAuthority(authorityBlocks.size()-1);
-        //connect to TrainModel
+    public void CommandedAuthority(ArrayList<Integer> authorityBlocks,ArrayList<Integer> authorityBlocks1, int trainNum){
+        Train theTrain = allTrains.get(trainNum);
+        double calcAuthority=0;
+        if(theTrain.GetDirection()==0){
+            if(theTrain==null) {
+                System.out.println("no reference to train: "+trainNum);
+            }else{
+                if(authorityBlocks == null) {
+                    System.out.println("Authority blocks is null");
+                }else {
+                    if(authorityBlocks.size()>1) {
+                        for (Integer i : authorityBlocks) {
+                            calcAuthority += GetBlock(i, theTrain.GetLine()).GetLength();
+                        }
+                    }
+                    System.out.println("New authority sent to train: "+calcAuthority);
+                    theTrain.SetAuthority(calcAuthority);
+                    double authorityMiles = calcAuthority/1609.74;
+                    theCentral.TrainSendAuthority(trainNum,authorityMiles);
+                }
+            }
+        }else{
+            if(theTrain==null) {
+                System.out.println("no reference to train: "+trainNum);
+            }else{
+                if(authorityBlocks1 == null) {
+                    System.out.println("Authority blocks is null");
+                }else {
+                    if(authorityBlocks.size()>1) {
+                        for (Integer i : authorityBlocks1) {
+                            calcAuthority += GetBlock(i, theTrain.GetLine()).GetLength();
+                        }
+                    }
+                    System.out.println("New authority sent to train: "+calcAuthority);
+                    theTrain.SetAuthority(calcAuthority);
+                }
+            }
+        }
     }
     public void CommandedAuthority(ArrayList<Integer> authorityBlocks, int trainNum,boolean noTrainModel){
         if(allTrains.get(trainNum)==null) {
