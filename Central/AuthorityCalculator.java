@@ -27,20 +27,25 @@ public class AuthorityCalculator implements PLCinterface{
 		//array list of free blocks
 		freeBlocks = new ArrayList<Integer>();
 		freeBlocks.add(authority);
-		
+		//right now just check the next 10 blocks ahead and behind
+		int i = 10;
 		System.out.println("get Auth has been called");
 		//direction determines advancing/returning
 		if(direction) {
 			//compare the blocks to make sure they aren't the same(if they're the same the maximum has been reached)
-			while(canAdvance(track.get(authority)) != authority) {
+			while(canAdvance(track.get(authority)) != authority && i >= 0) {
+				System.out.println("Advancing to: " + i);
 				authority = canAdvance(track.get(authority));
 				freeBlocks.add(authority);
+				i--;
 			}
 		}else {
 			//compare the blocks to make sure they aren't the same(if they're the same the maximum has been reached)
-			while(canReturn(track.get(authority)) != authority) {
+			while(canReturn(track.get(authority)) != authority && i >= 0) {
+				System.out.println("Advancing to: " + i);
 				authority = canReturn(track.get(authority));
 				freeBlocks.add(authority);
+				i--;
 			}
 		}
 		System.out.println(authority);
