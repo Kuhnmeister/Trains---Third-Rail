@@ -331,13 +331,13 @@ public class TrackModel {
     //Called when a train is dispatched from the station
     public void NewTrain(int trainNum, int length, int direction,int startBlock,String line){
 
-        Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock, line),this,true);
+        Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock, line),this,line,true);
         theGui.AddTrain(newTrain);
         allTrains.put(trainNum,newTrain);
     }
     public void NewTrain(int trainNum, int length, int direction, int startBlock,String line,boolean noTrainModel){
 		
-        Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock,line),this);
+        Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock,line),this,line);
         theGui.AddTrain(newTrain,true);
         allTrains.put(trainNum,newTrain);
 		System.out.println("Train created: "+ newTrain.GetTrainNum());
@@ -355,6 +355,7 @@ public class TrackModel {
         theCentral.WaysideRemoveOccupied(blockNum);
     }
 
+
     //Get authority from actual wayside. Wayside will return arraylist<int> which will represent the block nums of all the blocks of authority starting with block the train is on
     //blockNum is the number of the block the train we are seeking authority is on
     //this method returns the distance the train can travel
@@ -369,6 +370,7 @@ public class TrackModel {
             if(authorityBlocks == null) {
                 System.out.println("Authority blocks is null");
             }else {
+
                 allTrains.get(trainNum).SetAuthority(authorityBlocks.size() - 1);
 				System.out.println("New Authority on train: "+allTrains.get(trainNum).GetTrainNum()+" Authority is set to: "+(authorityBlocks.size() - 1));
             }
@@ -376,6 +378,7 @@ public class TrackModel {
     }
     public void CommandedAuthority(ArrayList<Integer> authorityBlocks,ArrayList<Integer> authorityBlocks1, int trainNum,boolean noTrainModel){
         Train theTrain = allTrains.get(trainNum);
+        double calcAuthority=0;
         if(theTrain.GetDirection()==0){
             if(theTrain==null) {
                 System.out.println("no reference to train: "+trainNum);
@@ -383,7 +386,13 @@ public class TrackModel {
                 if(authorityBlocks == null) {
                     System.out.println("Authority blocks is null");
                 }else {
-                    theTrain.SetAuthority(authorityBlocks.size() - 1);
+                    if(authorityBlocks.size()>1) {
+                        for (Integer i : authorityBlocks) {
+                            calcAuthority += GetBlock(i, theTrain.GetLine()).GetLength();
+                        }
+                    }
+                    System.out.println("New authority sent to train: "+calcAuthority);
+                    theTrain.SetAuthority(calcAuthority);
                 }
             }
         }else{
@@ -393,13 +402,22 @@ public class TrackModel {
                 if(authorityBlocks1 == null) {
                     System.out.println("Authority blocks is null");
                 }else {
-                    theTrain.SetAuthority(authorityBlocks1.size() - 1);
+                    if(authorityBlocks.size()>1) {
+                        for (Integer i : authorityBlocks1) {
+                            calcAuthority += GetBlock(i, theTrain.GetLine()).GetLength();
+                        }
+                    }
+                    System.out.println("New authority sent to train: "+calcAuthority);
+                    theTrain.SetAuthority(calcAuthority);
                 }
             }
         }
     }
     public void FlipSwitch(int blockNum, String line){
         GetBlock(blockNum,line).FlipSwitch(true);
+    }
+    public void SetLight(int blockNum, String line, String lightColor){
+        GetBlock(blockNum,line).SetLightColor(lightColor);
     }
 
 

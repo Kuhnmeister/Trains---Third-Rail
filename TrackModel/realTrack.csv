@@ -85,7 +85,7 @@ Green,C,8,100,0,55,No,7,None,None,None
 Green,C,9,100,-5,55,No,8,None,None,Station;Edgebrook
 Green,C,10,100,-4.5,55,No,9,None,None,None
 Green,C,11,100,-4,55,No,10,None,None,None
-Green,C,12,100,-3,55,Yes,11,13,11,Switch Direction0
+Green,C,12,100,-3,55,Yes,13,11,11,Switch Direction0
 Green,D,13,150,0,70,Yes,14,12,None,None
 Green,D,14,150,0,70,Yes,15,13,None,None
 Green,D,15,150,0,70,Yes,16,14,None,None
@@ -102,7 +102,7 @@ Green,F,25,200,0,70,Yes,26,24,None,None
 Green,F,26,100,0,70,Yes,27,25,None,None
 Green,F,27,50,0,70,Yes,28,26,None,None
 Green,F,28,50,0,70,Yes,29,27,None,None
-Green,G,29,50,0,70,Yes,30,None,28,Switch
+Green,G,29,50,0,70,Yes,30,28,28,Switch
 Green,G,30,50,0,70,No,31,None,None,None
 Green,G,31,50,0,70,No,32,None,None,Station;South Bank
 Green,G,32,50,0,70,No,33,None,None,None
@@ -131,11 +131,11 @@ Green,I,54,50,0,70,No,55,None,None,Underground
 Green,I,55,50,0,70,No,56,None,None,Underground
 Green,I,56,50,0,70,No,57,None,None,Underground
 Green,I,57,50,0,70,No,58,None,None,Underground Station; Overbrook
-Green,J,58,50,0,60,No,59,None,None,None
+Green,J,58,50,0,60,No,59,None,None,ToYard
 Green,J,59,50,0,60,No,60,None,None,None
 Green,J,60,50,0,60,No,61,None,None,None
 Green,J,61,50,0,60,No,62,None,None,None
-Green,J,62,50,0,60,No,63,None,None,None
+Green,J,62,50,0,60,No,63,None,None,FromYard
 Green,K,63,100,0,70,No,64,None,None,None
 Green,K,64,100,0,70,No,65,None,None,None
 Green,K,65,200,0,70,No,66,None,None,Station;Glenbury
@@ -159,7 +159,7 @@ Green,N,82,300,0,70,Yes,83,81,None,None
 Green,N,83,300,0,70,Yes,84,82,None,None
 Green,N,84,300,0,70,Yes,85,83,None,None
 Green,N,85,300,0,70,Yes,86,84,None,None
-Green,O,86,100,0,55,Yes,87,None,85,Switch
+Green,O,86,100,0,55,Yes,87,85,85,Switch
 Green,O,87,86.6,0,55,No,88,None,None,None
 Green,O,88,100,0,55,No,89,None,None,Station;Poplar
 Green,P,89,75,-0.5,55,No,90,None,None,None

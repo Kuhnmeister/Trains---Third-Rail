@@ -135,7 +135,9 @@ public class Central{
 	{
 		trackModel.FlipSwitch(blockNum, line);
 	}
-
+	public void TrackSetLight(int blockNum, String line, String color){
+		trackModel.SetLight(blockNum, line, color);
+	}
 
 	// Send speed limit To TrainModel
     public void TrainSendSpeedLimit(int trainNum, double speedLimit)
