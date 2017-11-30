@@ -69,7 +69,7 @@ public class Wayside {
 	//method for getting the Authority
 	public ArrayList<Integer> getAuthority(int blockNow, boolean direction) {
 		ArrayList<Integer> auth;
-		System.out.println("calling the authCalc");
+		
 		try {
 		//use PLC
 		if(PLCloaded)
@@ -85,6 +85,7 @@ public class Wayside {
 			auth = new ArrayList<Integer>();
 			auth.add((Integer) blockNow);
 		}
+		System.out.println("Given Authority is: " + auth.toString());
 		return auth;
 	}
 	
@@ -297,7 +298,7 @@ public class Wayside {
 		currentAuth = getAuthority(occBlock, true);
 		currentAuth1 = getAuthority(occBlock, false);
 		//pass these to the central to be sent to the train
-		//central.WaysideSendAuthority(currentAuth, currentAuth1, occBlock, true);
+		central.WaysideSendAuthority(currentAuth, currentAuth1, occBlock, true);
 	}
 	
 	//get newly freed block from track
