@@ -364,8 +364,29 @@ public class TrackModel {
             }
         }
     }
-    public void CommandedAuthority(){
-
+    public void CommandedAuthority(ArrayList<Integer> authorityBlocks,ArrayList<Integer> authorityBlocks1, int trainNum,boolean noTrainModel){
+        Train theTrain = allTrains.get(trainNum);
+        if(theTrain.GetDirection()==0){
+            if(theTrain==null) {
+                System.out.println("no reference to train: "+trainNum);
+            }else{
+                if(authorityBlocks == null) {
+                    System.out.println("Authority blocks is null");
+                }else {
+                    theTrain.SetAuthority(authorityBlocks.size() - 1);
+                }
+            }
+        }else{
+            if(theTrain==null) {
+                System.out.println("no reference to train: "+trainNum);
+            }else{
+                if(authorityBlocks1 == null) {
+                    System.out.println("Authority blocks is null");
+                }else {
+                    theTrain.get(trainNum).SetAuthority(authorityBlocks1.size() - 1);
+                }
+            }
+        }
     }
     public void FlipSwitch(int blockNum, String line){
         GetBlock(blockNum,line).FlipSwitch(true);
