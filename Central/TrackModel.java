@@ -13,6 +13,7 @@ public class TrackModel {
     private HashMap<String,HashMap<String,ArrayList<Block>>> track = new HashMap<String,HashMap<String,ArrayList<Block>>>();
     private HashMap<String,Block> startingBlocks;
     private TrackGui theGui;
+    private int multiplier=1;
     private ArrayList<Block> occupiedBlocks;
     private Central theCentral;
     public ArrayList<String> lineNames = new ArrayList<String>();
@@ -44,6 +45,9 @@ public class TrackModel {
         }else{
             System.out.println("Track Transmitted: "+beaconData+" to train: "+trainNum);
         }
+    }
+    public int GetMultiplier(){
+        return multiplier;
     }
     public void LoadNewTrack(String fileName){
         if(theCentral != null) {
@@ -444,6 +448,9 @@ public class TrackModel {
     }
     public void SetLight(int blockNum, String line, String lightColor){
         GetBlock(blockNum,line).SetLightColor(lightColor);
+    }
+    public void SetExecutionMultiplier(int newMultiplier){
+        multiplier=newMultiplier;
     }
 
 
