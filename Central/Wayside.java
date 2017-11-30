@@ -335,8 +335,9 @@ public class Wayside {
 	public void SuggestAuthority(int blockNum, int suggestedAuth, int trainNum)
 	{
 		currentBlock = blockNum;
-		currentAuth = getAuthority(currentBlock, true);
-		currentAuth1 = getAuthority(currentBlock, false);
+		System.out.println(blockNum);
+		currentAuth = getAuthority(blockNum, true);
+		currentAuth1 = getAuthority(blockNum, false);
 		 if(currentAuth.contains(suggestedAuth)) {
 			//safe authority
 			int index = currentAuth.indexOf(suggestedAuth);
