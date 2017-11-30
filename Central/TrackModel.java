@@ -386,7 +386,7 @@ public class TrackModel {
                 if(authorityBlocks1 == null) {
                     System.out.println("Authority blocks is null");
                 }else {
-                    theTrain.get(trainNum).SetAuthority(authorityBlocks1.size() - 1);
+                    theTrain.SetAuthority(authorityBlocks1.size() - 1);
                 }
             }
         }
