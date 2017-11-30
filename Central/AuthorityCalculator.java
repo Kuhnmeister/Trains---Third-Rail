@@ -48,7 +48,7 @@ public class AuthorityCalculator implements PLCinterface{
 				i--;
 			}
 		}
-		System.out.println(authority);
+		System.out.println(freeBlocks.toString());
 		return freeBlocks;
 	}
 	
