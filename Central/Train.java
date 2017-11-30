@@ -75,6 +75,9 @@ public class Train{
             }
 
             currentBlock = nextBlock;
+            if(currentBlock.GetIsStation()){
+                theModel.GenerateTickets(currentBlock.GetBlockNum(),line);
+            }
             nextBlock = currentBlock.GetNextBlock(direction);
             if(direction==0){
                 if(currentBlock.IsDirectionChange1()){
@@ -101,6 +104,9 @@ public class Train{
             if (currentBlock != endingBlock) {
 
                 currentBlock = nextBlock;
+                if(currentBlock.GetIsStation()){
+                    theModel.GenerateTickets(currentBlock.GetBlockNum(),line);
+                }
                 nextBlock = currentBlock.GetNextBlock(direction);
                 if(direction==0){
                     if(currentBlock.IsDirectionChange1()){
@@ -230,6 +236,7 @@ public class Train{
     public double GetAuthority(){
         return authority;
     }
+
 }
 class TrainUpdateTimer extends TimerTask{
     int updateTime;

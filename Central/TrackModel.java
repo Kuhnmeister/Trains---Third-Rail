@@ -320,6 +320,21 @@ public class TrackModel {
         Block stationBlock = GetStationBlock(stationName);
         stationBlock.GetStation().AddTickets(ticketCount);
     }
+    public void GenerateTickets(int blockNum, String line){
+        int newTickets=0;
+        Block stationBlock = GetBlock(blockNum,line);
+        if(stationBlock==null){
+            System.out.println("Station block is null: "+blockNum);
+        }else{
+            newTickets= stationBlock.GenerateTickets();
+            if(!demoMode) {
+                theCentral.TrackGenerateTickets(newTickets, blockNum, line);
+            }else{
+                System.out.println("Track reported: "+newTickets+" at Block: "+blockNum+" on "+line+" line");
+            }
+        }
+
+    }
     public void RemoveTrain(Train removingTrain){
         if(!demoMode) {
             theCentral.TrainToYard(removingTrain.GetTrainNum());

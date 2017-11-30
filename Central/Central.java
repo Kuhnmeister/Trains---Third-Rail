@@ -138,7 +138,9 @@ public class Central{
 	public void TrackSetLight(int blockNum, String line, String color){
 		trackModel.SetLight(blockNum, line, color);
 	}
-
+	public void TrackGenerateTickets(int newTickets,int blockNum, String line){
+		System.out.println("Track reported: "+newTickets+" at Block: "+blockNum+" on "+line+" line");
+	}
 	// Send speed limit To TrainModel
     public void TrainSendSpeedLimit(int trainNum, double speedLimit)
     {

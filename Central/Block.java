@@ -91,11 +91,13 @@ public class Block{
             hasSwitch=false;
         }
         if(newInfrastructure.contains("FromYard")){
+            hasSwitch=true;
             fromYard=true;
         }else{
             fromYard=false;
         }
         if(newInfrastructure.contains("ToYard")){
+            hasSwitch=true;
             toYard=true;
         }else{
             toYard=false;
@@ -272,5 +274,9 @@ public class Block{
         if(GetHasBeacon()){
             thisBeacon.SetMessageString(newMessage);
         }
+    }
+    public int GenerateTickets(){
+        int newTickets= thisStation.MakeTickets();
+        return newTickets;
     }
 }
