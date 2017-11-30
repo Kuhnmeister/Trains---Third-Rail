@@ -215,15 +215,17 @@ public class Block {
     }
 
     public void SwitchCrossing() {
-        crossingOn = !crossingOn;
-        System.out.println("CrossingOn is now: " + crossingOn);
+        if(hasRailwayCrossing) {
+            crossingOn = !crossingOn;
+            System.out.println("CrossingOn is now: " + crossingOn);
+        }
     }
 
     public boolean GetCrossingOn() {
             return crossingOn;
     }
     public String PrintBlock(){
-        return(blockNum+","+isOccupied+","+lightColor+","+ grade+","+speedLimit+","+isUnderground+ ","+isStation+","+stationName+","+hasSwitch+","+switchPosition+","+hasRailwayCrossing);
+        return(blockNum+","+isOccupied+","+lightColor+","+ grade+","+speedLimit+","+isUnderground+ ","+isStation+","+stationName+","+hasSwitch+","+switchPosition+","+hasRailwayCrossing+","+crossingOn);
     }
     public boolean GetIsBidirectional(){
         return isBidirectional;

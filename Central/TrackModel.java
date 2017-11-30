@@ -439,6 +439,9 @@ public class TrackModel {
     public void FlipSwitch(int blockNum, String line){
         GetBlock(blockNum,line).FlipSwitch(true);
     }
+    public void FlipCrossing(int blockNum, String line){
+        GetBlock(blockNum,line).SwitchCrossing();
+    }
     public void SetLight(int blockNum, String line, String lightColor){
         GetBlock(blockNum,line).SetLightColor(lightColor);
     }
