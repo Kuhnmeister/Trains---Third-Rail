@@ -101,7 +101,7 @@ public class TrackGui extends Application {
                     if (allActiveTrains.get(i).GetTrainNum() == displayingTrain) {
                         outputToTrainsDisplay = outputToTrainsDisplay + "Train " + allActiveTrains.get(i).GetTrainNum() + "\nSpeed Limit: " + allActiveTrains.get(i).GetCurrentBlock().GetSpeedLimit() + "\nGrade: " + allActiveTrains.get(i).GetCurrentBlock().GetGrade();
                         outputToTrainsDisplay=outputToTrainsDisplay+"\nAuthority: "+allActiveTrains.get(i).GetAuthority()+"\nUnderground: " + allActiveTrains.get(i).GetCurrentBlock().GetIsUnderground();
-                        outputToTrainsDisplay = outputToTrainsDisplay + "\nStation Next Block: " + allActiveTrains.get(i).GetCurrentBlock().GetNextBlock(+allActiveTrains.get(i).GetDirection()).GetIsStation()+ "\nHas Heater: " + allActiveTrains.get(i).GetCurrentBlock().GetHasHeater();
+                        outputToTrainsDisplay = outputToTrainsDisplay + "\nStation Next Block: " + allActiveTrains.get(i).GetCurrentBlock().GetNextBlock(allActiveTrains.get(i).GetDirection()).GetIsStation()+ "\nHas Heater: " + allActiveTrains.get(i).GetCurrentBlock().GetHasHeater();
                         outputToTrainsDisplay = outputToTrainsDisplay + "\n";
                     }
                 }

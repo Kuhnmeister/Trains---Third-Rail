@@ -118,6 +118,7 @@ public class TrackModel {
                         boolean found0 = false;
                         boolean found1 = false;
                         boolean foundSwitch=false;
+                        String blockLine= section.getValue().get(i).GetLine();
                         if(section.getValue().get(i).GetIsStation()){
                             stations.add(section.getValue().get(i));
                             stationNames.add(section.getValue().get(i).GetStationName());
@@ -138,7 +139,7 @@ public class TrackModel {
                             for(HashMap.Entry<String,ArrayList<Block>> innerSection: innerLine.getValue().entrySet()){
                                 for(int j=0;j<innerSection.getValue().size();j++){
                                     if(!found0) {
-                                        if (nextBlock0 == innerSection.getValue().get(j).GetBlockNum()) {
+                                        if (nextBlock0 == innerSection.getValue().get(j).GetBlockNum() && blockLine.equals(innerSection.getValue().get(j).GetLine()) ) {
                                             section.getValue().get(i).SetDirection0Block(innerSection.getValue().get(j));
                                             if(innerSection.getValue().get(j).GetIsStation()){
                                                 section.getValue().get(i).SetHasHeater(true);
@@ -147,7 +148,7 @@ public class TrackModel {
                                         }
                                     }
                                     if(!found1) {
-                                        if (nextBlock1 == innerSection.getValue().get(j).GetBlockNum()) {
+                                        if (nextBlock1 == innerSection.getValue().get(j).GetBlockNum() && blockLine.equals(innerSection.getValue().get(j).GetLine())) {
                                             section.getValue().get(i).SetDirection1Block(innerSection.getValue().get(j));
                                             if(innerSection.getValue().get(j).GetIsStation()){
                                                 section.getValue().get(i).SetHasHeater(true);
@@ -156,7 +157,7 @@ public class TrackModel {
                                         }
                                     }
                                     if(!foundSwitch) {
-                                        if (nextBlockSwitch == innerSection.getValue().get(j).GetBlockNum()) {
+                                        if (nextBlockSwitch == innerSection.getValue().get(j).GetBlockNum() && blockLine.equals(innerSection.getValue().get(j).GetLine())) {
                                             section.getValue().get(i).SetSwitchBlock(innerSection.getValue().get(j));
                                             if(innerSection.getValue().get(j).GetIsStation()){
                                                 section.getValue().get(i).SetHasHeater(true);
@@ -175,6 +176,9 @@ public class TrackModel {
                             if(found0 && found1 && foundSwitch){
                                 break;
                             }
+                        }
+                        if(!found0||!found1||!foundSwitch){
+                            System.out.println("Can't find next block on line:"+blockLine);
                         }
                     }
                 }
@@ -318,7 +322,7 @@ public class TrackModel {
     }
     public void RemoveTrain(Train removingTrain){
         if(!demoMode) {
-            theCentral.TrainToYard(removeingTrain.GetTrainNum());
+            theCentral.TrainToYard(removingTrain.GetTrainNum());
         }
         allTrains.remove(removingTrain.GetTrainNum());
     }

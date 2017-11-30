@@ -85,7 +85,7 @@ Green,C,8,100,0,55,No,7,None,None,None
 Green,C,9,100,-5,55,No,8,None,None,Station;Edgebrook
 Green,C,10,100,-4.5,55,No,9,None,None,None
 Green,C,11,100,-4,55,No,10,None,None,None
-Green,C,12,100,-3,55,Yes,11,13,11,Switch 
+Green,C,12,100,-3,55,Yes,11,13,11,Switch Direction0
 Green,D,13,150,0,70,Yes,14,12,None,None
 Green,D,14,150,0,70,Yes,15,13,None,None
 Green,D,15,150,0,70,Yes,16,14,None,None
@@ -149,7 +149,7 @@ Green,L,72,100,0,60,No,73,None,None,None
 Green,L,73,100,0,60,No,74,None,None,Station;Dormont
 Green,M,74,100,0,60,No,75,None,None,None
 Green,M,75,100,0,60,No,76,None,None,None
-Green,M,76,100,0,60,No,77,None,101,Switch
+Green,M,76,100,0,60,No,77,None,101,Switch Direction0
 Green,N,77,300,0,70,Yes,78,76,None,Station;Mt Lebanon
 Green,N,78,300,0,70,Yes,79,77,None,None
 Green,N,79,300,0,70,Yes,80,78,None,None
@@ -173,7 +173,7 @@ Green,P,96,75,0,55,No,97,None,None,Station;Castle Shannon
 Green,P,97,75,0,55,No,98,None,None,None
 Green,Q,98,75,0,55,No,99,None,None,None
 Green,Q,99,75,0,55,No,100,None,None,None
-Green,Q,100,75,0,55,No,86,None,None,None
+Green,Q,100,75,0,55,No,86,None,None,None Direction1
 Green,R,101,35,0,55,No,102,None,None,None
 Green,S,102,100,0,60,No,103,None,None,None
 Green,S,103,100,0,60,No,104,None,None,None
@@ -223,4 +223,4 @@ Green,X,146,50,0,70,No,147,None,None,None
 Green,Y,147,50,0,70,No,148,None,None,None
 Green,Y,148,40,0,70,No,149,None,None,None
 Green,Y,149,40,0,70,No,150,None,None,None
-Green,Z,150,35,0,70,No,29,None,None,None
+Green,Z,150,35,0,70,No,29,None,None,None Direction1
