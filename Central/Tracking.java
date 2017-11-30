@@ -20,6 +20,7 @@ public class Tracking{
 	ArrayList<Block> blocks = new ArrayList<Block>();
 	HashMap< String, ArrayList<Block>> lineBlocks = new HashMap<String, ArrayList<Block>>();
 	ArrayList<Block> lineBlockList = new ArrayList<Block>();
+	HashMap<String, Block> firstBlocks = new HashMap<String, Block>(); 
 	boolean trackTrue = false;
 	public Tracking(){
 		
@@ -39,15 +40,14 @@ public class Tracking{
 				for(int k = 0; k < medium.size(); k++){
 					blocks.add(medium.get(k));
 					blockList.add(medium.get(k));
+					if(medium.get(k).GetFromYard()){
+						firstBlocks.put(lines[i], medium.get(k));
+					}
 				}
 			}
 			System.out.println(lines[i]);
 			lineBlocks.put(lines[i], blockList);	
 		}
-		
-		
-		
-		
 		
 		for(int g = 0; g < lines.length; g++){
 			for(int s = 0; s < lineBlocks.get(lines[g]).size(); s++){
@@ -74,6 +74,9 @@ public class Tracking{
 		for(int f = 0; f < blocks.size(); f++){
 			System.out.println(blocks.get(f));
 		}
+	}
+	public int GetFirstBlock(String line){
+		return firstBlocks.get(line).GetBlockNum();
 	}
 	public boolean TrackTrue(){
 		return trackTrue;
