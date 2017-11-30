@@ -15,6 +15,8 @@ public class TrainStatus {
     static final Double S = 1.0;
     static final Double CARWEIGHT = 50.0;
     static final Double EPS = 0.00001;
+    static final Double MILE2M = 1609.34;
+    static final Double BRAKE_DIST = 0.2;
 
     String name = "Train";
     Integer id;
@@ -228,25 +230,60 @@ public class TrainStatus {
 
     }
 
+    private Double brakeDistance(Double currentSpeed, Double currentAccel)
+    {
+        return (currentSpeed*currentSpeed - 0.0)/(2*currentAccel);
+    }
+
     public void Calc()
     {
-        if(abs(currentSpeed)<EPS)
-        {
-            currentSpeed = 0.0;
-        }
         Double speedMS = currentSpeed*MPH2MS;
         Double currentForce;
+        Double rate;
+        Double oldSpeed;
 
-        if(currentPower >= EPS) {
+        Double dist = brakeDistance(speedMS, totalWeight*G*SERVICE_BRAKE_RATE);
+        if(dist >= (authority + BRAKE_DIST)*MILE2M && !isEmergencyStop)
+        {
+            isServiceBrake = true;
+        }else{
+            isServiceBrake = false;
+        }
+
+        if(currentPower >= EPS && !motorOff) {
             currentForce = currentPower / speedMS;
         } else {
             currentForce = 0.000;
         }
-        currentForce -= totalWeight*G*NORMAL_BRAKE_RATE;
+
+        if(isEmergencyStop)
+        {
+            rate = EMERGENCY_BRAKE_RATE;
+        } else if(isServiceBrake) {
+            rate = SERVICE_BRAKE_RATE;
+        } else {
+            rate = NORMAL_BRAKE_RATE;
+        }
+
+        currentForce -= totalWeight*G*rate;
         System.out.println("speedMS:"+speedMS+" currentPower:"+currentPower+" Current Force:"+currentForce);
         Double accel = currentForce/(totalWeight*Ton2Kg);
         currentAccel = accel;
+        oldSpeed = speedMS;
         speedMS = speedMS + accel*S;
+        if(abs(speedMS)<EPS)
+        {
+            speedMS = 0.0;
+            if(oldSpeed>EPS)
+            {
+                //Train has stoped
+                if(stopAtStation)
+                {
+                    stopIndex++;
+                }
+            }
+        }
+
         currentSpeed = speedMS/MPH2MS;
         parent.updateTrainDistance(id, currentSpeed);
 

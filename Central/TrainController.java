@@ -243,6 +243,7 @@ public class TrainController {
         });
         serviceBrakeButton.addActionListener(e -> {
             currentTrain.setServiceBrake(!currentTrain.getServiceBrake());
+            parent.triggerServiceBrake(currentTrain.id, currentTrain.getServiceBrake());
             refresh();
         });
         speedOK.addActionListener(e -> {
