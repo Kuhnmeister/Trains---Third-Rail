@@ -159,6 +159,7 @@ public class Train{
                             currentBlock.SetIsOccupied(false);
                             theModel.RemoveOccupied(currentBlock);
                             trainActive = false;
+
                             theModel.RemoveTrain(this);
                         }
                     }

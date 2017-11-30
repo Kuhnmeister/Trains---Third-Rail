@@ -335,8 +335,9 @@ public class Wayside {
 	public void SuggestAuthority(int blockNum, int suggestedAuth, int trainNum)
 	{
 		currentBlock = blockNum;
-		currentAuth = getAuthority(currentBlock, true);
-		currentAuth1 = getAuthority(currentBlock, false);
+		System.out.println(blockNum);
+		currentAuth = getAuthority(blockNum, true);
+		currentAuth1 = getAuthority(blockNum, false);
 		 if(currentAuth.contains(suggestedAuth)) {
 			//safe authority
 			int index = currentAuth.indexOf(suggestedAuth);
@@ -349,7 +350,7 @@ public class Wayside {
 			currentAuth = new ArrayList<Integer> (currentAuth1.subList(0, index));
 		  }
 		 //call central to pass to track
-		 System.out.println(currentAuth.toString() + "     " +currentAuth1.toString());
+		 System.out.println(currentAuth.toString() + "  |  " +currentAuth1.toString());
 		 System.out.println("To train: " + trainNum);
 		 central.WaysideSendAuthority(currentAuth, currentAuth1, trainNum);
 	}

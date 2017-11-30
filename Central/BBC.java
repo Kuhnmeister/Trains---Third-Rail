@@ -692,6 +692,7 @@ public class BBC{
 								}*/
 								System.out.println(trainList.get(trainSelect.getSelectedIndex()).getLocation());
 								System.out.println(trainList.get(trainSelect.getSelectedIndex()).getLine());
+								trainList.get(trainSelect.getSelectedIndex()).setLocation(tracking.GetFirstBlock(trainList.get(trainSelect.getSelectedIndex()).getLine()));
 								trainList.get(trainSelect.getSelectedIndex()).setSpeed(55.0);
 								int length = 1;
 								central.CreateTrain(trainList.get(trainSelect.getSelectedIndex()).getId(), trainList.get(trainSelect.getSelectedIndex()).getLength(),
