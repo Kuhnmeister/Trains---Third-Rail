@@ -101,9 +101,9 @@ public class Wayside {
 		//the first block will be the yard
 		testTrack.add(new BlockInfo(false, 0 , 0 , 1));
 		
-		for(int i = 1; i < 100; i++)
+		for(int i = 1; i < 20; i++)
 		{
-			if(i < 99) {
+			if(i < 19) {
 				if(i != 5 && i != 1) {
 					testTrack.add(new BlockInfo(i - 1, i, i + 1));
 				}else if(i == 5){
