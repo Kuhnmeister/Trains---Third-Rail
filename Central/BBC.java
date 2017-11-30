@@ -693,7 +693,8 @@ public class BBC{
 					if(!trainList.isEmpty()){
 						String open = (String)trainSelect.getSelectedItem();
 						String numberOnly= open.replaceAll("[^0-9]", "");
-						int choice = Integer.parseInt(numberOnly);
+						int choice = Integer.parseInt(numberOnly) -1 ;
+						System.out.println(choice + "shabooya");
 						if(trainList.get(choice).getSpeedDouble() == 0.0){
 							if(trainList.get(choice).hasSchedule()){
 							//fix for all possible lines
@@ -708,6 +709,7 @@ public class BBC{
 								System.out.println(trainList.get(choice).getLine());
 								trainList.get(choice).setSpeed(55.0);
 								int length = 1;
+								System.out.println(trainList.get(choice).getId() + "shabobby");
 								central.CreateTrain(trainList.get(choice).getId(), trainList.get(choice).getLength(),
 								0, tracking.GetFirstBlock(trainList.get(choice).getLine()), trainList.get(choice).getLine());
 							}
@@ -1116,11 +1118,13 @@ public class BBC{
 			public void actionPerformed(ActionEvent e){
 				switched = tracking.GetBlock(block, lineChoice).GetSwitchPosition();
 				central.CTCMoveSwitch(block, !switched);
+				switched = !switched;
+				System.out.println(switched);
 				if(switched == false){
 					switchState[0].setText(Integer.toString(block) + " going to " + tracking.GetBlock(block, lineChoice).GetSwitchNum());
 				}
 				if(switched == true){
-					switchState[0].setText(Integer.toString(block) + "going to " + (block-1));
+					switchState[0].setText(Integer.toString(block) + " going to " + (block-1));
 				}
 			}
 		});		
@@ -1220,7 +1224,7 @@ public class BBC{
 		timeConstant[0] = 100;
 		Timer t = new Timer();
 		TimerTask newTask;
-		int multiplier = 10;
+		int multiplier = 2;
 		newTask = ClockRun(time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, multiplier, central, line);
 		t.schedule(newTask,timeConstant[0], timeConstant[0]);
 		return t;
@@ -1231,7 +1235,7 @@ public class BBC{
 		timeConstant[0] = 10;
 		Timer t = new Timer();
 		TimerTask newTask;
-		int multiplier = 100;
+		int multiplier = 3;
 		newTask = ClockRun(time, clock, amPm, trainList, autoManState, trainListed, trainCount, trainSelect, trainChoice, multiplier, central, line);
 		t.schedule(newTask,timeConstant[0], timeConstant[0]);
 		return t;
