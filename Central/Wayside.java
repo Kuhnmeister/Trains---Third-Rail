@@ -37,7 +37,7 @@ public class Wayside {
 		//create the track
 		//getTrack();
 		//getSections();
-		track = getTrack();
+		track = getTrack(true);
 		block = track.get(0);
        theGui = new WaysideController(args, this);
     }
@@ -204,21 +204,19 @@ public class Wayside {
 		//create the lines object, to hold each line
 		lines = new ArrayList<ArrayList<BlockInfo>>();
 		//create one track object large enough to hold every block on the track
+		track = new ArrayList<BlockInfo>();
+		track.add(0, new BlockInfo(0, 0, 0));
+		track.get(0).setNextBlocks(track.get(0), track.get(0), track.get(0));
 		for (HashMap.Entry<String, HashMap<String, ArrayList<Block>>> line : newTrack.entrySet()) {
-			track = new ArrayList<BlockInfo>();
-			track.add(0, new BlockInfo(0, 0, 0));
-			track.get(0).setNextBlocks(track.get(0), track.get(0), track.get(0));
 			for (HashMap.Entry<String, ArrayList<Block>> sectionCount : line.getValue().entrySet()) {
                 for (int i = 0; i < sectionCount.getValue().size(); i++) {
                 	numberOfBlocks++;
                 	track.add(new BlockInfo(0, 0, 0));
                 }
 			}
-			lines.add(track);
 		}
 		
 		//start on the first line
-		track = lines.get(numberOfLines);
 		for (HashMap.Entry<String, HashMap<String, ArrayList<Block>>> line : newTrack.entrySet()) {
 			//get the total number of blocks in this line
 			System.out.println(numberOfBlocks);
@@ -265,9 +263,6 @@ public class Wayside {
          			track.get(cBlock.blockNumber()).setNextBlocks(prevBlock, nextBlock, switchBlock);
             }
             } 
-            //change the track to the next line
-            numberOfLines++;
-            track = lines.get(numberOfLines);
          }
 		
 		System.out.println("It worked!");
