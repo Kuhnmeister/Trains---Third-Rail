@@ -10,7 +10,7 @@ public class Central{
 	private CentralGui centralGui;
 	private TrainPool trainPool;
 	private TrainControllerUI trainControllerUi;
-	TrainModelUI trainModelGui;
+	private TrainModelUI trainModelGui;
 	private boolean hasTrainModel=false;
 	private String[] args;
 	public static void main(String[] args){
@@ -37,6 +37,7 @@ public class Central{
 
 	public void CreateTrainModel(String[] emptyArgs)
     {
+    	hasTrainModel = true;
 		trainModelGui = new TrainModelUI();
 		trainModelGui.linkToTrainPool(trainPool);
     }
