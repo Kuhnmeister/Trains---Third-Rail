@@ -278,14 +278,6 @@ public class BBC{
 				if(autoManState[0] == 0){
 					if(!trainList.isEmpty()){
 						if(trainList.get(trainSelect.getSelectedIndex()).getSpeedDouble() == 0.0){
-						//fix for all possible lines
-							if(trainList.get(trainSelect.getSelectedIndex()).getLine() == "Red ")
-							{
-								trainList.get(trainSelect.getSelectedIndex()).setLocation(96);
-							}
-							else{
-								trainList.get(trainSelect.getSelectedIndex()).setLocation(95);
-							}
 							System.out.println(trainList.get(trainSelect.getSelectedIndex()).getLocation());
 							System.out.println(trainList.get(trainSelect.getSelectedIndex()).getLine());
 							trainList.get(trainSelect.getSelectedIndex()).setSpeed(55.0);
@@ -697,21 +689,20 @@ public class BBC{
 						System.out.println(choice + "shabooya");
 						if(trainList.get(choice).getSpeedDouble() == 0.0){
 							if(trainList.get(choice).hasSchedule()){
-							//fix for all possible lines
-								/*if(trainList.get(trainSelect.getSelectedIndex()).getLine() == "Red ")
-								{
-									trainList.get(trainSelect.getSelectedIndex()).setLocation(96);
+								int train = 0;
+								System.out.println(choice);
+								for(int i = 0; i < trainList.size(); i++){
+									if(trainList.get(i).getId() == choice){
+										train = i;
+									}
 								}
-								else{
-									trainList.get(trainSelect.getSelectedIndex()).setLocation(95);
-								}*/
 								System.out.println(trainList.get(choice).getLocation());
 								System.out.println(trainList.get(choice).getLine());
 								trainList.get(choice).setSpeed(55.0);
-								int length = 1;
-								System.out.println(trainList.get(choice).getId() + "shabobby");
-								central.CreateTrain(trainList.get(choice).getId(), trainList.get(choice).getLength(),
-								0, tracking.GetFirstBlock(trainList.get(choice).getLine()), trainList.get(choice).getLine());
+								int length = 2;
+								System.out.println(trainList.get(train).getId() + "shabobby");
+								central.CreateTrain(trainList.get(train).getId(), trainList.get(train).getLength(),
+								0, tracking.GetFirstBlock(trainList.get(train).getLine()), trainList.get(train).getLine());
 							}
 						}
 					}
@@ -726,8 +717,15 @@ public class BBC{
 				String open = (String)trainSelect.getSelectedItem();
 				String numberOnly= open.replaceAll("[^0-9]", "");
 				int choice = Integer.parseInt(numberOnly);
+				int train = 0;
 				System.out.println(choice);
-				createFrame(trainWindow, windowNum, trainList, choice-1);
+				for(int i = 0; i < trainList.size(); i++){
+					if(trainList.get(i).getId() == choice){
+						train = i;
+					}
+				}
+				
+				createFrame(trainWindow, windowNum, trainList, train);
 			}
 		});
 		
@@ -951,7 +949,7 @@ public class BBC{
 				}
 			});
 
-		JFrame newWindow = new JFrame("Train " + (Integer.toString(open+1)));
+		JFrame newWindow = new JFrame("Train " + (trainList.get(open).getId()));
 		Container trainContainer = newWindow.getContentPane();
 		
 		JTextField speed = new JTextField(trainList.get(open).getSpeed(), 5);
@@ -1058,6 +1056,8 @@ public class BBC{
 	}
 	public void SetSpeed(int train, double speed){
 		trainList.get(train).setSpeed(speed);
+		System.out.println(trainList.get(train).getId());
+		System.out.println(train);
 		int id = trainList.get(train).getId();
 		int block = trainList.get(train).getLocation();
 		central.SuggestSpeed(block, id, speed);
