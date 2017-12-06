@@ -52,6 +52,7 @@ public class Central{
 	public void CreateTrain(int trainNum, int length, int direction,int startBlock, String line){
 		System.out.println("Central trying to create train: "+trainNum);
 		if(hasTrainModel) {
+			trainPool.createNewTrain(trainNum);
 			trackModel.NewTrain(trainNum, length*2, direction, startBlock, line);
 		}else{
 			trackModel.NewTrain(trainNum, length*2, direction, startBlock,line, true);
@@ -126,6 +127,7 @@ public class Central{
 	}
 	public void TrainToYard(int trainNum){
 		ctc.killTrain(trainNum);
+		trainPool.removeTrain(trainNum);
 	}
 	public boolean CTCMoveSwitch(int blockNum, boolean state)
 	{
