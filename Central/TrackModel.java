@@ -378,6 +378,7 @@ public class TrackModel {
     }
     public void WaysideCommandedSpeed(int trainNum, double speed,boolean noTrainModel){
         allTrains.get(trainNum).SetVelocity(speed);
+        System.out.println("Update Speed Train: "+trainNum+" to "+speed);
     }
     public void IntegratedAddOccupancy(int blockNum,String line){
         theCentral.WaysideAddOccupied(blockNum,line);

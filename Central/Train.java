@@ -43,6 +43,7 @@ public class Train{
         nextBlock = currentBlock.GetNextBlock(direction);
         updatePositionTimer=new Timer();
         updatePositionTimer.schedule(new TrainUpdateTimer(updateTimeMS,this),0,updateTimeMS);
+        realTrain=false;
 
     }
     public Train(int newTrainNum,int newTrainLength,int newDirection,Block newCurrentBlock,TrackModel newModel, String newLine,boolean newIntegrated) {
@@ -56,6 +57,7 @@ public class Train{
         currentBlock.SetIsOccupied(true);
         nextBlock = currentBlock.GetNextBlock(direction);
         integrated=newIntegrated;
+        realTrain=true;
 
     }
     public Train(int newTrainNum,int newTrainLength,int newDirection,Block newCurrentBlock,TrackModel newModel,String newLine) {
@@ -63,6 +65,8 @@ public class Train{
         direction = newDirection;
         currentBlock = newCurrentBlock;
         trainLength=newTrainLength;
+        realTrain=false;
+        integrated=true;
         theModel = newModel;
         line=newLine;
         theModel.AddOccupied(currentBlock);
@@ -112,6 +116,7 @@ public class Train{
 
 
         }else {
+
             if (!currentBlock.GetPowerFail() && !currentBlock.GetTrackCircuitFail() && !currentBlock.GetBrokenRail()) {
                 prevBlock = currentBlock;
                 prevBlockOccupied = true;
