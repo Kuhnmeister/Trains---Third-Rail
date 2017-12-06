@@ -1,4 +1,6 @@
-package train;
+package train.trainctl;
+
+import train.TrainStatus;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,9 +10,13 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
+import static TrainController.*;
 
-public class TrainControllerTestbench{
+public class TrainControllerTestbench implements TrainControllerOutputReceiver{
 
+    private TrainController trainControl;
+    private ArrayList<TrainStatus> Trains;
+    private TrainStatus currentTrain;
     private JPanel leftDoorIndicator;
     private JComboBox trainSelector;
     public JPanel PanelMain;
@@ -26,13 +32,13 @@ public class TrainControllerTestbench{
     private JButton maxPowerSet;
     private JTextField currentSpeedInput;
     private JTextField commandSpeedInput;
-    private JTextField AuthorityInput;
+    private JTextField commandAccelInput;
     private JTextField nextStationInput;
     private JRadioButton authorityEmergencyStopFalseRadioButton;
     private JRadioButton authorityEmergencyStopTrueRadioButton;
     private JButton currentSpeedSet;
     private JButton commandSpeedSet;
-    private JButton AuthoritySet;
+    private JButton commandAccelSet;
     private JButton nextStationSet;
     private JPanel systemErrorIndicator;
     private JLabel safeText;
@@ -53,306 +59,242 @@ public class TrainControllerTestbench{
     private JRadioButton inYardFalseRatiodButton;
     private JRadioButton inYardTrueRatiodButton;
     private JButton calcButton;
-    private JButton createTrainButton;
-    private JButton deleteTrainButton;
 
-    private ArrayList<TrainModel> trains;
-    private TrainPool trainPool;
-    private TrainModel currentTrain;
-
-    Integer idCnt = 0;
-    Integer currentTrainId;
-    static final int DEFAULT = 50;
-    static final String defaultColor = "#FEFEFE";
-    public static final String onIndicatorColor = "#E8E70C";
-    public static final String indicatorOffColor = "#E8E8E8";
-    static final String errorColor = "#E80018";
-    static final String normalColor = "#00E828";
-
-    public TrainControllerTestbench(TrainPool trainPool)
+    public TrainControllerTestbench(TrainController trainCtl)
     {
-        this.trainPool = trainPool;
-        this.trains = trainPool.trains;
-        currentTrainId = -1;
+        trainControl = trainCtl;
+        Trains = TrainController.Trains;
 
-        createUI();
-
-        /*Trains.forEach(t -> trainSelector.addItem(t.getName()));*/
+        currentTrain = Trains.get(0);
+        Trains.forEach(t -> trainSelector.addItem(t.getName()));
         update();
         trainSelector.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 int index = trainSelector.getSelectedIndex();
-                if(index >= trains.size() || index==-1)
-                {
-                    currentTrain = null;
-                    currentTrainId = -1;
-                    return;
-                }
-                currentTrain = trains.get(index);
-                currentTrainId = currentTrain.id;
+                currentTrain = Trains.get(index);
                 update();
             }
         });
 
-        createTrainButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                trainPool.createNewTrain(idCnt);
-                trainSelector.addItem("Train "+idCnt.toString());
-                idCnt++;
-            }
-        });
-
-        deleteTrainButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                trainPool.removeTrain(currentTrainId);
-                trainSelector.removeItemAt(trainSelector.getSelectedIndex());
-            }
-        });
 
         inYardTrueRatiodButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                trainPool.setInYard(currentTrainId, true);
+                currentTrain.setInYard(true);
+                trainCtl.refresh();
             }
         });
         inYardFalseRatiodButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                trainPool.setInYard(currentTrainId, false);
+                currentTrain.setInYard(false);
+                trainCtl.refresh();
             }
         });
         carErrorSet.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                trainPool.setCarError(currentTrainId, carErrorInput.getText());
+                currentTrain.setCarInput(carErrorInput.getText());
+                trainCtl.refresh();
             }
         });
         brakeOKRadioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                trainPool.setBrakeError(currentTrainId, false);
-                //currentTrain.setHasBrakeError(false);
-                //trainCtl.refresh();
+                currentTrain.setHasBrakeError(false);
+                trainCtl.refresh();
             }
         });
         brakeErrorRadioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                trainPool.setBrakeError(currentTrainId, true);
-                //currentTrain.setHasBrakeError(true);
-                //trainCtl.refresh();
+                currentTrain.setHasBrakeError(true);
+                trainCtl.refresh();
             }
         });
         powerOKRadioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                trainPool.setPowerError(currentTrainId, false);
-                //currentTrain.setHasPowerError(false);
-                //trainCtl.refresh();
+                currentTrain.setHasPowerError(false);
+                trainCtl.refresh();
             }
         });
         powerErrorRadioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                trainPool.setPowerError(currentTrainId, true);
-                //currentTrain.setHasPowerError(true);
-                //trainCtl.refresh();
+                currentTrain.setHasPowerError(true);
+                trainCtl.refresh();
             }
         });
 
         totalWeightSet.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                trainPool.setTotalWeight(currentTrainId, Double.parseDouble(totalWeightInput.getText()));
-                //currentTrain.setTotalWeight(Double.parseDouble(totalWeightInput.getText()));
-                //trainCtl.refresh();
+                currentTrain.setTotalWeight(Integer.parseInt(totalWeightInput.getText()));
+                trainCtl.refresh();
             }
         });
         maxPowerSet.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                trainPool.setMaxPower(currentTrainId, Double.parseDouble(maxPowerInput.getText()));
-                //currentTrain.setMaxPower(Integer.parseInt(maxPowerInput.getText()));
-                //trainCtl.refresh();
+                currentTrain.setMaxPower(Integer.parseInt(maxPowerInput.getText()));
+                trainCtl.refresh();
             }
         });
         speedLimitSet.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                trainPool.setSpeedLimit(currentTrainId, Double.parseDouble(speedLimitInput.getText()));
+                currentTrain.setSpeedLimit(Integer.parseInt(speedLimitInput.getText()));
+                trainCtl.refresh();
             }
         });
         currentSpeedSet.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentTrain.currentSpeed = Double.parseDouble(currentSpeedInput.getText())*TrainController.MPH2MS;
-                currentTrain.controller.update();
+                currentTrain.setCurrentSpeed(Double.parseDouble(currentSpeedInput.getText()));
+                trainCtl.refresh();
             }
         });
         commandSpeedSet.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                trainPool.setCommandSpeed(currentTrainId, Double.parseDouble(commandSpeedInput.getText()));
+                currentTrain.setInputSpeed(Integer.parseInt(commandSpeedInput.getText()));
+                trainCtl.refresh();
             }
         });
-        AuthoritySet.addActionListener(new ActionListener() {
+        commandAccelSet.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                trainPool.setAuthority(currentTrainId, Double.parseDouble(AuthorityInput.getText()));
+                currentTrain.setCurrentAccel(Double.parseDouble(commandAccelInput.getText()));
+                trainCtl.refresh();
             }
         });
         nextStationSet.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-              //  currentTrain.setNextStation(nextStationInput.getText());
-              //  trainCtl.refresh();
+                currentTrain.setNextStation(nextStationInput.getText());
+                trainCtl.refresh();
             }
         });
 
         leftDoorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                trainPool.openLeftDoor(currentTrainId);
-                //trainCtl.refresh();
+                currentTrain.setLeftDoorCommand(true);
+                trainCtl.refresh();
             }
         });
         rightDoorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                trainPool.openRightDoor(currentTrainId);
-                //trainCtl.refresh();
+                currentTrain.setRightDoorCommand(true);
+                trainCtl.refresh();
             }
         });
         lightButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                trainPool.openLights(currentTrainId);
-                //trainCtl.refresh();
+                currentTrain.setLightCommand(true);
+                trainCtl.refresh();
             }
         });
         authorityEmergencyStopTrueRadioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                trainPool.emegencyStop(currentTrainId, true);
-                //trainCtl.refresh();
+                currentTrain.setAuthorityEmergencyStop(true);
+                trainCtl.refresh();
             }
         });
         authorityEmergencyStopFalseRadioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                trainPool.emegencyStop(currentTrainId, false);
-                //currentTrain.setAuthorityEmergencyStop(false);
-                //currentTrain.setAuthorityError(false);
-                //trainCtl.refresh();
+                currentTrain.setAuthorityEmergencyStop(false);
+                currentTrain.setAuthorityError(false);
+                trainCtl.refresh();
             }
         });
-        /*resetButton.addActionListener(new ActionListener() {
+        resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //trainControl.reset();
+                trainControl.reset();
                 currentTrain = Trains.get(0);
                 trainSelector.setSelectedIndex(0);
                 System.out.println("AS:"+currentTrain.getAuthorityEmergencyStop().toString());
                 update();
             }
-        });*/
+        });
         calcButton.addActionListener(e -> {
-            trainPool.Step();
+            trainControl.Calc();
         });
     }
 
-    public void removeTrainFromSelector(Integer index)
-    {
-        if(trains.get(index) == currentTrain)
-        {
-            currentTrain = null;
-        }
-        trainSelector.removeItemAt(index);
-        update();
-    }
-
-    void createUI()
-    {
-        JFrame frame = new JFrame("Testbench");
-        frame.setContentPane(this.PanelMain);
-        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
+    @Override
     public void update() {
-        if(currentTrain == null)
-        {
-            return;
-        }
-        if(currentTrain.inYard)
+        if(currentTrain.getInYard())
         {
             inYardTrueRatiodButton.setSelected(true);
         }else{
             inYardFalseRatiodButton.setSelected(true);
         }
-        if(!currentTrain.hasBrakeError)
+        if(!currentTrain.getHasBrakeError())
         {
             brakeOKRadioButton.setSelected(true);
         }else{
             brakeErrorRadioButton.setSelected(true);
         }
-        if(!currentTrain.hasPowerError)
+        if(!currentTrain.getHasPowerError())
         {
             powerOKRadioButton.setSelected(true);
         }else{
             powerErrorRadioButton.setSelected(true);
         }
-        if(currentTrain.controller.authorityEmergencyStop)
+        if(currentTrain.getAuthorityEmergencyStop())
         {
             authorityEmergencyStopTrueRadioButton.setSelected(true);
         }else{
             authorityEmergencyStopFalseRadioButton.setSelected(true);
         }
-        powerText.setText(currentTrain.currentPower.toString()+" kWatt");
-        if(!currentTrain.controller.isAutoMode) {
+        powerText.setText(currentTrain.getCurrentPower().toString()+" Watt");
+        if(!currentTrain.getAutoMode()) {
             manualModeIndicator.setBackground(Color.decode(onIndicatorColor));
         } else {
             manualModeIndicator.setBackground(Color.decode(indicatorOffColor));
         }
-        if(currentTrain.leftDoorOpen) {
+        if(currentTrain.getLeftDoorOpen()) {
             leftDoorIndicator.setBackground(Color.decode(onIndicatorColor));
         } else {
             leftDoorIndicator.setBackground(Color.decode(indicatorOffColor));
         }
-        if(currentTrain.rightDoorOpen) {
+        if(currentTrain.getRightDoorOpen()) {
             rightDoorIndicator.setBackground(Color.decode(onIndicatorColor));
         } else {
             rightDoorIndicator.setBackground(Color.decode(indicatorOffColor));
         }
-        if(currentTrain.lightOn) {
+        if(currentTrain.getLightOn()) {
             lightIndicator.setBackground(Color.decode(onIndicatorColor));
         } else {
             lightIndicator.setBackground(Color.decode(indicatorOffColor));
         }
-        if(currentTrain.controller.exceedSpeedLimit) {
+        if(currentTrain.getSpeedLimitReached()) {
             speedLimitIndicator.setBackground(Color.decode(errorColor));
         } else {
             speedLimitIndicator.setBackground(Color.decode(normalColor));
         }
-        if(currentTrain.powerLimitReached) {
+        if(currentTrain.getPowerLimitReached()) {
             powerLimitIndicator.setBackground(Color.decode(errorColor));
         } else {
             powerLimitIndicator.setBackground(Color.decode(normalColor));
         }
-        if(currentTrain.emergencyStopActive) {
+        if(currentTrain.getEmergencyStop()) {
             emergencyStopIndicator.setBackground(Color.decode(errorColor));
         } else {
             emergencyStopIndicator.setBackground(Color.decode(indicatorOffColor));
         }
-        if(currentTrain.serviceBrakeActive) {
+        if(currentTrain.getServiceBrake()) {
             serviceBrakeIndicator.setBackground(Color.decode(errorColor));
         } else {
             serviceBrakeIndicator.setBackground(Color.decode(indicatorOffColor));
         }
     }
-
 }

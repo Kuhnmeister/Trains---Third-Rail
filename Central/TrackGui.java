@@ -99,7 +99,7 @@ public class TrackGui extends Application {
             if(displayingTrain != -1) {
                 for (int i = 0; i < allActiveTrains.size(); i++) {
                     if (allActiveTrains.get(i).GetTrainNum() == displayingTrain) {
-                        outputToTrainsDisplay = outputToTrainsDisplay + "Train " + allActiveTrains.get(i).GetTrainNum() + "\nSpeed Limit: " + allActiveTrains.get(i).GetCurrentBlock().GetSpeedLimit() + "Speed: " + allActiveTrains.get(i).GetVelocity()+ "\nGrade: " + allActiveTrains.get(i).GetCurrentBlock().GetGrade();
+                        outputToTrainsDisplay = outputToTrainsDisplay + "Train " + allActiveTrains.get(i).GetTrainNum() + "\nSpeed Limit: " + allActiveTrains.get(i).GetCurrentBlock().GetSpeedLimit() + "\nGrade: " + allActiveTrains.get(i).GetCurrentBlock().GetGrade();
                         outputToTrainsDisplay=outputToTrainsDisplay+"\nAuthority: "+allActiveTrains.get(i).GetAuthority()+"\nUnderground: " + allActiveTrains.get(i).GetCurrentBlock().GetIsUnderground();
                         if(allActiveTrains.get(i).GetCurrentBlock().GetNextBlock(allActiveTrains.get(i).GetDirection())==null) {
 

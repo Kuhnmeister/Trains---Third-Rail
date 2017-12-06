@@ -1,5 +1,3 @@
-package train;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +7,7 @@ public class PIDSetter {
     JTextField KiInput;
     JButton OKButton;
     JPanel PanelMain;
-    private TrainControllerUI trainctl;
+    private TrainController trainctl;
 
     class doneActionListener implements ActionListener{
 
@@ -20,15 +18,15 @@ public class PIDSetter {
         }
 
         public void actionPerformed(ActionEvent e) {
-            trainctl.currentController.Kp = Double.parseDouble(KpInput.getText());
-            trainctl.currentController.Ki = Double.parseDouble(KiInput.getText());
-            //System.out.print("KKp:"+trainctl.currentTrain.Kp);
-            //trainctl.currentTrain.resetPID();
+            trainctl.currentTrain.Kp = Double.parseDouble(KpInput.getText());
+            trainctl.currentTrain.Ki = Double.parseDouble(KiInput.getText());
+            System.out.print("KKp:"+trainctl.currentTrain.Kp);
+            trainctl.currentTrain.resetPID();
             toBeClose.setVisible(false);
             toBeClose.dispose();
         }
     }
-    public PIDSetter(TrainControllerUI ctl)
+    public PIDSetter(TrainController ctl)
     {
         trainctl = ctl;
         //OKButton.addActionListener(new doneActionListener(this));

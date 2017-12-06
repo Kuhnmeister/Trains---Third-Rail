@@ -10,7 +10,7 @@ import java.util.HashMap;
 import javafx.stage.Stage;
 
 public class Wayside {
-	public boolean integated = false;
+
 	public ArrayList<BlockInfo> track;
 	public ArrayList<BlockInfo> track2;
 	//track that is currently being altered by the GUI
@@ -48,12 +48,17 @@ public class Wayside {
 	//constructor for being called from anything else
 	public Wayside(String[] args, Central cen, HashMap<String,HashMap<String,ArrayList<Block>>> newTrack){
 		central = cen;
+<<<<<<< HEAD
 		integated = true;
 		//find all the keys for the track
 		String[] keyArray = newTrack.keySet().toArray(new String[newTrack.keySet().size()]);
 		lineNames = keyArray;
 		track = GetTrack(newTrack, lineNames[0]);
 		track2 = GetTrack(newTrack, lineNames[1]);
+=======
+		//getSections();
+		track = GetTrack(newTrack);
+>>>>>>> origin/master
 		block = track.get(0);
 		theGui = new WaysideController(args, this, true); //launchless GUI
 		try {
@@ -107,8 +112,7 @@ public class Wayside {
 		BlockInfo currBlock, prevBlock, nextBlock, switchBlock;
 		//the first block will be the yard
 		testTrack.add(new BlockInfo(false, 0 , 0 , 1));
-		String[] lNames = {"Green", "Red"};
-		lineNames = lNames;
+		
 		for(int i = 1; i < 20; i++)
 		{
 			if(i < 19) {
@@ -291,20 +295,15 @@ public class Wayside {
 			//set the block in the trck object as occupied
 			track.get(occBlock).setOccupancy(true);
 			//call Central to inform CTC
-			//iff called from central
-			if(integated) {
-				central.TrackStateUpdate(occBlock);
-				central.CTCAddOccupancy(occBlock, lineNames[0]);
-			}
+			central.TrackStateUpdate(occBlock);
+			central.CTCAddOccupancy(occBlock, lineNames[0]);
 			this.SetLights(occBlock, lineNames[0]);
 			this.SetCrossing(occBlock, lineNames[0]);
 			//now call for an authority and send to to the track
 			currentAuth = getAuthority(occBlock, true);
 			currentAuth1 = getAuthority(occBlock, false);
 			//pass these to the central to be sent to the train
-			if(integated) {
-				central.WaysideSendAuthority(currentAuth, currentAuth1, occBlock, lineNames[0], true);
-			}
+			central.WaysideSendAuthority(currentAuth, currentAuth1, occBlock, true);
 		}
 		//print to show update
 		System.out.println(occBlocks.toString());
@@ -336,22 +335,16 @@ public class Wayside {
 		//true == Red, false == Green
 		//public void TrackSetLight(int blockNum, String line, String color)
 		if(track.get(block).light()) {
-			if(integated) {
-				central.TrackSetLight(block, Line, "Red");
-			}
+			central.TrackSetLight(block, Line, "Red");
 		}else {
-			if(integated) {
-				central.TrackSetLight(block, Line, "Green");
-			}
+			central.TrackSetLight(block, Line, "Green");
 		}
 	}
 	
 	//calls central to move a crossing
 	public void SetCrossing(int blockNum, String Line)
 	{
-		if(integated) {
-			central.TrackSetCrossing(blockNum, Line);
-		}
+		central.TrackSetCrossing(blockNum, Line);
 	}
 	
 	//get speed from central 
@@ -359,9 +352,7 @@ public class Wayside {
 	{
 		//pass this like a hot potato
 		System.out.println("Received Suggested Speed for train: "+trainNum+": BlockNum: "+blockNum+" speed: "+speed);
-		if(integated) {
-			central.WaysideCommandedSpeed(trainNum,speed);
-		}
+		central.WaysideCommandedSpeed(trainNum,speed);
 	}
 	
 	//get authority from central
@@ -385,9 +376,7 @@ public class Wayside {
 		 //call central to pass to track
 		 System.out.println(currentAuth.toString() + "  |  " +currentAuth1.toString());
 		 System.out.println("To train: " + trainNum);
-		 if(integated) {
-			 central.WaysideSendAuthority(currentAuth, currentAuth1, trainNum);
-		 }
+		 central.WaysideSendAuthority(currentAuth, currentAuth1, trainNum);
 	}
 	
 	public boolean SwitchSwitch(int blockNum, boolean state) 
