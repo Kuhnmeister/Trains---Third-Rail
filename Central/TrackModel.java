@@ -204,11 +204,11 @@ public class TrackModel {
 
     }
     public void AddOccupied(Block newBlock){
-        if(!demoMode){
-            IntegratedAddOccupancy(newBlock.GetBlockNum(), newBlock.GetLine());
-        }
-        occupiedBlocks.add(newBlock);
-        System.out.println("Added Block: " + newBlock.GetBlockNum());
+            if(!demoMode){
+                IntegratedAddOccupancy(newBlock.GetBlockNum(), newBlock.GetLine());
+            }
+            occupiedBlocks.add(newBlock);
+            System.out.println("Added Block: " + newBlock.GetBlockNum());
     }
     public void RemoveOccupied(Block newBlock){
         if(!demoMode){
@@ -255,15 +255,15 @@ public class TrackModel {
 
     }
     public void WaysideInput(int updateBlock,String line, String newLightColor,boolean flipSwitch){
-        Block editingBlock = GetBlock(updateBlock, line);
-        if(editingBlock==null){
-            System.out.println("the block is null");
-        }else if(newLightColor == null){
-            System.out.println("the light color is null");
-        }else {
-            editingBlock.SetLightColor(newLightColor);
-            editingBlock.FlipSwitch(flipSwitch);
-        }
+            Block editingBlock = GetBlock(updateBlock, line);
+            if(editingBlock==null){
+                System.out.println("the block is null");
+            }else if(newLightColor == null){
+                System.out.println("the light color is null");
+            }else {
+                editingBlock.SetLightColor(newLightColor);
+                editingBlock.FlipSwitch(flipSwitch);
+            }
 
     }
 
@@ -371,14 +371,13 @@ public class TrackModel {
         Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock,line),this,line);
         theGui.AddTrain(newTrain,true);
         allTrains.put(trainNum,newTrain);
-        System.out.println("Train created: "+ newTrain.GetTrainNum());
+		System.out.println("Train created: "+ newTrain.GetTrainNum());
     }
     public void WaysideCommandedSpeed(int trainNum, double speed){
         theCentral.TrainModelCommandedSpeed(trainNum,speed);
     }
     public void WaysideCommandedSpeed(int trainNum, double speed,boolean noTrainModel){
         allTrains.get(trainNum).SetVelocity(speed);
-        System.out.println("Update Speed Train: "+trainNum+" to "+speed);
     }
     public void IntegratedAddOccupancy(int blockNum,String line){
         theCentral.WaysideAddOccupied(blockNum,line);
@@ -430,54 +429,6 @@ public class TrackModel {
             }
         }
     }
-    public void CommandedAuthorityBlock(ArrayList<Integer> authorityBlocks,ArrayList<Integer> authorityBlocks1, int blockNum,String line){
-        Train theTrain= new Train();
-        for (Train value : allTrains.values()) {
-            if(value.GetCurrentBlock().GetBlockNum()==blockNum && line.equals(value.GetLine())){
-                theTrain=value;
-            }
-        }
-        double calcAuthority=0;
-        if(!theTrain.GetIsReal()){
-            System.out.println("Can't find train on block: "+blockNum);
-        }else {
-            if (theTrain.GetDirection() == 0) {
-                if (theTrain == null) {
-
-                } else {
-                    if (authorityBlocks == null) {
-                        System.out.println("Authority blocks is null");
-                    } else {
-                        if (authorityBlocks.size() > 1) {
-                            for (Integer i : authorityBlocks) {
-                                calcAuthority += GetBlock(i, theTrain.GetLine()).GetLength();
-                            }
-                        }
-                        System.out.println("New authority sent to train: " + calcAuthority);
-                        theTrain.SetAuthority(calcAuthority);
-                        double authorityMiles = calcAuthority / 1609.74;
-                        theCentral.TrainSendAuthority(theTrain.GetTrainNum(), authorityMiles);
-                    }
-                }
-            } else {
-                if (theTrain == null) {
-
-                } else {
-                    if (authorityBlocks1 == null) {
-                        System.out.println("Authority blocks is null");
-                    } else {
-                        if (authorityBlocks.size() > 1) {
-                            for (Integer i : authorityBlocks1) {
-                                calcAuthority += GetBlock(i, theTrain.GetLine()).GetLength();
-                            }
-                        }
-                        System.out.println("New authority sent to train: " + calcAuthority);
-                        theTrain.SetAuthority(calcAuthority);
-                    }
-                }
-            }
-        }
-    }
     public void CommandedAuthority(ArrayList<Integer> authorityBlocks, int trainNum,boolean noTrainModel){
         if(allTrains.get(trainNum)==null) {
             System.out.println("no reference to train: "+trainNum);
@@ -487,86 +438,44 @@ public class TrackModel {
             }else {
 
                 allTrains.get(trainNum).SetAuthority(authorityBlocks.size() - 1);
-                System.out.println("New Authority on train: "+allTrains.get(trainNum).GetTrainNum()+" Authority is set to: "+(authorityBlocks.size() - 1));
+				System.out.println("New Authority on train: "+allTrains.get(trainNum).GetTrainNum()+" Authority is set to: "+(authorityBlocks.size() - 1));
             }
         }
     }
     public void CommandedAuthority(ArrayList<Integer> authorityBlocks,ArrayList<Integer> authorityBlocks1, int trainNum,boolean noTrainModel){
         Train theTrain = allTrains.get(trainNum);
         double calcAuthority=0;
-        if(theTrain == null){
-            System.out.println("Can't find train: "+trainNum);
-        }else {
-            if (theTrain.GetDirection() == 0) {
-
-                if (authorityBlocks == null) {
+        if(theTrain.GetDirection()==0){
+            if(theTrain==null) {
+                System.out.println("no reference to train: "+trainNum);
+            }else{
+                if(authorityBlocks == null) {
                     System.out.println("Authority blocks is null");
-                } else {
-                    if (authorityBlocks.size() > 1) {
+                }else {
+                    if(authorityBlocks.size()>1) {
                         for (Integer i : authorityBlocks) {
                             calcAuthority += GetBlock(i, theTrain.GetLine()).GetLength();
                         }
                     }
-                    System.out.println("New authority sent to train: " + calcAuthority);
+                    System.out.println("New authority sent to train: "+calcAuthority);
                     theTrain.SetAuthority(calcAuthority);
                 }
-
-            } else {
-
-                if (authorityBlocks1 == null) {
+            }
+        }else{
+            if(theTrain==null) {
+                System.out.println("no reference to train: "+trainNum);
+            }else{
+                if(authorityBlocks1 == null) {
                     System.out.println("Authority blocks is null");
-                } else {
-                    if (authorityBlocks.size() > 1) {
+                }else {
+                    if(authorityBlocks.size()>1) {
                         for (Integer i : authorityBlocks1) {
                             calcAuthority += GetBlock(i, theTrain.GetLine()).GetLength();
                         }
                     }
-                    System.out.println("New authority sent to train: " + calcAuthority);
+                    System.out.println("New authority sent to train: "+calcAuthority);
                     theTrain.SetAuthority(calcAuthority);
                 }
-
-            }
-        }
-    }
-    public void CommandedAuthorityBlock(ArrayList<Integer> authorityBlocks,ArrayList<Integer> authorityBlocks1, int blockNum, String line, boolean noTrainModel){
-        Train theTrain= new Train();
-        for (Train value : allTrains.values()) {
-            if(value.GetCurrentBlock().GetBlockNum()==blockNum && line.equals(value.GetLine())){
-                theTrain=value;
-            }
-        }
-        double calcAuthority=0;
-        if(!theTrain.GetIsReal()){
-            System.out.println("Can't find train on block: "+blockNum);
-        }else {
-            if (theTrain.GetDirection() == 0) {
-
-                if (authorityBlocks == null) {
-                    System.out.println("Authority blocks is null");
-                } else {
-                    if (authorityBlocks.size() > 1) {
-                        for (Integer i : authorityBlocks) {
-                            calcAuthority += GetBlock(i, theTrain.GetLine()).GetLength();
-                        }
-                    }
-                    System.out.println("New authority sent to train: " + calcAuthority);
-                    theTrain.SetAuthority(calcAuthority);
-                }
-
-            } else {
-
-                if (authorityBlocks1 == null) {
-                    System.out.println("Authority blocks is null");
-                } else {
-                    if (authorityBlocks.size() > 1) {
-                        for (Integer i : authorityBlocks1) {
-                            calcAuthority += GetBlock(i, theTrain.GetLine()).GetLength();
-                        }
-                    }
-                    System.out.println("New authority sent to train: " + calcAuthority);
-                    theTrain.SetAuthority(calcAuthority);
-                }
-
             }
         }
     }
