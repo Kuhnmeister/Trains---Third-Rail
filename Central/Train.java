@@ -16,11 +16,20 @@ public class Train{
     private double authority=0;
     private boolean moveAtMaxSpeed=false;
     private Block prevBlock;
+    private boolean realTrain=true;
     private int trainLength;
     private boolean prevBlockOccupied=false;
     private boolean integrated=false;
     private String line;
-
+    public Train(){
+        realTrain=false;
+    }
+    public boolean GetIsReal(){
+        return realTrain;
+    }
+    public double GetVelocity(){
+        return currentVelocity;
+    }
     public Train(int newTrainNum,int newTrainLength,int newDirection,Block newCurrentBlock,Block newEndingBlock, String newLine, TrackModel newModel) {
         trainNum = newTrainNum;
         direction = newDirection;
@@ -34,6 +43,7 @@ public class Train{
         nextBlock = currentBlock.GetNextBlock(direction);
         updatePositionTimer=new Timer();
         updatePositionTimer.schedule(new TrainUpdateTimer(updateTimeMS,this),0,updateTimeMS);
+        realTrain=false;
 
     }
     public Train(int newTrainNum,int newTrainLength,int newDirection,Block newCurrentBlock,TrackModel newModel, String newLine,boolean newIntegrated) {
@@ -47,6 +57,7 @@ public class Train{
         currentBlock.SetIsOccupied(true);
         nextBlock = currentBlock.GetNextBlock(direction);
         integrated=newIntegrated;
+        realTrain=true;
 
     }
     public Train(int newTrainNum,int newTrainLength,int newDirection,Block newCurrentBlock,TrackModel newModel,String newLine) {
@@ -54,6 +65,8 @@ public class Train{
         direction = newDirection;
         currentBlock = newCurrentBlock;
         trainLength=newTrainLength;
+        realTrain=false;
+        integrated=true;
         theModel = newModel;
         line=newLine;
         theModel.AddOccupied(currentBlock);
@@ -81,8 +94,8 @@ public class Train{
                 theModel.GenerateTickets(currentBlock.GetBlockNum(),line);
             }
             if(currentBlock.GetHasBeacon()){
-               BitSet beaconMessage= currentBlock.GetBeaconData();
-               theModel.ReportBeaconData(beaconMessage, trainNum);
+                BitSet beaconMessage= currentBlock.GetBeaconData();
+                theModel.ReportBeaconData(beaconMessage, trainNum);
             }
             nextBlock = currentBlock.GetNextBlock(direction);
             if(direction==0){
@@ -103,6 +116,7 @@ public class Train{
 
 
         }else {
+
             if (!currentBlock.GetPowerFail() && !currentBlock.GetTrackCircuitFail() && !currentBlock.GetBrokenRail()) {
                 prevBlock = currentBlock;
                 prevBlockOccupied = true;
