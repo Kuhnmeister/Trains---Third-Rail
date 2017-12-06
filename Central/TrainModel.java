@@ -196,6 +196,7 @@ public class TrainModel {
             currentSpeed = 0.0;
         }
         Double distanceTraveled = lastSpeed * INTERVAL_LEN + (1/2 * currentAccel * Math.pow(INTERVAL_LEN, 2));
+        this.theCentral.UpdateTrainDistance(id, distanceTraveled);
 
         displayCurrentSpeed = currentSpeed/MPH2MS;
         System.out.println("s:"+displayCurrentSpeed);

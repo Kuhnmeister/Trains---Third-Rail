@@ -19,6 +19,7 @@ public class Central{
 	public Central(String[] Args){
 		centralGui = new CentralGui(Args,this);
 		args=Args;
+		trainPool = new TrainPool(this);
 	}
 	public void TestMethod(String testString){
 		System.out.println(testString);
@@ -37,11 +38,13 @@ public class Central{
 	public void CreateTrainModel(String[] emptyArgs)
     {
 		trainModelGui = new TrainModelUI();
+		trainModelGui.linkToTrainPool(trainPool);
     }
 
 	public void CreateTrainController(String[] emptyArgs)
 	{
 		trainControllerUi = new TrainControllerUI();
+		trainModelGui.linkToTrainPool(trainPool);
 	}
 
 
@@ -74,26 +77,15 @@ public class Central{
 	}
 
 	public void TrainModelCommandedSpeed(int trainId, double speed) {
-
+		trainPool.setCommandSpeed(trainId, speed);
 	}
 
 
     // TrainModel will call this
-	public void UpdateTrainDistance(int trainId, float movedDistance){
+	public void UpdateTrainDistance(int trainId, double movedDistance){
 		//Whoever needs this information, please fill in your parts
 	}
-
-	// TrainModel will call this
-	public void ServiceBrakeFromTrain(int trainId, Boolean activate)
-	{
-		//Whoever needs this information, please fill in your parts
-    }
-
-    // TrainModel will call this
-    public void EmergencyStopFromTrain(int trainId, Boolean activate)
-    {
-		//Whoever needs this information, please fill in your parts
-    }
+	
 
 	public void TrackStateUpdate(int occBlock){
 
