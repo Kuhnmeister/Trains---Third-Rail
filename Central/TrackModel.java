@@ -433,11 +433,12 @@ public class TrackModel {
         Train theTrain= new Train();
         for (Train value : allTrains.values()) {
             if(value.GetCurrentBlock().GetBlockNum()==blockNum && line.equals(value.GetLine())){
+                System.out.println("Found the train");
                 theTrain=value;
             }
         }
         double calcAuthority=0;
-        if(!theTrain.GetIsReal()){
+        if(!theTrain.GetIsTemp()){
             System.out.println("Can't find train on block: "+blockNum);
         }else {
             if (theTrain.GetDirection() == 0) {
