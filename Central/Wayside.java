@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 public class Wayside {
 	public boolean integated = false;
 	public ArrayList<BlockInfo> track;
+	public ArrayList<BlockInfo> track2;
+	//track that is currently being altered by the GUI
+	public ArrayList<BlockInfo> currentTrack;
 	public ArrayList<ArrayList<BlockInfo>> lines;
 	public ArrayList<String> trackSections = new ArrayList<String>();
 	public ArrayList<ArrayList<String>> blockSections = new ArrayList<ArrayList<String>>();
@@ -45,29 +48,12 @@ public class Wayside {
 	//constructor for being called from anything else
 	public Wayside(String[] args, Central cen, HashMap<String,HashMap<String,ArrayList<Block>>> newTrack){
 		central = cen;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> parent of bcd9f68... New Wayside
 		integated = true;
 		//find all the keys for the track
 		String[] keyArray = newTrack.keySet().toArray(new String[newTrack.keySet().size()]);
 		lineNames = keyArray;
 		track = GetTrack(newTrack, lineNames[0]);
 		track2 = GetTrack(newTrack, lineNames[1]);
-<<<<<<< HEAD
-=======
-		//getSections();
-		track = GetTrack(newTrack);
->>>>>>> origin/master
-=======
-		//getSections();
-		integated = true;
-		track = GetTrack(newTrack);
->>>>>>> parent of 9f05829... Now can read in 2 lines
-=======
->>>>>>> parent of bcd9f68... New Wayside
 		block = track.get(0);
 		theGui = new WaysideController(args, this, true); //launchless GUI
 		try {
@@ -215,10 +201,8 @@ public class Wayside {
 			}
 		}
 	
-	public ArrayList<BlockInfo> GetTrack( HashMap<String,HashMap<String,ArrayList<Block>>> newTrack)
+	public ArrayList<BlockInfo> GetTrack( HashMap<String,HashMap<String,ArrayList<Block>>> newTrack, String keyForLine)
 	{
-		String[] keyArray = newTrack.keySet().toArray(new String[newTrack.keySet().size()]);
-		lineNames = keyArray;
 		try {
 		Block currentBlock;
 		BlockInfo newBlockInfo, prevBlock, nextBlock, currBlock, switchBlock;
@@ -230,23 +214,18 @@ public class Wayside {
 		track = new ArrayList<BlockInfo>();
 		track.add(0, new BlockInfo(0, 0, 0));
 		track.get(0).setNextBlocks(track.get(0), track.get(0), track.get(0));
-		for (HashMap.Entry<String, HashMap<String, ArrayList<Block>>> line : newTrack.entrySet()) {
-			for (HashMap.Entry<String, ArrayList<Block>> sectionCount : line.getValue().entrySet()) {
-                for (int i = 0; i < sectionCount.getValue().size(); i++) {
-                	numberOfBlocks++;
-                	track.add(new BlockInfo(0, 0, 0));
-                }
-			}
-			//TODO add the read in track to Lines
-			//
-		}
 		
-		//start on the first line
-		for (HashMap.Entry<String, HashMap<String, ArrayList<Block>>> line : newTrack.entrySet()) {
+		HashMap<String,ArrayList<Block>> line = newTrack.get(keyForLine);
+		
+		for (HashMap.Entry<String, ArrayList<Block>> sectionCount : line.entrySet()) {
+			for (int i = 0; i < sectionCount.getValue().size(); i++) {
+				numberOfBlocks++;
+				track.add(new BlockInfo(0, 0, 0));
+			}
+		}
 			//get the total number of blocks in this line
-			System.out.println(numberOfBlocks);
-			
-            for (HashMap.Entry<String, ArrayList<Block>> section : line.getValue().entrySet()) {
+			System.out.println(numberOfBlocks);	
+            for (HashMap.Entry<String, ArrayList<Block>> section : line.entrySet()) {
                 for (int i = 0; i < section.getValue().size(); i++) {
                 	//this is a block in the form of Block
                 	currentBlock = section.getValue().get(i); 
@@ -259,7 +238,7 @@ public class Wayside {
                 }
                 for(BlockInfo cBlock : track)
         		{
-        			System.out.println(cBlock.blockNumber0() + " " + cBlock.blockNumber() + " " + cBlock.blockNumber1());
+        			//System.out.println(cBlock.blockNumber0() + " " + cBlock.blockNumber() + " " + cBlock.blockNumber1());
         		}
         		
         		 for(BlockInfo cBlock : track)
@@ -288,7 +267,6 @@ public class Wayside {
          			track.get(cBlock.blockNumber()).setNextBlocks(prevBlock, nextBlock, switchBlock);
             }
             } 
-         }
 		
 		System.out.println("It worked!");
 		//set initial track to green line
