@@ -1,5 +1,3 @@
-package train;
-
 public class TrainModel {
     public static final Double INTERVAL_LEN = 1.0;
     public static final Double G = 9.8; // m/s^2

@@ -1,5 +1,3 @@
-package train;
-
 import java.util.ArrayList;
 
 public class TrainPool {

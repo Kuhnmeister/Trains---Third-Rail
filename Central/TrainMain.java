@@ -1,5 +1,4 @@
-package train;
-
+// For testing train model and controller
 public class TrainMain {
     public static void main(String[] args) {
         TrainPool trainPool;
