@@ -105,7 +105,12 @@ public class Central{
 
 	}
 	public void WaysideAddOccupied(int blockNum, String line){
-		wayside.AddOccupied(blockNum);
+		System.out.println("Block num: "+blockNum);
+		if(wayside==null) {
+			System.out.println("wayside is null");
+		}else{
+			wayside.AddOccupied(blockNum);
+		}
 	}
 	public void WaysideRemoveOccupied(int blockNum, String line){
 		wayside.RemoveOccupied(blockNum);
