@@ -2,6 +2,7 @@ public class TrainController {
     public static final Double MILE2M = 1609.34; // a mile => meters
     public static final Double MPH2MS = 0.44704;
     public static final Double EPS = 0.00001;
+    Central theCentral;
     TrainModel model;
     TrainControllerUI ui;
 
@@ -35,9 +36,10 @@ public class TrainController {
     //service brake switch on controller
     Boolean serviceBrakeCommand = false;
 
-    public TrainController(TrainModel model)
+    public TrainController(TrainModel model, Central central)
     {
         this.model = model;
+        this.theCentral = central;
     }
 
     public void update() {

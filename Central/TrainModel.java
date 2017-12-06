@@ -11,6 +11,7 @@ public class TrainModel {
     public static final Double MPH2MS = 0.44704;
     public static final Double EPS = 0.00001;
 
+    Central theCentral;
     // Errors
     String carErrorString = "OK";
     Boolean hasCarError = false;
@@ -51,9 +52,10 @@ public class TrainModel {
     public TrainController controller;
     public TrainModelUI ui;
 
-    public TrainModel(Integer id)
+    public TrainModel(Integer id, Central central)
     {
         this.id = id;
+        this.theCentral = central;
     }
 
     void setAuthority(Double authority) {

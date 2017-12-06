@@ -1,5 +1,3 @@
-package train;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -188,7 +186,7 @@ public class TrainControllerTestbench{
         currentSpeedSet.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentTrain.currentSpeed = Double.parseDouble(currentSpeedInput.getText())*TrainController.MPH2MS;
+                currentTrain.currentSpeed = Double.parseDouble(currentSpeedInput.getText())* TrainController.MPH2MS;
                 currentTrain.controller.update();
             }
         });

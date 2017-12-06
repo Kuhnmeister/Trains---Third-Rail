@@ -1,22 +1,25 @@
 import java.util.ArrayList;
 
 public class TrainPool {
+    Central theCentral;
     ArrayList<TrainModel> trains;
     TrainControllerUI controllerUI;
     TrainModelUI modelUI;
-    public TrainPool(TrainControllerUI controllerUI, TrainModelUI modelUI)
+    public TrainPool(TrainControllerUI controllerUI, TrainModelUI modelUI, Central central)
     {
         trains = new ArrayList<>();
         this.controllerUI = controllerUI;
         this.modelUI = modelUI;
+        this.theCentral = central;
         controllerUI.trains = trains;
         modelUI.trains = trains;
         initialize();
     }
 
-    public TrainPool()
+    public TrainPool(Central central)
     {
         trains = new ArrayList<>();
+        this.theCentral = central;
     }
 
     private void initialize()
@@ -51,9 +54,9 @@ public class TrainPool {
             return false;
         }
 
-        TrainModel a_train = new TrainModel(id);
+        TrainModel a_train = new TrainModel(id, this.theCentral);
         a_train.ui = this.modelUI;
-        TrainController a_controller = new TrainController(a_train);
+        TrainController a_controller = new TrainController(a_train, this.theCentral);
         a_controller.ui = this.controllerUI;
         a_train.controller = a_controller;
         trains.add(a_train);
