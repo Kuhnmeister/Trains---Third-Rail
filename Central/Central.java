@@ -43,20 +43,21 @@ public class Central{
 
 	// Change this name to sth. more aproperaite
 	public void TrainModelNewTrain(int trainId, String name, int carNumber, ArrayList<String> stopNames)
-    {
-        trainWithControl.newTrain(trainId, name, carNumber, stopNames);
-    }
-    public void TrainModelDeleteTrain(int trainId)
-    {
-        trainWithControl.deleteTrain(trainId);
-    }
+	{
+		trainWithControl.newTrain(trainId, name, carNumber, stopNames);
+	}
+	public void TrainModelDeleteTrain(int trainId)
+	{
+		trainWithControl.deleteTrain(trainId);
+	}
 
 	public void CreateTrain(int trainNum, int length, int direction,int startBlock, String line){
+		System.out.println("Central trying to create train: "+trainNum);
 		if(hasTrainModel) {
 			trackModel.NewTrain(trainNum, length*2, direction, startBlock, line);
 		}else{
 			trackModel.NewTrain(trainNum, length*2, direction, startBlock,line, true);
-
+			System.out.println("Creating train: "+trainNum);
 		}
 	}
 	public void UpdateTrack(HashMap<String,HashMap<String,ArrayList<Block>>> track){
@@ -79,11 +80,11 @@ public class Central{
 	}
 
 	public void TrainModelCommandedSpeed(int trainId, double speed)
-    {
-        trainWithControl.getCommandSpeed(trainId, speed);
-    }
+	{
+		trainWithControl.getCommandSpeed(trainId, speed);
+	}
 
-    // TrainModel will call this
+	// TrainModel will call this
 	public void UpdateTrainDistance(int trainId, float movedDistance){
 		//Whoever needs this information, please fill in your parts
 	}
@@ -92,13 +93,13 @@ public class Central{
 	public void ServiceBrakeFromTrain(int trainId, Boolean activate)
 	{
 		//Whoever needs this information, please fill in your parts
-    }
+	}
 
-    // TrainModel will call this
-    public void EmergencyStopFromTrain(int trainId, Boolean activate)
-    {
+	// TrainModel will call this
+	public void EmergencyStopFromTrain(int trainId, Boolean activate)
+	{
 		//Whoever needs this information, please fill in your parts
-    }
+	}
 
 	public void TrackStateUpdate(int occBlock){
 
@@ -110,16 +111,18 @@ public class Central{
 		wayside.RemoveOccupied(blockNum);
 	}
 	public void CTCAuthority(int location, int authority, int trainNum){
+		System.out.println(authority);
 		wayside.SuggestAuthority(location, authority, trainNum);
 	}
-	public void WaysideSendAuthority(ArrayList<Integer> authorityBlocks, ArrayList<Integer> authorityBlocks1, int blockNum, boolean filler){
+	public void WaysideSendAuthority(ArrayList<Integer> authorityBlocks, ArrayList<Integer> authorityBlocks1, int blockNum, String line, boolean filler){
 		if(!hasTrainModel) {
-			trackModel.CommandedAuthority(authorityBlocks, authorityBlocks1, blockNum,true);
+			trackModel.CommandedAuthorityBlock(authorityBlocks, authorityBlocks1, blockNum,line,true);
 		}else{
-			trackModel.CommandedAuthority(authorityBlocks,authorityBlocks1,blockNum);
+			trackModel.CommandedAuthorityBlock(authorityBlocks,authorityBlocks1,blockNum,line);
 		}
 	}
 	public void WaysideSendAuthority(ArrayList<Integer> authorityBlocks, ArrayList<Integer> authorityBlocks1, int trainNum){
+		System.out.println("Wayside calling update authority on: "+trainNum);
 		if(!hasTrainModel) {
 			trackModel.CommandedAuthority(authorityBlocks, authorityBlocks1, trainNum,true);
 		}else{
@@ -127,7 +130,7 @@ public class Central{
 		}
 	}
 	public void SendMultiplier(int multiplier){
-		
+		trackModel.SetExecutionMultiplier(multiplier);
 	}
 	public void TrainToYard(int trainNum){
 		ctc.killTrain(trainNum);
@@ -145,8 +148,7 @@ public class Central{
 	}
 	public void CTCAddOccupancy(int blockNum, String line)
 	{
-		ctc.ReceiveOccupancy(blockNum, line);
-		ctc.update();
+
 	}
 	public void TrackSetCrossing(int blockNum, String line)
 	{
@@ -160,32 +162,32 @@ public class Central{
 		ctc.ReceiveTickets(newTickets, blockNum, line);
 	}
 	// Send speed limit To TrainModel
-    public void TrainSendSpeedLimit(int trainNum, double speedLimit)
-    {
-        trainWithControl.getSpeedLimit(trainNum, speedLimit);
-    }
+	public void TrainSendSpeedLimit(int trainNum, double speedLimit)
+	{
+		trainWithControl.getSpeedLimit(trainNum, speedLimit);
+	}
 
-    public void TrainSendInYard(int trainNum, Boolean inYard)
+	public void TrainSendInYard(int trainNum, Boolean inYard)
 	{
 		trainWithControl.getInYard(trainNum, inYard);
 	}
 
 	// Send authority TO TrainModel
 	public void TrainSendAuthority(int trainNum, Double authority) {
-	    trainWithControl.getAuthority(trainNum, authority);
-    }
+		trainWithControl.getAuthority(trainNum, authority);
+	}
 
-    // Send emergency stop info To TrainModel
-    public void TrainSendEmergencyStop(int trainId, Boolean activate)
-    {
-        trainWithControl.emergencyStop(trainId, activate);
-    }
-    // Send stop info TO train
-    // stopAtStation = true =>  arrives at a station after moving distance of authority
-    public void TrainStopAtStation(int trainId, Boolean stopAtStation)
-    {
-        trainWithControl.atStation(trainId, stopAtStation);
-    }
+	// Send emergency stop info To TrainModel
+	public void TrainSendEmergencyStop(int trainId, Boolean activate)
+	{
+		trainWithControl.emergencyStop(trainId, activate);
+	}
+	// Send stop info TO train
+	// stopAtStation = true =>  arrives at a station after moving distance of authority
+	public void TrainStopAtStation(int trainId, Boolean stopAtStation)
+	{
+		trainWithControl.atStation(trainId, stopAtStation);
+	}
 
 	public void Update(int mulitplyer){
 		trainWithControl.step();
@@ -211,5 +213,6 @@ public class Central{
 		XXXX.receiveTrackData(track);
 	}
 	*/
-	
+
 }
+
