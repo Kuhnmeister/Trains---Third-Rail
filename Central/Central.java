@@ -141,6 +141,9 @@ public class Central{
 	{
 		
 	}
+	public void TrainSendAuthority(int trainNum, double authority){
+
+	}
 	public void TrackSetCrossing(int blockNum, String line)
 	{
 		trackModel.FlipCrossing(blockNum,line);
