@@ -53,6 +53,7 @@ public class Wayside {
 		String[] keyArray = newTrack.keySet().toArray(new String[newTrack.keySet().size()]);
 		lineNames = keyArray;
 		track = GetTrack(newTrack, lineNames[0]);
+		System.out.println(lineNames[0]);
 		//track2 = GetTrack(newTrack, lineNames[1]);
 		block = track.get(9);
 		theGui = new WaysideController(args, this, true); //launchless GUI
