@@ -17,12 +17,16 @@ public class Train{
     private boolean moveAtMaxSpeed=false;
     private Block prevBlock;
     private boolean realTrain=true;
+    private boolean tempTrain=false;
     private int trainLength;
     private boolean prevBlockOccupied=false;
     private boolean integrated=false;
     private String line;
     public Train(){
-        realTrain=false;
+        tempTrain=true;
+    }
+    public boolean GetIsTemp(){
+        return tempTrain;
     }
     public boolean GetIsReal(){
         return realTrain;
