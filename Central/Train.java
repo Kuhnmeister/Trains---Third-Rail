@@ -24,6 +24,7 @@ public class Train{
     private String line;
     public Train(){
         tempTrain=true;
+        line = "Not a real train";
     }
     public boolean GetIsTemp(){
         return tempTrain;
