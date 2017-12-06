@@ -696,7 +696,6 @@ public class BBC{
 										train = i;
 									}
 								}
-<<<<<<< HEAD
 								System.out.println(trainList.get(choice).getLocation());
 								System.out.println(trainList.get(choice).getLine());
 								trainList.get(choice).setSpeed(55.0);
@@ -704,19 +703,6 @@ public class BBC{
 								System.out.println(trainList.get(train).getId() + "shabobby");
 								central.CreateTrain(trainList.get(train).getId(), trainList.get(train).getLength(),
 								0, tracking.GetFirstBlock(trainList.get(train).getLine()), trainList.get(train).getLine());
-=======
-								else{
-									trainList.get(trainSelect.getSelectedIndex()).setLocation(95);
-								}*/
-								trainList.get(choice).setLocation(tracking.GetFirstBlock(trainList.get(choice).getLine()));
-								System.out.println(trainList.get(choice).getLocation());
-								System.out.println(trainList.get(choice).getLine());
-								trainList.get(choice).setSpeed(55.0);
-								int length = 1;
-								System.out.println(trainList.get(choice).getId() + "shabobby");
-								central.CreateTrain(trainList.get(choice).getId(), trainList.get(choice).getLength(),
-								0, tracking.GetFirstBlock(trainList.get(choice).getLine()), trainList.get(choice).getLine());
->>>>>>> 9aae96c28341472ad649e6540c66f2c518f053a0
 							}
 						}
 					}
