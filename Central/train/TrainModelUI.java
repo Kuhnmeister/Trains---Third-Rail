@@ -68,6 +68,12 @@ public class TrainModelUI {
         });
     }
 
+    void linkToTrainPool(TrainPool trainPool)
+    {
+        this.trains = trainPool.trains;
+        update();
+    }
+
     public void addTrainToSelector(Integer id)
     {
         trainSelector.addItem("Train "+id.toString());

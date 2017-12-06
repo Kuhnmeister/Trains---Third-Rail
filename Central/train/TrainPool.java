@@ -16,6 +16,11 @@ public class TrainPool {
         initialize();
     }
 
+    public TrainPool()
+    {
+        trains = new ArrayList<>();
+    }
+
     private void initialize()
     {
         controllerUI.update();

@@ -69,7 +69,7 @@ public class CentralGui extends Application{
 
             @Override
             public void handle(ActionEvent e) {
-                theCentral.CreateTrainWithController(theArgs);
+                theCentral.CreateTrainModel(theArgs);
             }
         });
 

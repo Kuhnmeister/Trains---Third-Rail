@@ -135,6 +135,12 @@ public class TrainControllerUI {
 
     }
 
+    void linkToTrainPool(TrainPool trainPool)
+    {
+        this.trains = trainPool.trains;
+        update();
+    }
+
     void addTrainToSelector(Integer id)
     {
         trainSelector.addItem("Train "+id.toString());

@@ -1,4 +1,7 @@
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import train.TrainControllerUI;
+import train.TrainModelUI;
+import train.TrainPool;
 
 import java.lang.*;
 import java.io.*;
@@ -11,7 +14,9 @@ public class Central{
 	private Wayside wayside;
 	private CTCcontroller ctc;
 	private CentralGui centralGui;
-	private TrainWithController trainWithControl;
+	private TrainPool trainPool;
+	private TrainControllerUI trainControllerUi;
+	TrainModelUI trainModelGui;
 	private boolean hasTrainModel=false;
 	private String[] args;
 	public static void main(String[] args){
@@ -25,12 +30,6 @@ public class Central{
 		System.out.println(testString);
 	}
 
-	// TrainModel and Controller are now one module.
-	public void CreateTrainWithController(String[] emptyArgs){
-		System.out.println("Create Train Model and Train Controller");
-		trainWithControl = new TrainWithController(emptyArgs, this);
-		hasTrainModel = true;
-	}
 
 	public void CreateTrackModel(String[] emptyArgs){
 		System.out.println("Create Track Model");
@@ -41,15 +40,16 @@ public class Central{
 		ctc=new CTCcontroller(this);
 	}
 
-	// Change this name to sth. more aproperaite
-	public void TrainModelNewTrain(int trainId, String name, int carNumber, ArrayList<String> stopNames)
+	public void CreateTrainModel(String[] emptyArgs)
     {
-        trainWithControl.newTrain(trainId, name, carNumber, stopNames);
+		trainModelGui = new TrainModelUI();
     }
-    public void TrainModelDeleteTrain(int trainId)
-    {
-        trainWithControl.deleteTrain(trainId);
-    }
+
+	public void CreateTrainController(String[] emptyArgs)
+	{
+		trainControllerUi = new TrainControllerUI();
+	}
+
 
 	public void CreateTrain(int trainNum, int length, int direction,int startBlock, String line){
 		System.out.println("Central trying to create train: "+trainNum);
@@ -79,10 +79,10 @@ public class Central{
 
 	}
 
-	public void TrainModelCommandedSpeed(int trainId, double speed)
-    {
-        trainWithControl.getCommandSpeed(trainId, speed);
-    }
+	public void TrainModelCommandedSpeed(int trainId, double speed) {
+
+	}
+
 
     // TrainModel will call this
 	public void UpdateTrainDistance(int trainId, float movedDistance){
@@ -161,36 +161,11 @@ public class Central{
 		System.out.println("Track reported: "+newTickets+" at Block: "+blockNum+" on "+line+" line");
 		ctc.ReceiveTickets(newTickets, blockNum, line);
 	}
-	// Send speed limit To TrainModel
-    public void TrainSendSpeedLimit(int trainNum, double speedLimit)
-    {
-        trainWithControl.getSpeedLimit(trainNum, speedLimit);
-    }
 
-    public void TrainSendInYard(int trainNum, Boolean inYard)
-	{
-		trainWithControl.getInYard(trainNum, inYard);
-	}
 
-	// Send authority TO TrainModel
-	public void TrainSendAuthority(int trainNum, Double authority) {
-	    trainWithControl.getAuthority(trainNum, authority);
-    }
-
-    // Send emergency stop info To TrainModel
-    public void TrainSendEmergencyStop(int trainId, Boolean activate)
-    {
-        trainWithControl.emergencyStop(trainId, activate);
-    }
-    // Send stop info TO train
-    // stopAtStation = true =>  arrives at a station after moving distance of authority
-    public void TrainStopAtStation(int trainId, Boolean stopAtStation)
-    {
-        trainWithControl.atStation(trainId, stopAtStation);
-    }
 
 	public void Update(int mulitplyer){
-		trainWithControl.step();
+		trainPool.Step();
 	}
 	/*
 	public void suggestedSpeed(int blockForTrain, double speedForTrain){
