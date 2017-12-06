@@ -204,11 +204,11 @@ public class TrackModel {
 
     }
     public void AddOccupied(Block newBlock){
-        if(!demoMode){
-            IntegratedAddOccupancy(newBlock.GetBlockNum(), newBlock.GetLine());
-        }
-        occupiedBlocks.add(newBlock);
-        System.out.println("Added Block: " + newBlock.GetBlockNum());
+            if(!demoMode){
+                IntegratedAddOccupancy(newBlock.GetBlockNum(), newBlock.GetLine());
+            }
+            occupiedBlocks.add(newBlock);
+            System.out.println("Added Block: " + newBlock.GetBlockNum());
     }
     public void RemoveOccupied(Block newBlock){
         if(!demoMode){
@@ -255,15 +255,15 @@ public class TrackModel {
 
     }
     public void WaysideInput(int updateBlock,String line, String newLightColor,boolean flipSwitch){
-        Block editingBlock = GetBlock(updateBlock, line);
-        if(editingBlock==null){
-            System.out.println("the block is null");
-        }else if(newLightColor == null){
-            System.out.println("the light color is null");
-        }else {
-            editingBlock.SetLightColor(newLightColor);
-            editingBlock.FlipSwitch(flipSwitch);
-        }
+            Block editingBlock = GetBlock(updateBlock, line);
+            if(editingBlock==null){
+                System.out.println("the block is null");
+            }else if(newLightColor == null){
+                System.out.println("the light color is null");
+            }else {
+                editingBlock.SetLightColor(newLightColor);
+                editingBlock.FlipSwitch(flipSwitch);
+            }
 
     }
 
@@ -367,18 +367,17 @@ public class TrackModel {
         allTrains.get(trainNum).UpdatePositionIntegrated(movedDistance);
     }
     public void NewTrain(int trainNum, int length, int direction, int startBlock,String line,boolean noTrainModel){
-
+		
         Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock,line),this,line);
         theGui.AddTrain(newTrain,true);
         allTrains.put(trainNum,newTrain);
-        System.out.println("Train created: "+ newTrain.GetTrainNum());
+		System.out.println("Train created: "+ newTrain.GetTrainNum());
     }
     public void WaysideCommandedSpeed(int trainNum, double speed){
         theCentral.TrainModelCommandedSpeed(trainNum,speed);
     }
     public void WaysideCommandedSpeed(int trainNum, double speed,boolean noTrainModel){
         allTrains.get(trainNum).SetVelocity(speed);
-        System.out.println("Update Speed Train: "+trainNum+" to "+speed);
     }
     public void IntegratedAddOccupancy(int blockNum,String line){
         theCentral.WaysideAddOccupied(blockNum,line);
@@ -487,7 +486,7 @@ public class TrackModel {
             }else {
 
                 allTrains.get(trainNum).SetAuthority(authorityBlocks.size() - 1);
-                System.out.println("New Authority on train: "+allTrains.get(trainNum).GetTrainNum()+" Authority is set to: "+(authorityBlocks.size() - 1));
+				System.out.println("New Authority on train: "+allTrains.get(trainNum).GetTrainNum()+" Authority is set to: "+(authorityBlocks.size() - 1));
             }
         }
     }
@@ -582,7 +581,6 @@ public class TrackModel {
     public void SetExecutionMultiplier(int newMultiplier){
         multiplier=newMultiplier;
     }
-
 
 
 
