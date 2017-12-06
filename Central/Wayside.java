@@ -305,6 +305,7 @@ public class Wayside {
 			//pass these to the central to be sent to the train
 			if(integated) {
 				central.WaysideSendAuthority(currentAuth, currentAuth1, occBlock, lineNames[0], true);
+				central.CTCAddOccupancy(occBlock, lineNames[0]);
 			}
 		}
 		//print to show update
