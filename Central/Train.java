@@ -73,9 +73,10 @@ public class Train{
         updatePositionTimer.schedule(new TrainUpdateTimer(updateTimeMS,this),0,updateTimeMS);
     }
     public void InitializeTrain(){
-        theModel.AddOccupied(currentBlock);
         currentBlock.SetIsOccupied(true);
         nextBlock = currentBlock.GetNextBlock(direction);
+        theModel.AddOccupied(currentBlock);
+
         updatePositionTimer=new Timer();
     }
     public String GetLine(){
@@ -94,6 +95,7 @@ public class Train{
 
             currentBlock = nextBlock;
             if(currentBlock.GetIsStation()){
+                System.out.println("Train is at a station");
                 theModel.GenerateTickets(currentBlock.GetBlockNum(),line);
             }
             if(currentBlock.GetHasBeacon()){
