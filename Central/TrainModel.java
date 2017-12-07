@@ -58,6 +58,12 @@ public class TrainModel {
         this.theCentral = central;
     }
 
+    void setSlope(Double slope)
+    {
+        this.slope = slope;
+        updateInfo();
+    }
+
     void setAuthority(Double authority) {
         this.authority = authority*MILE2M;
         convertDisplayUnit();
@@ -143,6 +149,7 @@ public class TrainModel {
     {
         displayCurrentSpeed = currentSpeed/MPH2MS;
         displayAuthority = authority/MILE2M;
+        displaySlope = Math.toDegrees(slope);
     }
 
     void step()
@@ -171,7 +178,10 @@ public class TrainModel {
         } else {
             force = currentPower * 1000 / currentSpeed;
         }
-        friction = (totalWeight * 1000 * G * FRICTION_RATE)/12;
+        friction = (totalWeight * 1000 * G * FRICTION_RATE)/NUM_OF_WHEELS;
+        friction = (totalWeight * 1000 /NUM_OF_WHEELS * G * Math.sin(slope))
+                + (friction * Math.cos(slope));
+
         force = force - friction;
         if(Math.abs(force) < EPS)
         {
