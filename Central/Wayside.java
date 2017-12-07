@@ -478,8 +478,8 @@ public class Wayside {
 	}
 	
 	//passes mataince request from central to TrackModel
-	public void SetMataince(int BlockNum, String Line)
+	public void SetMaintainance(int blockNum, String line)
 	{
-		
+		central.SetMaintainanceToTrackModel(blockNum, line);
 	}
 }
