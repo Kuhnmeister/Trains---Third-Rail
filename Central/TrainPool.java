@@ -174,6 +174,25 @@ public class TrainPool {
     }
 
     /**
+     * Set angle of slope (in radian).
+     *
+     * @author Yincheng He
+     * @return succeed?
+     *
+     */
+    public Boolean setGrade(Integer id, Double grade)
+    {
+        Integer index = findTrainIndexById(id);
+        System.out.print(index.toString());
+        if(index == -1)
+        {
+            return false;
+        }
+        trains.get(index).setSlope(grade);
+        return true;
+    }
+
+    /**
      * Set total weight of the train (in tons).
      *
      * @author Yincheng He

@@ -11,6 +11,7 @@
 public class BlockInfo {
 	private String section;
 	private Boolean occupancy, light, hasCrossing, crossingOn, hasSwitch, switchState;
+	private Boolean switchLock = false;
 	private int blockNumber = 0; //the block number
 	private int blockNumber0 = 0; //the block being pointed towards on initial departure(0 means yard)
 	private int blockNumber1 = 0; //block being pointed towards during return
@@ -145,7 +146,7 @@ public class BlockInfo {
 	{
 		boolean worked = false;
 		//the only possible state that will allow a switch to move: free and has switch
-		if(!occupancy && hasSwitch && !(nextBlock1.occupancy) && !(nextBlock0.occupancy)) {
+		if(!occupancy && hasSwitch && !(nextBlock1.occupancy) && !(nextBlock0.occupancy) && !(switchLock)) {
 			switchState = !(switchState);
 			//check that the switch was moved
 			worked = true;
@@ -166,6 +167,12 @@ public class BlockInfo {
 		}
 		
 		return worked;
+	}
+	
+	//change the lock on the switch
+	public void changeLock()
+	{
+		switchLock = !switchLock;
 	}
 	
 	//method to change the lights based on occupancy

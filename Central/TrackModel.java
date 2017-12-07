@@ -341,7 +341,9 @@ public class TrackModel {
         }else{
             newTickets= stationBlock.GenerateTickets();
             if(!demoMode) {
+                System.out.println("Track reported: "+newTickets+" at Block: "+blockNum+" on "+line+" line");
                 theCentral.TrackGenerateTickets(newTickets, blockNum, line);
+
             }else{
                 System.out.println("Track reported: "+newTickets+" at Block: "+blockNum+" on "+line+" line");
             }
@@ -443,7 +445,7 @@ public class TrackModel {
             }
         }
         double calcAuthority=0;
-        if(!theTrain.GetIsTemp()){
+        if(theTrain.GetIsTemp()){
             System.out.println("Can't find train on block: "+blockNum);
         }else {
             if (theTrain.GetDirection() == 0) {

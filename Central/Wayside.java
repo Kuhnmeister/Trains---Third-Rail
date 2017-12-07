@@ -327,6 +327,11 @@ public class Wayside {
 			//call method to set lights
 			this.SetLights(freedBlock, lineNames[0]);
 			this.SetCrossing(freedBlock, lineNames[0]);
+			//handle automatic switching
+			if(track.get(freedBlock).hasSwitch()){
+				
+			}
+		
 		}else {
 			
 		}
@@ -371,17 +376,17 @@ public class Wayside {
 	public void SuggestAuthority(int blockNum, int suggestedAuth, int trainNum)
 	{
 		currentBlock = blockNum;
-		System.out.println(blockNum);
+		System.out.println("The block is: " + blockNum + " For train: " + trainNum + " on  Block: " + blockNum);
 		currentAuth = getAuthority(blockNum, true);
 		currentAuth1 = getAuthority(blockNum, false);
 		 if(currentAuth.contains(suggestedAuth)) {
 			//safe authority
 			int index = currentAuth.indexOf(suggestedAuth);
-			System.out.println("Authority is within safe limits: direction 0");
+			//System.out.println("Authority is within safe limits: direction 0");
 			currentAuth = new ArrayList<Integer> (currentAuth.subList(0, index));
 			
 		 }else if(currentAuth1.contains(suggestedAuth)) {
-			System.out.println("Authority is within safe limits: direction 1");
+			//System.out.println("Authority is within safe limits: direction 1");
 			int index = currentAuth1.indexOf(suggestedAuth);
 			currentAuth = new ArrayList<Integer> (currentAuth1.subList(0, index));
 		  }
