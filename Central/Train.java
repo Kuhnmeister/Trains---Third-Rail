@@ -148,6 +148,7 @@ public class Train{
 
                 }
                 if(currentBlock.GetIsStation()){
+                    System.out.println("Train is at a station");
                     theModel.GenerateTickets(currentBlock.GetBlockNum(),line);
                 }
 
