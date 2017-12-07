@@ -302,7 +302,22 @@ public class Wayside {
 			this.SetCrossing(occBlock, lineNames[0]);
 			//now call for an authority and send to to the track
 			currentAuth = getAuthority(occBlock, true);
+			ArrayList<Integer> currentAuthTest = getAuthority(occBlock, true);
 			currentAuth1 = getAuthority(occBlock, false);
+			ArrayList<Integer> currentAuth1Test = getAuthority(occBlock, false);
+			
+			//test to ensure they are equal
+			if(!(VoterAuthority(currentAuth, currentAuthTest) && VoterAuthority(currentAuth1, currentAuth1Test)))
+			{
+				//only entered if the two arrays do not match
+				//makes a new arrayList of only the current Block
+				currentAuth = new ArrayList<Integer> ();
+				currentAuth.add((Integer) occBlock);
+				currentAuth1 = new ArrayList<Integer> ();
+				currentAuth1.add((Integer) occBlock);
+			}
+		
+			
 			//pass these to the central to be sent to the train
 			if(integated) {
 				central.WaysideSendAuthority(currentAuth, currentAuth1, occBlock, lineNames[0], true);
@@ -378,18 +393,30 @@ public class Wayside {
 		currentBlock = blockNum;
 		System.out.println("The block is: " + blockNum + " For train: " + trainNum + " on  Block: " + blockNum);
 		currentAuth = getAuthority(blockNum, true);
+		ArrayList<Integer> currentAuthTest = getAuthority(blockNum, true);
 		currentAuth1 = getAuthority(blockNum, false);
-		 if(currentAuth.contains(suggestedAuth)) {
+		ArrayList<Integer> currentAuth1Test = getAuthority(blockNum, false);
+		//test to ensure they are equal
+		if(!(VoterAuthority(currentAuth, currentAuthTest) && VoterAuthority(currentAuth1, currentAuth1Test)))
+		{
+			  //only entered if the two arrays do not match
+			  currentAuth = new ArrayList<Integer> ();
+				currentAuth.add((Integer) blockNum);
+				currentAuth1 = new ArrayList<Integer> ();
+				currentAuth1.add((Integer) blockNum);
+		}
+		
+		if(currentAuth.contains(suggestedAuth)) {
 			//safe authority
 			int index = currentAuth.indexOf(suggestedAuth);
 			//System.out.println("Authority is within safe limits: direction 0");
 			currentAuth = new ArrayList<Integer> (currentAuth.subList(0, index));
 			
-		 }else if(currentAuth1.contains(suggestedAuth)) {
+		}else if(currentAuth1.contains(suggestedAuth)) {
 			//System.out.println("Authority is within safe limits: direction 1");
 			int index = currentAuth1.indexOf(suggestedAuth);
-			currentAuth = new ArrayList<Integer> (currentAuth1.subList(0, index));
-		  }
+			currentAuth1 = new ArrayList<Integer> (currentAuth1.subList(0, index));
+		}
 		 //call central to pass to track
 		 System.out.println(currentAuth.toString() + "  |  " +currentAuth1.toString());
 		 System.out.println("To train: " + trainNum);
@@ -398,6 +425,27 @@ public class Wayside {
 		 }
 	}
 	
+	//called everytime a block with a switch is longer occupied move and lock the switch
+	//reduces throughput, but is safe
+	private boolean LockSwitch()
+	{
+		return false;
+	}
+	
+	//this method will be used for safety vital code
+	//compares 2 values too ensure the match
+	private boolean VoterAuthority(ArrayList<Integer> auth1, ArrayList<Integer> auth2)
+	{
+		//if both arrays contain all the same points, they are equal and the results are valid
+		System.out.println(auth1.toString() + "      " + auth2.toString());
+		Object[] testArray1 = auth1.toArray();
+		Object[] testArray2 = auth2.toArray();
+		System.out.println("The authorities do match: " + Arrays.equals(testArray1, testArray2));
+		return Arrays.equals(testArray1, testArray2);
+	}
+	
+	//this method will not lock the switch, since it is called externally
+	//locking shall only occur from internal wayside methods
 	public boolean SwitchSwitch(int blockNum, boolean state) 
 	{
 		//move switch in BlockInfo with this method
