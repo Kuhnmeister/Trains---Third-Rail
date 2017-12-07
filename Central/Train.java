@@ -94,12 +94,7 @@ public class Train{
             }
 
             currentBlock = nextBlock;
-            if(currentBlock.GetIsStation()){
-                System.out.println("Train is at a station");
-                theModel.GenerateTickets(currentBlock.GetBlockNum(),line);
-            }else{
-                System.out.println("Train is not at station Block Num: "+currentBlock.GetBlockNum());
-            }
+
             if(currentBlock.GetHasBeacon()){
                BitSet beaconMessage= currentBlock.GetBeaconData();
                theModel.ReportBeaconData(beaconMessage, trainNum);
@@ -119,7 +114,12 @@ public class Train{
                 theModel.AddOccupied(currentBlock);
                 currentBlock.SetIsOccupied(true);
             }
-
+            if(currentBlock.GetIsStation()){
+                System.out.println("Train is at a station");
+                theModel.GenerateTickets(currentBlock.GetBlockNum(),line);
+            }else{
+                System.out.println("Train is not at station Block Num: "+currentBlock.GetBlockNum());
+            }
 
 
         }else {
