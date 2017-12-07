@@ -146,7 +146,7 @@ public class BlockInfo {
 	{
 		boolean worked = false;
 		//the only possible state that will allow a switch to move: free and has switch
-		if(!occupancy && hasSwitch && !(nextBlock1.occupancy) && !(nextBlock0.occupancy) && !(switchLock)) {
+		if(!occupancy && hasSwitch && !(switchLock)) {
 			switchState = !(switchState);
 			//check that the switch was moved
 			worked = true;
@@ -173,6 +173,10 @@ public class BlockInfo {
 	public void changeLock()
 	{
 		switchLock = !switchLock;
+	}
+	public void setLock(boolean lockState)
+	{
+		switchLock = lockState;
 	}
 	
 	//method to change the lights based on occupancy

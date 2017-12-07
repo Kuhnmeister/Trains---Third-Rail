@@ -522,7 +522,6 @@ public class BBC{
 			
 		TimerTask clockRun = new TimerTask(){
 			public void run(){
-				System.out.println("my carbonara");
 				updateRoute();
 				if((time[0]/10000) == 12){
 					if((time[0]/100)%100 == 59){
@@ -900,7 +899,6 @@ public class BBC{
 		}
 	}
 	public void updateRoute(){
-		System.out.println("Whats up doc");
 		tracking.updateRoute(trainList, this);
 	}
 	public void receiveTrackData(HashMap<String, HashMap<String, ArrayList<Block>>> track){
@@ -1083,11 +1081,20 @@ public class BBC{
 		JPanel theSwitches = new JPanel();
 		JPanel switchButton = new JPanel();
 		JPanel switchDisplay = new JPanel();
+		JPanel maintenancePanel = new JPanel();
+		JButton maintenance = new JButton("Schedule maintenance");
 		JFrame lineView = new JFrame("Block: " + Integer.toString(block));
 		box.setLayout(new GridLayout(1,2));
 		JLabel header = new JLabel();
 		Container lineContainer = lineView.getContentPane();
-		lineContainer.setLayout(new GridLayout(5,1));
+		lineContainer.setLayout(new GridLayout(6,1));
+		lineContainer.add(maintenancePanel);
+		maintenancePanel.add(maintenance);
+		maintenance.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				central.SetMaintenanceToWayside(block, lineChoice);
+			}
+		});
 		lineContainer.add(crossings);
 		lineContainer.add(undergrounds);
 		lineContainer.add(theSwitches);
@@ -1253,7 +1260,6 @@ public class BBC{
 	int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice, int multiplier, Central central, JComboBox<String> line){
 		TimerTask clockRun = new TimerTask(){
 			public void run(){	
-				System.out.println("carbonara");
 				updateRoute();
 				central.SendMultiplier(multiplier);
 				if((time[0]/10000) == 12){
