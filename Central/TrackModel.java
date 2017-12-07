@@ -435,6 +435,8 @@ public class TrackModel {
             if(value.GetCurrentBlock().GetBlockNum()==blockNum && line.equals(value.GetLine())){
                 System.out.println("Found the train");
                 theTrain=value;
+            }else{
+                System.out.println("Train: "+value.GetTrainNum()+" is on block: "+value.GetCurrentBlock().GetBlockNum()+" not on block "+blockNum);
             }
         }
         double calcAuthority=0;
