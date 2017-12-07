@@ -170,7 +170,6 @@ public class BlockInfo {
 	}
 	
 	//change the lock on the switch
-	//lock 
 	public void changeLock()
 	{
 		switchLock = !switchLock;
