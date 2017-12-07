@@ -592,7 +592,18 @@ public class TrackModel {
     public void SetExecutionMultiplier(int newMultiplier){
         multiplier=newMultiplier;
     }
-
+    public void SetMaintainance(int blockNum, String line){
+        Block affectedBlock = GetBlock(blockNum,line);
+        if(affectedBlock.GetMaintainance()){
+            //currently under maintainace
+            affectedBlock.SetMaintainance();
+            RemoveOccupied(affectedBlock);
+        }else{
+            //not under maintainance
+            affectedBlock.SetMaintainance();
+            AddOccupied(affectedBlock);
+        }
+    }
 
 
 

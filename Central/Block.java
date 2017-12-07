@@ -15,6 +15,7 @@ public class Block {
     private boolean hasBeacon;
     private Beacon thisBeacon;
     private boolean switchPosition;
+    private boolean maintainance = false;
     private boolean hasRailwayCrossing;
     private boolean crossingOn;
     private boolean isOccupied = false;
@@ -312,6 +313,19 @@ public class Block {
         if(GetHasBeacon()){
             thisBeacon.SetMessageString(newMessage);
         }
+    }
+    public void SetMaintainance(){
+
+        if(maintainace){
+            maintainance=!maintainance;
+            isOccupied=true;
+        }else{
+            maintainance=!maintainance;
+            isOccupied=false;
+        }
+    }
+    public boolean GetMaintainance(){
+        return maintainance;
     }
     public int GenerateTickets(){
         int newTickets= thisStation.MakeTickets();
