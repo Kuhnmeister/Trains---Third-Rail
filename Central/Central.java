@@ -174,6 +174,15 @@ public class Central{
 	public void Update(int mulitplyer){
 		trainPool.Step();
 	}
+
+
+
+	public void SetMaintainanceToTrackModel(int blockNum, String line){
+		trackModel.SetMaintainance(blockNum,line);
+	}
+	public void SetMaintainanceToWayside(int blockNum,String line){
+
+	}
 	/*
 	public void suggestedSpeed(int blockForTrain, double speedForTrain){
 		XXXX.receiveSpeed(blockForTrain, speedForTrain);
