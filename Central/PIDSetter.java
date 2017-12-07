@@ -7,7 +7,7 @@ public class PIDSetter {
     JTextField KiInput;
     JButton OKButton;
     JPanel PanelMain;
-    private TrainControllerUI trainctl;
+    private TrainControllerUI trainControllerUI;
 
     class doneActionListener implements ActionListener{
 
@@ -18,17 +18,17 @@ public class PIDSetter {
         }
 
         public void actionPerformed(ActionEvent e) {
-            trainctl.currentController.Kp = Double.parseDouble(KpInput.getText());
-            trainctl.currentController.Ki = Double.parseDouble(KiInput.getText());
-            //System.out.print("KKp:"+trainctl.currentTrain.Kp);
-            //trainctl.currentTrain.resetPID();
+            trainControllerUI.currentController.Kp = Double.parseDouble(KpInput.getText());
+            trainControllerUI.currentController.Ki = Double.parseDouble(KiInput.getText());
+            //System.out.print("KKp:"+trainControllerUI.currentTrain.Kp);
+            //trainControllerUI.currentTrain.resetPID();
             toBeClose.setVisible(false);
             toBeClose.dispose();
         }
     }
     public PIDSetter(TrainControllerUI ctl)
     {
-        trainctl = ctl;
+        trainControllerUI = ctl;
         //OKButton.addActionListener(new doneActionListener(this));
     }
 }
