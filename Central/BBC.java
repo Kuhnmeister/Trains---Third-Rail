@@ -1094,7 +1094,7 @@ public class BBC{
 			public void actionPerformed(ActionEvent e){
 				central.SetMaintenanceToWayside(block, lineChoice);
 			}
-		}
+		});
 		lineContainer.add(crossings);
 		lineContainer.add(undergrounds);
 		lineContainer.add(theSwitches);
