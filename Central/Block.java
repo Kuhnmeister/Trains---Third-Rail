@@ -316,7 +316,7 @@ public class Block {
     }
     public void SetMaintainance(){
 
-        if(maintainace){
+        if(maintainance){
             maintainance=!maintainance;
             isOccupied=true;
         }else{
