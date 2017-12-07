@@ -130,9 +130,7 @@ public class Train{
             if (currentBlock != endingBlock) {
 
                 currentBlock = nextBlock;
-                if(currentBlock.GetIsStation()){
-                    theModel.GenerateTickets(currentBlock.GetBlockNum(),line);
-                }
+
                 nextBlock = currentBlock.GetNextBlock(direction);
                 if(direction==0){
                     if(currentBlock.IsDirectionChange1()){
@@ -148,6 +146,10 @@ public class Train{
                     theModel.AddOccupied(currentBlock);
                     currentBlock.SetIsOccupied(true);
 
+                }
+                if(currentBlock.GetIsStation()){
+                    System.out.println("Train is at a station");
+                    theModel.GenerateTickets(currentBlock.GetBlockNum(),line);
                 }
 
             } else {
