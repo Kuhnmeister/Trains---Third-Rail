@@ -85,15 +85,15 @@ public class Tracking{
 				int location = trainList.get(i).getLocation();
 				int difference = 0;
 				int nextStop = 0 ;
+				System.out.println("POOSY");
 				for(int j = 0; j < stops.length; j++){
-					System.out.println(stops[j] + "POOSY");
 					if(location == Integer.parseInt(stops[j])){
 						System.out.println("ITS ME");
 						trainList.get(i).deleteStop(stops[j]);
 						bbc.SetSpeed(i, 0);
 						bbc.SetAuthority(i, 0);
 					}
-					while(difference <= 0){
+					/*while(difference <= 0){
 						difference = Integer.parseInt(stops[j]) - location;
 						nextStop = Integer.parseInt(stops[j]);
 					}
@@ -111,6 +111,7 @@ public class Tracking{
 					if(hasSwitch(location+1, trainList.get(i).getLine())){
 						int direction = nextStop - location;
 					}
+					*/
 				}
 			}
 		}

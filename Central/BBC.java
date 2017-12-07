@@ -522,6 +522,7 @@ public class BBC{
 			
 		TimerTask clockRun = new TimerTask(){
 			public void run(){
+				System.out.println("my carbonara");
 				updateRoute();
 				if((time[0]/10000) == 12){
 					if((time[0]/100)%100 == 59){
@@ -899,6 +900,7 @@ public class BBC{
 		}
 	}
 	public void updateRoute(){
+		System.out.println("Whats up doc");
 		tracking.updateRoute(trainList, this);
 	}
 	public void receiveTrackData(HashMap<String, HashMap<String, ArrayList<Block>>> track){
@@ -1251,6 +1253,7 @@ public class BBC{
 	int[] trainListed, int[] trainCount, JComboBox<String> trainSelect, JComboBox<String> trainChoice, int multiplier, Central central, JComboBox<String> line){
 		TimerTask clockRun = new TimerTask(){
 			public void run(){	
+				System.out.println("carbonara");
 				updateRoute();
 				central.SendMultiplier(multiplier);
 				if((time[0]/10000) == 12){
