@@ -152,7 +152,7 @@ public class Central{
 	}
 	public void CTCAddOccupancy(int blockNum, String line)
 	{
-		
+		ctc.ReceiveOccupancy(blockNum, line);
 	}
 	public void TrainSendAuthority(int trainNum, double authority){
 
