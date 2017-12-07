@@ -400,10 +400,10 @@ public class Wayside {
 		if(!(VoterAuthority(currentAuth, currentAuthTest) && VoterAuthority(currentAuth1, currentAuth1Test)))
 		{
 			  //only entered if the two arrays do not match
-			  currentAuth = new ArrayList<Integer> ();
-				currentAuth.add((Integer) blockNum);
-				currentAuth1 = new ArrayList<Integer> ();
-				currentAuth1.add((Integer) blockNum);
+			currentAuth = new ArrayList<Integer> ();
+			currentAuth.add((Integer) blockNum);
+			currentAuth1 = new ArrayList<Integer> ();
+			currentAuth1.add((Integer) blockNum);
 		}
 		
 		if(currentAuth.contains(suggestedAuth)) {
@@ -427,8 +427,29 @@ public class Wayside {
 	
 	//called everytime a block with a switch is longer occupied move and lock the switch
 	//reduces throughput, but is safe
-	private boolean LockSwitch()
+	private boolean LockSwitch(int blockNum)
 	{
+		//unlock the switch to enable it to move
+		track.get(blockNum).setLock(false);
+		//check that the block has a switch on it
+		if(track.get(blockNum).hasSwitch())
+		{
+			if(lineNames[0].equals("Red")){
+				//hardcoded check to ensure not shutting off the line
+				if(blockNum != 9){
+					track.get(blockNum).moveSwitch();
+					track.get(blockNum).setLock(true);
+					System.out.println("Switch has been moved and locked");
+				}
+			}else if(lineNames[0].equals("Green")){
+				//hardcoded check to ensure not shutting off the line
+				if(blockNum != 58 && blockNum != 62){
+					track.get(blockNum).moveSwitch();
+					track.get(blockNum).setLock(true);
+					System.out.println("Switch has been moved and locked");
+				}
+			}
+		}
 		return false;
 	}
 	
@@ -454,5 +475,11 @@ public class Wayside {
 			central.TrackMoveSwitch(blockNum, lineNames[0]);
 		}
 		return track.get(blockNum).switchState();
+	}
+	
+	//passes mataince request from central to TrackModel
+	public void SetMataince(int BlockNum, String Line)
+	{
+		
 	}
 }
