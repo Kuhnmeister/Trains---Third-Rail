@@ -327,6 +327,11 @@ public class Wayside {
 			//call method to set lights
 			this.SetLights(freedBlock, lineNames[0]);
 			this.SetCrossing(freedBlock, lineNames[0]);
+			//handle automatic switching
+			if(track.get(freedBlock).hasSwitch()){
+				
+			}
+		
 		}else {
 			
 		}
@@ -371,7 +376,7 @@ public class Wayside {
 	public void SuggestAuthority(int blockNum, int suggestedAuth, int trainNum)
 	{
 		currentBlock = blockNum;
-		System.out.println(blockNum);
+		System.out.println("The block is: " + blockNum + " For train: " + trainNum + " on  Block: " + blockNum);
 		currentAuth = getAuthority(blockNum, true);
 		currentAuth1 = getAuthority(blockNum, false);
 		 if(currentAuth.contains(suggestedAuth)) {
