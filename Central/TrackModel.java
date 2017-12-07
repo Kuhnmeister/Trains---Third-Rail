@@ -341,7 +341,9 @@ public class TrackModel {
         }else{
             newTickets= stationBlock.GenerateTickets();
             if(!demoMode) {
+                System.out.println("Track reported: "+newTickets+" at Block: "+blockNum+" on "+line+" line");
                 theCentral.TrackGenerateTickets(newTickets, blockNum, line);
+
             }else{
                 System.out.println("Track reported: "+newTickets+" at Block: "+blockNum+" on "+line+" line");
             }
