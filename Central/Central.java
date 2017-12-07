@@ -48,11 +48,15 @@ public class Central{
 		trainModelGui.linkToTrainPool(trainPool);
 	}
 
+	public Boolean TrainModelNewTrain(int trainNum)
+	{
+		return trainPool.createNewTrain(trainNum);
+	}
 
 	public void CreateTrain(int trainNum, int length, int direction,int startBlock, String line){
 		System.out.println("Central trying to create train: "+trainNum);
 		if(hasTrainModel) {
-			trainPool.createNewTrain(trainNum);
+			TrainModelNewTrain(trainNum);
 			trackModel.NewTrain(trainNum, length*2, direction, startBlock, line);
 		}else{
 			trackModel.NewTrain(trainNum, length*2, direction, startBlock,line, true);
