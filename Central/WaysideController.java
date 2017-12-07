@@ -94,7 +94,7 @@ public class WaysideController extends Application{
 		cb.getItems().add("Green");
 		cb.getItems().add("Red");
 		//set a default value
-		cb.setValue("Green");
+		cb.setValue("Red");
 		cb.setTooltip(new Tooltip("Select a Line"));
 
 		//TODO make blockInput choice box that is filled automatically
