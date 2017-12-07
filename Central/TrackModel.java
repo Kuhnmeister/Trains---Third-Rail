@@ -445,7 +445,7 @@ public class TrackModel {
             }
         }
         double calcAuthority=0;
-        if(!theTrain.GetIsTemp()){
+        if(theTrain.GetIsTemp()){
             System.out.println("Can't find train on block: "+blockNum);
         }else {
             if (theTrain.GetDirection() == 0) {
