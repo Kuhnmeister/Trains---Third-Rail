@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Trains{
 	protected static int numOfTrains = 0;
 	protected static String[] greenStations = new String[18];
@@ -6,7 +8,7 @@ public class Trains{
 	int id;
 	double trainSpeed;
 	int trainAuthority;
-	String[] trainStops = new String[26];
+	ArrayList<String> trainStops = new ArrayList<String>();
 	int stopCount= 0;
 	String departTime;
 	String amPm;
@@ -79,22 +81,55 @@ public class Trains{
 		return authority;
 	}
 	public void createStop(String newStop){
-		trainStops[stopCount] = newStop;
+		trainStops.add(stopCount, newStop);
 		stopCount++;
 	}
+	public void deleteStop(String stop){
+		int k = trainStops.indexOf(stop);
+		trainStops.set(k, null);
+		int i = 0;
+		ArrayList<String> newTrainStops = new ArrayList<String>();
+		boolean notFinished = true;
+		while(notFinished){
+			if(trainStops.get(i) != null){
+				newTrainStops.add(trainStops.get(i));
+			}
+			if(i == trainStops.size()-1){
+				notFinished = false;
+				stopCount -= 1;
+			}
+			i++;
+		}
+		trainStops = newTrainStops;
+		/*for(int i = 0; i < stopCount; i++){
+			if(stop == trainStops.get(i)){
+				System.out.println(trainStops.get(i) + "cancer");
+				k = i;
+			}
+		}
+		for(int j = k; j < stopCount; j++){
+			trainStops.set(j-1, trainStops.get(j));
+			if(j == stopCount-1){
+				trainStops.set(j, null);
+			}
+			System.out.println(trainStops.get(j-1) + "cooooncer" );
+		}
+		*/
+		
+	}
 	public boolean hasSchedule(){
-		return (!(trainStops[0] == null));
+		return (!(trainStops.isEmpty()));
 	}
 	public void sendToYard(int yardBlock){
-		for(int i = 0; i < trainStops.length; i++){
-			trainStops[i] = null;
+		for(int i = 0; i < trainStops.size(); i++){
+			trainStops.add(i, null);
 		}
-		trainStops[0] = Integer.toString(yardBlock);
+		trainStops.add(0,Integer.toString(yardBlock));
 	}
 	public String[] getSchedule(){
 		String[] trainSchedule = new String[stopCount];
 		for(int i = 0; i < stopCount; i++){
-			trainSchedule[i] = trainStops[i];
+			trainSchedule[i] = trainStops.get(i);
 		}
 		return trainSchedule;
 	}
@@ -105,6 +140,7 @@ public class Trains{
 		return numOfTickets;
 	}
 	public void AddTickets(int newTickets){
+		System.out.println(newTickets);
 		numOfTickets += newTickets;
 	}
 	public String getLine(){
