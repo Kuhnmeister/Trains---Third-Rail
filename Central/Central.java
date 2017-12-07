@@ -82,11 +82,17 @@ public class Central{
 		trainPool.setCommandSpeed(trainId, speed);
 	}
 
+	//in miles
+	public void UpdateTrainAuthority(int trainId, double authority)
+	{
+		trainPool.setAuthority(trainId, authority);
+	}
 
     // TrainModel will call this
 	public void UpdateTrainDistance(int trainId, double movedDistance){
 		//Whoever needs this information, please fill in your parts
 	}
+
 	
 
 	public void TrackStateUpdate(int occBlock){
