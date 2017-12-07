@@ -180,8 +180,8 @@ public class Central{
 	public void SetMaintainanceToTrackModel(int blockNum, String line){
 		trackModel.SetMaintainance(blockNum,line);
 	}
-	public void SetMaintainanceToWayside(int blockNum,String line){
-
+	public void SetMaintainanceToWayside(int blockNum, String line){
+		wayside.SetMaintainance(blockNum, line);
 	}
 	/*
 	public void suggestedSpeed(int blockForTrain, double speedForTrain){
