@@ -57,9 +57,7 @@ public class Train{
         theModel = newModel;
         trainLength=newTrainLength;
         line=newLine;
-        theModel.AddOccupied(currentBlock);
-        currentBlock.SetIsOccupied(true);
-        nextBlock = currentBlock.GetNextBlock(direction);
+
         integrated=newIntegrated;
 
     }
@@ -70,11 +68,15 @@ public class Train{
         trainLength=newTrainLength;
         theModel = newModel;
         line=newLine;
+
+        updatePositionTimer=new Timer();
+        updatePositionTimer.schedule(new TrainUpdateTimer(updateTimeMS,this),0,updateTimeMS);
+    }
+    public void InitializeTrain(){
         theModel.AddOccupied(currentBlock);
         currentBlock.SetIsOccupied(true);
         nextBlock = currentBlock.GetNextBlock(direction);
         updatePositionTimer=new Timer();
-        updatePositionTimer.schedule(new TrainUpdateTimer(updateTimeMS,this),0,updateTimeMS);
     }
     public String GetLine(){
         return line;

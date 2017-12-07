@@ -362,6 +362,8 @@ public class TrackModel {
         Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock, line),this,line,true);
         theGui.AddTrain(newTrain);
         allTrains.put(trainNum,newTrain);
+        newTrain.InitializeTrain();
+        System.out.println("Track Model train created");
     }
     public void TrainModelUpdatePosition(int trainNum, double movedDistance){
         allTrains.get(trainNum).UpdatePositionIntegrated(movedDistance);
@@ -371,6 +373,7 @@ public class TrackModel {
         Train newTrain =new Train(trainNum, length,direction, GetBlock(startBlock,line),this,line);
         theGui.AddTrain(newTrain,true);
         allTrains.put(trainNum,newTrain);
+        newTrain.InitializeTrain();
 		System.out.println("Train created: "+ newTrain.GetTrainNum());
     }
     public void WaysideCommandedSpeed(int trainNum, double speed){
