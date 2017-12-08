@@ -413,7 +413,7 @@ public class TrackModel {
                     System.out.println("New authority sent to train: "+calcAuthority);
                     theTrain.SetAuthority(calcAuthority);
                     double authorityMiles = calcAuthority/1609.74;
-                    theCentral.TrainSendAuthority(trainNum,authorityMiles);
+                    theCentral.UpdateTrainAuthority(trainNum,authorityMiles);
                 }
             }
         }else{
@@ -485,19 +485,7 @@ public class TrackModel {
             }
         }
     }
-    public void CommandedAuthority(ArrayList<Integer> authorityBlocks, int trainNum,boolean noTrainModel){
-        if(allTrains.get(trainNum)==null) {
-            System.out.println("no reference to train: "+trainNum);
-        }else{
-            if(authorityBlocks == null) {
-                System.out.println("Authority blocks is null");
-            }else {
 
-                allTrains.get(trainNum).SetAuthority(authorityBlocks.size() - 1);
-				System.out.println("New Authority on train: "+allTrains.get(trainNum).GetTrainNum()+" Authority is set to: "+(authorityBlocks.size() - 1));
-            }
-        }
-    }
     public void CommandedAuthority(ArrayList<Integer> authorityBlocks,ArrayList<Integer> authorityBlocks1, int trainNum,boolean noTrainModel){
         Train theTrain = allTrains.get(trainNum);
         double calcAuthority=0;
