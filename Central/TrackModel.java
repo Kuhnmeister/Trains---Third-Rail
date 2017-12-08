@@ -463,7 +463,7 @@ public class TrackModel {
                         System.out.println("New authority sent to train: " + calcAuthority);
                         theTrain.SetAuthority(calcAuthority);
                         double authorityMiles = calcAuthority / 1609.74;
-                        theCentral.TrainSendAuthority(theTrain.GetTrainNum(), authorityMiles);
+                        theCentral.UpdateSendAuthority(theTrain.GetTrainNum(), authorityMiles);
                     }
                 }
             } else {
