@@ -580,6 +580,9 @@ public class TrackModel {
     public void SetExecutionMultiplier(int newMultiplier){
         multiplier=newMultiplier;
     }
+    public void SendTrackGrade(int trainNum, double grade){
+        theCentral.TrackGrade(trainNum,grade);
+    }
     public void SetMaintainance(int blockNum, String line){
         Block affectedBlock = GetBlock(blockNum,line);
         if(affectedBlock.GetMaintainance()){

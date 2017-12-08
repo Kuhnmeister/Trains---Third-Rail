@@ -102,6 +102,10 @@ public class Central{
 	public void TrackStateUpdate(int occBlock){
 
 	}
+	//call your train method to receive the grade
+	public void TrackGrade(int trainNum, double newGrade){
+
+	}
 	public void WaysideAddOccupied(int blockNum, String line){
 		System.out.println("Block num: "+blockNum);
 		if(wayside==null) {

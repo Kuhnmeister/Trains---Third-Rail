@@ -99,6 +99,7 @@ public class Train{
                BitSet beaconMessage= currentBlock.GetBeaconData();
                theModel.ReportBeaconData(beaconMessage, trainNum);
             }
+            theModel.SendTrackGrade(trainNum,currentBlock.GetGrade());
             nextBlock = currentBlock.GetNextBlock(direction);
             if(direction==0){
                 if(currentBlock.IsDirectionChange1()){
