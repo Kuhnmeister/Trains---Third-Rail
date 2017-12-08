@@ -39,6 +39,7 @@ public class TrainModelUISwing {
 
     public TrainModelUISwing()
     {
+        System.out.println(emergencyStop.toString());
         System.out.println(trainSelector.toString());
         trainSelector.addItemListener(e -> {
             int index = trainSelector.getSelectedIndex();
