@@ -154,21 +154,21 @@ public class TrainModel {
 
     void processBeacon(BitSet beacon)
     {
-        if(lastBeacon != null && beacon.equals(lastBeacon))
-        {
-            lastBeacon = beacon;
-            stopAtStation = true;
-        }
         Boolean isFront = beacon.get(0);
         if(!isFront)
         {
             return;
         }
-        BitSet stationId = beacon.get(1,8);
+        if(lastBeacon != null && beacon.equals(lastBeacon))
+        {
+            lastBeacon = beacon;
+            stopAtStation = true;
+        }
+        BitSet stationId = beacon.get(1,6);
         String stationString = stationId.toString();
         nextStation = stationNames.get(stationString);
-        toOpenLeftDoor = beacon.get(8);
-        toOpenRightDoor = beacon.get(9);
+        toOpenLeftDoor = beacon.get(6);
+        toOpenRightDoor = beacon.get(7);
         updateInfo();
     }
 
