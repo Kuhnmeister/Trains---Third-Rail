@@ -14,8 +14,8 @@ public class TrainModelUISwing {
     JLabel slopeText;
     JLabel currentSpeedText;
     JLabel totalWeightText;
-    JComboBox<String> trainSelector;
-    JButton emergencyStop;
+    JComboBox<String> trainSelector= new JComboBox<String>();
+    JButton emergencyStop = new JButton();
     private JPanel panelMain;
     JPanel leftDoorIndicator;
     JPanel rightDoorIndicator;
@@ -26,9 +26,9 @@ public class TrainModelUISwing {
     JLabel indoorTempText;
     JLabel passengerText;
     private JLabel authorityText;
-    private JCheckBox powerErrorCheckBox;
-    private JCheckBox carErrorCheckBox;
-    private JCheckBox brakeErrorCheckBox;
+    private JCheckBox powerErrorCheckBox = new JCheckBox();
+    private JCheckBox carErrorCheckBox = new JCheckBox();
+    private JCheckBox brakeErrorCheckBox = new JCheckBox();
     private TrainModel currentModel;
     // Index keeped consistent with index in trainSelector
     ArrayList<TrainModel> trains;

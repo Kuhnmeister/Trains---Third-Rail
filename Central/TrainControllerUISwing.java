@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class TrainControllerUISwing {
     private JPanel PanelMain;
-    JComboBox<String> trainSelector;
+    JComboBox<String> trainSelector = new JComboBox<String>();
     private JRadioButton autoMode;
     private JRadioButton manualMode;
     private JTextField speedInput;
