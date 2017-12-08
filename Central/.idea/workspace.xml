@@ -19,8 +19,8 @@
       <file leaf-file-name="Central.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Central.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="121" column="15" lean-forward="false" selection-start-line="121" selection-start-column="8" selection-end-line="121" selection-end-column="15" />
+            <state relative-caret-position="560">
+              <caret line="22" column="5" lean-forward="true" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#3146#3147#0" expanded="true" />
@@ -37,8 +37,8 @@
       <file leaf-file-name="TrainControllerUISwing.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/TrainControllerUISwing.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="14224">
-              <caret line="539" column="19" lean-forward="true" selection-start-line="539" selection-start-column="19" selection-end-line="539" selection-end-column="19" />
+            <state relative-caret-position="169">
+              <caret line="11" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -49,8 +49,8 @@
       <file leaf-file-name="TrainModelUISwing.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/TrainModelUISwing.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1561">
-              <caret line="86" column="12" lean-forward="false" selection-start-line="86" selection-start-column="12" selection-end-line="86" selection-end-column="12" />
+            <state relative-caret-position="280">
+              <caret line="16" column="21" lean-forward="false" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -62,20 +62,16 @@
         <entry file="file://$PROJECT_DIR$/TrackModel.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-1696">
-              <caret line="365" column="41" lean-forward="true" selection-start-line="365" selection-start-column="41" selection-end-line="365" selection-end-column="41" />
+              <caret line="365" column="41" lean-forward="false" selection-start-line="365" selection-start-column="41" selection-end-line="365" selection-end-column="41" />
               <folding>
-                <marker date="1512747335376" expanded="true" signature="23254:24665" ph="{...}" />
-                <marker date="1512747335376" expanded="true" signature="24826:26662" ph="{...}" />
                 <marker date="1512747335376" expanded="false" signature="26716:26726" ph=" { " />
                 <marker date="1512747335376" expanded="false" signature="26767:26773" ph=" }" />
                 <marker date="1512747335376" expanded="false" signature="26829:26839" ph=" { " />
                 <marker date="1512747335376" expanded="false" signature="26880:26886" ph=" }" />
-                <marker date="1512747335376" expanded="true" signature="26957:27023" ph="{...}" />
                 <marker date="1512747335376" expanded="false" signature="27081:27091" ph=" { " />
                 <marker date="1512747335376" expanded="false" signature="27116:27122" ph=" }" />
                 <marker date="1512747335376" expanded="false" signature="27181:27191" ph=" { " />
                 <marker date="1512747335376" expanded="false" signature="27229:27235" ph=" }" />
-                <marker date="1512747335376" expanded="true" signature="27294:27678" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -84,8 +80,8 @@
       <file leaf-file-name="TrainModel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/TrainModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="155" column="5" lean-forward="true" selection-start-line="155" selection-start-column="5" selection-end-line="155" selection-end-column="5" />
+            <state relative-caret-position="4256">
+              <caret line="155" column="5" lean-forward="false" selection-start-line="155" selection-start-column="5" selection-end-line="155" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -104,8 +100,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>centrak</find>
-      <find>setName</find>
       <find>name</find>
       <find>current</find>
       <find>slopeText</find>
@@ -132,8 +126,10 @@
       <find>syste</find>
       <find>system.out</find>
       <find>ticket</find>
-      <find>system.</find>
       <find>System</find>
+      <find>system.</find>
+      <find>main</find>
+      <find>jCombo</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -170,8 +166,8 @@
         <option value="$PROJECT_DIR$/TrainPool.java" />
         <option value="$PROJECT_DIR$/Central.java" />
         <option value="$PROJECT_DIR$/TrainModel.java" />
-        <option value="$PROJECT_DIR$/TrainModelUISwing.java" />
         <option value="$PROJECT_DIR$/TrainControllerUISwing.java" />
+        <option value="$PROJECT_DIR$/TrainModelUISwing.java" />
       </list>
     </option>
   </component>
@@ -206,7 +202,7 @@
             <path>
               <item name="Central" type="b2602c69:ProjectViewProjectNode" />
               <item name="Central" type="462c0819:PsiDirectoryNode" />
-              <item name="TrainControllerUISwing" type="e9f4de52:FormNode" />
+              <item name="TrainControllerTestbench" type="e9f4de52:FormNode" />
             </path>
             <path>
               <item name="Central" type="b2602c69:ProjectViewProjectNode" />
@@ -225,6 +221,10 @@
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///home/pig/working_dir/train/Trains---Third-Rail/Central/Central.java" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -399,6 +399,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="50" width="1924" height="1032" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="PlantUML" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -407,7 +408,7 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.51435405" sideWeight="0.50416666" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23086125" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -708,27 +709,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TrackModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1696">
-          <caret line="365" column="41" lean-forward="true" selection-start-line="365" selection-start-column="41" selection-end-line="365" selection-end-column="41" />
-          <folding>
-            <marker date="1512747335376" expanded="true" signature="23254:24665" ph="{...}" />
-            <marker date="1512747335376" expanded="true" signature="24826:26662" ph="{...}" />
-            <marker date="1512747335376" expanded="false" signature="26716:26726" ph=" { " />
-            <marker date="1512747335376" expanded="false" signature="26767:26773" ph=" }" />
-            <marker date="1512747335376" expanded="false" signature="26829:26839" ph=" { " />
-            <marker date="1512747335376" expanded="false" signature="26880:26886" ph=" }" />
-            <marker date="1512747335376" expanded="true" signature="26957:27023" ph="{...}" />
-            <marker date="1512747335376" expanded="false" signature="27081:27091" ph=" { " />
-            <marker date="1512747335376" expanded="false" signature="27116:27122" ph=" }" />
-            <marker date="1512747335376" expanded="false" signature="27181:27191" ph=" { " />
-            <marker date="1512747335376" expanded="false" signature="27229:27235" ph=" }" />
-            <marker date="1512747335376" expanded="true" signature="27294:27678" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/TrainControllerUI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="196">
@@ -753,10 +733,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/TrackModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1696">
+          <caret line="365" column="41" lean-forward="false" selection-start-line="365" selection-start-column="41" selection-end-line="365" selection-end-column="41" />
+          <folding>
+            <marker date="1512747335376" expanded="false" signature="26716:26726" ph=" { " />
+            <marker date="1512747335376" expanded="false" signature="26767:26773" ph=" }" />
+            <marker date="1512747335376" expanded="false" signature="26829:26839" ph=" { " />
+            <marker date="1512747335376" expanded="false" signature="26880:26886" ph=" }" />
+            <marker date="1512747335376" expanded="false" signature="27081:27091" ph=" { " />
+            <marker date="1512747335376" expanded="false" signature="27116:27122" ph=" }" />
+            <marker date="1512747335376" expanded="false" signature="27181:27191" ph=" { " />
+            <marker date="1512747335376" expanded="false" signature="27229:27235" ph=" }" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/TrainModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="155" column="5" lean-forward="true" selection-start-line="155" selection-start-column="5" selection-end-line="155" selection-end-column="5" />
+        <state relative-caret-position="4256">
+          <caret line="155" column="5" lean-forward="false" selection-start-line="155" selection-start-column="5" selection-end-line="155" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -765,8 +762,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Central.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="121" column="15" lean-forward="false" selection-start-line="121" selection-start-column="8" selection-end-line="121" selection-end-column="15" />
+        <state relative-caret-position="560">
+          <caret line="22" column="5" lean-forward="true" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#3146#3147#0" expanded="true" />
@@ -781,8 +778,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/TrainControllerUISwing.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="14224">
-          <caret line="539" column="19" lean-forward="true" selection-start-line="539" selection-start-column="19" selection-end-line="539" selection-end-column="19" />
+        <state relative-caret-position="169">
+          <caret line="11" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -791,8 +788,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/TrainModelUISwing.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1561">
-          <caret line="86" column="12" lean-forward="false" selection-start-line="86" selection-start-column="12" selection-end-line="86" selection-end-column="12" />
+        <state relative-caret-position="280">
+          <caret line="16" column="21" lean-forward="false" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -802,9 +799,80 @@
   </component>
   <component name="masterDetails">
     <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>Central</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
       <state key="ProjectJDKs.UI">
         <settings>
           <last-edited>9.0</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
           <splitter-proportions>
             <option name="proportions">
               <list>

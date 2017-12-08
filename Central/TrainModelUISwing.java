@@ -14,7 +14,7 @@ public class TrainModelUISwing {
     JLabel slopeText;
     JLabel currentSpeedText;
     JLabel totalWeightText;
-    JComboBox trainSelector;
+    JComboBox<String> trainSelector;
     JButton emergencyStop;
     private JPanel panelMain;
     JPanel leftDoorIndicator;
