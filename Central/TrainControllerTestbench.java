@@ -227,7 +227,7 @@ public class TrainControllerTestbench{
         lightButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                trainPool.openLights(currentTrainId);
+                trainPool.inTunnel(currentTrainId, !currentTrain.lightOn);
                 //trainCtl.refresh();
             }
         });

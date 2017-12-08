@@ -4,7 +4,7 @@ public class TrainController {
     public static final Double EPS = 0.00001;
     Central theCentral;
     TrainModel model;
-    TrainControllerUI ui;
+    TrainControllerUISwing ui;
 
     Double targetSpeed = 0.0;
     Double displayTargetSpeed = 0.0;

@@ -3,9 +3,9 @@ import java.util.ArrayList;
 public class TrainPool {
     Central theCentral;
     ArrayList<TrainModel> trains;
-    TrainControllerUI controllerUI;
-    TrainModelUI modelUI;
-    public TrainPool(TrainControllerUI controllerUI, TrainModelUI modelUI, Central central)
+    TrainControllerUISwing controllerUI;
+    TrainModelUISwing modelUI;
+    public TrainPool(TrainControllerUISwing controllerUI, TrainModelUISwing modelUI, Central central)
     {
         trains = new ArrayList<>();
         this.controllerUI = controllerUI;
@@ -20,6 +20,7 @@ public class TrainPool {
     {
         trains = new ArrayList<>();
         this.theCentral = central;
+        System.out.println("Created Train Pool");
     }
 
     private void initialize()
@@ -340,20 +341,20 @@ public class TrainPool {
     }
 
     /**
-     * Open the lights of the train
+     * Whether is in tunnel?
      *
      * @author Yincheng He
      * @return succeed?
      *
      */
-    public Boolean openLights(Integer id)
+    public Boolean inTunnel(Integer id, Boolean inTunnel)
     {
         Integer index = findTrainIndexById(id);
         if(index == -1)
         {
             return false;
         }
-        trains.get(index).controller.setLightCommand(true);
+        trains.get(index).controller.setLightCommand(inTunnel);
         return true;
     }
 

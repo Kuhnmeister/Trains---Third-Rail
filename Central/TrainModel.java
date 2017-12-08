@@ -50,7 +50,7 @@ public class TrainModel {
     Integer id;
 
     public TrainController controller;
-    public TrainModelUI ui;
+    public TrainModelUISwing ui;
 
     public TrainModel(Integer id, Central central)
     {
@@ -219,7 +219,7 @@ public class TrainModel {
     public static final String onIndicatorColor = "#E8E70C";
     public static final String indicatorOffColor = "#E8E8E8";
     private JFrame frameMain;
-    private TrainModelUI ui;
+    private TrainModelUISwing ui;
     private static ArrayList<TrainStatus> Trains;
     private TrainStatus currentTrain;
 
@@ -238,7 +238,7 @@ public class TrainModel {
 
     private void CreateGUI()
     {
-        ui = new TrainModelUI();
+        ui = new TrainModelUISwing();
         frameMain = new JFrame("Train Model");
         frameMain.setContentPane(ui.getPanelMain());
         frameMain.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

@@ -17,9 +17,9 @@ public class Central{
 		Central thisCentral = new Central(args);
 	}
 	public Central(String[] Args){
+		trainPool = new TrainPool(this);
 		centralGui = new CentralGui(Args,this);
 		args=Args;
-		trainPool = new TrainPool(this);
 	}
 	public void TestMethod(String testString){
 		System.out.println(testString);
@@ -38,14 +38,14 @@ public class Central{
 	public void CreateTrainModel(String[] emptyArgs)
     {
     	hasTrainModel = true;
-		trainModelGui = new TrainModelUI();
+		trainModelGui = TrainModelUI.CreateTrainModelUI(emptyArgs);
 		trainModelGui.linkToTrainPool(trainPool);
     }
 
 	public void CreateTrainController(String[] emptyArgs)
 	{
-		trainControllerUi = new TrainControllerUI();
-		trainModelGui.linkToTrainPool(trainPool);
+		trainControllerUi = TrainControllerUI.CreateTrainControllerUI(emptyArgs);
+		trainControllerUi.linkToTrainPool(trainPool);
 	}
 
 	public Boolean TrainModelNewTrain(int trainNum)
