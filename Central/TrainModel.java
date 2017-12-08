@@ -1,3 +1,7 @@
+import java.util.BitSet;
+import java.util.HashMap;
+import java.util.concurrent.ThreadLocalRandom;
+
 public class TrainModel {
     public static final Double INTERVAL_LEN = 1.0;
     public static final Double G = 9.8; // m/s^2
@@ -10,6 +14,37 @@ public class TrainModel {
     public static final Double MILE2M = 1609.34; // a mile => meters
     public static final Double MPH2MS = 0.44704;
     public static final Double EPS = 0.00001;
+
+
+    public static HashMap<String, String> stationNames;
+
+    public static void initStationNames()
+    {
+        stationNames = new HashMap<>();
+        stationNames.put("00000", "Shadyside");
+        stationNames.put("00001", "Herron Ave");
+        stationNames.put("00010", "Swissvale");
+        stationNames.put("00011", "Penn Station");
+        stationNames.put("00100", "Steel Plaza");
+        stationNames.put("00101", "First Ave");
+        stationNames.put("00110", "Station Square");
+        stationNames.put("00111", "South Hills Junction");
+
+        stationNames.put("01000", "Pioneer");
+        stationNames.put("01001", "Edgebrook");
+        stationNames.put("01010", "Willow");
+        stationNames.put("01011", "Whited");
+        stationNames.put("01100", "South Bank");
+        stationNames.put("01101", "Central");
+        stationNames.put("01110", "Inglewood");
+        stationNames.put("01111", "Overbrook");
+        stationNames.put("10000", "Glenbury");
+        stationNames.put("10001", "Dormont");
+        stationNames.put("10010", "Mt. Lebanon");
+        stationNames.put("10011", "Poplar");
+        stationNames.put("10100", "Castle Shannon");
+    }
+
 
     Central theCentral;
     // Errors
@@ -36,6 +71,14 @@ public class TrainModel {
     Double displaySlope = 0.0; // in degree
     Double currentPower = 0.0; // in kW
     Double maxPower = 0.0;
+    // Station Info
+    BitSet lastBeacon;
+    String nextStation = "";
+    Boolean stopped = true;
+    Boolean stopAtStation = false;
+    Boolean toOpenLeftDoor = false;
+    Boolean toOpenRightDoor = false;
+    Integer passengerGetOn = 0;
     // Whether is using brake because of authority
     Boolean onAuthorityBrake = false;
     // Whether the emergency brake on the train is on
@@ -101,6 +144,31 @@ public class TrainModel {
     void setHasBrakeError(Boolean hasError)
     {
         this.hasBrakeError = hasError;
+        updateInfo();
+    }
+
+    void setPassengerGetOn(Integer num)
+    {
+        passengerGetOn = num;
+    }
+
+    void processBeacon(BitSet beacon)
+    {
+        if(lastBeacon != null && beacon.equals(lastBeacon))
+        {
+            lastBeacon = beacon;
+            stopAtStation = true;
+        }
+        Boolean isFront = beacon.get(0);
+        if(!isFront)
+        {
+            return;
+        }
+        BitSet stationId = beacon.get(1,8);
+        String stationString = stationId.toString();
+        nextStation = stationNames.get(stationString);
+        toOpenLeftDoor = beacon.get(8);
+        toOpenRightDoor = beacon.get(9);
         updateInfo();
     }
 
@@ -179,8 +247,8 @@ public class TrainModel {
             force = currentPower * 1000 / currentSpeed;
         }
         friction = (totalWeight * 1000 * G * FRICTION_RATE)/NUM_OF_WHEELS;
-        friction = (totalWeight * 1000 /NUM_OF_WHEELS * G * Math.sin(slope))
-                + (friction * Math.cos(slope));
+        //friction = (totalWeight * 1000 /NUM_OF_WHEELS * G * Math.sin(slope))
+        //        + (friction * Math.cos(slope));
 
         force = force - friction;
         if(Math.abs(force) < EPS)
@@ -204,12 +272,41 @@ public class TrainModel {
         if(currentSpeed <= EPS)
         {
             currentSpeed = 0.0;
+            if(!stopped)
+            {
+                stopped = true;
+                if(stopAtStation)
+                {
+                    // Open the door if there is a command
+                    controller.setLeftDoorCommand(toOpenLeftDoor);
+                    controller.setRightDoorComand(toOpenRightDoor);
+                    Integer passengerGetOff = ThreadLocalRandom.current().nextInt(0, passengerNum+1);
+                    passengerNum -= passengerGetOff;
+                    passengerNum += passengerGetOn;
+                    passengerGetOn = 0;
+                    // already stopped, not to stop at station
+                    stopAtStation = false;
+                }
+            }
+        } else {
+            if(stopped) {
+                stopped = false;
+                // Close the door anyway when moving
+                controller.setLeftDoorCommand(leftDoorOpen);
+                controller.setLeftDoorCommand(rightDoorOpen);
+            }
         }
+
         Double distanceTraveled = lastSpeed * INTERVAL_LEN + (1/2 * currentAccel * Math.pow(INTERVAL_LEN, 2));
         this.theCentral.UpdateTrainDistance(id, distanceTraveled);
 
         displayCurrentSpeed = currentSpeed/MPH2MS;
         System.out.println("s:"+displayCurrentSpeed);
+        if(stopped)
+        {
+            serviceBrakeActive = false;
+            emergencyStopActive = false;
+        }
         updateInfo();
     }
 

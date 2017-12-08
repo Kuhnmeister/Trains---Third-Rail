@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.BitSet;
 
 public class TrainPool {
     Central theCentral;
@@ -341,7 +342,7 @@ public class TrainPool {
     }
 
     /**
-     * Whether is in tunnel?
+     * Whether the train is in tunnel?
      *
      * @author Yincheng He
      * @return succeed?
@@ -355,6 +356,42 @@ public class TrainPool {
             return false;
         }
         trains.get(index).controller.setLightCommand(inTunnel);
+        return true;
+    }
+
+    /**
+     * Send the beacon data to the train
+     *
+     * @author Yincheng He
+     * @return succeed?
+     *
+     */
+    public Boolean setBeaconData(Integer id, BitSet beacon)
+    {
+        Integer index = findTrainIndexById(id);
+        if(index == -1)
+        {
+            return false;
+        }
+        trains.get(index).processBeacon(beacon);
+        return true;
+    }
+
+    /**
+     * Send the number of passengers get on the train
+     *
+     * @author Yincheng He
+     * @return succeed?
+     *
+     */
+    public Boolean setPassengerGetOn(Integer id, Integer num)
+    {
+        Integer index = findTrainIndexById(id);
+        if(index == -1)
+        {
+            return false;
+        }
+        trains.get(index).setPassengerGetOn(num);
         return true;
     }
 

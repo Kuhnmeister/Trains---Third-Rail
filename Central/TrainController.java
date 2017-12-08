@@ -76,7 +76,7 @@ public class TrainController {
         if(isAutoMode) {
             targetSpeed = commandSpeed;
         }
-        // Outside signals open doors
+        // Outside signals swiching doors
         if(leftDoorCommand)
         {
             // Close door operation is always OK

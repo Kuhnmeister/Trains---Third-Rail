@@ -94,7 +94,7 @@ public class Central{
 
     // TrainModel will call this
 	public void UpdateTrainDistance(int trainId, double movedDistance){
-		trackModel.TrainModelUpdatePosition(trainid,movedDistance);
+		trackModel.TrainModelUpdatePosition(trainId,movedDistance);
 	}
 
 	
@@ -104,6 +104,7 @@ public class Central{
 	}
 	//call your train method to receive the grade
 	public void TrackGrade(int trainNum, double newGrade){
+		trainPool.setGrade(trainNum, newGrade);
 
 	}
 	public void WaysideAddOccupied(int blockNum, String line){
@@ -165,6 +166,7 @@ public class Central{
 	}
 	public void ReportBeaconData(BitSet data, int trainNum){
 		System.out.println("Track Model transmitted: "+data+" to train: "+trainNum);
+		trainPool.setBeaconData(trainNum, data);
 	}
 	public void TrackGenerateTickets(int newTickets,int blockNum, String line){
 		System.out.println("Track reported: "+newTickets+" at Block: "+blockNum+" on "+line+" line");

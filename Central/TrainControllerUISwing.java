@@ -216,6 +216,7 @@ public class TrainControllerUISwing {
             currentBrakeText.setText("None");
         }
         passengerNumText.setText(this.currentModel.passengerNum.toString());
+        nextStationText.setText(this.currentModel.nextStation);
         //nextStation
 
         //Authority

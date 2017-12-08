@@ -97,6 +97,7 @@ public class TrainModelUISwing {
             this.carFailureText.setText("N/A");
             this.authorityText.setText("N/A");
             this.passengerText.setText("N/A");
+            this.nextStopText.setText("N/A");
             this.totalWeightText.setText("N/A");
             return;
         }
@@ -113,6 +114,7 @@ public class TrainModelUISwing {
         this.carFailureText.setText(this.currentModel.carErrorString);
         this.authorityText.setText(this.currentModel.displayAuthority.toString());
         this.passengerText.setText(this.currentModel.passengerNum.toString());
+        this.nextStopText.setText(this.currentModel.nextStation);
         this.totalWeightText.setText(this.currentModel.totalWeight.toString());
         this.leftDoorIndicator.setBackground(Color.decode(this.currentModel.leftDoorOpen?ON_COLOR:OFF_COLOR));
         this.rightDoorIndicator.setBackground(Color.decode(this.currentModel.rightDoorOpen?ON_COLOR:OFF_COLOR));
