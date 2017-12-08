@@ -11,7 +11,7 @@ public class Central{
 	private TrainPool trainPool;
 	private TrainControllerUI trainControllerUi;
 	private TrainModelUI trainModelGui;
-	private boolean hasTrainModel=false;
+	private boolean hasTrainModel=true;
 	private String[] args;
 	public static void main(String[] args){
 		Central thisCentral = new Central(args);
@@ -94,7 +94,7 @@ public class Central{
 
     // TrainModel will call this
 	public void UpdateTrainDistance(int trainId, double movedDistance){
-		//Whoever needs this information, please fill in your parts
+		trackModel.TrainModelUpdatePosition(trainid,movedDistance);
 	}
 
 	
@@ -154,9 +154,7 @@ public class Central{
 	{
 		ctc.ReceiveOccupancy(blockNum, line);
 	}
-	public void TrainSendAuthority(int trainNum, double authority){
 
-	}
 	public void TrackSetCrossing(int blockNum, String line)
 	{
 		trackModel.FlipCrossing(blockNum,line);
@@ -183,26 +181,6 @@ public class Central{
 	public void SetMaintenanceToWayside(int blockNum, String line){
 		wayside.SetMaintainance(blockNum, line);
 	}
-	/*
-	public void suggestedSpeed(int blockForTrain, double speedForTrain){
-		XXXX.receiveSpeed(blockForTrain, speedForTrain);
-	}
-	public void suggestedAuthority(int blockForTrain, int blockForAuthority){
-		XXXX.receiveAuthority(blockForTrain, blockForAuthority);
-	}
-	public void switchSignalWayside(int blockWithSwitch){
-		XXXX.signalSwitchChange(blockWithSwitch);
-	}
-	public void updateSales(int numOfTickets){
-		CTC.receiveTickets(numOfTickets);
-	}
-	public void updateBlocks(ArrayList<int> updatedBlocks){
-		Tracking.update(updatedBlocks);
-	}
-	public void sendTrack(HashMap<String,HashMap<String,ArrayList<Block>>> track){
-		Tracking.receiveTrackData(track);
-		XXXX.receiveTrackData(track);
-	}
-	*/
+
 	
 }
