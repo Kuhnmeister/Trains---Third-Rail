@@ -52,16 +52,32 @@ public class TrainModelUISwing {
         });
 
         emergencyStop.addActionListener(e -> {
+            if(currentModel == null)
+            {
+                return;
+            }
             currentModel.emegencyCommand();
         });
 
         powerErrorCheckBox.addActionListener(e -> {
+            if(currentModel == null)
+            {
+                return;
+            }
             currentModel.setHasPowerError(!currentModel.hasPowerError);
         });
         brakeErrorCheckBox.addActionListener(e -> {
+            if(currentModel == null)
+            {
+                return;
+            }
             currentModel.setHasBrakeError(!currentModel.hasBrakeError);
         });
         carErrorCheckBox.addActionListener(e -> {
+            if(currentModel == null)
+            {
+                return;
+            }
             currentModel.setHasCarError(!currentModel.hasCarError, "Error");
         });
     }

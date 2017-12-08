@@ -85,6 +85,10 @@ public class TrainControllerUISwing {
             update();
         });
         autoMode.addActionListener(e -> {
+            if(currentController == null)
+            {
+                return;
+            }
             currentController.isAutoMode = true;
             currentController.update();
             currentController.authorityError = false;
@@ -92,6 +96,10 @@ public class TrainControllerUISwing {
             //updateUI() will be called in controller
         });
         manualMode.addActionListener(e -> {
+            if(currentController == null)
+            {
+                return;
+            }
             if(currentController.autoModeOverride)
             {
                 currentController.authorityError = true;
@@ -104,29 +112,53 @@ public class TrainControllerUISwing {
         });
 
         leftDoorButton.addActionListener(e -> {
+            if(currentController == null)
+            {
+                return;
+            }
             currentController.setLeftDoorCommand(true);
             //updateUI() will be called in controller
         });
         rightDoorButton.addActionListener(e -> {
+            if(currentController == null)
+            {
+                return;
+            }
             currentController.setRightDoorComand(true);
             //updateUI() will be called in controller
         });
         lightButton.addActionListener(e -> {
+            if(currentController == null)
+            {
+                return;
+            }
             currentController.setLightCommand(true);
             //updateUI() will be called in controller
         });
         //Set target speed
         speedOK.addActionListener(e -> {
+            if(currentController == null)
+            {
+                return;
+            }
             currentController.setInputSpeed(Double.parseDouble(speedInput.getText()));
             //updateUI() will be called in controller
         });
 
         //Emergecy Stop
         emergencyStopButton.addActionListener(e -> {
+            if(currentController == null)
+            {
+                return;
+            }
             currentController.emergencyCommand();
             //updateUI() will be called in controller
         });
         serviceBrakeButton.addActionListener(e -> {
+            if(currentController == null)
+            {
+                return;
+            }
             currentController.serviceBrakeCommand = !currentController.serviceBrakeCommand;
             currentController.update();
         });
