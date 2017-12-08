@@ -102,10 +102,21 @@ public class Central{
 	public void TrackStateUpdate(int occBlock){
 
 	}
+
+	//TrainModel will call this
+	public void UpdatePassegnerFromTrain(int trainId, int getOffNum, int numRemain)
+	{
+
+	}
+
+	public void SendInTunnelToTrain(int trainId, Boolean inTunnel)
+	{
+		trainPool.inTunnel(trainId, inTunnel);
+	}
+
 	//call your train method to receive the grade
 	public void TrackGrade(int trainNum, double newGrade){
 		trainPool.setGrade(trainNum, newGrade);
-
 	}
 	public void WaysideAddOccupied(int blockNum, String line){
 		System.out.println("Block num: "+blockNum);

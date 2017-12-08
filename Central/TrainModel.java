@@ -283,6 +283,7 @@ public class TrainModel {
                     Integer passengerGetOff = ThreadLocalRandom.current().nextInt(0, passengerNum+1);
                     passengerNum -= passengerGetOff;
                     passengerNum += passengerGetOn;
+                    this.theCentral.UpdatePassegnerFromTrain(this.id, passengerGetOff, passengerNum);
                     passengerGetOn = 0;
                     // already stopped, not to stop at station
                     stopAtStation = false;
