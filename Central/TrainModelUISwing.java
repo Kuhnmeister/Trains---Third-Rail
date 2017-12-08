@@ -39,7 +39,8 @@ public class TrainModelUISwing {
 
     public TrainModelUISwing()
     {
-        System.out.println(trainSelector.toString());
+        System.out.println("Attempting to start the train model");
+        //System.out.println(trainSelector.toString());
         trainSelector.addItemListener(e -> {
             int index = trainSelector.getSelectedIndex();
             if(index >= trains.size() || index < 0)

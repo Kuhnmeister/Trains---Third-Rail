@@ -13,6 +13,7 @@ public class TrainModelUI extends Application{
     TrainModelUI()
     {
         innerUi = new TrainModelUISwing();
+
     }
 
     @Override
@@ -50,6 +51,7 @@ public class TrainModelUI extends Application{
 
     public static TrainModelUI CreateTrainModelUI(String[] args)
     {
+        System.out.println("Creating Train Model UI");
         TrainModelUI ui = new TrainModelUI();
         ui.start(new Stage());
         return ui;
