@@ -4,6 +4,7 @@ import com.intellij.uiDesigner.core.Spacer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class TrainModelUISwing {
@@ -34,6 +35,9 @@ public class TrainModelUISwing {
     private JCheckBox carErrorCheckBox;
     private JCheckBox brakeErrorCheckBox;
     private TrainModel currentModel;
+
+    DecimalFormat df = new DecimalFormat("0.00");
+
     // Index keeped consistent with index in trainSelector
     ArrayList<TrainModel> trains;
 
@@ -110,20 +114,20 @@ public class TrainModelUISwing {
             this.totalWeightText.setText("N/A");
             return;
         }
-        this.currentSpeedText.setText(this.currentModel.displayCurrentSpeed.toString() + " Mph");
+        this.currentSpeedText.setText(df.format(this.currentModel.displayCurrentSpeed) + " Mph");
         if (this.currentModel.controller == null) {
             this.commandSpeedText.setText("N/A");
         } else {
-            this.commandSpeedText.setText(this.currentModel.controller.displayCommandSpeed.toString());
+            this.commandSpeedText.setText(df.format(this.currentModel.controller.displayCommandSpeed));
 
         }
-        this.currentPowerText.setText(this.currentModel.currentPower.toString());
-        this.slopeText.setText(this.currentModel.displaySlope.toString());
+        this.currentPowerText.setText(df.format(this.currentModel.currentPower));
+        this.slopeText.setText(df.format(this.currentModel.displaySlope));
         this.carFailureText.setText(this.currentModel.carErrorString);
-        this.authorityText.setText(this.currentModel.displayAuthority.toString());
-        this.passengerText.setText(this.currentModel.passengerNum.toString());
+        this.authorityText.setText(df.format(this.currentModel.displayAuthority));
+        this.passengerText.setText(df.format(this.currentModel.passengerNum));
         this.nextStopText.setText(this.currentModel.nextStation);
-        this.totalWeightText.setText(this.currentModel.totalWeight.toString());
+        this.totalWeightText.setText(df.format(this.currentModel.totalWeight));
         this.leftDoorIndicator.setBackground(Color.decode(this.currentModel.leftDoorOpen ? ON_COLOR : OFF_COLOR));
         this.rightDoorIndicator.setBackground(Color.decode(this.currentModel.rightDoorOpen ? ON_COLOR : OFF_COLOR));
         this.lightIndicator.setBackground(Color.decode(this.currentModel.lightOn ? ON_COLOR : OFF_COLOR));

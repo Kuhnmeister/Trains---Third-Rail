@@ -24,7 +24,7 @@ public class TrainModelUI extends Application{
         Pane pane = new Pane();
         pane.getChildren().add(swingNode);
 
-        stage.setScene(new Scene(pane, 550, 200));
+        stage.setScene(new Scene(pane, 550, 220));
         stage.show();
         
     }

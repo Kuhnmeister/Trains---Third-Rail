@@ -4,6 +4,7 @@ import com.intellij.uiDesigner.core.Spacer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /*
@@ -51,6 +52,9 @@ public class TrainControllerUISwing {
     private JButton serviceBrakeButton;
     private JLabel passengerNumText;
     private JFrame PIDSetter;
+
+    DecimalFormat df = new DecimalFormat("0.00");
+
     /*TrainStatus currentTrain;
     private ArrayList<TrainControllerOutputReceiver> outputReceivers;
     private TrainWithController parent;*/
@@ -215,18 +219,18 @@ public class TrainControllerUISwing {
         autoMode.setEnabled(true);
         manualMode.setEnabled(true);
         // Train data
-        totalWeightText.setText(this.currentModel.totalWeight.toString());
+        totalWeightText.setText(df.format(this.currentModel.totalWeight));
         carStatusText.setText(this.currentModel.carErrorString);
         brakeStatusText.setText(this.currentModel.hasBrakeError ? "Error" : "OK");
         powerStatusText.setText(this.currentModel.hasPowerError ? "Error" : "OK");
-        maxPowerText.setText(this.currentModel.maxPower.toString() + " kW");
+        maxPowerText.setText(df.format(this.currentModel.maxPower) + " kW");
         inYardText.setText(this.currentModel.inYard ? "Yes" : "No");
-        authorityText.setText(this.currentModel.displayAuthority.toString());
+        authorityText.setText(df.format(this.currentModel.displayAuthority));
 
         //Current Status
-        currentSpeedText.setText(this.currentModel.displayCurrentSpeed.toString() + " Mph");
-        currentAccelText.setText(this.currentModel.currentAccel.toString() + " m/s2");
-        currentPowerText.setText(this.currentModel.currentPower.toString() + " kW");
+        currentSpeedText.setText(df.format(this.currentModel.displayCurrentSpeed) + " Mph");
+        currentAccelText.setText(df.format(this.currentModel.currentAccel) + " m/s2");
+        currentPowerText.setText(df.format(this.currentModel.currentPower) + " kW");
         if (currentModel.emergencyStopActive) {
             currentBrakeText.setText("Emergency");
         } else if (currentModel.serviceBrakeActive) {
@@ -240,9 +244,9 @@ public class TrainControllerUISwing {
 
         //Authority
         //speedLimitText.setText(this.currentController.displaySpeedLimit.toString()+" Mph");
-        targetSpeedText.setText(this.currentController.displayTargetSpeed.toString() + " Mph");
-        commandSpeedText.setText(this.currentController.displayCommandSpeed.toString() + " Mph");
-        authorityText.setText(this.currentModel.displayAuthority.toString() + " Mi");
+        targetSpeedText.setText(df.format(this.currentController.displayTargetSpeed) + " Mph");
+        commandSpeedText.setText(df.format(this.currentController.displayCommandSpeed) + " Mph");
+        authorityText.setText(df.format(this.currentModel.displayAuthority) + " Mi");
         if (currentController.authorityEmergencyStop) {
             emergencyStopText.setText("Detected!");
         } else {
