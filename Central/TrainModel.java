@@ -70,7 +70,7 @@ public class TrainModel {
     Double slope = 0.0; // in radius
     Double displaySlope = 0.0; // in degree
     Double currentPower = 0.0; // in kW
-    Double maxPower = 0.0;
+    Double maxPower = 400.0;
     // Station Info
     BitSet lastBeacon;
     String nextStation = "";

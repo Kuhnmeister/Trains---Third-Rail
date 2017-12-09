@@ -191,6 +191,7 @@ public class TrainPool {
      */
     public Boolean setGrade(Integer id, Double grade)
     {
+        System.out.println("Train Pool sending grade: "+grade+" to "+id);
         Integer index = findTrainIndexById(id);
         System.out.print(index.toString());
         if(index == -1)
@@ -303,6 +304,7 @@ public class TrainPool {
      */
     public Boolean emegencyStop(Integer id, Boolean emegencyStopState)
     {
+        System.out.println("Train Pool sending emergency stop: "+emegencyStopState+" to "+id);
         Integer index = findTrainIndexById(id);
         if(index == -1)
         {
@@ -357,6 +359,7 @@ public class TrainPool {
      */
     public Boolean inTunnel(Integer id, Boolean inTunnel)
     {
+        System.out.println("Train Pool sending in tunnel info: "+inTunnel+" to "+id);
         Integer index = findTrainIndexById(id);
         if(index == -1)
         {
@@ -375,6 +378,7 @@ public class TrainPool {
      */
     public Boolean setBeaconData(Integer id, BitSet beacon)
     {
+        System.out.println("Train Pool sending beacon: "+beacon+" to "+id);
         Integer index = findTrainIndexById(id);
         if(index == -1)
         {
@@ -393,6 +397,7 @@ public class TrainPool {
      */
     public Boolean setPassengerGetOn(Integer id, Integer num)
     {
+        System.out.println("Train Pool sending passenger getting on: "+num+" to "+id);
         Integer index = findTrainIndexById(id);
         if(index == -1)
         {
