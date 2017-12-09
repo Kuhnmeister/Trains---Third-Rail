@@ -379,6 +379,7 @@ public class TrackModel {
 		System.out.println("Train created: "+ newTrain.GetTrainNum());
     }
     public void WaysideCommandedSpeed(int trainNum, double speed){
+        System.out.println("Track Model sending: "+speed+" speed to train "+trainNum);
         theCentral.TrainModelCommandedSpeed(trainNum,speed);
     }
     public void WaysideCommandedSpeed(int trainNum, double speed,boolean noTrainModel){
