@@ -127,7 +127,7 @@ public class TrainModelUISwing {
         this.authorityText.setText(df.format(this.currentModel.displayAuthority));
         this.passengerText.setText(df.format(this.currentModel.passengerNum));
         this.nextStopText.setText(this.currentModel.nextStation);
-        this.totalWeightText.setText(df.format(this.currentModel.totalWeight));
+        this.totalWeightText.setText(df.format(this.currentModel.totalWeight) + " Tons");
         this.leftDoorIndicator.setBackground(Color.decode(this.currentModel.leftDoorOpen ? ON_COLOR : OFF_COLOR));
         this.rightDoorIndicator.setBackground(Color.decode(this.currentModel.rightDoorOpen ? ON_COLOR : OFF_COLOR));
         this.lightIndicator.setBackground(Color.decode(this.currentModel.lightOn ? ON_COLOR : OFF_COLOR));

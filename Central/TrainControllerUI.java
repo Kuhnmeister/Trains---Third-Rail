@@ -23,7 +23,7 @@ public class TrainControllerUI extends Application{
         Pane pane = new Pane();
         pane.getChildren().add(swingNode);
 
-        stage.setScene(new Scene(pane, 900, 250));
+        stage.setScene(new Scene(pane, 1000, 220));
         stage.show();
         
     }

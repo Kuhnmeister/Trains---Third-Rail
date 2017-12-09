@@ -219,7 +219,7 @@ public class TrainControllerUISwing {
         autoMode.setEnabled(true);
         manualMode.setEnabled(true);
         // Train data
-        totalWeightText.setText(df.format(this.currentModel.totalWeight));
+        totalWeightText.setText(df.format(this.currentModel.totalWeight) + " Tons");
         carStatusText.setText(this.currentModel.carErrorString);
         brakeStatusText.setText(this.currentModel.hasBrakeError ? "Error" : "OK");
         powerStatusText.setText(this.currentModel.hasPowerError ? "Error" : "OK");
