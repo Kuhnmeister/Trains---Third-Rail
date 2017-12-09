@@ -70,7 +70,7 @@ public class TrainModel {
     Double slope = 0.0; // in radius
     Double displaySlope = 0.0; // in degree
     Double currentPower = 0.0; // in kW
-    Double maxPower = 0.0;
+    Double maxPower = 400.0;
     // Station Info
     BitSet lastBeacon;
     String nextStation = "";
@@ -226,7 +226,7 @@ public class TrainModel {
         if(this.controller != null)
         {
             currentPower = this.controller.getPower(currentSpeed, INTERVAL_LEN);
-            System.out.println(currentPower);
+            System.out.println("Current Power:"+currentPower.toString());
         }
 
         if(brakeDistance() >= authority + BRAKE_SAFE_DIST/MILE2M)
@@ -302,7 +302,7 @@ public class TrainModel {
         this.theCentral.UpdateTrainDistance(id, distanceTraveled);
 
         displayCurrentSpeed = currentSpeed/MPH2MS;
-        System.out.println("s:"+displayCurrentSpeed);
+        System.out.println("current Speed: "+displayCurrentSpeed);
         if(stopped)
         {
             serviceBrakeActive = false;

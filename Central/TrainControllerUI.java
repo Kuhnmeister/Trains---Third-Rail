@@ -44,6 +44,7 @@ public class TrainControllerUI extends Application{
 
     void linkToTrainPool(TrainPool trainPool)
     {
+        trainPool.controllerUI = this.innerUi;
         this.innerUi.trains = trainPool.trains;
         this.innerUi.update();
     }
