@@ -20,6 +20,7 @@ public class Train{
     private boolean tempTrain=false;
     private int trainLength;
     private boolean prevBlockOccupied=false;
+    private boolean underground=false;
     private boolean integrated=false;
     private String line;
     public Train(){
@@ -100,6 +101,13 @@ public class Train{
                theModel.ReportBeaconData(beaconMessage, trainNum);
             }
             theModel.SendTrackGrade(trainNum,currentBlock.GetGrade());
+            if(!underground && currentBlock.GetIsUnderground()){
+                underground = true;
+                theModel.SendUnderground(trainNum,underground);
+            }else if(underground && !currentBlock.GetIsUnderground()){
+                underground=false;
+                theModel.SendUnderground(trainNum,underground);
+            }
             nextBlock = currentBlock.GetNextBlock(direction);
             if(direction==0){
                 if(currentBlock.IsDirectionChange1()){
