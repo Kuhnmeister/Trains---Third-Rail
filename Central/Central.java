@@ -80,9 +80,7 @@ public class Central{
 			trackModel.WaysideCommandedSpeed(trainNum, speed);
 		}
 	}
-	public void TrackModelCommandedSpeed(int trainId, double speed){
 
-	}
 
 	public void TrainModelCommandedSpeed(int trainId, double speed) {
 		trainPool.setCommandSpeed(trainId, speed);
