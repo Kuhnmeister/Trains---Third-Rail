@@ -48,6 +48,10 @@ public class Central{
 		trainControllerUi.linkToTrainPool(trainPool);
 	}
 
+	public void CreatePidSetter(TrainController ctl) throws Exception {
+		PIDSetterUI.CreatePidSetterUI(ctl.ui);
+	}
+
 	public Boolean TrainModelNewTrain(int trainNum)
 	{
 		return trainPool.createNewTrain(trainNum);
@@ -109,6 +113,11 @@ public class Central{
 
 	}
 
+
+	public void SendInYardToTrain(int trainId, Boolean inYard)
+	{
+		trainPool.setInYard(trainId, inYard);
+	}
 	public void SendInTunnelToTrain(int trainId, Boolean inTunnel)
 	{
 		trainPool.inTunnel(trainId, inTunnel);

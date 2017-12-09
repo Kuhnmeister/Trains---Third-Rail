@@ -1,6 +1,7 @@
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,12 +46,13 @@ public class TrainControllerUISwing {
     private JLabel authorityText;
     private JLabel emergencyStopText;
     private JButton lightButton;
-    private JButton emergencyStopAll;
     private JLabel inYardText;
     private JLabel targetSpeedText;
     private JButton serviceBrakeButton;
     private JLabel passengerNumText;
     private JButton PIDInputButton;
+    private JTextField kPInput;
+    private JTextField kIInput;
     private JFrame PIDSetter;
 
     DecimalFormat df = new DecimalFormat("0.00");
@@ -161,6 +163,10 @@ public class TrainControllerUISwing {
             currentController.update();
         });
 
+        PIDInputButton.addActionListener(e -> {
+            currentController.Kp = Double.parseDouble(this.kIInput.getText());
+            currentController.Ki = Double.parseDouble(this.kPInput.getText());
+        });
     }
 
     void linkToTrainPool(TrainPool trainPool) {
@@ -207,6 +213,9 @@ public class TrainControllerUISwing {
             rightDoorButton.setText("Not Available");
             lightButton.setText("Not Available");
 
+            kIInput.setEnabled(false);
+            kPInput.setEnabled(false);
+            PIDInputButton.setEnabled(false);
             autoMode.setEnabled(false);
             manualMode.setEnabled(false);
             speedInput.setEnabled(false);
@@ -215,6 +224,17 @@ public class TrainControllerUISwing {
             rightDoorButton.setEnabled(false);
             lightButton.setEnabled(false);
             return;
+        }
+
+        if(this.currentModel.inYard)
+        {
+            kPInput.setEnabled(true);
+            kIInput.setEnabled(true);
+            PIDInputButton.setEnabled(true);
+        }else{
+            kPInput.setEnabled(false);
+            kIInput.setEnabled(false);
+            PIDInputButton.setEnabled(false);
         }
 
         autoMode.setEnabled(true);
@@ -511,7 +531,7 @@ public class TrainControllerUISwing {
         });
         PIDInputButton.addActionListener(e -> {
             JFrame pidsetter = new JFrame("Parameter Setting");
-            PIDSetter setter = new PIDSetter(self);
+            PIDSetterSwing setter = new PIDSetterSwing(self);
             setter.OKButton.addActionListener(e1 -> {
                 currentTrain.Kp = Double.parseDouble(setter.KpInput.getText());
                 currentTrain.Ki = Double.parseDouble(setter.KiInput.getText());
@@ -567,7 +587,7 @@ public class TrainControllerUISwing {
      */
     private void $$$setupUI$$$() {
         PanelMain = new JPanel();
-        PanelMain.setLayout(new GridLayoutManager(7, 4, new Insets(0, 0, 0, 0), -1, -1));
+        PanelMain.setLayout(new GridLayoutManager(7, 3, new Insets(0, 0, 0, 0), -1, -1));
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         PanelMain.add(panel1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -624,7 +644,7 @@ public class TrainControllerUISwing {
         panel2.add(inYardText, new GridConstraints(6, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel3 = new JPanel();
         panel3.setLayout(new GridLayoutManager(5, 3, new Insets(3, 3, 3, 3), -1, -1));
-        PanelMain.add(panel3, new GridConstraints(2, 2, 4, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        PanelMain.add(panel3, new GridConstraints(2, 1, 4, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         panel3.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), null));
         final Spacer spacer2 = new Spacer();
         panel3.add(spacer2, new GridConstraints(1, 1, 4, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
@@ -657,14 +677,9 @@ public class TrainControllerUISwing {
         emergencyStopText = new JLabel();
         emergencyStopText.setText("Label");
         panel3.add(emergencyStopText, new GridConstraints(4, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        emergencyStopAll = new JButton();
-        emergencyStopAll.setBackground(new Color(-5762800));
-        emergencyStopAll.setForeground(new Color(-65794));
-        emergencyStopAll.setText("EMERGENCY STOP ALL");
-        PanelMain.add(emergencyStopAll, new GridConstraints(0, 1, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel4 = new JPanel();
         panel4.setLayout(new GridLayoutManager(6, 4, new Insets(10, 10, 10, 10), -1, -1));
-        PanelMain.add(panel4, new GridConstraints(6, 2, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        PanelMain.add(panel4, new GridConstraints(6, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         panel4.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), null));
         speedInput = new JTextField();
         panel4.add(speedInput, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
@@ -792,14 +807,18 @@ public class TrainControllerUISwing {
         autoMode = new JRadioButton();
         autoMode.setSelected(false);
         autoMode.setText("Auto");
-        PanelMain.add(autoMode, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        PanelMain.add(autoMode, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         manualMode = new JRadioButton();
         manualMode.setSelected(false);
         manualMode.setText("Manual");
-        PanelMain.add(manualMode, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        PanelMain.add(manualMode, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         PIDInputButton = new JButton();
         PIDInputButton.setText("PID Set");
         PanelMain.add(PIDInputButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        kPInput = new JTextField();
+        PanelMain.add(kPInput, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        kIInput = new JTextField();
+        PanelMain.add(kIInput, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         ButtonGroup buttonGroup;
         buttonGroup = new ButtonGroup();
         buttonGroup.add(autoMode);
