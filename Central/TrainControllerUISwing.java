@@ -226,12 +226,11 @@ public class TrainControllerUISwing {
             return;
         }
 
-        if(this.currentModel.inYard)
-        {
+        if (this.currentModel.inYard) {
             kPInput.setEnabled(true);
             kIInput.setEnabled(true);
             PIDInputButton.setEnabled(true);
-        }else{
+        } else {
             kPInput.setEnabled(false);
             kIInput.setEnabled(false);
             PIDInputButton.setEnabled(false);

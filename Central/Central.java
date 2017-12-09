@@ -47,10 +47,7 @@ public class Central{
 		trainControllerUi = TrainControllerUI.CreateTrainControllerUI(emptyArgs);
 		trainControllerUi.linkToTrainPool(trainPool);
 	}
-
-	public void CreatePidSetter(TrainController ctl) throws Exception {
-		PIDSetterUI.CreatePidSetterUI(ctl.ui);
-	}
+	
 
 	public Boolean TrainModelNewTrain(int trainNum)
 	{
