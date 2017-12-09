@@ -57,6 +57,11 @@ public class TrainPool {
         }
 
         TrainModel a_train = new TrainModel(id, this.theCentral);
+        if(this.modelUI == null || this.controllerUI == null)
+        {
+            System.out.print("Please open TrainModel and Controller BEFORE creating train!!!");
+            return false;
+        }
         a_train.ui = this.modelUI;
         TrainController a_controller = new TrainController(a_train, this.theCentral);
         a_controller.ui = this.controllerUI;
@@ -144,6 +149,7 @@ public class TrainPool {
      */
     public Boolean setCommandSpeed(Integer id, Double commandSpeed)
     {
+        System.out.println("Train Pool sending command speed "+commandSpeed+" to "+id);
         Integer index = findTrainIndexById(id);
         if(index == -1 || commandSpeed <0)
         {
@@ -164,6 +170,7 @@ public class TrainPool {
      */
     public Boolean setAuthority(Integer id, Double authority)
     {
+        System.out.println("Train Pool sending authority "+authority+" to "+id);
         Integer index = findTrainIndexById(id);
         System.out.print(index.toString());
         if(index == -1 || authority < 0)

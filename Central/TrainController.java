@@ -138,6 +138,7 @@ public class TrainController {
 
     // in mph
     void setCommandSpeed(Double commandSpeed) {
+        System.out.println("Controller Command Speed Get: "+commandSpeed.toString());
         //reset indicator
         exceedSpeedLimit = false;
         authorityError = false;
