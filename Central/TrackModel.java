@@ -411,9 +411,10 @@ public class TrackModel {
                             calcAuthority += GetBlock(i, theTrain.GetLine()).GetLength();
                         }
                     }
-                    System.out.println("New authority sent to train: "+calcAuthority);
+
                     theTrain.SetAuthority(calcAuthority);
                     double authorityMiles = calcAuthority/1609.74;
+                    System.out.println("New authority sent to train: " + authorityMiles+ " miles");
                     theCentral.UpdateTrainAuthority(trainNum,authorityMiles);
                 }
             }
@@ -429,8 +430,10 @@ public class TrackModel {
                             calcAuthority += GetBlock(i, theTrain.GetLine()).GetLength();
                         }
                     }
-                    System.out.println("New authority sent to train: "+calcAuthority);
                     theTrain.SetAuthority(calcAuthority);
+                    double authorityMiles = calcAuthority/1609.74;
+                    System.out.println("New authority sent to train: " + authorityMiles+ " miles");
+                    theCentral.UpdateTrainAuthority(trainNum,authorityMiles);
                 }
             }
         }
@@ -461,9 +464,10 @@ public class TrackModel {
                                 calcAuthority += GetBlock(i, theTrain.GetLine()).GetLength();
                             }
                         }
-                        System.out.println("New authority sent to train: " + calcAuthority);
+
                         theTrain.SetAuthority(calcAuthority);
                         double authorityMiles = calcAuthority / 1609.74;
+                        System.out.println("New authority sent to train: " + calcAuthority+ " miles");
                         theCentral.UpdateTrainAuthority(theTrain.GetTrainNum(), authorityMiles);
                     }
                 }
@@ -479,7 +483,7 @@ public class TrackModel {
                                 calcAuthority += GetBlock(i, theTrain.GetLine()).GetLength();
                             }
                         }
-                        System.out.println("New authority sent to train: " + calcAuthority);
+                        System.out.println("New authority sent to train: " + calcAuthority+ " miles");
                         theTrain.SetAuthority(calcAuthority);
                     }
                 }
