@@ -56,8 +56,9 @@ public class Central{
 	public void CreateTrain(int trainNum, int length, int direction,int startBlock, String line){
 		System.out.println("Central trying to create train: "+trainNum);
 		if(hasTrainModel) {
-			TrainModelNewTrain(trainNum);
 			trackModel.NewTrain(trainNum, length*2, direction, startBlock, line);
+			TrainModelNewTrain(trainNum);
+
 		}else{
 			trackModel.NewTrain(trainNum, length*2, direction, startBlock,line, true);
 			System.out.println("Creating train: "+trainNum);
