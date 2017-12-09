@@ -5,6 +5,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class TrainModelUI extends Application{
 
@@ -24,7 +25,9 @@ public class TrainModelUI extends Application{
         Pane pane = new Pane();
         pane.getChildren().add(swingNode);
 
-        stage.setScene(new Scene(pane, 570, 200));
+
+        stage.setScene(new Scene(pane, 550, 300));
+
         stage.show();
         
     }
@@ -35,6 +38,7 @@ public class TrainModelUI extends Application{
             public void run() {
                 //JFrame frame = new JFrame("Train Model");
                 swingNode.setContent(innerUi.getPanelMain());
+
                 //frame.setContentPane(innerUi.getPanelMain());
                 //frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
                 //frame.pack();

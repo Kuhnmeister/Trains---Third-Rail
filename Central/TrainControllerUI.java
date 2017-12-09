@@ -5,6 +5,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class TrainControllerUI extends Application{
 
@@ -23,7 +24,7 @@ public class TrainControllerUI extends Application{
         Pane pane = new Pane();
         pane.getChildren().add(swingNode);
 
-        stage.setScene(new Scene(pane, 1000, 220));
+        stage.setScene(new Scene(pane, 600, 400));
         stage.show();
         
     }
