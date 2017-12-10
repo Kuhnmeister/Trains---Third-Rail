@@ -1,6 +1,10 @@
+//Ethan Shuffelbottom
+//The GUI part of wayside.
+//parts of this are out of date, or lack full functionality since integration. 
+//module functionality was the main focus of my time spent coding
+
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -125,32 +129,7 @@ public class WaysideController extends Application{
 		//FileChooser fileChooser = new FileChooser();
 		//FileNameExtensionFilter PLCFile = new FileNameExtensionFilter("JAVA", "java");
 		
-		//create a check box button for occupancy
-		CheckBox occBox = new CheckBox("Occupied");
-		occBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
-	        public void changed(ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) {
-	            //when the occupy box is checked set block to occupied and inform that block's object
-	        	if(new_val) {
-	        		occupyLabel.setText("Occupancy: Occupied");
-	        		way.block.setOccupancy(true);
-	        		lightLabel.setText("Light State:	Red");
-	        		way.block.setLight(true);
-	        		CTCOutLabel.setText(way.currentBlock +" Occupied");
-	        		way.currentAuth = way.getAuthority(way.currentBlock, true);
-	        		way.block.setCrossing(way.getCrossing(way.currentBlock));
-	        		way.AddOccupied(way.currentBlock);
-	        	}else {
-	        		occupyLabel.setText("Occupancy: Empty");
-	        		way.block.setOccupancy(false);
-	        		lightLabel.setText("Light State:	Green");
-	        		way.block.setLight(false);
-	        		CTCOutLabel.setText(way.currentBlock +" Empty");
-	        		way.RemoveOccupied(way.currentBlock);
-	        	}
-	        }
-
-	    });
-		
+				
 		//checkbox for switch state
 		CheckBox swiBox = new CheckBox("High");
 		swiBox.setTooltip(new Tooltip("Switch is in the high position when checked"));
@@ -171,6 +150,48 @@ public class WaysideController extends Application{
 		}
 			
 		
+		//create a check box button for occupancy
+		CheckBox occBox = new CheckBox("Occupied");
+		occBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+	        public void changed(ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) {
+	            //when the occupy box is checked set block to occupied and inform that block's object
+	        	if(new_val) {
+	        		occupyLabel.setText("Occupancy: Occupied");
+	        		way.block.setOccupancy(true);
+	        		lightLabel.setText("Light State:	Red");
+	        		way.block.setLight(true);
+	        		CTCOutLabel.setText(way.currentBlock +" Occupied");
+	        		way.currentAuth = way.getAuthority(way.currentBlock, true);
+	        		way.block.setCrossing(way.getCrossing(way.currentBlock));
+	        		way.AddOccupied(way.currentBlock);
+					if(way.block.hasSwitch()) {
+						swiBox.setVisible(true);
+						if(way.block.switchState()) {
+							switchStateLabel.setText("Switch State: High");
+						}else {
+							switchStateLabel.setText("Switch State: Low");
+						}
+					}
+	        	}else {
+	        		occupyLabel.setText("Occupancy: Empty");
+	        		way.block.setOccupancy(false);
+	        		lightLabel.setText("Light State:	Green");
+	        		way.block.setLight(false);
+	        		CTCOutLabel.setText(way.currentBlock +" Empty");
+	        		way.RemoveOccupied(way.currentBlock);
+					if(way.block.hasSwitch()) {
+						swiBox.setVisible(true);
+						if(way.block.switchState()) {
+							switchStateLabel.setText("Switch State: High");
+							swiBox.setSelected(true);
+						}else {
+							switchStateLabel.setText("Switch State: Low");
+							swiBox.setSelected(false);
+						}
+					}
+	        	}
+	        }
+	    });
 		
 		//button updates which block is being edited/viewed 
 		Button btn = new Button("Get Block");
@@ -338,7 +359,7 @@ public class WaysideController extends Application{
 		lightLabel, stationLabel, occupyLabel, occBox, swiBox, inCTCLabel, CTCin, mphLabel, CTCLabel, CTCOutLabel,crossingLabel, CTCinAuth, inCTCAuth, Sbtn,
 		Abtn, trackOut, trackOutSpeed);
 		//prepare the scene
-		Scene scene = new Scene(grid, 800, 600);
+		Scene scene = new Scene(grid, 1000, 800);
 		primaryStage.setScene(scene);
 		//display the window
 		primaryStage.show();

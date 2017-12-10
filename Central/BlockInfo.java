@@ -155,7 +155,7 @@ public class BlockInfo {
 		return worked;
 	}
 	
-	
+	//for when the CTC calls to move a switch
 	public boolean setSwitch(boolean state)
 	{
 		boolean worked = false;

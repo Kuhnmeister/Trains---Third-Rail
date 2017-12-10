@@ -1,15 +1,16 @@
 //Ethan shuffelbottom
 //migrate(d) all no GUI related functionality from WaysideController
 //to this Wayside. This was done for integration 
-//this is the handle that he central will use to controll everything
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-
 import javafx.stage.Stage;
 
 public class Wayside {
+	//these used to all be set to package, but it wouldn't work
+	//with the other modules, so they are set to public
+	//depending on time contraints they may all get getters, and setters.
 	public boolean integated = false;
 	public ArrayList<BlockInfo> track;
 	public ArrayList<BlockInfo> track2;
@@ -274,6 +275,7 @@ public class Wayside {
 		
 		}catch(Exception e) {
 			//something wasn't loaded/read correctly
+			System.out.println("There was an error with loading the track, please try a different one");
 			System.out.println(e);
 		}
 		
@@ -334,18 +336,34 @@ public class Wayside {
 	{
 		if(occBlocks.contains((Integer) freedBlock))
 		{
-			//add to occupied list
-			occBlocks.remove((Integer) freedBlock);
-			//set the block in the trck object as occupied
-			track.get(freedBlock).setOccupancy(false);
 			//call Central to inform CTC of occupancy
 			//call method to set lights
 			this.SetLights(freedBlock, lineNames[0]);
 			this.SetCrossing(freedBlock, lineNames[0]);
 			//handle automatic switching
 			if(track.get(freedBlock).hasSwitch()){
-				
+				///unlock to enable moving the switch
+				track.get(freedBlock).setLock(false);
+				//move and lock a switch in the wayside and send moved switch to TrackModel
+				//hard coded for red and green track
+				if(lineNames[0].equals("Red") && freedBlock != 9)
+				{
+					track.get(freedBlock).moveSwitch();
+					//locks when the switch is first gone over and unlocked after train returns over it
+					track.get(freedBlock).changeLock();
+					System.out.println("switch on: " + freedBlock + " has been set to: " + track.get(freedBlock).switchState());
+				}else if(lineNames[0].equals("Green") && freedBlock != 58 && freedBlock != 62)
+				{
+					track.get(freedBlock).moveSwitch();
+					//locks when the switch is first gone over and unlocked after train returns over it
+					track.get(freedBlock).changeLock();
+					System.out.println("switch on: " + freedBlock + " has been set to: " + track.get(freedBlock).switchState());
+				}
 			}
+			//remove from occupied list
+			occBlocks.remove((Integer) freedBlock);
+			//set the block in the trck object as occupied
+			track.get(freedBlock).setOccupancy(false);
 		
 		}else {
 			
@@ -425,7 +443,7 @@ public class Wayside {
 		 }
 	}
 	
-	//called everytime a block with a switch is longer occupied move and lock the switch
+	//called everytime a block with a switch is no longer occupied move and lock the switch
 	//reduces throughput, but is safe
 	private boolean LockSwitch(int blockNum)
 	{
