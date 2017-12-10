@@ -81,6 +81,7 @@ public class Tracking{
 	public void updateRoute(ArrayList<Trains> trainList, BBC bbc){
 		for(int i = 0; i < trainList.size(); i++){
 			if(Double.parseDouble(trainList.get(i).getSpeed()) != 0.0){
+				System.out.println(trainList.get(i).getId() + "SHAPIRO");
 				String[] stops = trainList.get(i).getSchedule();
 				int location = trainList.get(i).getLocation();
 				int difference = 0;
