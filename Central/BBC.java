@@ -22,6 +22,9 @@ public class BBC{
 	JComboBox<String> trainChoice = new JComboBox<String>();
 	HashMap<String, ArrayList<Integer>> maintenanceList = new HashMap<String, ArrayList<Integer>>();
 	
+	public BBC(){
+		
+	}
 	public BBC(Central newCentral){
 		//main window variables
 		central = newCentral;
