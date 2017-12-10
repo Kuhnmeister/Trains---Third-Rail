@@ -116,7 +116,7 @@ public class BBC{
 			
 		TimerTask clockRun = new TimerTask(){
 			public void run(){
-				central.update(1);
+				central.Update(1);
 				central.SendMultiplier(1);
 				updateRoute();
 				if((time[0]/10000) == 12){
@@ -871,7 +871,7 @@ public class BBC{
 		TimerTask clockRun = new TimerTask(){
 			public void run(){	
 				updateRoute();
-				central.update(multiplier);
+				central.Update(multiplier);
 				central.SendMultiplier(multiplier);
 				if((time[0]/10000) == 12){
 					if((time[0]/100)%100 == 59){
