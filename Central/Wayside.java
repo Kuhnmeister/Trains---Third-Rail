@@ -337,9 +337,7 @@ public class Wayside {
 		if(occBlocks.contains((Integer) freedBlock))
 		{
 			//call Central to inform CTC of occupancy
-			//call method to set lights
-			this.SetLights(freedBlock, lineNames[0]);
-			this.SetCrossing(freedBlock, lineNames[0]);
+
 			//handle automatic switching
 			if(track.get(freedBlock).hasSwitch()){
 				///unlock to enable moving the switch
@@ -364,10 +362,16 @@ public class Wayside {
 			occBlocks.remove((Integer) freedBlock);
 			//set the block in the trck object as occupied
 			track.get(freedBlock).setOccupancy(false);
-		
+			//set the lights on the track now that the block is no longer stored as occupied
+			this.SetLights(freedBlock, lineNames[0]);
+			//set the crossing, if there is one
+			if(track.get(freedBlock).hasCrossing()){
+				this.SetCrossing(freedBlock, lineNames[0]);
+			}
 		}else {
-			
+			//was never occupied so nothing shoould be done
 		}
+		//prints out the new list of occupied blocks
 		System.out.println(occBlocks.toString());
 	}
 	
