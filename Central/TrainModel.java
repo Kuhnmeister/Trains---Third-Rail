@@ -97,6 +97,7 @@ public class TrainModel {
 
     public TrainModel(Integer id, Central central)
     {
+        initStationNames();
         this.id = id;
         this.theCentral = central;
     }
@@ -152,6 +153,15 @@ public class TrainModel {
         passengerGetOn = num;
     }
 
+    static String toBinaryString(BitSet set)
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < set.length(); i++) {
+            stringBuilder.append(set.get(i)?"1":"0");
+        }
+        return stringBuilder.toString();
+    }
+
     void processBeacon(BitSet beacon)
     {
         Boolean isFront = beacon.get(0);
@@ -165,10 +175,11 @@ public class TrainModel {
             stopAtStation = true;
         }
         BitSet stationId = beacon.get(1,6);
-        String stationString = stationId.toString();
+        String stationString = toBinaryString(stationId);
         nextStation = stationNames.get(stationString);
         toOpenLeftDoor = beacon.get(6);
         toOpenRightDoor = beacon.get(7);
+        System.out.println("TM--Train get beacon of station "+nextStation+". Doors:"+toOpenLeftDoor+" "+toOpenLeftDoor);
         updateInfo();
     }
 
@@ -226,7 +237,7 @@ public class TrainModel {
         if(this.controller != null)
         {
             currentPower = this.controller.getPower(currentSpeed, INTERVAL_LEN);
-            System.out.println("Current Power:"+currentPower.toString());
+            System.out.println("TM--Current Power:"+currentPower.toString());
         }
 
         if(brakeDistance() >= authority + BRAKE_SAFE_DIST/MILE2M)
@@ -272,11 +283,18 @@ public class TrainModel {
         if(currentSpeed <= EPS)
         {
             currentSpeed = 0.0;
+            // No friction when not moving
+            if(currentAccel < 0)
+            {
+                currentAccel = 0.0;
+            }
             if(!stopped)
             {
                 stopped = true;
+                System.out.println("TM--Train Stopped.");
                 if(stopAtStation)
                 {
+                    System.out.println("TM--Train Stopped at Staion.");
                     // Open the door if there is a command
                     controller.setLeftDoorCommand(toOpenLeftDoor);
                     controller.setRightDoorComand(toOpenRightDoor);
@@ -291,6 +309,7 @@ public class TrainModel {
             }
         } else {
             if(stopped) {
+                System.out.println("TM--Train Started.");
                 stopped = false;
                 // Close the door anyway when moving
                 controller.setLeftDoorCommand(leftDoorOpen);
@@ -302,7 +321,7 @@ public class TrainModel {
         this.theCentral.UpdateTrainDistance(id, distanceTraveled);
 
         displayCurrentSpeed = currentSpeed/MPH2MS;
-        System.out.println("current Speed: "+displayCurrentSpeed);
+        System.out.println("TM--current Speed: "+displayCurrentSpeed);
         if(stopped)
         {
             serviceBrakeActive = false;

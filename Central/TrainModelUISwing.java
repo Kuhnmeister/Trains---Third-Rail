@@ -119,14 +119,14 @@ public class TrainModelUISwing {
         if (this.currentModel.controller == null) {
             this.commandSpeedText.setText("Not Available");
         } else {
-            this.commandSpeedText.setText(df.format(this.currentModel.controller.displayCommandSpeed));
+            this.commandSpeedText.setText(df.format(this.currentModel.controller.displayCommandSpeed) + " Mph");
 
         }
-        this.currentPowerText.setText(df.format(this.currentModel.currentPower));
+        this.currentPowerText.setText(df.format(this.currentModel.currentPower) + " kW");
         this.slopeText.setText(df.format(this.currentModel.displaySlope));
         this.carFailureText.setText(this.currentModel.carErrorString);
-        this.authorityText.setText(df.format(this.currentModel.displayAuthority));
-        this.passengerText.setText(df.format(this.currentModel.passengerNum));
+        this.authorityText.setText(df.format(this.currentModel.displayAuthority) + " Mi");
+        this.passengerText.setText(this.currentModel.passengerNum.toString());
         this.nextStopText.setText(this.currentModel.nextStation);
         this.totalWeightText.setText(df.format(this.currentModel.totalWeight) + " Tons");
         this.leftDoorIndicator.setBackground(Color.decode(this.currentModel.leftDoorOpen ? ON_COLOR : OFF_COLOR));

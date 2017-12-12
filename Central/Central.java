@@ -47,7 +47,7 @@ public class Central{
 		trainControllerUi = TrainControllerUI.CreateTrainControllerUI(emptyArgs);
 		trainControllerUi.linkToTrainPool(trainPool);
 	}
-	
+
 
 	public Boolean TrainModelNewTrain(int trainNum)
 	{
