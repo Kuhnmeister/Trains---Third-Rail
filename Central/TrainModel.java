@@ -59,7 +59,7 @@ public class TrainModel {
     Boolean leftDoorOpen = false;
     Boolean rightDoorOpen = false;
     Boolean lightOn = false;
-    Boolean inYard = false;
+    Boolean inYard = true;
     // Display speed are in mph. Non-display speed are in m/s
     Double currentSpeed = 0.0;
     Double displayCurrentSpeed = 0.0;
