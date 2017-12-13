@@ -260,9 +260,7 @@ public class BBC{
 	
 						if(trainList.get(trainCount[0]).hasSchedule()){
 							String[] sendStops = trainList.get(trainCount[0]).getSchedule();
-							for(int i = 0; i < trainList.get(trainCount[0]).getSchedule().length; i++){
-								stops.add(sendStops[i]);
-							}
+							central.SendTrainSchedule(sendStops);
 							//central.TrainModelNewTrain(trainList.get(trainCount[0]).getId(), "bob", 1, stops);
 						}
 						else{
