@@ -470,7 +470,7 @@ public class BBC{
 		panelBL1.add(panelBL5);
 		panelBL2.setLayout(new GridLayout(0, 4));
 		panelBL2.add(none);
-		panelBL1.add(kill);
+		panelBL1.add(panelBL6);
 		panelBL2.add(ten);
 		panelBL1.add(trainChoose);
 		panelBL2.add(hundred);
@@ -482,7 +482,7 @@ public class BBC{
 		panelBL1.add(openBlocks);
 		panelBL3.add(thruPut);
 
-		panelBL1.add(scheduleView);
+		panelBL1.add(panelBL7);
 		panelBL1.add(line);
 		panelBL1.add(blockChoose);
 		panelBL2.add(clock);
@@ -643,7 +643,6 @@ public class BBC{
 		newPanel14.add(mph);
 		newPanel21.add(stationsLabel);
 		newPanel21.add(stations);
-		newPanel22.add(createStop);
 		newPanel23.add(schedule);
 		newPanel24.add(scheduleInfo);
 		newPanel26.add(length);
@@ -651,6 +650,7 @@ public class BBC{
 		newPanel27.add(tickets);
 		newPanel28.add(locationLabel);
 		newPanel29.add(location);
+		newPanel22.add(createStop);
 		trainContainer.setLayout(new GridLayout(2,1));
 		
 		newWindow.setSize( 250,575 );
@@ -769,29 +769,45 @@ public class BBC{
 		int difference = 10000;
 		int closestTrain = 0;
 		boolean maintenance = false;
+		boolean set = false;
 		for(int x = 0; x < maintenanceList.get(line).size(); x++){
 			if(maintenanceList.get(line).get(x) == occupied){
 				maintenance = true;
 			}
 		}
 		if(!maintenance){
-			if(trainList.size() == 1){
-				trainList.get(0).setLocation(occupied);
-			}
-			else{
-				while(trainNotFound){
-					if(i == trainList.size()-1){
-							trainNotFound = false;
+			while(trainNotFound){
+				if(i == trainList.size()-1){
+						trainNotFound = false;
+				}
+				if(trainList.get(i).getLine().equals(line)){
+					if(trainList.size() == 1){
+						trainList.get(i).setLocation(occupied);
+						trainNotFound = false;
+						set = true;
 					}
-					if(trainList.get(i).getLine() == line){
-						if(trainList.get(i).getLocation() + 1 == occupied){
-							System.out.println(trainList.get(i).getId() + "CARBONARA");
-							trainList.get(i).setLocation(occupied);
-							trainNotFound = false;
+					
+					if(trainList.get(i).getLocation() + 1 == occupied){
+						trainList.get(i).setLocation(occupied);
+						set = true;
+					}
+				}
+				i++;
+			}
+			if(!set){
+				int dispatched = 0;
+				for(int j = 0; j < trainList.size(); j++){
+					if(trainList.get(j).getLocation() != 0){
+						dispatched++;
+					}
+				}
+				if(dispatched == 1){
+					for(int k = 0; k < trainList.size(); k++){
+						if(trainList.get(k).getLocation() != 0){
+							trainList.get(k).setLocation(occupied);
 						}
 					}
-					i++;
-				}
+				}				
 			}
 		}
 	}
