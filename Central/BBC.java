@@ -787,7 +787,7 @@ public class BBC{
 						trainList.get(i).setLocation(occupied);
 						trainNotFound = false;
 					}
-					if(trainList.get(i).getLocation() - 1 == occupied){
+					if(trainList.get(i).getLocation() + 1 == occupied){
 						trainList.get(i).setLocation(occupied);
 						trainNotFound = false;
 					}
