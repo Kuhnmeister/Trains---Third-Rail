@@ -1,5 +1,3 @@
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
@@ -195,10 +193,10 @@ public class TrainModel {
         }
         BitSet stationId = beacon.get(1,6);
         String stationString = toBinaryString(stationId);
-        nextStation = stationNames.get(stationString);
+        //nextStation = stationNames.get(stationString);
         toOpenLeftDoor = beacon.get(6);
         toOpenRightDoor = beacon.get(7);
-        System.out.println("TM--Train get beacon of station "+nextStation+". Doors:"+toOpenLeftDoor+" "+toOpenLeftDoor);
+        System.out.println("TM--Train get beacon of station "+stationNames.get(stationString)+". Doors:"+toOpenLeftDoor+" "+toOpenLeftDoor);
         updateInfo();
     }
 
@@ -330,7 +328,16 @@ public class TrainModel {
             if(stopped) {
                 System.out.println("TM--Train Started.");
                 stationIndex += 1;
-                //nextStation = stations[stationIndex];
+                if(stations == null)
+                {
+                    System.out.println("TM--Warning: No station information!");
+                }else {
+                    if (stationIndex >= stations.length) {
+                        System.out.println("TM--No more stations!");
+                    } else {
+                        nextStation = stations[stationIndex];
+                    }
+                }
                 stopped = false;
                 // Close the door anyway when moving
                 controller.setLeftDoorCommand(leftDoorOpen);
