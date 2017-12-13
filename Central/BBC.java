@@ -257,15 +257,6 @@ public class BBC{
 						trainSelect.addItem("Train " + trainCount[0]);
 						trainChoice.addItem("Train " + trainCount[0]);
 						ArrayList<String> stops = new ArrayList<String>();
-	
-						if(trainList.get(trainCount[0]).hasSchedule()){
-							String[] sendStops = trainList.get(trainCount[0]).getSchedule();
-							central.SendTrainSchedule(trainList.get(trainCount[0]).getId(), sendStops);
-							//central.TrainModelNewTrain(trainList.get(trainCount[0]).getId(), "bob", 1, stops);
-						}
-						else{
-							//central.TrainModelNewTrain(trainList.get(trainCount[0]).getId(), "bob", 1, stops);
-						}
 					}
 					else{
 						trainListed[0]++;
@@ -301,9 +292,10 @@ public class BBC{
 									if(Integer.parseInt(stops[i]) < closestStop){
 										closestStop = Integer.parseInt(stops[i]);
 									}
-								}
+								};
+								central.SendTrainSchedule(trainList.get(choice).getId(), stops);
 								central.CTCAuthority(tracking.GetFirstBlock(trainList.get(choice).getLine()), closestStop, trainList.get(choice).getId());
-								central.SuggestSpeed(tracking.GetFirstBlock(trainList.get(choice).getLine()), trainList.get(choice).getId(), 24.5872);
+								central.SuggestSpeed(tracking.GetFirstBlock(trainList.get(choice).getLine()), trainList.get(choice).getId(), 15);
 							}
 						}
 					}
