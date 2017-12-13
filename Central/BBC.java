@@ -653,7 +653,7 @@ public class BBC{
 		newPanel29.add(location);
 		trainContainer.setLayout(new GridLayout(2,1));
 		
-		newWindow.setSize( 250,555 );
+		newWindow.setSize( 250,575 );
 		newWindow.setVisible( true );
 	}
 	public void UpdateTickets(int numOfTickets, int block, String line){
