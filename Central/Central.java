@@ -97,7 +97,10 @@ public class Central{
 	public void UpdateTrainDistance(int trainId, double movedDistance){
 		trackModel.TrainModelUpdatePosition(trainId,movedDistance);
 	}
-
+	
+	public void SendTrainSchedule(String[] Schedule){
+		
+	}
 	
 
 	public void TrackStateUpdate(int occBlock){
