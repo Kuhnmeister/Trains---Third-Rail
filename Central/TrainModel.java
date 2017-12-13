@@ -330,7 +330,7 @@ public class TrainModel {
             if(stopped) {
                 System.out.println("TM--Train Started.");
                 stationIndex += 1;
-                nextStation = stations[stationIndex];
+                //nextStation = stations[stationIndex];
                 stopped = false;
                 // Close the door anyway when moving
                 controller.setLeftDoorCommand(leftDoorOpen);

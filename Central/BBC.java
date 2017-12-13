@@ -260,7 +260,7 @@ public class BBC{
 	
 						if(trainList.get(trainCount[0]).hasSchedule()){
 							String[] sendStops = trainList.get(trainCount[0]).getSchedule();
-							central.SendTrainSchedule(sendStops);
+							central.SendTrainSchedule(trainList.get(trainCount[0]).getId(), sendStops);
 							//central.TrainModelNewTrain(trainList.get(trainCount[0]).getId(), "bob", 1, stops);
 						}
 						else{
@@ -586,7 +586,7 @@ public class BBC{
 		JPanel newPanel1 = new JPanel();
 		JPanel newPanel2 = new JPanel();
 		newPanel1.setLayout(new GridLayout(4,1));
-		newPanel2.setLayout(new GridLayout(7,1));
+		newPanel2.setLayout(new GridLayout(9,1));
 		
 		
 		JPanel newPanel11 = new JPanel();
@@ -600,6 +600,8 @@ public class BBC{
 		JPanel newPanel25 = new JPanel();
 		JPanel newPanel26 = new JPanel();
 		JPanel newPanel27 = new JPanel();
+		JPanel newPanel28 = new JPanel();
+		JPanel newPanel29 = new JPanel();
 		trainContainer.add(newPanel1);
 		trainContainer.add(newPanel2);
 		
@@ -614,6 +616,8 @@ public class BBC{
 		newPanel2.add(newPanel25);
 		newPanel2.add(newPanel26);
 		newPanel2.add(newPanel27);
+		newPanel2.add(newPanel28);
+		newPanel2.add(newPanel29);
 		
 		Label tickets = new Label("Tickets sold: " + trainList.get(open).GetTickets());
 		Label lengthLabel = new Label("Enter number of cars");
@@ -626,6 +630,8 @@ public class BBC{
 		String scheduleData = Arrays.toString(trainList.get(open).getSchedule());
 		String amPm = trainList.get(open).getDepartureHalf();
 		String time = trainList.get(open).getDepartureTime();
+		Label locationLabel = new Label("Location: ");
+		Label location = new Label(Integer.toString(trainList.get(open).getLocation()));
 
 		Label scheduleInfo = new Label(line + " " + time + amPm +" "+ scheduleData);
 		
@@ -643,6 +649,8 @@ public class BBC{
 		newPanel26.add(length);
 		newPanel25.add(lengthLabel);
 		newPanel27.add(tickets);
+		newPanel28.add(locationLabel);
+		newPanel29.add(location);
 		trainContainer.setLayout(new GridLayout(2,1));
 		
 		newWindow.setSize( 250,555 );
