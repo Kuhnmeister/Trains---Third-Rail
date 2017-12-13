@@ -780,23 +780,18 @@ public class BBC{
 						trainNotFound = false;
 				}
 				if(trainList.get(i).getLine() == line){
-					if(trainList.size() == 1){
-						trainList.get(i).setLocation(occupied);
-					}
-					if(trainList.get(i).getLocation() - 1 == occupied){
-						trainList.get(i).setLocation(occupied);
-						trainNotFound = false;
-					}
 					if(trainList.get(i).getLocation() + 1 == occupied){
+						System.out.println(trainList.get(i).getId());
 						trainList.get(i).setLocation(occupied);
 						trainNotFound = false;
 					}
-					if(Math.abs(trainList.get(i).getLocation() - occupied) < difference){
-						difference = Math.abs(trainList.get(i).getLocation() - occupied);
-						closestTrain = i;
-					}
+
+				}
+				if(i == trainList.size()){
+					trainNotFound = false;
 				}
 				i++;
+				
 			}
 			trainList.get(closestTrain).setLocation(occupied);
 		}
