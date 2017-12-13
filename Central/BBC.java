@@ -775,25 +775,24 @@ public class BBC{
 			}
 		}
 		if(!maintenance){
-			while(trainNotFound){
-				if(i == trainList.size()-1){
-						trainNotFound = false;
-				}
-				if(trainList.get(i).getLine() == line){
-					if(trainList.get(i).getLocation() + 1 == occupied){
-						System.out.println(trainList.get(i).getId());
-						trainList.get(i).setLocation(occupied);
-						trainNotFound = false;
-					}
-
-				}
-				if(i == trainList.size()){
-					trainNotFound = false;
-				}
-				i++;
-				
+			if(trainList.size() == 1){
+				trainList.get(0).setLocation(occupied);
 			}
-			trainList.get(closestTrain).setLocation(occupied);
+			else{
+				while(trainNotFound){
+					if(i == trainList.size()-1){
+							trainNotFound = false;
+					}
+					if(trainList.get(i).getLine() == line){
+						if(trainList.get(i).getLocation() + 1 == occupied){
+							System.out.println(trainList.get(i).getId() + "CARBONARA");
+							trainList.get(i).setLocation(occupied);
+							trainNotFound = false;
+						}
+					}
+					i++;
+				}
+			}
 		}
 	}
 	public static Timer OneTime( TimerTask clockRun, int[] timeConstant, int[] time, JLabel clock,
