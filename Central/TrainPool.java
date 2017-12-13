@@ -75,6 +75,22 @@ public class TrainPool {
     }
 
     /**
+     *
+     */
+    public Boolean setSchedule(Integer id, String[] schedule)
+    {
+        Integer index = findTrainIndexById(id);
+        if(index == -1)
+        {
+            return false;
+        }
+        trains.get(index).getSchedule(schedule);
+        controllerUI.update();
+        modelUI.update();
+        return true;
+    }
+
+    /**
      * Remove the train of certain id
      *
      * @author Yincheng He

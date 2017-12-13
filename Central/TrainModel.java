@@ -1,3 +1,5 @@
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
@@ -74,6 +76,8 @@ public class TrainModel {
     // Station Info
     BitSet lastBeacon;
     String nextStation = "";
+    String[] stations;
+    Integer stationIndex = 0;
     Boolean stopped = true;
     Boolean stopAtStation = false;
     Boolean toOpenLeftDoor = false;
@@ -100,6 +104,21 @@ public class TrainModel {
         initStationNames();
         this.id = id;
         this.theCentral = central;
+    }
+
+    Boolean getSchedule(String[] stations)
+    {
+        this.stations = stations;
+        if(stations == null || stations.length <=0)
+        {
+            System.out.println("TM--Warning: Schedule with 0 length");
+            return false;
+        } else {
+            this.nextStation = stations[0];
+            stationIndex = 0;
+            System.out.println("TM--Train "+this.id+" received schedule "+stations);
+        }
+        return true;
     }
 
     void setSlope(Double slope)
@@ -294,7 +313,7 @@ public class TrainModel {
                 System.out.println("TM--Train Stopped.");
                 if(stopAtStation)
                 {
-                    System.out.println("TM--Train Stopped at Staion.");
+                    System.out.println("TM--Train Stopped at Staion "+stations[stationIndex]+".");
                     // Open the door if there is a command
                     controller.setLeftDoorCommand(toOpenLeftDoor);
                     controller.setRightDoorComand(toOpenRightDoor);
@@ -310,6 +329,8 @@ public class TrainModel {
         } else {
             if(stopped) {
                 System.out.println("TM--Train Started.");
+                stationIndex += 1;
+                nextStation = stations[stationIndex];
                 stopped = false;
                 // Close the door anyway when moving
                 controller.setLeftDoorCommand(leftDoorOpen);

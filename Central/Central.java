@@ -98,8 +98,8 @@ public class Central{
 		trackModel.TrainModelUpdatePosition(trainId,movedDistance);
 	}
 	
-	public void SendTrainSchedule(String[] Schedule){
-		
+	public void SendTrainSchedule(int trainId, String[] schedule){
+		trainPool.setSchedule(trainId, schedule);
 	}
 	
 
