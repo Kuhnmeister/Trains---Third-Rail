@@ -53,20 +53,24 @@ public class TrackGui extends Application {
     private int displayingTrain;
     private Timeline timeline;
     private SimpleStringProperty observableOutputToTrains = new SimpleStringProperty();
+    //consrtuctor for when it is being run in stand alone mode
     public TrackGui(String[] args, TrackModel newModel){
 
         theModel=newModel;
 
         launch(args);
     }
+    //Constuctor for when it is being run in integrated mode
     public TrackGui(String[] args, TrackModel newModel, boolean integrated){
         theModel=newModel;
         System.out.println("inside the TrackGui");
 
     }
+    //empty constructor used for javafx launching
     public TrackGui(){
 
     }
+    //Method to update the wayside output display on the gui
     public void SetOutputToWayside(ArrayList<Block> newOutput){
         if(trackUploaded) {
             outputToWayside = newOutput;
@@ -82,6 +86,7 @@ public class TrackGui extends Application {
             observableOutputToWayside.set(outputToWaysideDisplay);
         }
     }
+    //Updates the GUI display
     public void SetOutputToTrains(){
         //removes Trains that are now done from the list
         for (Iterator<Train> iterator = allActiveTrains.iterator(); iterator.hasNext();) {
@@ -114,7 +119,7 @@ public class TrackGui extends Application {
         }
         observableOutputToTrains.set(outputToTrainsDisplay);
     }
-
+    //Formats the GUI
     @Override
     public void start(Stage primaryStage) {
         lightColors.add("Green");
@@ -127,7 +132,7 @@ public class TrackGui extends Application {
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(25, 25, 25, 25));
+        grid.setPadding(new Insets(20, 20, 20, 20));
 
         Scene scene = new Scene(grid);
         primaryStage.setScene(scene);
@@ -180,6 +185,7 @@ public class TrackGui extends Application {
         Label beaconDataLabel = new Label("Beacon Data: ");
         grid.add(beaconDataLabel,2,3,1,1);
         TextField beaconDataTextField = new TextField();
+        beaconDataTextField.setMaxWidth(75);
         grid.add(beaconDataTextField,3,3,1,1);
         Label beaconTrainLineLabel = new Label("Train Line: ");
         grid.add(beaconTrainLineLabel, 2, 4,1,1);
@@ -196,6 +202,7 @@ public class TrackGui extends Application {
         Label beaconBlockLabel = new Label("Block Number:");
         grid.add(beaconBlockLabel,2,5,1,1);
         TextField beaconBlockTextField = new TextField();
+        beaconBlockTextField.setMaxWidth(75);
         grid.add(beaconBlockTextField,3,5,1,1);
         Button beaconDataButton = new Button("Set Beacon");
         beaconDataButton.setOnAction(new EventHandler<ActionEvent>(){
@@ -226,6 +233,7 @@ public class TrackGui extends Application {
         Label blockAffectedLabel = new Label("Block Affected:");
         grid.add(blockAffectedLabel, 0, 2,1,1);
         TextField blockAffectedTextField = new TextField();
+        blockAffectedTextField.setMaxWidth(75);
         grid.add(blockAffectedTextField, 1, 2,1,1);
         Button brokenRailButton = new Button("Broken Rail");
         brokenRailButton.setOnAction(new EventHandler<ActionEvent>(){
@@ -378,7 +386,7 @@ public class TrackGui extends Application {
         grid.add(speedLimitDisplayLabel, 4, 10,1,1);
         Label undergroundDisplayLabel = new Label("Underground?");
         grid.add(undergroundDisplayLabel, 5,10,1,1);
-        Label stationDisplayLabel = new Label("Station?");
+        Label stationDisplayLabel = new Label("Beacon Data");
         grid.add(stationDisplayLabel, 6, 10,1,1);
         Label stationNameDisplayLabel = new Label("Station name");
         grid.add(stationNameDisplayLabel, 7, 10,1,1);
@@ -410,6 +418,7 @@ public class TrackGui extends Application {
         Label blockChangingLabel = new Label("Block to Edit: ");
         grid.add(blockChangingLabel,7,2,1,1);
         TextField blockChangingTextField = new TextField();
+        blockChangingTextField.setMaxWidth(75);
         grid.add(blockChangingTextField, 8,2,1,1);
         Label lightColorInputLabel = new Label("Light Color:");
         grid.add(lightColorInputLabel,7,3,1,1);
@@ -455,10 +464,12 @@ public class TrackGui extends Application {
         Label authorityInputLabel = new Label("Authority: ");
         grid.add(authorityInputLabel,7,7,1,1);
         TextField authorityInputTextField = new TextField();
+        authorityInputTextField.setMaxWidth(75);
         grid.add(authorityInputTextField, 8,7,1,1);
         Label speedLimitInputLabel = new Label("Train Speed: ");
         grid.add(speedLimitInputLabel,7,8,1,1);
         TextField speedLimitInputTextField = new TextField();
+        speedLimitInputTextField.setMaxWidth(75);
         grid.add(speedLimitInputTextField, 8,8,1,1);
 
 
@@ -496,11 +507,13 @@ public class TrackGui extends Application {
         Label trainStartLabel = new Label("Starting Block Num: ");
         grid.add(trainStartLabel, 9, 2,1,1);
         TextField trainStartTextField = new TextField();
+        trainStartTextField.setMaxWidth(75);
         grid.add(trainStartTextField, 10,2,1,1);
         //Demo Mode select Starting Block
         Label trainEndLabel = new Label("Ending Block Num: ");
         grid.add(trainEndLabel, 9, 3,1,1);
         TextField trainEndTextField = new TextField();
+        trainEndTextField.setMaxWidth(75);
         grid.add(trainEndTextField, 10,3,1,1);
         //Demo Mode Make Train Button
         Button makeTrainButton = new Button("Make Train");
@@ -552,6 +565,7 @@ public class TrackGui extends Application {
         Label ticketCountLabel = new Label("Ticket Count:");
         grid.add(ticketCountLabel,9,7,1,1);
         TextField ticketCountTextField = new TextField();
+        ticketCountTextField.setMaxWidth(75);
         grid.add(ticketCountTextField,10,7,1,1);
         Button sendTicketCountButton = new Button("Confirm Input");
         sendTicketCountButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -571,6 +585,7 @@ public class TrackGui extends Application {
         grid.add(sendTicketCountButton,9,8,2,1);
         primaryStage.show();
     };
+    //funciton to add a train to the list of trains being diaplayed when there is a train model
     public void AddTrain(Train newTrain){
         allActiveTrains.add(newTrain);
         activeTrainNumbersList.add(newTrain.GetTrainNum());
@@ -579,6 +594,7 @@ public class TrackGui extends Application {
             timeline.play();
         }
     }
+    //funciton to add a train to the list of trains being diaplayed when there is no train model
     public void AddTrain(Train newTrain, boolean noTrainModel){
         allActiveTrains.add(newTrain);
         activeTrainNumbersList.add(newTrain.GetTrainNum());
@@ -587,6 +603,7 @@ public class TrackGui extends Application {
             timeline.play();
         }
     }
+    //helper function to get trains to display data
     private Train GetTrain(int lookingNum){
         for (Iterator<Train> iterator = allActiveTrains.iterator(); iterator.hasNext();) {
             Train train = iterator.next();
@@ -596,6 +613,7 @@ public class TrackGui extends Application {
         }
         return null;
     }
+    //Helper function to determine if something is an integer
     public boolean IsInteger(String s) {
        if(s.isEmpty()){
            return false;

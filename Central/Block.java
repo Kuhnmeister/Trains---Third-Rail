@@ -224,7 +224,14 @@ public class Block {
     }
     //Formats the block data for printing
     public String PrintBlock(){
-        return(blockNum+","+isOccupied+","+lightColor+","+ grade+","+speedLimit+","+isUnderground+ ","+isStation+","+stationName+","+hasSwitch+","+switchPosition+","+hasRailwayCrossing+","+crossingOn);
+        String thisBeaconDataDisplay="No Beacon";
+        if(hasBeacon){
+            thisBeaconDataDisplay=thisBeacon.GetMessage().toString();
+            thisBeaconDataDisplay=thisBeaconDataDisplay.replace(","," ");
+        }
+
+
+        return(blockNum+","+isOccupied+","+lightColor+","+ grade+","+speedLimit+","+isUnderground+ ","+thisBeaconDataDisplay+","+stationName+","+hasSwitch+","+switchPosition+","+hasRailwayCrossing+","+crossingOn);
     }
     //Returns true if this block is bidirectional
     public boolean GetIsBidirectional(){
