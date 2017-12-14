@@ -347,10 +347,10 @@ public class Block {
 
         if(maintainance){
             maintainance=!maintainance;
-            isOccupied=true;
+            isOccupied=false;
         }else{
             maintainance=!maintainance;
-            isOccupied=false;
+            isOccupied=true;
         }
     }
     //Returns the maintainance value
